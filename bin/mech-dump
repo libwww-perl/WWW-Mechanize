@@ -61,9 +61,8 @@ for my $action ( @actions ) {
 
 sub dump_links {
     my $mech = shift;
-    my $base = $mech->uri;
     for my $link ( $mech->links ) {
-        my $url = $absolute ? URI->new_abs( $link->url, $base )->as_string : $link->url;
+        my $url = $absolute ? $link->url_abs : $link->url;
         print "$url\n";
     }
 }
