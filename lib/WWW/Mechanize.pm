@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.73_02
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.112 2004/03/04 16:32:19 corion Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.113 2004/03/05 17:02:05 corion Exp $
 
 =cut
 
@@ -1197,7 +1197,7 @@ sub request {
       # only allow "identity" for the time being
       #eval {
       #  require Compress::Zlib;
-      #  $accept .= ', compress, gzip';
+      #  $accept .= ', deflate, gzip';
       #};
       $self->add_header( 'Accept-Encoding', $accept);
     };
@@ -1214,13 +1214,11 @@ sub request {
     # decode any gzipped/compressed response
     # (currently isn't reached because we only allow 'identity')
     my $encoding = $res->header('Content-Encoding') || "";
-    if ($encoding eq 'gzip') {
+    if ($encoding =~ /^(?:gzip|deflate)$/) {
       $self->{content} = Compress::Zlib::memGunzip( $self->{ content });
       # should I delete the response header?
-    } elsif ($encoding eq 'compress') {
-      $self->{content} = Compress::Zlib::uncompress( $self->{ content });
     };
-    
+
     if ( $self->{res}->is_success ) {
         $self->{uri} = $self->{redirected_uri};
         $self->{last_uri} = $self->{uri};
