@@ -930,9 +930,7 @@ Each of the images returned is a L<WWW::Mechanize::Image> object.
 In list context, C<find_all_images()> returns a list of the images.
 Otherwise, it returns a reference to the list of images.
 
-C<find_all_images()> with no parameters returns all images in the
-page.
-
+C<find_all_images()> with no parameters returns all images in the page.
 
 =cut
 
