@@ -1141,7 +1141,7 @@ sub set_fields {
     my $self = shift;
     my %fields = @_;
 
-    my $form = $self->current_form;
+    my $form = $self->current_form or $self->die( "No form defined" );
 
     while ( my ( $field, $value ) = each %fields ) {
         if ( ref $value eq 'ARRAY' ) {
@@ -2293,6 +2293,7 @@ Scott Lanning,
 Rob Casey,
 Leland Johnson,
 Joshua Gatcomb,
+Julien Beasley,
 and the late great Iain Truskett.
 
 =head1 COPYRIGHT

@@ -4,6 +4,11 @@ NEXT
         [THINGS THAT MAY BREAK YOUR CODE]
         * Removed deprecated _parse_html() method.
 
+        [ENHANCEMENTS]
+        * Calling $mech->set_fields() with no current form now dies.
+          Thanks to Julien Beasley.
+
+
 1.10    Tue Jan 31 11:30pm-ish
         [FIXES]
         * Fixed bug where images inside of links would not be found.
