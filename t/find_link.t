@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-use Test::More tests => 43;
+use Test::More tests => 45;
 use URI::file;
 
 BEGIN {
@@ -72,10 +72,10 @@ my @wanted_links= (
    [ "http://d.cpan.org/", "CPAN D", undef, "a" ], 
 );
 my @links = $t->find_all_links( text_regex => qr/CPAN/ );
-ok( eq_array( \@links, \@wanted_links ), "Correct links came back" );
+is_deeply( \@links, \@wanted_links, "Correct links came back" );
 
 my $linkref = $t->find_all_links( text_regex => qr/CPAN/ );
-ok( eq_array( $linkref, \@wanted_links ), "Correct links came back" );
+is_deeply( $linkref, \@wanted_links, "Correct links came back" );
 
 # Check combinations of links
 $x = $t->find_link( text => "News" );
@@ -97,3 +97,17 @@ is( $x->url, "http://www.cnn.com/", "First CNN news link" );
 is( $x->[1], "News", "First CNN news text" );
 is( $x->text, "News", "First CNN news text" );
 
+AREA_CHECKS: {
+    my @wanted_links = (
+	[ "http://www.cnn.com/", "CNN", undef, "a" ],
+	[ "http://www.cnn.com/", "News", "Fred", "a" ],
+	[ "http://www.cnn.com/a", undef, undef, "area" ],
+    );
+    my @links = $t->find_all_links( url_regex => qr/cnn\.com/ );
+    is_deeply( \@links, \@wanted_links, "Correct links came back" );
+    use Data::Dumper;
+    print Dumper [   @links];
+
+    my $linkref = $t->find_all_links( url_regex => qr/cnn\.com/ );
+    is_deeply( $linkref, \@wanted_links, "Correct links came back" );
+}
