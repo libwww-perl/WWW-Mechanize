@@ -1,5 +1,9 @@
-# $Id: Changes,v 1.138 2004/09/16 04:29:39 petdance Exp $
+# $Id: Changes,v 1.139 2004/09/29 18:25:19 markjugg Exp $
 Revision history for Perl extension WWW::Mechanize
+
+1.05_01 XXX
+		[ENHANCEMENTS]
+		t/mech-dump.t is now more portable (RT #7690)
 
 1.04    Wed Sep 15 23:27:53 CDT 2004
 
