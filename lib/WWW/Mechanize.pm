@@ -6,11 +6,11 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 =head1 VERSION
 
-Version 1.05_04
+Version 1.06
 
 =cut
 
-our $VERSION = "1.05_04";
+our $VERSION = "1.06";
 
 =head1 SYNOPSIS
 
@@ -792,7 +792,9 @@ sub images {
     return $self->{images};
 }
 
-=head2 $mech->find_mage()
+=for future-development
+
+=head2 $mech->find_image()
 
 Finds an image in the current page. It returns a
 L<WWW::Mechanize::Image> object which describes the image.  If it fails
@@ -855,6 +857,8 @@ L<WWW::Mechanize::Image> object for every image in C<< $self->content >>.
 
 =cut
 
+=for future-development
+
 sub find_image {
     my $self = shift; 
     # Write me.
@@ -862,12 +866,14 @@ sub find_image {
 
 =head2 $mech->find_all_images( ... )
 
-=cut
+xcut
 
 sub find_all_images {
     my $self = shift;
     return $self->find_image( @_, n=>'all' );
 }
+
+=cut
 
 =head1 FORM METHODS
 

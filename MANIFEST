@@ -61,13 +61,16 @@ t/live/get.t
 t/live/reload.t
 t/live/submit.t
 
+t/local/LocalServer.pm
+t/local/back.t
 t/local/click.t
+t/local/click_button.t
 t/local/failure.t
 t/local/follow.t
 t/local/form.t
 t/local/get.t
-t/local/LocalServer.pm
 t/local/log-server
+t/local/overload.t
 t/local/page_stack.t
 t/local/referer-server
 t/local/referer.t

@@ -3,7 +3,7 @@
 use warnings;
 use strict;
 
-use Test::More qw/no_plan/;
+use Test::More skip_all => 'Code not written yet.  I love test-first programming!';
 use URI::file;
 
 BEGIN {
