@@ -1640,7 +1640,7 @@ sub request {
         $self->_push_page_stack();
     }
 
-	$self->_update_page($request, $self->_make_request( $request, @_ ));
+    $self->_update_page($request, $self->_make_request( $request, @_ ));
 }
 
 =head2 $mech->update_html( $html )
@@ -1652,7 +1652,7 @@ Say you have a page that you know has malformed output, and you want to
 update it so the links come out correctly:
 
     my $html = $mech->content;
-    $html =~ s[</option>.?.?.?</td>][</option></select></td>]isg;
+    $html =~ s[</option>.{0,3}</td>][</option></select></td>]isg;
     $mech->update_html( $html );
 
 This method is also used internally by the mech itself to update its
@@ -1665,7 +1665,7 @@ would overload I<update_html> in a subclass thusly:
 
    sub update_html {
        my ($self, $html) = @_;
-       $html =~ s[</option>.?.?.?</td>][</option></select></td>]isg;
+       $html =~ s[</option>.{0,3}</td>][</option></select></td>]isg;
        $self->WWW::Mechanize::update_html( $html );
    }
 
@@ -1688,15 +1688,13 @@ sub update_html {
     $self->{ct} = 'text/html';
     $self->{content} = $html;
 
-   $self->{forms} = [ HTML::Form->parse($html, $self->base) ];
-    if (@{ $self->{forms} }) {
-        for my $form (@{ $self->{forms} }) {
-            for my $input ($form->inputs) {
-                 if ($input->type eq 'file') {
-                     $input->value( undef );
-                 }
-            }
-       }
+    $self->{forms} = [ HTML::Form->parse($html, $self->base) ];
+    for my $form (@{ $self->{forms} }) {
+        for my $input ($form->inputs) {
+             if ($input->type eq 'file') {
+                 $input->value( undef );
+             }
+        }
     }
     $self->{form}  = $self->{forms}->[0];
     $self->_extract_links_and_images();
