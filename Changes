@@ -1,14 +1,15 @@
-0.20
-----
+# $Id: Changes,v 1.3 2002/09/10 21:38:16 alester Exp $
+Revision history for Perl extension WWW::Mechanize
 
-Frames are now included in the links array.
+0.30	September 10, 2002
+	[ENHANCEMENTS]
+	* Fixed the stack popping problem.
+	
+	[FIXES]
+	* Put all the inline tests into t/*.t
+	
+	* get() doesn't work w/relative URLs
+	http://rt.cpan.org/NoAuth/Bug.html?id=1492
 
-add_header() method allows you to add arbitrary headers to your HTTP
-requests.
 
-Minor documentation updates.
-
-0.10
-----
-
-Initial release
+Code before this point is forked off from WWW::Automated 0.20b.

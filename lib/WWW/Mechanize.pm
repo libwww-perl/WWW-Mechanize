@@ -1,14 +1,45 @@
-#!/usr/bin/perl -w 
-# 
-# WWW::Automate (c) 2002 Kirrily Robert <skud@cpan.org>
-# This software is distributed under the same licenses as Perl; see
-# the file COPYING for details.
+package WWW::Mechanize;
 
-#
-# $Id: Automate.pm,v 1.11 2002/02/18 16:29:10 skud Exp $
-#
+=head1 NAME
 
-package WWW::Automate;
+WWW::Mechanize - automate interaction with websites
+
+=head1 SYNOPSIS
+
+    use WWW::Mechanize;
+    my $agent = WWW::Mechanize->new();
+
+    $agent->get($url);
+
+    $agent->follow($link);
+
+    $agent->form($number);
+    $agent->field($name, $value);
+    $agent->click($button);
+
+    $agent->back();
+
+    $agent->add_header($name => $value);
+
+    use Test::More;
+    like( $agent->{content}, /$expected/, "Got expected content" );
+
+=head1 DESCRIPTION
+
+This module is intended to help you automate interaction with a website.
+It bears a not-very-remarkable outwards resemblance to WWW::Chat, on which
+it is based.  The main difference between this module and WWW::Chat is
+that WWW::Chat requires a pre-processing stage before you can run your
+script, whereas WWW::Mechanize does not.
+
+WWW::Mechanize is a subclass of LWP::UserAgent, so anything you can do
+with an LWP::UserAgent, you can also do with this.  See L<LWP::UserAgent>
+for more information on the possibilities.
+
+=cut
+
+use strict;
+use warnings;
 
 use HTTP::Request;
 use LWP::UserAgent;
@@ -16,83 +47,42 @@ use HTML::Form;
 use HTML::TokeParser;
 use Clone qw(clone);
 use Carp;
+use URI::URL;
 
 our @ISA = qw( LWP::UserAgent );
 
-my $VERSION = $VERSION = "0.20";
+=head1 VERSION
 
-my $headers;
+Version 0.30
 
-=pod 
-
-=head1 NAME
-
-WWW::Automate - automate interaction with websites
-
-=head1 SYNOPSIS
-
-  use WWW::Automate;
-  my $agent = WWW::Automate->new();
-
-  $agent->get($url);
-
-  $agent->follow($link);
-
-  $agent->form($number);
-  $agent->field($name, $value);
-  $agent->click($button);
-
-  $agent->back();
-
-  $agent->add_header($name => $value);
-
-  print "OK" if $agent->{content} =~ /$expected/;
-
-=head1 DESCRIPTION
-
-This module is intended to help you automate interaction with a website.
-It bears a not-very-remarkable outwards resemblance to WWW::Chat, on
-which it is based.  The main difference between this module and
-WWW::Chat is that WWW::Chat requires a pre-processing stage before you
-can run your script, whereas WWW::Automate does not.
-
-WWW::Automate is a subclass of LWP::UserAgent, so anything you can do
-with an LWP::UserAgent, you can also do with this.  See
-L<LWP::UserAgent> for more information on the possibilities.
-
-=head2 new()
-
-Creates and returns a new WWW::Automate object, hereafter referred to as
-the 'agent'.
-
-    my $agent = WWW::Automate->new()
-
-=begin testing
-
-BEGIN: {
-    use lib qw(lib/);
-    use_ok('WWW::Automate');
-    use vars qw($agent);
-}
-
-ok(WWW::Automate->can('new'), "can we call new?");
-ok($agent = WWW::Automate->new(), "create agent object");
-isa_ok($agent, 'WWW::Automate', "agent is a WWW::Automate");
-can_ok($agent, 'request');  # as a subclass of LWP::UserAgent
-like($agent->agent(), qr/WWW-Automate/, "Set user agent string");
-like($agent->agent(), qr/$WWW::Automate::VERSION/, "Set user agent version");
-
-=end testing
+    $Header: /home/cvs/www-mechanize/lib/WWW/Mechanize.pm,v 1.12 2002/09/10 21:38:16 alester Exp $
 
 =cut
 
-our $base = "http://localhost/";
+our $VERSION = "0.30";
+
+our %headers;
+
+=head1 METHODS
+
+=head2 new()
+
+Creates and returns a new WWW::Mechanize object, hereafter referred to as
+the 'agent'.
+
+    my $agent = WWW::Mechanize->new()
+
+=cut
 
 sub new {
-    shift;
-    my $self = { page_stack => [] };
-    bless $self;
-    $self->agent("WWW-Automate-$VERSION");
+    my $class = shift;
+
+    my $self = { 
+	page_stack  => [],
+    };
+    bless $self, $class;
+
+    $self->agent("WWW-Mechanize-$VERSION");
     $self->env_proxy();
     return $self;
 }
@@ -116,20 +106,18 @@ The results are stored internally in the agent object, as follows:
 
 You can get at them with, for example: $agent->{content}
 
-=begin testing
-
-ok($agent->get("http://google.com"), "Get google webpage");
-isa_ok($agent->{uri}, "URI", "Set uri");
-isa_ok($agent->{req}, 'HTTP::Request', "req should be a HTTP::Request");
-
-=end testing
-
 =cut
 
 sub get {
     my ($self, $uri) = @_;
-    $self->{uri} = URI->new_abs($uri, $base);
-    $self->{req} = HTTP::Request->new(GET => $uri);
+
+    if ( $self->{base} ) {
+	$self->{uri} = URI->new_abs( $uri, $self->{base} );
+    } else {
+	$self->{uri} = URI->new( $uri );
+    }
+
+    $self->{req} = HTTP::Request->new( GET => $self->{uri} );
     $self->do_request(); 
 }
 
@@ -139,25 +127,13 @@ Follow a link.  If you provide a string, the first link whose text
 matches that string will be followed.  If you provide a number, it will 
 be the nth link on the page.
 
-=begin testing
-
-ok(! $agent->follow(99999), "Can't follow too-high-numbered link");
-ok($agent->follow(1), "Can follow first link");
-ok($agent->back(), "Can go back");
-
-ok(! $agent->follow(qr/asdfghjksdfghj/), "Can't follow unlikely named link");
-ok($agent->follow("Search"), "Can follow obvious named link");
-$agent->back();
-
-=end testing
-
 =cut
 
 sub follow {
     my ($self, $link) = @_;
     my @links = @{$self->{links}};
     my $thislink;
-    if (isnumber($link)) {
+    if ( $link =~ /^\d+$/ ) { # is a number?
         if ($link <= $#links) {
             $thislink = $links[$link];
         } else {
@@ -182,10 +158,7 @@ sub follow {
     $thislink = $thislink->[0];     # we just want the URL, not the text
 
     $self->push_page_stack();
-    #print STDERR "thislink is $thislink, base is $self->{base}";
-    $self->{uri} = URI->new_abs($thislink, $self->{base});
-    $self->{req} = HTTP::Request->new(GET => $self->{uri});
-    $self->do_request();
+    $self->get( $thislink );
 
     return 1;
 }
@@ -196,17 +169,6 @@ Selects the Nth form on the page as the target for subsequent calls to
 field() and click().  Emits a warning and returns false if there is no
 such form.  Forms are indexed from 1, that is to say, the first form is
 number 1 (not zero).
-
-=begin testing
-
-my $t = WWW::Automate->new();
-$t->get("http://google.com");
-ok($t->form(1), "Can select the first form");
-is($t->{form}, $t->{forms}->[0], "Set the form attribute");
-ok(! $t->form(99), "Can't select the 99th form");
-is($t->{form}, $t->{forms}->[0], "Form is still set to 1");
-
-=end testing
 
 =cut
 
@@ -235,10 +197,12 @@ with the same name.  The fields are numbered from 1.
 sub field {
     my ($self, $name, $value, $number) = @_;
     $number ||= 1;
+
+    my $form = $self->{form};
     if ($number > 1) {
-        $form->find_input($name, $number)->value($value);
+	$form->find_input($name, $number)->value($value);
     } else {
-        $self->{form}->value($name => $value);
+        $form->value($name => $value);
     }
 }
 
@@ -248,16 +212,6 @@ Has the effect of clicking a button on a form.  This method takes an
 optional method which is the name of the button to be pressed.  If there
 is only one button on the form, it simply clicks that one button.
 
-=begin testing
-
-my $t = WWW::Automate->new();
-$t->get("http://google.com");
-$t->field(q => "foo");
-ok($t->click("btnG"), "Can click 'btnG' ('Google Search' button)");
-like($t->{content}, qr/foo\s?fighters/i, "Found 'Foo Fighters'");
-
-=end testing
-
 =cut
 
 sub click {
@@ -265,7 +219,7 @@ sub click {
     for ($x, $y) { $_ = 1 unless defined; }
     $self->push_page_stack();
     $self->{uri} = $self->{form}->uri;
-    $self->{req} = $self->{form}->click($name, $x, $y);
+    $self->{req} = $self->{form}->click($button, $x, $y);
     $self->do_request();
 }
 
@@ -294,26 +248,19 @@ sub back {
 
 =head2 $agent->add_header(name => $value)
 
-Sets a header for the WWW::Automate agent to use every time it gets a
-webpage.  This is *NOT* stored in the agent object (because if it were,
+Sets a header for the WWW::Mechanize agent to use every time it gets a
+webpage.  This is B<NOT> stored in the agent object (because if it were,
 it would disappear if you went back() past where you'd set it) but in
-the hash variable %WWW::Automate::headers, which is a hashref of all headers
+the hash variable %WWW::Mechanize::headers, which is a hash of all headers
 to be set.  You can manipulate this directly if you want to; the
 add_header() method is just provided as a convenience function for the most
 common case of adding a header.
-
-=begin testing
-
-$agent->add_header(foo => 'bar');
-is($WWW::Automate::headers{'foo'}, 'bar', "set header");
-
-=end testing
 
 =cut
 
 sub add_header {
     my ($self, $name, $value) = @_;
-    $WWW::Automate::headers{$name} = $value;
+    $WWW::Mechanize::headers{$name} = $value;
 }
 
 =head1 INTERNAL METHODS
@@ -321,9 +268,7 @@ sub add_header {
 These methods are only used internally.  You probably don't need to 
 know about them.
 
-=head2 push_page_stack()
-
-=head2 pop_page_stack()
+=head2 push_page_stack() / pop_page_stack()
 
 The agent keeps a stack of visited pages, which it can pop when it needs
 to go BACK and so on.  
@@ -334,39 +279,38 @@ page, and the stack needs to be popped when BACK occurs.
 Neither of these take any arguments, they just operate on the $agent
 object.
 
-=begin testing
-
-my $t = WWW::Automate->new();
-$t->get("http://www.google.com");
-is(scalar @{$t->{page_stack}}, 0, "Page stack starts empty");
-$t->push_page_stack();
-is(scalar @{$t->{page_stack}}, 1, "Pushed item onto page stack");
-$t->push_page_stack();
-is(scalar @{$t->{page_stack}}, 2, "Pushed item onto page stack");
-$t->pop_page_stack();
-is(scalar @{$t->{page_stack}}, 1, "Popped item from page stack");
-$t->pop_page_stack();
-is(scalar @{$t->{page_stack}}, 0, "Popped item from page stack");
-$t->pop_page_stack();
-is(scalar @{$t->{page_stack}}, 0, "Can't pop beyond end of page stack");
-
-
-=end testing
-
 =cut
 
 sub push_page_stack {
     my $self = shift;
-    $self->{page_stack} = [ @{$self->{page_stack}}, clone($self)];
+
+    my $save_stack = $self->{page_stack};
+    $self->{page_stack} = [];
+
+    push( @$save_stack, clone($self) );
+
+    $self->{page_stack} = $save_stack;
+
     return 1;
 }
 
 sub pop_page_stack {
     my $self = shift;
+
     if (@{$self->{page_stack}}) {
-        $self = pop @{$self->{page_stack}};
-        bless $self;
+	my $popped = pop @{$self->{page_stack}};
+
+	# eliminate everything in self
+	foreach my $key ( keys %$self ) {
+	    delete $self->{ $key }		unless $key eq 'page_stack';
+	}
+
+	# make self just like the popped object
+	foreach my $key ( keys %$popped ) {
+	    $self->{ $key } = $popped->{ $key } unless $key eq 'page_stack';
+	}
     }
+
     return 1;
 }
 
@@ -382,11 +326,13 @@ sub extract_links {
     my @links;
 
     while (my $token = $p->get_tag("a", "frame")) {
-		my $url = $token->[0] eq 'a' ? $token->[1]{href} : $token->[1]{src};
-		next unless defined $url;   # probably just a name link
-		my $text = $token->[0] eq 'a' ?
-			$p->get_trimmed_text("/a"):$token->[1]{name};
-		push(@links, [$url => $text]);
+	my $tag_is_a = ($token->[0] eq 'a');
+	my $url = $tag_is_a ? $token->[1]{href} : $token->[1]{src};
+	next unless defined $url;   # probably just a name link
+
+	my $text = $tag_is_a ? $p->get_trimmed_text("/a") : $token->[1]{name};
+	my $name = $token->[1]{name};
+	push(@links, [$url, $text, $name]);
     }
     return \@links;
 }
@@ -400,8 +346,8 @@ a bunch of attributes on $self.
 
 sub do_request {
     my ($self) = @_;
-    foreach my $h (keys %WWW::Automate::headers) {
-        $self->{req}->header( $h => $WWW::Automate::headers{$h} );
+    foreach my $h (keys %WWW::Mechanize::headers) {
+        $self->{req}->header( $h => $WWW::Mechanize::headers{$h} );
     }
     $self->{res}     = $self->request($self->{req});
     $self->{status}  = $self->{res}->code;
@@ -416,22 +362,16 @@ sub do_request {
     }
 }
 
-sub isnumber {
-    my $in = shift;
-    if ($in =~ /^\d+$/) {
-        return 1;
-    } else {
-        return 0;
-    }
-}
-
 =head1 BUGS
 
 Please report any bugs via the system at http://rt.cpan.org/
 
 =head1 AUTHOR
 
-Kirrily "Skud" Robert <skud@cpan.org>
+Copyright 2002 Andy Lester <andy@petdance.com>
+
+Released under the Artistic License.  Based on Kirrily Robert's excellent
+L<WWW::Automate> package.
 
 =cut
 

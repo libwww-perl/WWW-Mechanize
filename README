@@ -1,0 +1,30 @@
+WWW::Mechanize is a fork of Kirrily Robert's excellent WWW::Automate
+module.  W::A works fine except for some memory-eating bugs that I've
+fixed.
+
+I hope that by releasing a forked module that others who rely on W::A
+can help continue development.  I've submitted patches to Kirrily, but
+unfortunately her circumstances are such that W::A is low on the priority
+list.  I hope that somewhere down the line that we can reincorporate
+the changes made here with WWW::Mechanize back into WWW::Automate.
+
+Sample:
+
+    use WWW::Mechanize;
+    my $agent = WWW::Mechanize->new();
+
+    $agent->get($url);
+
+    $agent->follow($link);
+
+    $agent->form($number);
+    $agent->field($name, $value);
+    $agent->click($button);
+
+    $agent->back();
+
+    $agent->add_header($name => $value);
+
+    use Test::More;
+    like( $agent->{content}, /$expected/, "Got expected content" );
+
