@@ -21,7 +21,7 @@ $expected =~ s/#TARGET#/$target/;
 is( $actual, $expected, "Matched expected output" );
 
 __DATA__
-GET #TARGET#
+GET #TARGET# [bob-the-form]
   hl=en                           (hidden)  
   ie=ISO-8859-1                   (hidden)  
   q=
