@@ -353,7 +353,7 @@ sub back {
     $self->_pop_page_stack;
 }
 
-=head1 LINK-FOLLOWING METHODS
+=head1 LINK-HANDLING METHODS
 
 =head2 $mech->follow_link(...)
 
@@ -408,6 +408,207 @@ sub follow_link {
 
     return $response;
 }
+
+=head2 $mech->find_link()
+
+Finds a link in the currently fetched page. It returns a
+L<WWW::Mechanize::Link> object which describes the link.  (You'll
+probably be most interested in the C<url()> property.)  If it fails
+to find a link it returns undef.
+
+You can take the URL part and pass it to the C<get()> method.  If
+that's your plan, you might as well use the C<follow_link()> method
+directly, since it does the C<get()> for you automatically.
+
+Note that C<< <FRAME SRC="..."> >> tags are parsed out of the the HTML
+and treated as links so this method works with them.
+
+You can select which link to find by passing in one or more of these
+key/value pairs:
+
+=over 4
+
+=item * C<< text => string >> and C<< text_regex => regex >>
+
+C<text> matches the text of the link against I<string>, which must be an
+exact match.  To select a link with text that is exactly "download", use
+
+    $mech->find_link( text => "download" );
+
+C<text_regex> matches the text of the link against I<regex>.  To select a
+link with text that has "download" anywhere in it, regardless of case, use
+
+    $mech->find_link( text_regex => qr/download/i );
+
+Note that the text extracted from the page's links are trimmed.  For
+example, C<< <a> foo </a> >> is stored as 'foo', and searching for
+leading or trailing spaces will fail.
+
+=item * C<< url => string >> and C<< url_regex => regex >>
+
+Matches the URL of the link against I<string> or I<regex>, as appropriate.
+The URL may be a relative URL, like F<foo/bar.html>, depending on how
+it's coded on the page.
+
+=item * C<< url_abs => string >> and C<< url_abs_regex => regex >>
+
+Matches the absolute URL of the link against I<string> or I<regex>,
+as appropriate.  The URL will be an absolute URL, even if it's relative
+in the page.
+
+=item * C<< name => string >> and C<< name_regex => regex >>
+
+Matches the name of the link against I<string> or I<regex>, as appropriate.
+
+=item * C<< tag => string >> and C<< tag_regex => regex >>
+
+Matches the tag that the link came from against I<string> or I<regex>,
+as appropriate.  The C<tag_regex> is probably most useful to check for
+more than one tag, as in:
+
+    $mech->find_link( tag_regex => qr/^(a|frame)$/ );
+
+The tags and attributes looked at are defined below, at
+L<$mech->find_link() : link format>.
+
+=back
+
+If C<n> is not specified, it defaults to 1.  Therefore, if you don't
+specify any parms, this method defaults to finding the first link on the
+page.
+
+Note that you can specify multiple text or URL parameters, which
+will be ANDed together.  For example, to find the first link with
+text of "News" and with "cnn.com" in the URL, use:
+
+    $mech->find_link( text => "News", url_regex => qr/cnn\.com/ );
+
+=head2 $mech->find_link() : link format
+
+The return value is a reference to an array containing
+a L<WWW::Mechanize::Link> object for every link in
+C<< $self->content >>.
+
+The links come from the following:
+
+=over 4
+
+=item C<< <A HREF=...> >>
+
+=item C<< <AREA HREF=...> >>
+
+=item C<< <FRAME SRC=...> >>
+
+=item C<< <IFRAME SRC=...> >>
+
+=item C<< <META CONTENT=...> >>
+
+=back
+
+=cut
+
+sub find_link {
+    my $self = shift;
+    my %parms = ( n=>1, @_ );
+
+    my $wantall = ( $parms{n} eq "all" );
+
+    for my $key ( keys %parms ) {
+        my $val = $parms{$key};
+        if ( $key !~ /^(n|(text|url|url_abs|name|tag)(_regex)?)$/ ) {
+            $self->warn( qq{Unknown link-finding parameter "$key"} );
+            delete $parms{$key};
+            next;
+        }
+
+        if ( ($key =~ /_regex$/) && (ref($val) ne "Regexp" ) ) {
+            $self->warn( qq{$val passed as $key is not a regex} );
+            delete $parms{$key};
+            next;
+        }
+
+        if ($key !~ /_regex$/) {
+            if (ref($val) eq "Regexp") {
+                $self->warn( qq{$val passed as '$key' is a regex} );
+                delete $parms{$key};
+                next;
+            }
+            if ($val =~ /^\s|\s$/) {
+                $self->warn( qq{'$val' is space-padded and cannot succeed} );
+                delete $parms{$key};
+                next;
+            }
+        }
+    } # for keys %parms
+
+    my @links = $self->links or return;
+
+    my $nmatches = 0;
+    my @matches;
+    for my $link ( @links ) {
+        if ( _match_any_parms($link,\%parms) ) {
+            if ( $wantall ) {
+                push( @matches, $link );
+            } else {
+                ++$nmatches;
+                return $link if $nmatches >= $parms{n};
+            }
+        }
+    } # for @links
+
+    if ( $wantall ) {
+        return @matches if wantarray;
+        return \@matches;
+    }
+
+    return;
+} # find_link
+
+# Used by find_links to check for matches
+# The logic is such that ALL parm criteria that are given must match
+sub _match_any_parms {
+    my ($link,$p_ref) = @_;
+
+    # No conditions, Anything matches
+    return 1 unless keys %$p_ref;
+
+    return if defined $p_ref->{url}          and !($link->[0] eq $p_ref->{url} );
+    return if defined $p_ref->{url_regex}    and !($link->[0] =~ $p_ref->{url_regex} );
+    return if defined $p_ref->{url_abs}      and !($link->url_abs eq $p_ref->{url_abs} );
+    return if defined $p_ref->{url_abs_regex}and !($link->url_abs =~ $p_ref->{url_abs_regex} );
+    return if defined $p_ref->{text}         and !(defined($link->[1]) and $link->[1] eq $p_ref->{text} );
+    return if defined $p_ref->{text_regex}   and !(defined($link->[1]) and $link->[1] =~ $p_ref->{text_regex} );
+    return if defined $p_ref->{name}         and !(defined($link->[2]) and $link->[2] eq $p_ref->{name} );
+    return if defined $p_ref->{name_regex}   and !(defined($link->[2]) and $link->[2] =~ $p_ref->{name_regex} );
+    return if defined $p_ref->{tag}          and !($link->[3] and $link->[3] eq $p_ref->{tag} );
+    return if defined $p_ref->{tag_regex}    and !($link->[3] and $link->[3] =~ $p_ref->{tag_regex} );
+
+    # Success: everything that was defined passed. 
+    return 1;
+
+}
+
+
+=head2 $mech->find_all_links( ... )
+
+Returns all the links on the current page that match the criteria.  The
+method for specifying link criteria is the same as in C<L<find_link()>>.
+Each of the links returned is a L<WWW::Mechanize::Link> object.
+
+In list context, C<find_all_links()> returns a list of the links.
+Otherwise, it returns a reference to the list of links.
+
+C<find_all_links()> with no parameters returns all links in the
+page.
+
+=cut
+
+sub find_all_links {
+    my $self = shift;
+    return $self->find_link( @_, n=>'all' );
+}
+
+
 
 =head1 FORM FIELD FILLING METHODS
 
@@ -1055,257 +1256,55 @@ are passed to I<content()>:
 
 =over 2
 
-=item I<< $mech->content(format => "text") >>
+=item I<< $mech->content( format => "text" ) >>
 
 Returns a text-only version of the page, with all HTML markup
 stripped. This feature requires I<HTML::TreeBuilder> to be installed,
 or a fatal error will be thrown.
 
-=item I<< $mech->content(base_href => undef) >>
+=item I<< $mech->content( base_href => [$base_href|undef] ) >>
 
-=item I<< $mech->content(base_href => $base_href) >>
-
-Returns the HTML document, modified to contain a C<< <base
-href="$base_href"> >> mark-up in the header. $base_href is C<<
-$mech->base() >> if not specified. This is handy to pass the HTML to
-e.g. L<HTML::Display>.
+Returns the HTML document, modified to contain a
+C<< <base href="$base_href"> >> mark-up in the header.
+I<$base_href> is C<< $mech->base() >> if not specified. This is
+handy to pass the HTML to e.g. L<HTML::Display>.
 
 =back
 
-Passing arguments to content() if the current document is not HTML has
-no effect now (i.e. the return value is the same as
-$self->response()->content()). This may change in the future, but will 
-likely be backwards-compatible when it does. 
+Passing arguments to C<content()> if the current document is not
+HTML has no effect now (i.e. the return value is the same as
+C<< $self->response()->content() >>. This may change in the future,
+but will likely be backwards-compatible when it does.
 
 =cut
 
 sub content {
-	my $self = shift;
-	my $content = $self->{content};
-	return $content unless $self->is_html;
-
-	while(my ($cmd, $arg) = splice(@_, 0, 2)) {
-		if ($cmd eq 'format') {
-			if ($arg eq 'text') {
-				require HTML::TreeBuilder;
-				my $tree = HTML::TreeBuilder->new();
-				$tree->parse($content);
-				$tree->eof();
-				$tree->elementify(); # just for safety
-				$content = $tree->as_text();
-			} else {
-				$self->die( qq{Unknown format parameter "$arg"} );
-			};
-		} elsif ($cmd eq 'base_href') {
-			$arg ||= $self->base;
-			$content=~s/<head>/<head>\n<base href="$arg">/;
-		} else {
-			$self->die( qq{Unknown named argument "$cmd"} );
-		}
-	}
-
-	return $content;
-}
-
-=head2 $mech->find_link()
-
-This method finds a link in the currently fetched page. It returns a
-L<WWW::Mechanize::Link> object which describes the link.  (You'll probably
-be most interested in the C<url()> property.)  If it fails to find a
-link it returns undef.
-
-You can take the URL part and pass it to the C<L<get()>> method.
-If that's your plan, you might as well use the C<L<follow_link()>>
-method directly, since it does the C<L<get()>> for you automatically.
-
-Note that C<< <FRAME SRC="..."> >> tags are parsed out of the the HTML
-and treated as links so this method works with them.
-
-You can select which link to find by passing in one or more of these
-key/value pairs:
-
-=over 4
-
-=item * C<< text => string >> and C<< text_regex => regex >>
-
-C<text> matches the text of the link against I<string>, which must be an
-exact match.  To select a link with text that is exactly "download", use
-
-    $mech->find_link( text => "download" );
-
-C<text_regex> matches the text of the link against I<regex>.  To select a
-link with text that has "download" anywhere in it, regardless of case, use
-
-    $mech->find_link( text_regex => qr/download/i );
-
-Note that the text extracted from the page's links are trimmed.  For
-example, C<< <a> foo </a> >> is stored as 'foo', and searching for
-leading or trailing spaces will fail.
-
-=item * C<< url => string >> and C<< url_regex => regex >>
-
-Matches the URL of the link against I<string> or I<regex>, as appropriate.
-The URL may be a relative URL, like F<foo/bar.html>, depending on how
-it's coded on the page.
-
-=item * C<< url_abs => string >> and C<< url_abs_regex => regex >>
-
-Matches the absolute URL of the link against I<string> or I<regex>,
-as appropriate.  The URL will be an absolute URL, even if it's relative
-in the page.
-
-=item * C<< name => string >> and C<< name_regex => regex >>
-
-Matches the name of the link against I<string> or I<regex>, as appropriate.
-
-=item * C<< tag => string >> and C<< tag_regex => regex >>
-
-Matches the tag that the link came from against I<string> or I<regex>,
-as appropriate.  The C<tag_regex> is probably most useful to check for
-more than one tag, as in:
-
-    $mech->find_link( tag_regex => qr/^(a|frame)$/ );
-
-The tags and attributes looked at are defined below, at
-L<$mech->find_link() : link format>.
-
-=back
-
-If C<n> is not specified, it defaults to 1.  Therefore, if you don't
-specify any parms, this method defaults to finding the first link on the
-page.
-
-Note that you can specify multiple text or URL parameters, which
-will be ANDed together.  For example, to find the first link with
-text of "News" and with "cnn.com" in the URL, use:
-
-    $mech->find_link( text => "News", url_regex => qr/cnn\.com/ );
-
-=head2 $mech->find_link() : link format
-
-The return value is a reference to an array containing
-a L<WWW::Mechanize::Link> object for every link in
-C<< $self->content >>.
-
-The links come from the following:
-
-=over 4
-
-=item C<< <A HREF=...> >>
-
-=item C<< <AREA HREF=...> >>
-
-=item C<< <FRAME SRC=...> >>
-
-=item C<< <IFRAME SRC=...> >>
-
-=item C<< <META CONTENT=...> >>
-
-=back
-
-=cut
-
-sub find_link {
     my $self = shift;
-    my %parms = ( n=>1, @_ );
+    my $content = $self->{content};
+    return $content unless $self->is_html;
 
-    my $wantall = ( $parms{n} eq "all" );
-
-    for my $key ( keys %parms ) {
-        my $val = $parms{$key};
-        if ( $key !~ /^(n|(text|url|url_abs|name|tag)(_regex)?)$/ ) {
-            $self->warn( qq{Unknown link-finding parameter "$key"} );
-            delete $parms{$key};
-            next;
-        }
-
-        if ( ($key =~ /_regex$/) && (ref($val) ne "Regexp" ) ) {
-            $self->warn( qq{$val passed as $key is not a regex} );
-            delete $parms{$key};
-            next;
-        }
-
-        if ($key !~ /_regex$/) {
-            if (ref($val) eq "Regexp") {
-                $self->warn( qq{$val passed as '$key' is a regex} );
-                delete $parms{$key};
-                next;
-            }
-            if ($val =~ /^\s|\s$/) {
-                $self->warn( qq{'$val' is space-padded and cannot succeed} );
-                delete $parms{$key};
-                next;
-            }
-        }
-    } # for keys %parms
-
-    my @links = $self->links or return;
-
-    my $nmatches = 0;
-    my @matches;
-    for my $link ( @links ) {
-        if ( _match_any_parms($link,\%parms) ) {
-            if ( $wantall ) {
-                push( @matches, $link );
+    while ( my ($cmd, $arg) = splice(@_, 0, 2) ) {
+        if ($cmd eq 'format') {
+            if ($arg eq 'text') {
+                require HTML::TreeBuilder;
+                my $tree = HTML::TreeBuilder->new();
+                $tree->parse($content);
+                $tree->eof();
+                $tree->elementify(); # just for safety
+                $content = $tree->as_text();
             } else {
-                ++$nmatches;
-                return $link if $nmatches >= $parms{n};
-            }
+                $self->die( qq{Unknown format parameter "$arg"} );
+            };
+        } elsif ($cmd eq 'base_href') {
+            $arg ||= $self->base;
+            $content=~s/<head>/<head>\n<base href="$arg">/;
+        } else {
+            $self->die( qq{Unknown named argument "$cmd"} );
         }
-    } # for @links
-
-    if ( $wantall ) {
-        return @matches if wantarray;
-        return \@matches;
     }
 
-    return;
-} # find_link
-
-# Used by find_links to check for matches
-# The logic is such that ALL parm criteria that are given must match
-sub _match_any_parms {
-	my ($link,$p_ref) = @_;
-
-	# No conditions, Anything matches
-	return 1 unless keys %$p_ref;
-
-	return undef if (defined $p_ref->{url}          and not ($link->[0] eq $p_ref->{url} )                                );
-    return undef if (defined $p_ref->{url_regex}    and not ($link->[0] =~ $p_ref->{url_regex} )                          );
-    return undef if (defined $p_ref->{url_abs}      and not ($link->url_abs eq $p_ref->{url_abs} )                        );
-    return undef if (defined $p_ref->{url_abs_regex}and not ($link->url_abs =~ $p_ref->{url_abs_regex} )                  );
-    return undef if (defined $p_ref->{text}         and not (defined($link->[1]) and $link->[1] eq $p_ref->{text} )       );
-    return undef if (defined $p_ref->{text_regex}   and not (defined($link->[1]) and $link->[1] =~ $p_ref->{text_regex} ) );
-    return undef if (defined $p_ref->{name}         and not (defined($link->[2]) and $link->[2] eq $p_ref->{name} )       );
-    return undef if (defined $p_ref->{name_regex}   and not (defined($link->[2]) and $link->[2] =~ $p_ref->{name_regex} ) );
-    return undef if (defined $p_ref->{tag}          and not ($link->[3] and $link->[3] eq $p_ref->{tag} )                 );
-    return undef if (defined $p_ref->{tag_regex}    and not ($link->[3] and $link->[3] =~ $p_ref->{tag_regex} )           );
-
-	# Success: everything that was defined passed. 
-	return 1;
-
+    return $content;
 }
-
-
-=head2 $mech->find_all_links( ... )
-
-Returns all the links on the current page that match the criteria.  The
-method for specifying link criteria is the same as in C<L<find_link()>>.
-Each of the links returned is a L<WWW::Mechanize::Link> object.
-
-In list context, C<find_all_links()> returns a list of the links.
-Otherwise, it returns a reference to the list of links.
-
-C<find_all_links()> with no parameters returns all links in the
-page.
-
-=cut
-
-sub find_all_links {
-    my $self = shift;
-    return $self->find_link( @_, n=>'all' );
-}
-
 
 =head1 MISCELLANEOUS METHODS
 
