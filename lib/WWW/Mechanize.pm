@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.57
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.48 2003/08/01 04:21:47 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.49 2003/08/08 17:18:38 petdance Exp $
 
 =cut
 
@@ -863,8 +863,8 @@ sub find_link {
     my @conditions;
     push @conditions, q/ $_[0]->[0] eq $parms{url} /	    if defined $parms{url};
     push @conditions, q/ $_[0]->[0] =~ $parms{url_regex} /  if defined $parms{url_regex};
-    push @conditions, q/ $_[0]->[1] eq $parms{text} /	    if defined $parms{text};
-    push @conditions, q/ $_[0]->[1] =~ $parms{text_regex} / if defined $parms{text_regex};
+    push @conditions, q/ defined($_[0]->[1]) and $_[0]->[1] eq $parms{text} /	    if defined $parms{text};
+    push @conditions, q/ defined($_[0]->[1]) and $_[0]->[1] =~ $parms{text_regex} / if defined $parms{text_regex};
 
     my $matchfunc;
     if ( @conditions ) {
@@ -1148,11 +1148,19 @@ sub _extract_links {
     while (my $token = $p->get_tag( keys %urltags )) {
         my $tag = $token->[0];
         my $url = $token->[1]{$urltags{$tag}};
-        next unless defined $url;   # probably just a name link
+        next unless defined $url;   # probably just a name link or <AREA NOHREF...>
 
-        my $text = $p->get_trimmed_text("/$tag");
-	$text = "" unless defined $text;
-        push( @{$self->{links}}, WWW::Mechanize::Link->new( $url, $text, $token->[1]{name}, $tag ) );
+        my $text;
+	my $name;
+	if ( $tag eq "a" ) {
+	    $text = $p->get_trimmed_text("/$tag");
+	    $text = "" unless defined $text;
+	}
+	if ( $tag ne "area" ) {
+	    $name = $token->[1]{name};
+	}
+
+        push( @{$self->{links}}, WWW::Mechanize::Link->new( $url, $text, $name, $tag ) );
     }
 
     # Old extract_links() returned a value.  Carp if someone expects
