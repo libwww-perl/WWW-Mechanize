@@ -18,3 +18,7 @@ my $uri = URI::file->new_abs( "t/image-parse.html" )->as_string;
 
 $mech->get( $uri );
 ok( $mech->success, "Fetched $uri" ) or die "Can't get test page";
+
+use Data::Dumper;
+my @images = $mech->images;
+print Dumper( \@images );
