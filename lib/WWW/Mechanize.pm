@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 1.05_02
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.155 2004/10/31 00:58:11 markjugg Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.156 2004/11/01 01:07:59 markjugg Exp $
 
 =cut
 
@@ -1740,7 +1740,6 @@ sub _extract_links {
 
         my $text;
         my $name;
-        my $alt;
         if ( $tag eq "a" ) {
             $text = $p->get_trimmed_text("/$tag");
             $text = "" unless defined $text;
@@ -1752,13 +1751,11 @@ sub _extract_links {
         } # a
 
         # Of the tags we extract from, only 'AREA' has an alt tag
-        if ($tag eq 'area') {
-                $alt = $attrs->{alt};
-        }
         # The rest should have a 'name' attribute.
-        else  {
-            $name = $attrs->{name};
-        }
+		# ... but we don't do anything with that bit of wisdom now. 
+
+        $name = $attrs->{name};
+
         if ( $tag eq "meta" ) {
             my $equiv = $attrs->{"http-equiv"};
             my $content = $attrs->{"content"};
@@ -1773,12 +1770,12 @@ sub _extract_links {
 
         next unless defined $url;   # probably just a name link or <AREA NOHREF...>
         push( @{$self->{links}}, WWW::Mechanize::Link->new({
-            url => $url,
+            url  => $url,
             text => $text,
             name => $name,
-            tag => $tag,
+            tag  => $tag,
             base => $self->base,
-            alt => $alt,
+            attrs => $attrs,
         }) );
     } # while
 

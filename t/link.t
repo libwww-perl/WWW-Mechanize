@@ -3,14 +3,16 @@
 use warnings;
 use strict;
 
-use Test::More tests => 23;
+use Test::More qw/no_plan/;
 
 BEGIN {
     use_ok( 'WWW::Mechanize::Link' );
 }
 
 OLD_API: {
-    my $link = WWW::Mechanize::Link->new( "url.html", "text", "name", "frame", "http://base.example.com/", "alt text" );
+    my $link = WWW::Mechanize::Link->new( "url.html", "text", "name", "frame", "http://base.example.com/", 
+		{ alt => 'alt text' });
+
     isa_ok( $link, 'WWW::Mechanize::Link' );
     is( scalar @$link, 6, "Should have five elements" );
 
@@ -20,7 +22,7 @@ OLD_API: {
     is( $link->name, "name", "name() works" );
     is( $link->tag, "frame", "tag() works" );
     is( $link->base, "http://base.example.com/", "base() works" );
-    is( $link->alt, "alt text", "alt() works" );
+    is( $link->attrs->{alt}, "alt text", "attrs() works" );
 
     # Order of the parms in the blessed array is important for backwards compatibility.
     is( $link->[0], 'url.html', 'parm 0 is url' );
@@ -43,7 +45,7 @@ NEW_API: {
         name => "name",
         tag  => "frame",
         base => "http://base.example.com/",
-        alt  => "alt text",
+		attrs => { alt =>  "alt text" },
     } );
 
     is( $link->url, "url.html", "url() works" );
@@ -51,5 +53,5 @@ NEW_API: {
     is( $link->name, "name", "name() works" );
     is( $link->tag, "frame", "tag() works" );
     is( $link->base, "http://base.example.com/", "base() works" );
-    is( $link->alt, "alt text", "alt() works" );
+    is( $link->attrs->{alt}, "alt text", "attrs() works" );
 }

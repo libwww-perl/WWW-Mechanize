@@ -1,4 +1,4 @@
-# $Id: Changes,v 1.155 2004/10/31 00:58:10 markjugg Exp $
+# $Id: Changes,v 1.156 2004/11/01 01:07:59 markjugg Exp $
 Revision history for Perl extension WWW::Mechanize
 
 XXX
@@ -13,6 +13,12 @@ XXX
 	  been deprecated. (RT#8087, patch by Dominique Quatravaux)
 
 	* select() has new option to select an option by number (RT#5789, Scott Lanning) 
+
+	* WWW::Mechanize::Link now has support providing all the attributes of the
+	  link through a new attrs() method, which returns them as a hashref. This
+	  is a replacement for the alt() method, added in 1.05_01. It's not
+	  backwards compatible with that, but, hey, that's what developer releases
+	  are for. (RT#8092, Rob Casey and Mark Stosberg)
 
 	[FIXES]
 	* Upload <input type="file" ... > does not use the default
