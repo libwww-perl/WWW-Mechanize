@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.61
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.68 2003/10/07 22:06:41 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.69 2003/10/07 23:10:28 petdance Exp $
 
 =cut
 
@@ -909,21 +909,28 @@ sub find_link {
     my $self = shift;
     my %parms = ( n=>1, @_ );
 
-    my @links = @{$self->{links}};
-
-    return unless @links ;
-
     my $wantall = ( $parms{n} eq "all" );
 
-    for ( keys %parms ) {
-	if ( !/^(n|(text|url)(_regex)?)$/ ) {
-	    $self->warn( qq{Unknown link-finding parameter "$_"} );
+    for my $key ( keys %parms ) {
+	my $val = $parms{$key};
+	if ( $key !~ /^(n|(text|url)(_regex)?)$/ ) {
+	    $self->warn( qq{Unknown link-finding parameter "$key"} );
+	    delete $parms{$key};
+	    next;
 	}
-    }
+
+	if ( ($key =~ /_regex$/) && (ref($val) ne "Regexp" ) ) {
+	    $self->warn( qq{$val passed as $key is not a regex} );
+	    delete $parms{$key};
+	    next;
+	}
+    } # for keys %parms
+
+    my @links = $self->links or return;
 
     my @conditions;
-    push @conditions, q/ $_[0]->[0] eq $parms{url} /	    if defined $parms{url};
-    push @conditions, q/ $_[0]->[0] =~ $parms{url_regex} /  if defined $parms{url_regex};
+    push @conditions, q/ $_[0]->[0] eq $parms{url} /				    if defined $parms{url};
+    push @conditions, q/ $_[0]->[0] =~ $parms{url_regex} /			    if defined $parms{url_regex};
     push @conditions, q/ defined($_[0]->[1]) and $_[0]->[1] eq $parms{text} /	    if defined $parms{text};
     push @conditions, q/ defined($_[0]->[1]) and $_[0]->[1] =~ $parms{text_regex} / if defined $parms{text_regex};
 

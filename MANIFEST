@@ -43,6 +43,7 @@ t/new.t
 t/page_stack.t
 t/referer-server
 t/referer.t
+t/regex-error.t
 t/reload.t
 t/submit.t
 t/tick.html

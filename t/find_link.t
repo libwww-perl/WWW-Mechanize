@@ -31,7 +31,7 @@ is( $x->url, "http://a.cpan.org/", "First CPAN link" );
 $x = $t->find_link( url => "CPAN" );
 ok( !defined $x, "No url matching CPAN" );
 
-$x = $t->find_link( text_regex => "CPAN", n=>3 );
+$x = $t->find_link( text_regex => qr/CPAN/, n=>3 );
 isa_ok( $x, 'WWW::Mechanize::Link' );
 is( $x->[0], "http://c.cpan.org/", "3rd CPAN text" );
 is( $x->url, "http://c.cpan.org/", "3rd CPAN text" );
@@ -39,7 +39,7 @@ is( $x->url, "http://c.cpan.org/", "3rd CPAN text" );
 $x = $t->find_link( text => "CPAN", n=>34 );
 ok( !defined $x, "No 34th CPAN text" );
 
-$x = $t->find_link( text_regex => "(?i:cpan)" );
+$x = $t->find_link( text_regex => qr/(?i:cpan)/ );
 isa_ok( $x, 'WWW::Mechanize::Link' );
 is( $x->[0], "http://a.cpan.org/", "Got 1st cpan via regex" );
 is( $x->url, "http://a.cpan.org/", "Got 1st cpan via regex" );
