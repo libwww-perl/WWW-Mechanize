@@ -1,5 +1,11 @@
-# $Id: Changes,v 1.80 2003/11/10 06:13:36 petdance Exp $
+# $Id: Changes,v 1.81 2003/11/13 20:38:17 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
+
+0.66	Thu Nov 13 14:35:31 CST 2003
+
+	No new functionality.  Fixed up some install bugs and made a
+	few documentation tweaks, mostly to plug Spidering Hacks.
+
 
 0.65	Mon Nov 10 00:11:06 CST 2003
 	[ENHANCEMENTS]
