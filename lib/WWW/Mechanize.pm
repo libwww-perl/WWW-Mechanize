@@ -567,21 +567,22 @@ sub find_link {
 # Used by find_links to check for matches
 # The logic is such that ALL parm criteria that are given must match
 sub _match_any_parms {
-    my ($link,$p_ref) = @_;
+    my $link = shift;
+    my $p = shift;
 
-    # No conditions, Anything matches
-    return 1 unless keys %$p_ref;
+    # No conditions, anything matches
+    return 1 unless keys %$p;
 
-    return if defined $p_ref->{url}          and !($link->url eq $p_ref->{url} );
-    return if defined $p_ref->{url_regex}    and !($link->url =~ $p_ref->{url_regex} );
-    return if defined $p_ref->{url_abs}      and !($link->url_abs eq $p_ref->{url_abs} );
-    return if defined $p_ref->{url_abs_regex}and !($link->url_abs =~ $p_ref->{url_abs_regex} );
-    return if defined $p_ref->{text}         and !(defined($link->text) and $link->text eq $p_ref->{text} );
-    return if defined $p_ref->{text_regex}   and !(defined($link->text) and $link->text =~ $p_ref->{text_regex} );
-    return if defined $p_ref->{name}         and !(defined($link->name) and $link->name eq $p_ref->{name} );
-    return if defined $p_ref->{name_regex}   and !(defined($link->name) and $link->name =~ $p_ref->{name_regex} );
-    return if defined $p_ref->{tag}          and !($link->tag and $link->tag eq $p_ref->{tag} );
-    return if defined $p_ref->{tag_regex}    and !($link->tag and $link->tag =~ $p_ref->{tag_regex} );
+    return if defined $p->{url}          and !($link->url eq $p->{url} );
+    return if defined $p->{url_regex}    and !($link->url =~ $p->{url_regex} );
+    return if defined $p->{url_abs}      and !($link->url_abs eq $p->{url_abs} );
+    return if defined $p->{url_abs_regex}and !($link->url_abs =~ $p->{url_abs_regex} );
+    return if defined $p->{text}         and !(defined($link->text) and $link->text eq $p->{text} );
+    return if defined $p->{text_regex}   and !(defined($link->text) and $link->text =~ $p->{text_regex} );
+    return if defined $p->{name}         and !(defined($link->name) and $link->name eq $p->{name} );
+    return if defined $p->{name_regex}   and !(defined($link->name) and $link->name =~ $p->{name_regex} );
+    return if defined $p->{tag}          and !($link->tag and $link->tag eq $p->{tag} );
+    return if defined $p->{tag_regex}    and !($link->tag and $link->tag =~ $p->{tag_regex} );
 
     # Success: everything that was defined passed. 
     return 1;
