@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.63
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.76 2003/10/14 03:21:01 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.77 2003/10/24 04:17:20 petdance Exp $
 
 =cut
 
@@ -1244,18 +1244,23 @@ sub _extract_links {
     while (my $token = $p->get_tag( keys %urltags )) {
         my $tag = $token->[0];
         my $url = $token->[1]{$urltags{$tag}};
-        next unless defined $url;   # probably just a name link or <AREA NOHREF...>
 
         my $text;
         my $name;
         if ( $tag eq "a" ) {
             $text = $p->get_trimmed_text("/$tag");
             $text = "" unless defined $text;
+
+	    my $onClick = $token->[1]{onclick};
+	    if ( $onClick && ($onClick =~ /^window\.open\(\s*'([^']+)'/) ) {
+		$url = $1;
+	    }
         }
         if ( $tag ne "area" ) {
             $name = $token->[1]{name};
         }
 
+        next unless defined $url;   # probably just a name link or <AREA NOHREF...>
         push( @{$self->{links}}, WWW::Mechanize::Link->new( $url, $text, $name, $tag ) );
     }
 

@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-use Test::More tests => 53;
+use Test::More tests => 55;
 use URI::file;
 
 BEGIN {
@@ -126,3 +126,6 @@ $x = $t->find_link( tag_regex => qr/^(a|frame)$/, n => 7 );
 isa_ok( $x, 'WWW::Mechanize::Link' );
 is_deeply( $x, [ "http://d.cpan.org/", "CPAN D", undef, "a" ], 'Got 7th <A> or <FRAME> tag' );
 
+$x = $t->find_link( text => "Rebuild Index" );
+isa_ok( $x, 'WWW::Mechanize::Link' );
+is_deeply( $x, [ "/cgi-bin/MT/mt.cgi", "Rebuild Index", undef, "a" ], 'Got the JavaScript link' );

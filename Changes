@@ -1,8 +1,14 @@
-# $Id: Changes,v 1.75 2003/10/18 02:38:26 petdance Exp $
+# $Id: Changes,v 1.76 2003/10/24 04:17:20 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
-0.90	
-	* Big jump in requirements, using Gisle's new HTML::Form stuff.
+0.64	October 23, 2003  11:15pm
+	* If you have an <A> tag that does an onClick that opens a
+	  window, Mech will find the URL from that and make that be
+	  the link for the tag.  This is for things like Movable Type
+	  that pop little windows to rebuild indexes.
+	* Big jump in requirements, since we'll soon be using Gisle's
+	  new HTML::Form stuff.  Also, older versions of HTML::Form
+	  don't give output I'm expecting.
 
 	[FIXES]
 	* Fixed the t/mech-dump.t failure.
