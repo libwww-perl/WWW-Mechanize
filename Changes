@@ -1,4 +1,4 @@
-# $Id: Changes,v 1.38 2003/07/22 15:28:21 petdance Exp $
+# $Id: Changes,v 1.39 2003/07/22 17:06:27 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 0.55
@@ -16,6 +16,21 @@ Revision history for Perl extension WWW::Mechanize
 
 	* submit_form() now uses the currently specified form if a
 	  form_name or form_number parm is not specified. (RT #2768)
+
+	* Added a translate table of handy browser strings that the
+	  agent() method recognizes.  These strings may be one of the
+	  following:
+
+	     * Windows IE 6
+	     * Windows Mozilla
+	     * Mac Safari
+	     * Mac Mozilla
+	     * Linux Mozilla
+	     * Linux Konqueror
+
+	  For example, "Windows IE 6" gets replaced with
+	  "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)".
+	  Thanks to Ed Silva for the list.
 
 	[DOCUMENTATION]
 	* Moved the deprecated methods to their own section.

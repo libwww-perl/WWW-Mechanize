@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.55
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.40 2003/07/22 15:28:22 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.41 2003/07/22 17:06:27 petdance Exp $
 
 =cut
 
@@ -117,7 +117,7 @@ our @ISA = qw( LWP::UserAgent );
 
 our %headers;
 
-=head1 Constructor
+=head1 Constructor and startup
 
 =head2 C<< new() >>
 
@@ -137,6 +137,9 @@ as in:
 
     my $a = WWW::Mechanize->new( agent=>"wonderbot 1.01" );
 
+Note that this agent can be one of the magic strings defined in L<agent()>
+below.
+
 If you want none of the overhead of a cookie jar, or don't want your
 bot accepting cookies, you have to explicitly disallow it, like so:
 
@@ -152,17 +155,77 @@ sub new {
         cookie_jar  => {},
     );
 
-    my $self = $class->SUPER::new( %default_parms, @_ );
+    my %parms = ( %default_parms, @_ );
+
+    my $self = $class->SUPER::new( %parms );
     bless $self, $class;
 
     $self->{page_stack} = [];
     $self->{quiet} = 0;
     $self->env_proxy();
+    $self->agent($parms{agent}) if defined $parms{agent};
     push( @{$self->requests_redirectable}, 'POST' );
 
     $self->_reset_page;
 
     return $self;
+}
+
+=head2 C<< $a->agent( [I<$str>] ) >>
+
+Without I<$str>, returns the name of the user agent as identified to servers.
+
+If I<$str> is passed, sets the agent string to the I<$str>.  I<$str>
+can be any string, but if it's one of the following magic strings:
+
+=over 4
+
+=item * Windows IE 6
+
+=item * Windows Mozilla
+
+=item * Mac Safari
+
+=item * Mac Mozilla
+
+=item * Linux Mozilla
+
+=item * Linux Konqueror
+
+=back
+
+then it will be replaced with a more interesting one.  For instance,
+
+    C<< $a->agent( 'Windows IE 6' );
+
+sets your User-Agent to
+
+    Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)
+
+Whenever the string is set, the old value is returned.
+
+=cut
+
+our %known_agents = (
+    'Windows IE 6'	=> 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)',
+    'Windows Mozilla'	=> 'Mozilla/5.0 (Windows; U; Windows NT 5.0; en-US; rv:1.4b) Gecko/20030516 Mozilla Firebird/0.6',
+    'Mac Safari'	=> 'Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en-us) AppleWebKit/85 (KHTML, like Gecko) Safari/85',
+    'Mac Mozilla'	=> 'Mozilla/5.0 (Macintosh; U; PPC Mac OS X Mach-O; en-US; rv:1.4a) Gecko/20030401',
+    'Linux Mozilla'	=> 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.4) Gecko/20030624',
+    'Linux Konqueror'	=> 'Mozilla/5.0 (compatible; Konqueror/3; Linux)',
+);
+
+sub agent {
+    my $self = shift;
+
+    if ( @_ ) {
+	my $str = shift;
+	$str = $known_agents{$str} if defined $known_agents{$str};
+	return $self->SUPER::agent( $str );
+    } else {
+	return $self->SUPER::agent();
+    }
+
 }
 
 =head1 Page-fetching methods
