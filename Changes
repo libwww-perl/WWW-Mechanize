@@ -1,4 +1,4 @@
-# $Id: Changes,v 1.135 2004/09/16 03:21:00 petdance Exp $
+# $Id: Changes,v 1.136 2004/09/16 03:45:59 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 1.04
@@ -8,8 +8,13 @@ Revision history for Perl extension WWW::Mechanize
 
         [FIXES]
         * Fixed tests that fail under LWP >= 5.800.
+
         * Added a workaround for LWP::UserAgent->clone() when ->{proxy}
           is undef. (RT #6443)
+
+        * The Referer was getting passed as a URI object sometimes,
+          and that caused sadness.  Eugene Haimov supplied a workaround.
+          (RT #6372)
 
         [DOCUMENTATION]
         * Added Ian Langworth's listmod and John Beppu's photobucket

@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 1.03_02
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.136 2004/09/16 03:22:25 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.137 2004/09/16 03:45:59 petdance Exp $
 
 =cut
 
@@ -1387,7 +1387,11 @@ sub _modify_request {
         $req->header( 'Accept-Encoding', 'identity' );
     }
 
-    $req->header( Referer => $self->{last_uri} ) if $self->{last_uri};
+    my $last = $self->{last_uri};
+    if ( $last ) {
+        $last = $last->as_string if ref($last);
+        $req->header( Referer => $last );
+    }
     while ( my($key,$value) = each %{$self->{headers}} ) {
         if ( defined $value ) {
             $req->header( $key => $value );
