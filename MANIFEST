@@ -32,6 +32,7 @@ t/google.html
 t/lib/Test/HTTP/LocalServer.pm
 t/lib/Test/HTTP/log-server
 t/link.t
+t/link-base.t
 t/live/back.t
 t/live/click.t
 t/live/follow.t
