@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.61
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.66 2003/10/07 20:55:55 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.67 2003/10/07 21:38:07 petdance Exp $
 
 =cut
 
@@ -163,27 +163,71 @@ bot accepting cookies, you have to explicitly disallow it, like so:
 
     my $a = WWW::Mechanize->new( cookie_jar => undef );
 
+Here are the parms that WWW::Mechanize recognizes.  These do not include
+parms that L<LWP::UserAgent> recognizes.
+
+=over 4
+
+=item * autocheck => [0|1]
+
+Checks each request made to see if it was successful.  This saves you
+the trouble of manually checking yourself.  Any errors found are errors,
+not warnings.
+
+=item * onwarn => \&func()
+
+Reference to a C<warn>-compatible function, such as C<< L<Carp>::carp >>,
+that is called when a warning needs to be shown.
+
+If this is set to C<undef>, no warnings will ever be shown.  However,
+it's probably better to use the C<quiet> method to control that behavior.
+
+If this value is not passed, Mech uses C<Carp::carp> if L<Carp> is
+installed, or C<CORE::warn> if not.
+
+=item * onerror => \&func()
+
+Reference to a C<die>-compatible function, such as C<< L<Carp>::croak >>,
+that is called when there's a fatal error.
+
+If this is set to C<undef>, no errors will ever be shown.
+
+If this value is not passed, Mech uses C<Carp::croak> if L<Carp> is
+installed, or C<CORE::die> if not.
+
+=item * quiet => [0|1]
+
+Don't complain on warnings.  Setting C<< quiet => 1 >> is the same as
+calling C<< $agent->quiet(1) >>.
+
 =cut
 
 sub new {
     my $class = shift;
 
-    my %default_parms = (
+    my %parent_parms = (
         agent	    => "WWW-Mechanize/$VERSION",
         cookie_jar  => {},
-	onwarn	    => \&WWW::Mechanize::_warn,
-	onerror	    => undef,
     );
 
-    my %ua_parms = ( %default_parms, @_ );
-    my %mech_parms;
+    my %mech_parms = (
+	onwarn	    => \&WWW::Mechanize::_warn,
+	onerror	    => \&WWW::Mechanize::_die,
+	quiet	    => 0,
+    );
+
+    my %passed_parms = @_;
 
     # Keep the mech-specific parms before creating the object.
-    for my $parm ( qw( onwarn onerror ) ) {
-	$mech_parms{$parm} = delete $ua_parms{$parm} if exists $ua_parms{$parm};
+    while ( my($key,$value) = each %passed_parms ) {
+	if ( exists $mech_parms{$key} ) {
+	    $mech_parms{$key} = $value;
+	} else {
+	    $parent_parms{$key} = $value;
+	}
     }
 
-    my $self = $class->SUPER::new( %ua_parms );
+    my $self = $class->SUPER::new( %parent_parms );
     bless $self, $class;
 
     # Use the mech parms now that we have a mech object.
@@ -191,7 +235,6 @@ sub new {
 	$self->{$parm} = $mech_parms{$parm};
     }
     $self->{page_stack} = [];
-    $self->{quiet} = 0;
     $self->env_proxy();
     push( @{$self->requests_redirectable}, 'POST' );
 
@@ -1280,6 +1323,17 @@ sub _warn {
 	CORE::warn @_;
     } else {
 	&Carp::carp; # pass thru
+    }
+    return;
+}
+
+# NOT an object method!
+sub _die {
+    eval "require Carp";
+    if ( $@ ) {
+	CORE::die @_;
+    } else {
+	&Carp::croak; # pass thru
     }
     return;
 }
