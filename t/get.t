@@ -9,7 +9,7 @@ BEGIN {
 my $agent = WWW::Mechanize->new;
 isa_ok( $agent, 'WWW::Mechanize', 'Created object' );
 
-ok($agent->get("http://www.google.com")->is_success, "Get google webpage");
+ok($agent->get("http://www.google.com/intl/en/")->is_success, "Get google webpage");
 isa_ok($agent->{uri}, "URI", "Set uri");
 isa_ok($agent->{req}, 'HTTP::Request', "req should be a HTTP::Request");
 

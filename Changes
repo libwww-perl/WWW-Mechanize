@@ -1,5 +1,16 @@
-# $Id: Changes,v 1.7 2002/09/13 20:16:47 alester Exp $
+# $Id: Changes,v 1.9 2002/10/24 04:04:37 alester Exp $
 Revision history for Perl extension WWW::Mechanize
+
+0.32	September 23, 2002
+	[FIXES]
+	* Now correctly calls the LWP::UserAgent constructor.  (Thanks to
+	  Philippe "BooK" Bruhat)
+
+	* Fixed doc on what get() method returns.  (Again thanks to BooK)
+
+	* Now uses http://www.google.com/intl/en/ as the basis for
+	  testing, since non-US users apparently get redirected to
+	  country-specific sites when they hit http://www.google.com/
 
 0.31	September 13, 2002
 	[ENHANCEMENTS]

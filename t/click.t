@@ -9,7 +9,7 @@ BEGIN {
 my $t = WWW::Mechanize->new();
 isa_ok( $t, 'WWW::Mechanize', 'Created the object' );
 
-my $response = $t->get("http://www.google.com");
+my $response = $t->get( "http://www.google.com/intl/en/");
 isa_ok( $response, 'HTTP::Response', 'Got back a response' );
 ok( $response->is_success, 'Got google' ) or die "Can't even fetch google";
 

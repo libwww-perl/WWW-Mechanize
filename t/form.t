@@ -8,7 +8,7 @@ BEGIN {
 
 my $t = WWW::Mechanize->new();
 isa_ok( $t, 'WWW::Mechanize' );
-my $response = $t->get("http://www.google.com");
+my $response = $t->get("http://www.google.com/intl/en/");
 ok( $response->is_success, "Got Google" ) or die "Can't even get google";
 ok($t->form(1), "Can select the first form");
 is($t->{form}, $t->{forms}->[0], "Set the form attribute");

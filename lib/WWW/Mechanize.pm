@@ -53,13 +53,13 @@ our @ISA = qw( LWP::UserAgent );
 
 =head1 VERSION
 
-Version 0.31
+Version 0.32
 
-    $Header: /home/cvs/www-mechanize/lib/WWW/Mechanize.pm,v 1.17 2002/09/13 20:16:39 alester Exp $
+    $Header: /home/cvs/www-mechanize/lib/WWW/Mechanize.pm,v 1.20 2002/10/24 04:12:42 alester Exp $
 
 =cut
 
-our $VERSION = "0.31";
+our $VERSION = "0.32";
 
 our %headers;
 
@@ -77,19 +77,19 @@ the 'agent'.
 sub new {
     my $class = shift;
 
-    my $self = { 
-	page_stack  => [],
-    };
-    bless $self, $class;
+    my $self = $class->SUPER::new( @_ );
 
-    $self->agent("WWW-Mechanize-$VERSION");
+    $self->{page_stack} = [];
+    $self->agent( "WWW-Mechanize/$VERSION" );
     $self->env_proxy();
-    return $self;
+
+    return bless $self, $class;
 }
+
 
 =head2 $agent->get($url)
 
-Given a URL/URI, fetches it.  Returns an HTTP status code.
+Given a URL/URI, fetches it.  Returns an HTTP::Response object.
 
 The results are stored internally in the agent object, as follows:
 
@@ -404,7 +404,8 @@ sub _do_request {
 
 =head1 BUGS
 
-Please report any bugs via the system at http://rt.cpan.org/
+Please report any bugs via the system at http://rt.cpan.org/, or email to
+bug-WWW-Mechanize@rt.cpan.org.
 
 =head1 AUTHOR
 

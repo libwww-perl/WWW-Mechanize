@@ -9,7 +9,7 @@ BEGIN {
 my $agent = WWW::Mechanize->new;
 isa_ok( $agent, 'WWW::Mechanize', 'Created object' );
 
-my $response = $agent->get("http://www.google.com");
+my $response = $agent->get( "http://www.google.com/intl/en/" );
 ok( $response->is_success, 'Got google' );
 
 ok(! $agent->follow(99999), "Can't follow too-high-numbered link");

@@ -9,7 +9,7 @@ BEGIN {
 my $t = WWW::Mechanize->new;
 isa_ok( $t, 'WWW::Mechanize', 'Created object' );
 
-ok( $t->get("http://www.google.com")->is_success, "Got Google" );
+ok( $t->get("http://www.google.com/intl/en/")->is_success, "Got Google" );
 is(scalar @{$t->{page_stack}}, 0, "Page stack starts empty");
 $t->_push_page_stack();
 is(scalar @{$t->{page_stack}}, 1, "Pushed item onto page stack");
