@@ -59,7 +59,7 @@ do {
 
 my $carpmsg;
 local $^W = 1;
-no warnings 'redefines';
+no warnings 'redefine';
 local *Carp::carp = sub {$carpmsg = shift};
 
 my $mech = WWW::Mechanize->new();
