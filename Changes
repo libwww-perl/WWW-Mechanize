@@ -1,5 +1,14 @@
-# $Id: Changes,v 1.157 2004/11/01 03:11:37 petdance Exp $
+# $Id: Changes,v 1.158 2004/11/04 01:33:44 markjugg Exp $
 Revision history for Perl extension WWW::Mechanize
+
+XXX
+        [FIXES]
+        * When parsing urls out of meta refresh tags, "url" may now be 
+          uppercase (RT#8230)
+
+        [INTERNALS]
+        * Mark figured out to how to prevent his text editor from putting tabs
+          into the code. Andy's blood pressure dropped slightly. 
 
 1.05_03 Sun Oct 31 20:54:33 CST 2004
 

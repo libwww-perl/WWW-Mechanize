@@ -1759,7 +1759,7 @@ sub _extract_links {
             my $content = $attrs->{"content"};
             next unless $equiv && (lc $equiv eq "refresh") && defined $content;
 
-            if ( $content =~ /^\d+\s*;\s*url\s*=\s*(.+)/ ) {
+            if ( $content =~ /^\d+\s*;\s*url\s*=\s*(.+)/i ) {
                 $url = $1;
             } else {
                 undef $url;
