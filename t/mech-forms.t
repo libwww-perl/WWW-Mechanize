@@ -1,12 +1,15 @@
 use warnings;
 use strict;
-use Test::More tests => 1;
+use Test::More;
 use File::Spec;
 use URI::file;
 
 local $/ = undef;
 
 my $exe = File::Spec->catfile( qw( blib script mech-forms ) );
+plan skip_all => "Not installing mech-forms" if -e "t/SKIP-MECH-FORMS";
+plan tests=>1;
+
 my $data = File::Spec->catfile( qw( t google.html ) );
 my $actual = `$exe $data`;
 

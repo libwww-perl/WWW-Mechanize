@@ -1,7 +1,11 @@
-# $Id: Changes,v 1.25 2003/07/18 20:55:44 petdance Exp $
+# $Id: Changes,v 1.26 2003/07/18 21:27:15 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 0.54
+	[FIXES]
+	* No longer tries to tech mech-forms if you're not installing
+	  it.
+
 	[DOCUMENTATION]
 	* Added a sample CPAN search from Ed Silva.
 

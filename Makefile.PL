@@ -1,6 +1,9 @@
 use ExtUtils::MakeMaker qw( WriteMakefile prompt );
 use strict;
 
+use constant FLAG_SKIPMECHFORMS => "t/SKIP-MECH-FORMS";
+use constant FLAG_SKIPLIVE => "t/SKIP-LIVE";
+
 # Much logic stolen fromm libwww-perl's Makefile.PL
 my $skiplive = 0;
 
@@ -24,12 +27,10 @@ EOT
     }
 } # failed connect
 
-my $filename = "t/SKIPLIVE";
 if ( $skiplive ) {
-    open( F, ">$filename" ) or die "Can't create $filename";
-    close F;
+    touch( FLAG_SKIPLIVE );
 } else {
-    unlink $filename;
+    unlink FLAG_SKIPLIVE;
 }
 
 no strict;
@@ -56,8 +57,20 @@ my $parms = {
 			},
 };
 
+my $skipforms = "t/SKIP-MECH-FORMS";
 if ( prompt( "Do you want to install the mech-forms utility?", "y" ) =~ /^y/i ) {
     $parms->{EXE_FILES} = [ 'script/mech-forms' ];
+    unlink( FLAG_SKIPMECHFORMS );
+} else {
+    touch( FLAG_SKIPMECHFORMS );
 }
 
 WriteMakefile( %$parms );
+
+sub touch {
+    my $filename = shift;
+
+    local *FH;
+    open( FH, ">$filename" ) or die "Can't create $filename";
+    close FH;
+}
