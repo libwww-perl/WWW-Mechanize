@@ -1,5 +1,11 @@
-# $Id: Changes,v 1.10 2003/06/22 03:49:38 petdance Exp $
+# $Id: Changes,v 1.11 2003/06/22 18:22:22 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
+
+0.48
+	[FIXES]
+	* get() wasn't passing through its parms to LWP::UserAgent::get(),
+	  so you couldn't use the :content_file parm.  Now it
+	  behaves like a good little subclass.
 
 0.47	June 21, 2003
 	[ENHANCEMENTS]

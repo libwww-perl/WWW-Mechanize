@@ -1,6 +1,6 @@
 use warnings;
 use strict;
-use Test::More tests => 24;
+use Test::More tests => 29;
 
 use lib 't/lib';
 use Test::HTTP::LocalServer;
@@ -13,33 +13,45 @@ BEGIN {
 my $agent = WWW::Mechanize->new;
 isa_ok( $agent, 'WWW::Mechanize', 'Created object' );
 
-ok($agent->get($server->url)->is_success, "Get webpage");
+my $response = $agent->get($server->url);
+isa_ok( $response, 'HTTP::Response' );
+ok( $response->is_success );
+ok( $agent->success, "Get webpage" );
 isa_ok($agent->uri, "URI", "Set uri");
 ok( $agent->is_html );
 is( $agent->title, "WWW::Mechanize::Shell test page" );
 
-ok( $agent->get( '/foo/' )->is_success, 'Got the /foo' );
+$agent->get( '/foo/' );
+ok( $agent->success, 'Got the /foo' );
 is( $agent->uri, sprintf('%sfoo/',$server->url), "Got relative OK" );
 ok( $agent->is_html,"Got HTML back" );
 is( $agent->title, "WWW::Mechanize::Shell test page", "Got the right page" );
 
-ok( $agent->get( '../bar/' )->is_success, 'Got the /bar page' );
+$agent->get( '../bar/' );
+ok( $agent->success, 'Got the /bar page' );
 is( $agent->uri, sprintf('%sbar/',$server->url), "Got relative OK" );
 ok( $agent->is_html );
 is( $agent->title, "WWW::Mechanize::Shell test page", "Got the right page" );
 
-ok( $agent->get( 'basics.html' )->is_success, 'Got the basics page' );
+$agent->get( 'basics.html' );
+ok( $agent->success, 'Got the basics page' );
 is( $agent->uri, sprintf('%sbar/basics.html',$server->url), "Got relative OK" );
 ok( $agent->is_html );
 is( $agent->title, "WWW::Mechanize::Shell test page" );
 like( $agent->content, qr/WWW::Mechanize::Shell test page/, "Got the right page" );
 
-ok( $agent->get( './refinesearch.html' )->is_success, 'Got the "refine search" page' );
+$agent->get( './refinesearch.html' );
+ok( $agent->success, 'Got the "refine search" page' );
 is( $agent->uri, sprintf('%sbar/refinesearch.html',$server->url), "Got relative OK" );
 ok( $agent->is_html );
 is( $agent->title, "WWW::Mechanize::Shell test page" );
 like( $agent->content, qr/WWW::Mechanize::Shell test page/, "Got the right page" );
+my $rslength = length $agent->content;
 
-#ok( $agent->get( "http://www.google.com/images/logo.gif" )->is_success, "Got the logo" );
-#ok( !$agent->is_html );
-
+my $tempfile = "./temp";
+unlink $tempfile;
+ok( !-e $tempfile, "tempfile isn't there right now" );
+$agent->get( './refinesearch.html', ":content_file"=>$tempfile );
+ok( -e $tempfile );
+is( -s $tempfile, $rslength, "Did all the bytes get saved?" );
+unlink $tempfile;

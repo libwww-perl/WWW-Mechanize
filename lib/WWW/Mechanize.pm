@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.47
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.10 2003/06/22 03:49:38 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.11 2003/06/22 18:22:22 petdance Exp $
 
 =cut
 
@@ -171,15 +171,14 @@ is deprecated and subject to change in the future.
 =cut
 
 sub get {
-    my ($self, $uri) = @_;
+    my $self = shift;
+    my $uri = shift;
 
     $uri = $self->{base}
 	    ? URI->new_abs( $uri, $self->{base} )
 	    : URI->new( $uri );
 
-    my $request = HTTP::Request->new( GET => $uri );
-
-    return $self->request( $request );
+    return $self->SUPER::get( $uri, @_ );
 }
 
 =head2 C<< $a->reload() >>
