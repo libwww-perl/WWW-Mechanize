@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.51
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.19 2003/06/30 02:21:02 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.20 2003/07/03 03:04:31 petdance Exp $
 
 =cut
 
@@ -574,6 +574,13 @@ Returns an HTTP::Response object.
 
 sub submit_form {
     my( $self, %args ) = @_ ;
+
+    if ( !$self->quiet ) {
+	for ( keys %args ) {
+	    warn qq{Unknown submit_form parameter "$_"\n}
+		unless /^(form_(button|name)|fields|button|x|y)$/;
+	}
+    }
 
     if ( my $form_number = $args{'form_number'} ) {
 	$self->form_number( $form_number ) ;
