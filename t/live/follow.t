@@ -1,6 +1,6 @@
 use warnings;
 use strict;
-use Test::More tests=>14;
+use Test::More tests=>15;
 
 use constant START => 'http://www.google.com/intl/en/';
 
@@ -29,3 +29,11 @@ isnt( $agent->uri, START, 'Need to be on a separate page' );
 
 ok($agent->back(), "Can still go back");
 is( $agent->uri, START, 'Back at the start page again' );
+
+
+SKIP: {
+    eval "use Test::Memory::Cycle";
+    skip "Test::Memory::Cycle not installed", 1 if $@;
+
+    memory_cycle_ok( $agent, "No memory cycles found" );
+}

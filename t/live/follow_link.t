@@ -1,6 +1,6 @@
 use warnings;
 use strict;
-use Test::More tests=>6;
+use Test::More tests => 7;
 use constant START => 'http://www.google.com/intl/en/';
 
 use_ok( 'WWW::Mechanize' );
@@ -15,3 +15,10 @@ is( $agent->uri, START, 'Got Google' );
 $response = $agent->follow_link( text_regex => qr/tools/i, n=>2 );
 ok( $response->is_success, 'Got the page' );
 is( $agent->uri, 'http://www.google.com/options/', "Got the correct page" );
+
+SKIP: {
+    eval "use Test::Memory::Cycle";
+    skip "Test::Memory::Cycle not installed", 1 if $@;
+
+    memory_cycle_ok( $agent, "No memory cycles found" );
+}

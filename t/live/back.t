@@ -1,9 +1,9 @@
 use strict;
-use Test::More;
+use Test::More tests => 32;
 
-plan tests=>31;
-
-use_ok( 'WWW::Mechanize' );
+BEGIN {
+    use_ok( 'WWW::Mechanize' );
+}
 
 my $a = WWW::Mechanize->new();
 isa_ok( $a, "WWW::Mechanize" );
@@ -75,4 +75,11 @@ for my $link ( @links ) {
 
     $a->back();
     is( $a->uri, $CPAN, "Back from $link" );
+}
+
+SKIP: {
+    eval "use Test::Memory::Cycle";
+    skip "Test::Memory::Cycle not installed", 1 if $@;
+
+    memory_cycle_ok( $a, "No memory cycles found" );
 }

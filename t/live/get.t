@@ -1,8 +1,10 @@
 use warnings;
 use strict;
-use Test::More tests=>26;
+use Test::More tests => 27;
 
-use_ok( 'WWW::Mechanize' );
+BEGIN {
+    use_ok( 'WWW::Mechanize' );
+}
 
 my $agent = WWW::Mechanize->new;
 isa_ok( $agent, 'WWW::Mechanize' );
@@ -36,3 +38,10 @@ like( $agent->content, qr/Advanced Search Made Easy/, "Got the right page" );
 
 ok( $agent->get( "http://www.google.com/images/logo.gif" )->is_success, "Got the logo" );
 ok( !$agent->is_html );
+
+SKIP: {
+    eval "use Test::Memory::Cycle";
+    skip "Test::Memory::Cycle not installed", 1 if $@;
+
+    memory_cycle_ok( $agent, "No memory cycles found" );
+}

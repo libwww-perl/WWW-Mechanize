@@ -1,8 +1,10 @@
 use warnings;
 use strict;
-use Test::More tests => 8;
+use Test::More tests => 9;
 
-use_ok( 'WWW::Mechanize' );
+BEGIN {
+    use_ok( 'WWW::Mechanize' );
+}
 
 my $t = WWW::Mechanize->new();
 isa_ok( $t, 'WWW::Mechanize', 'Created the object' ) or die;
@@ -19,3 +21,10 @@ isa_ok( $response, 'HTTP::Response', 'Got back a response' );
 ok( $response->is_success, "Can click 'btnG' ('Google Search' button)");
 
 like($t->content, qr/foo\s?fighters/i, "Found 'Foo Fighters'");
+
+SKIP: {
+    eval "use Test::Memory::Cycle";
+    skip "Test::Memory::Cycle not installed", 1 if $@;
+
+    memory_cycle_ok( $t, "No memory cycles found" );
+}

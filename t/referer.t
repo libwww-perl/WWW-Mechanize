@@ -5,9 +5,6 @@ use FindBin;
 use Test::More tests => 18;
 use_ok( 'WWW::Mechanize' );
 
-eval "use Test::Memory::Cycle";
-my $canTMC = !$@;
-
 my $agent = WWW::Mechanize->new();
 isa_ok( $agent, "WWW::Mechanize" );
 
@@ -55,7 +52,8 @@ SKIP: {
 };
 
 SKIP: {
-    skip "Test::Memory::Cycle not installed", 1 unless $canTMC;
+    eval "use Test::Memory::Cycle";
+    skip "Test::Memory::Cycle not installed", 1 if $@;
 
     memory_cycle_ok( $agent, "No memory cycles found" );
 }
