@@ -19,6 +19,15 @@ if ( !$skiplive ) {
     if ($s) {
         close($s);
         $skiplive = 0;
+
+        print <<EOT;
+
+Part of WWW::Mechanize's test suite is run live tests against Google.
+Since it looks like you're connected to the Internet, these test will
+be enabled.  If you want to disable these tests, re-run Makefile.PL with
+the --skiplive switch.
+
+EOT
     } else {
         print <<EOT;
 

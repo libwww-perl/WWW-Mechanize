@@ -3,13 +3,17 @@ Revision history for Perl extension WWW::Mechanize
 Next
         [FIXES]
         * Fixed bug where images inside of links would not be found.
+
         * Fixed test failures because of Google changes.  Thanks to
           Offer Kaye and others who sent in patches.
-        * Updated Google-based tests since Google changed the pages out
-          from under us, gosh darn it.
 
         [DOCUMENTATION]
         * More samples in the FAQ.  Thanks to Joshua Gatcomb.
+
+        [INTERNALS]
+
+        * Added explanation of running live tests against Google in Makefile.PL.
+
 
 1.08    Fri Dec 24 01:01:06 CST 2004
         [ENHANCEMENTS]
