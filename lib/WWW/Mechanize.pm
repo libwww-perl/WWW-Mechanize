@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.72
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.103 2004/01/13 04:36:36 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.104 2004/01/13 21:40:24 petdance Exp $
 
 =cut
 
@@ -1467,14 +1467,12 @@ sub die {
 sub _warn {
     require Carp;
     &Carp::carp; # pass thru
-    return;
 }
 
 # NOT an object method!
 sub _die {
     require Carp;
     &Carp::croak; # pass thru
-    return;
 }
 
 =head1 See Also
