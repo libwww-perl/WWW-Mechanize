@@ -1,10 +1,13 @@
-# $Id: Changes,v 1.158 2004/11/04 01:33:44 markjugg Exp $
+# $Id: Changes,v 1.159 2004/11/04 03:15:55 markjugg Exp $
 Revision history for Perl extension WWW::Mechanize
 
 XXX
         [FIXES]
         * When parsing urls out of meta refresh tags, "url" may now be 
           uppercase (RT#8230)
+
+        * Behavior of back() fixed in a number of cases (RT#8109  reported by
+          Josh Purinton, patched by Dominique Quatravaux)
 
         [INTERNALS]
         * Mark figured out to how to prevent his text editor from putting tabs

@@ -325,7 +325,7 @@ sub get {
 =head2 $mech->reload()
 
 Acts like the reload button in a browser: Reperforms the current
-request.
+request. The history (as per the L<back> method) is not altered.
 
 Returns the L<HTTP::Response> object from the reload, or C<undef>
 if there's no current request.
@@ -337,7 +337,8 @@ sub reload {
 
     return unless $self->{req};
 
-    return $self->request( $self->{req} );
+	local $self->{inhibit_page_stack} = 1;
+    return $self->request( $self->{req});
 }
 
 =head2 $mech->back()
@@ -1803,12 +1804,19 @@ object.
 sub _push_page_stack {
     my $self = shift;
 
+	# Hook for reload() and maybe future code (e.g. 302 chasing,
+	# frames) that may want to fetch stuff without altering the history.
+	return 1 if $self->{inhibit_page_stack};
     # Don't push anything if it's a virgin object
     if ( $self->{res} ) {
         my $save_stack = $self->{page_stack};
         $self->{page_stack} = [];
 
-        push( @$save_stack, $self->clone );
+		my $clone = $self->clone;
+		# Huh, LWP::UserAgent->clone() ditches cookie_jar? Copy it over now.
+		$clone->{cookie_jar} = $self->cookie_jar;
+        push( @$save_stack, $clone );
+
         if ( $self->stack_depth > 0 ) {
             while ( @$save_stack > $self->stack_depth ) {
                 shift @$save_stack;
@@ -1822,6 +1830,10 @@ sub _push_page_stack {
 
 sub _pop_page_stack {
     my $self = shift;
+
+	# Hook for reload() and maybe future code (e.g. 302 chasing,
+	# frames) that may want to fetch stuff without altering the history.
+	return 1 if $self->{inhibit_page_stack};
 
     if (@{$self->{page_stack}}) {
         my $popped = pop @{$self->{page_stack}};
