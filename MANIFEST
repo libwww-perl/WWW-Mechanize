@@ -36,8 +36,6 @@ t/mech-dump.t
 t/new.t
 t/pod-coverage.t
 t/pod.t
-t/referer-server
-t/referer.t
 t/regex-error.t
 t/select.html
 t/select.t
@@ -47,8 +45,6 @@ t/tick.t
 t/warnings.t
 t/warn.t
 
-t/local/LocalServer.pm
-t/local/log-server
 t/live/back.t
 t/live/click.t
 t/live/follow.t
@@ -63,8 +59,10 @@ t/local/failure.t
 t/local/follow.t
 t/local/form.t
 t/local/get.t
-t/local/page_stack.t
-t/local/reload.t
-t/local/submit.t
 t/local/LocalServer.pm
 t/local/log-server
+t/local/page_stack.t
+t/local/referer-server
+t/local/referer.t
+t/local/reload.t
+t/local/submit.t

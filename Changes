@@ -1,8 +1,12 @@
-# $Id: Changes,v 1.126 2004/04/10 10:09:33 corion Exp $
+# $Id: Changes,v 1.127 2004/04/14 03:34:57 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
+1.02
+        NO NEW FEATURES.
+
         [FIXES]
-        * t/referer.t didn't cope with spaces in $FindBin::Bin
+        * t/referer.t didn't cope with spaces in $FindBin::Bin.  Plus,
+          it now forces its URL to localhost.
 
 1.00    Sat Apr 10 00:35:51 CDT 2004
 
