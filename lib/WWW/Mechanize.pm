@@ -354,6 +354,160 @@ sub back {
     $self->_pop_page_stack;
 }
 
+=head1 STATUS METHODS
+
+=head2 $mech->success()
+
+Returns a boolean telling whether the last request was successful.
+If there hasn't been an operation yet, returns false.
+
+This is a convenience function that wraps C<< $mech->res->is_success >>.
+
+=cut
+
+sub success {
+    my $self = shift;
+
+    return $self->res && $self->res->is_success;
+}
+
+
+=head2 $mech->uri()
+
+Returns the current URI.
+
+=head2 $mech->response() / $mech->res()
+
+Return the current response as an L<HTTP::Response> object.
+
+Synonym for C<< $mech->response() >>
+
+=head2 $mech->status()
+
+Returns the HTTP status code of the response.
+
+=head2 $mech->ct()
+
+Returns the content type of the response.
+
+=head2 $mech->base()
+
+Returns the base URI for the current response
+
+=head2 $mech->forms()
+
+When called in a list context, returns a list of the forms found in
+the last fetched page. In a scalar context, returns a reference to
+an array with those forms. The forms returned are all L<HTML::Form>
+objects.
+
+=head2 $mech->current_form()
+
+Returns the current form as an L<HTML::Form> object.  I'd call this
+C<form()> except that C<L<form()>> already exists and sets the current_form.
+
+=head2 $mech->links()
+
+When called in a list context, returns a list of the links found in the
+last fetched page.  In a scalar context it returns a reference to an array
+with those links.  Each link is a L<WWW::Mechanize::Link> object.
+
+=head2 $mech->is_html()
+
+Returns true/false on whether our content is HTML, according to the
+HTTP headers.
+
+=cut
+
+sub uri {           my $self = shift; return $self->{uri}; }
+sub res {           my $self = shift; return $self->{res}; }
+sub response {      my $self = shift; return $self->{res}; }
+sub status {        my $self = shift; return $self->{status}; }
+sub ct {            my $self = shift; return $self->{ct}; }
+sub base {          my $self = shift; return $self->{base}; }
+sub current_form {  my $self = shift; return $self->{form}; }
+sub is_html {       my $self = shift; return defined $self->{ct} && ($self->{ct} eq "text/html"); }
+
+=head2 $mech->title()
+
+Returns the contents of the C<< <TITLE> >> tag, as parsed by
+L<HTML::HeadParser>.  Returns undef if the content is not HTML.
+
+=cut
+
+sub title {
+    my $self = shift;
+    return unless $self->is_html;
+
+    require HTML::HeadParser;
+    my $p = HTML::HeadParser->new;
+    $p->parse($self->content);
+    return $p->header('Title');
+}
+
+=head1 CONTENT-HANDLING METHODS
+
+=head2 $mech->content(...)
+
+Returns the content that the mech uses internally for the last page
+fetched. Ordinarily this is the same as $mech->response()->content(),
+but this may differ for HTML documents if L</update_html> is
+overloaded (in which case the value passed to the base-class
+implementation of same will be returned), and/or extra named arguments
+are passed to I<content()>:
+
+=over 2
+
+=item I<< $mech->content( format => "text" ) >>
+
+Returns a text-only version of the page, with all HTML markup
+stripped. This feature requires I<HTML::TreeBuilder> to be installed,
+or a fatal error will be thrown.
+
+=item I<< $mech->content( base_href => [$base_href|undef] ) >>
+
+Returns the HTML document, modified to contain a
+C<< <base href="$base_href"> >> mark-up in the header.
+I<$base_href> is C<< $mech->base() >> if not specified. This is
+handy to pass the HTML to e.g. L<HTML::Display>.
+
+=back
+
+Passing arguments to C<content()> if the current document is not
+HTML has no effect now (i.e. the return value is the same as
+C<< $self->response()->content() >>. This may change in the future,
+but will likely be backwards-compatible when it does.
+
+=cut
+
+sub content {
+    my $self = shift;
+    my $content = $self->{content};
+    return $content unless $self->is_html;
+
+    while ( my ($cmd, $arg) = splice(@_, 0, 2) ) {
+        if ($cmd eq 'format') {
+            if ($arg eq 'text') {
+                require HTML::TreeBuilder;
+                my $tree = HTML::TreeBuilder->new();
+                $tree->parse($content);
+                $tree->eof();
+                $tree->elementify(); # just for safety
+                $content = $tree->as_text();
+            } else {
+                $self->die( qq{Unknown format parameter "$arg"} );
+            };
+        } elsif ($cmd eq 'base_href') {
+            $arg ||= $self->base;
+            $content=~s/<head>/<head>\n<base href="$arg">/;
+        } else {
+            $self->die( qq{Unknown named argument "$cmd"} );
+        }
+    }
+
+    return $content;
+}
+
 =head1 LINK METHODS
 
 =head2 $mech->links
@@ -1185,160 +1339,6 @@ sub submit_form {
     }
 
     return $response;
-}
-
-=head1 STATUS METHODS
-
-=head2 $mech->success()
-
-Returns a boolean telling whether the last request was successful.
-If there hasn't been an operation yet, returns false.
-
-This is a convenience function that wraps C<< $mech->res->is_success >>.
-
-=cut
-
-sub success {
-    my $self = shift;
-
-    return $self->res && $self->res->is_success;
-}
-
-
-=head2 $mech->uri()
-
-Returns the current URI.
-
-=head2 $mech->response() / $mech->res()
-
-Return the current response as an L<HTTP::Response> object.
-
-Synonym for C<< $mech->response() >>
-
-=head2 $mech->status()
-
-Returns the HTTP status code of the response.
-
-=head2 $mech->ct()
-
-Returns the content type of the response.
-
-=head2 $mech->base()
-
-Returns the base URI for the current response
-
-=head2 $mech->forms()
-
-When called in a list context, returns a list of the forms found in
-the last fetched page. In a scalar context, returns a reference to
-an array with those forms. The forms returned are all L<HTML::Form>
-objects.
-
-=head2 $mech->current_form()
-
-Returns the current form as an L<HTML::Form> object.  I'd call this
-C<form()> except that C<L<form()>> already exists and sets the current_form.
-
-=head2 $mech->links()
-
-When called in a list context, returns a list of the links found in the
-last fetched page.  In a scalar context it returns a reference to an array
-with those links.  Each link is a L<WWW::Mechanize::Link> object.
-
-=head2 $mech->is_html()
-
-Returns true/false on whether our content is HTML, according to the
-HTTP headers.
-
-=cut
-
-sub uri {           my $self = shift; return $self->{uri}; }
-sub res {           my $self = shift; return $self->{res}; }
-sub response {      my $self = shift; return $self->{res}; }
-sub status {        my $self = shift; return $self->{status}; }
-sub ct {            my $self = shift; return $self->{ct}; }
-sub base {          my $self = shift; return $self->{base}; }
-sub current_form {  my $self = shift; return $self->{form}; }
-sub is_html {       my $self = shift; return defined $self->{ct} && ($self->{ct} eq "text/html"); }
-
-=head2 $mech->title()
-
-Returns the contents of the C<< <TITLE> >> tag, as parsed by
-L<HTML::HeadParser>.  Returns undef if the content is not HTML.
-
-=cut
-
-sub title {
-    my $self = shift;
-    return unless $self->is_html;
-
-    require HTML::HeadParser;
-    my $p = HTML::HeadParser->new;
-    $p->parse($self->content);
-    return $p->header('Title');
-}
-
-=head1 CONTENT-HANDLING METHODS
-
-=head2 $mech->content(...)
-
-Returns the content that the mech uses internally for the last page
-fetched. Ordinarily this is the same as $mech->response()->content(),
-but this may differ for HTML documents if L</update_html> is
-overloaded (in which case the value passed to the base-class
-implementation of same will be returned), and/or extra named arguments
-are passed to I<content()>:
-
-=over 2
-
-=item I<< $mech->content( format => "text" ) >>
-
-Returns a text-only version of the page, with all HTML markup
-stripped. This feature requires I<HTML::TreeBuilder> to be installed,
-or a fatal error will be thrown.
-
-=item I<< $mech->content( base_href => [$base_href|undef] ) >>
-
-Returns the HTML document, modified to contain a
-C<< <base href="$base_href"> >> mark-up in the header.
-I<$base_href> is C<< $mech->base() >> if not specified. This is
-handy to pass the HTML to e.g. L<HTML::Display>.
-
-=back
-
-Passing arguments to C<content()> if the current document is not
-HTML has no effect now (i.e. the return value is the same as
-C<< $self->response()->content() >>. This may change in the future,
-but will likely be backwards-compatible when it does.
-
-=cut
-
-sub content {
-    my $self = shift;
-    my $content = $self->{content};
-    return $content unless $self->is_html;
-
-    while ( my ($cmd, $arg) = splice(@_, 0, 2) ) {
-        if ($cmd eq 'format') {
-            if ($arg eq 'text') {
-                require HTML::TreeBuilder;
-                my $tree = HTML::TreeBuilder->new();
-                $tree->parse($content);
-                $tree->eof();
-                $tree->elementify(); # just for safety
-                $content = $tree->as_text();
-            } else {
-                $self->die( qq{Unknown format parameter "$arg"} );
-            };
-        } elsif ($cmd eq 'base_href') {
-            $arg ||= $self->base;
-            $content=~s/<head>/<head>\n<base href="$arg">/;
-        } else {
-            $self->die( qq{Unknown named argument "$cmd"} );
-        }
-    }
-
-    return $content;
 }
 
 =head1 MISCELLANEOUS METHODS
