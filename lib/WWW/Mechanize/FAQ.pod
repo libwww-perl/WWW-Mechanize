@@ -37,6 +37,11 @@ Use the mech-dump utility, optionaly installed with Mechanize.
       mode=all                        (option)  [*all|module|dist|author]
       <NONAME>=CPAN Search            (submit) 
 
+=head2 How can I get WWW::Mechanize to execute this JavaScript?
+
+You can't.  JavaScript is entirely client-based, and WWW::Mechanize
+is a client that doesn't understand JavaScript.
+
 =head1 Why doesn't this work?
 
 =head2 Why don't https:// URLs work?
@@ -91,6 +96,6 @@ check that Mech succeeded, or all bets are off.
 
 =head1 Author
 
-Copyright 2003 Andy Lester C<< <andy@petdance.com> >>
+Copyright 2004 Andy Lester C<< <andy@petdance.com> >>
 
 =cut
