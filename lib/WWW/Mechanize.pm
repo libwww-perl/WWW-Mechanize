@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.62
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.73 2003/10/11 01:10:02 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.74 2003/10/13 16:11:34 petdance Exp $
 
 =cut
 
@@ -33,17 +33,17 @@ a history of the URLs you've visited, which can be queried and revisited.
     $a->follow_link( url => 'http://host.com/index.html' );
 
     $a->submit_form(
-	form_number => 3,
-	fields      => {
-			username    => 'yourname',
-			password    => 'dummy',
-			}
+        form_number => 3,
+        fields      => {
+                        username    => 'yourname',
+                        password    => 'dummy',
+                        }
     );
 
     $a->submit_form(
-	form_name => 'search',
-	fields    => { query  => 'pot of gold', },
-	button    => 'Search Now'
+        form_name => 'search',
+        fields    => { query  => 'pot of gold', },
+        button    => 'Search Now'
     );
 
 
@@ -223,26 +223,26 @@ sub new {
     my $class = shift;
 
     my %parent_parms = (
-        agent	    => "WWW-Mechanize/$VERSION",
+        agent       => "WWW-Mechanize/$VERSION",
         cookie_jar  => {},
     );
 
     my %mech_parms = (
-	autocheck   => 0,
-	onwarn	    => \&WWW::Mechanize::_warn,
-	onerror	    => \&WWW::Mechanize::_die,
-	quiet	    => 0,
+        autocheck   => 0,
+        onwarn      => \&WWW::Mechanize::_warn,
+        onerror     => \&WWW::Mechanize::_die,
+        quiet       => 0,
     );
 
     my %passed_parms = @_;
 
     # Keep the mech-specific parms before creating the object.
     while ( my($key,$value) = each %passed_parms ) {
-	if ( exists $mech_parms{$key} ) {
-	    $mech_parms{$key} = $value;
-	} else {
-	    $parent_parms{$key} = $value;
-	}
+        if ( exists $mech_parms{$key} ) {
+            $mech_parms{$key} = $value;
+        } else {
+            $parent_parms{$key} = $value;
+        }
     }
 
     my $self = $class->SUPER::new( %parent_parms );
@@ -250,7 +250,7 @@ sub new {
 
     # Use the mech parms now that we have a mech object.
     for my $parm ( keys %mech_parms ) {
-	$self->{$parm} = $mech_parms{$parm};
+        $self->{$parm} = $mech_parms{$parm};
     }
     $self->{page_stack} = [];
     $self->env_proxy();
@@ -295,12 +295,12 @@ The list of valid aliases can be returned from C<known_agent_aliases()>.
 =cut
 
 my %known_agents = (
-    'Windows IE 6'	=> 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)',
-    'Windows Mozilla'	=> 'Mozilla/5.0 (Windows; U; Windows NT 5.0; en-US; rv:1.4b) Gecko/20030516 Mozilla Firebird/0.6',
-    'Mac Safari'	=> 'Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en-us) AppleWebKit/85 (KHTML, like Gecko) Safari/85',
-    'Mac Mozilla'	=> 'Mozilla/5.0 (Macintosh; U; PPC Mac OS X Mach-O; en-US; rv:1.4a) Gecko/20030401',
-    'Linux Mozilla'	=> 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.4) Gecko/20030624',
-    'Linux Konqueror'	=> 'Mozilla/5.0 (compatible; Konqueror/3; Linux)',
+    'Windows IE 6'      => 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)',
+    'Windows Mozilla'   => 'Mozilla/5.0 (Windows; U; Windows NT 5.0; en-US; rv:1.4b) Gecko/20030516 Mozilla Firebird/0.6',
+    'Mac Safari'        => 'Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en-us) AppleWebKit/85 (KHTML, like Gecko) Safari/85',
+    'Mac Mozilla'       => 'Mozilla/5.0 (Macintosh; U; PPC Mac OS X Mach-O; en-US; rv:1.4a) Gecko/20030401',
+    'Linux Mozilla'     => 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.4) Gecko/20030624',
+    'Linux Konqueror'   => 'Mozilla/5.0 (compatible; Konqueror/3; Linux)',
 );
 
 sub agent_alias {
@@ -308,10 +308,10 @@ sub agent_alias {
     my $alias = shift;
 
     if ( defined $known_agents{$alias} ) {
-	return $self->agent( $known_agents{$alias} );
+        return $self->agent( $known_agents{$alias} );
     } else {
-	$self->warn( qq{Unknown agent alias "$alias"} );
-	return $self->agent();
+        $self->warn( qq{Unknown agent alias "$alias"} );
+        return $self->agent();
     }
 }
 
@@ -351,8 +351,8 @@ sub get {
     my $uri = shift;
 
     $uri = $self->base
-	    ? URI->new_abs( $uri, $self->base )
-	    : URI->new( $uri );
+            ? URI->new_abs( $uri, $self->base )
+            : URI->new( $uri );
 
     return $self->SUPER::get( $uri->as_string, @_ );
 }
@@ -430,14 +430,14 @@ sub follow_link {
     my %parms = ( n=>1, @_ );
 
     if ( $parms{n} eq "all" ) {
-	delete $parms{n};
-	$self->warn( qq{follow_link(n=>"all") is not valid} );
+        delete $parms{n};
+        $self->warn( qq{follow_link(n=>"all") is not valid} );
     }
 
     my $response;
     my $link = $self->find_link(%parms);
     if ( $link ) {
-	$response = $self->get( $link->url );
+        $response = $self->get( $link->url );
     }
 
     return $response;
@@ -461,7 +461,7 @@ sub form_number {
         $self->{form} = $self->{forms}->[$form-1];
         return $self->{form};
     } else {
-	$self->warn( "There is no form numbered $form" );
+        $self->warn( "There is no form numbered $form" );
         return undef;
     }
 }
@@ -483,11 +483,11 @@ sub form_name {
     my $temp;
     my @matches = grep {defined($temp = $_->attr('name')) and ($temp eq $form) } $self->forms;
     if ( @matches ) {
-	$self->warn( "There are ", scalar @matches, " forms named $form.  The first one was used." )
-	    if @matches > 1;
+        $self->warn( "There are ", scalar @matches, " forms named $form.  The first one was used." )
+            if @matches > 1;
         return $self->{form} = $matches[0];
     } else {
-	$self->warn( qq{ There is no form named "$form"} );
+        $self->warn( qq{ There is no form named "$form"} );
         return undef;
     }
 }
@@ -567,18 +567,18 @@ sub tick {
     # loop though all the inputs
     my $index = 0;
     while ( my $input = $self->current_form->find_input( $name, "checkbox", $index ) ) {
-	# Can't guarantee that the first element will be undef and the second
-	# element will be the right name
-	foreach my $val ($input->possible_values()) {
-	    next unless defined $val;
-	    if ($val eq $value) {
-		$input->value($set ? $value : undef);
-		return;
-	    }
-	}
+        # Can't guarantee that the first element will be undef and the second
+        # element will be the right name
+        foreach my $val ($input->possible_values()) {
+            next unless defined $val;
+            if ($val eq $value) {
+                $input->value($set ? $value : undef);
+                return;
+            }
+        }
 
-	# move onto the next input
-	$index++;
+        # move onto the next input
+        $index++;
     } # while
 
     # got self far?  Didn't find anything
@@ -680,13 +680,13 @@ sub submit_form {
     my( $self, %args ) = @_ ;
 
     for ( keys %args ) {
-	if ( !/^(form_(number|name)|fields|button|x|y)$/ ) {
-	    $self->warn( qq{Unknown submit_form parameter "$_"} );
-	}
+        if ( !/^(form_(number|name)|fields|button|x|y)$/ ) {
+            $self->warn( qq{Unknown submit_form parameter "$_"} );
+        }
     }
 
     if ( my $form_number = $args{'form_number'} ) {
-	$self->form_number( $form_number ) ;
+        $self->form_number( $form_number ) ;
     }
     elsif ( my $form_name = $args{'form_name'} ) {
         $self->form_name( $form_name ) ;
@@ -694,15 +694,15 @@ sub submit_form {
 
     if ( my $fields = $args{'fields'} ) {
         if ( ref $fields eq 'HASH' ) {
-	    $self->set_fields( %{$fields} ) ;
+            $self->set_fields( %{$fields} ) ;
         } # TODO: What if it's not a hash?  We just ignore it silently?
     }
 
     my $response;
     if ( $args{button} ) {
-	$response = $self->click( $args{button}, $args{x} || 0, $args{y} || 0 );
+        $response = $self->click( $args{button}, $args{x} || 0, $args{y} || 0 );
     } else {
-	$response = $self->submit();
+        $response = $self->submit();
     }
 
     return $response;
@@ -839,40 +839,40 @@ key/value pairs:
 
 =over 4
 
-=item * C<< text => string >>
+=item * C<< text => string >> and C<< text_regex => regex >>
 
-Matches the text of the link against I<string>, which must be an
-exact match.
-
-To select a link with text that is exactly "download", use
+C<text> matches the text of the link against I<string>, which must be an
+exact match.  To select a link with text that is exactly "download", use
 
     $a->find_link( text => "download" );
 
-=item * C<< text_regex => regex >>
-
-Matches the text of the link against I<regex>.
-
-To select a link with text that has "download" anywhere in it,
-regardless of case, use
+C<text_regex> matches the text of the link against I<regex>.  To select a
+link with text that has "download" anywhere in it, regardless of case, use
 
     $a->find_link( text_regex => qr/download/i );
 
-=item * C<< url => string >>
+=item * C<< url => string >> and C<< url_regex => regex >>
 
-Matches the URL of the link against I<string>, which must be an
-exact match.  This is similar to the C<text> parm.
+Matches the URL of the link against I<string> or I<regex>, as appropriate.
 
-=item * C<< url_regex => regex >>
+=item * C<< name => string >> and C<< name_regex => regex >>
 
-Matches the URL of the link against I<regex>.  This is similar to
-the C<text_regex> parm.
+Matches the name of the link against I<string> or I<regex>, as appropriate.
+
+=item * C<< tag => string >> and C<< tag_regex => regex >>
+
+Matches the tag that the link came from against I<string> or I<regex>,
+as appropriate.  The C<tag_regex> is probably most useful to check for
+more than one tag, as in:
+
+    $a->find_link( tag_regex => qr/^(a|img)$/;
 
 =item * C<< n => number >>
 
 Matches against the I<n>th link.
 
-The C<n> parms can be combined with the C<text*> or C<url*> parms
-as a numeric modifier.  For example, 
+The C<n> parms can be combined with the other parms above as a numeric
+modifier.  For example,
 C<< text => "download", n => 3 >> finds the 3rd link which has the
 exact text "download".
 
@@ -917,52 +917,56 @@ sub find_link {
     my $wantall = ( $parms{n} eq "all" );
 
     for my $key ( keys %parms ) {
-	my $val = $parms{$key};
-	if ( $key !~ /^(n|(text|url)(_regex)?)$/ ) {
-	    $self->warn( qq{Unknown link-finding parameter "$key"} );
-	    delete $parms{$key};
-	    next;
-	}
+        my $val = $parms{$key};
+        if ( $key !~ /^(n|(text|url|name|tag)(_regex)?)$/ ) {
+            $self->warn( qq{Unknown link-finding parameter "$key"} );
+            delete $parms{$key};
+            next;
+        }
 
-	if ( ($key =~ /_regex$/) && (ref($val) ne "Regexp" ) ) {
-	    $self->warn( qq{$val passed as $key is not a regex} );
-	    delete $parms{$key};
-	    next;
-	}
+        if ( ($key =~ /_regex$/) && (ref($val) ne "Regexp" ) ) {
+            $self->warn( qq{$val passed as $key is not a regex} );
+            delete $parms{$key};
+            next;
+        }
     } # for keys %parms
 
     my @links = $self->links or return;
 
     my @conditions;
-    push @conditions, q/ $_[0]->[0] eq $parms{url} /				    if defined $parms{url};
-    push @conditions, q/ $_[0]->[0] =~ $parms{url_regex} /			    if defined $parms{url_regex};
-    push @conditions, q/ defined($_[0]->[1]) and $_[0]->[1] eq $parms{text} /	    if defined $parms{text};
+    push @conditions, q/ $_[0]->[0] eq $parms{url} /                                if defined $parms{url};
+    push @conditions, q/ $_[0]->[0] =~ $parms{url_regex} /                          if defined $parms{url_regex};
+    push @conditions, q/ defined($_[0]->[1]) and $_[0]->[1] eq $parms{text} /       if defined $parms{text};
     push @conditions, q/ defined($_[0]->[1]) and $_[0]->[1] =~ $parms{text_regex} / if defined $parms{text_regex};
+    push @conditions, q/ defined($_[0]->[2]) and $_[0]->[2] eq $parms{name} /       if defined $parms{name};
+    push @conditions, q/ defined($_[0]->[2]) and $_[0]->[2] =~ $parms{name_regex} / if defined $parms{name_regex};
+    push @conditions, q/ $_[0]->[3] and $_[0]->[3] eq $parms{tag} /                 if defined $parms{tag};
+    push @conditions, q/ $_[0]->[3] and $_[0]->[3] =~ $parms{tag_regex} /           if defined $parms{tag_regex};
 
     my $matchfunc;
     if ( @conditions ) {
-	local $" = " && ";
-	$matchfunc = eval "sub { @conditions }";
+        local $" = " && ";
+        $matchfunc = eval "sub { @conditions }";
     } else {
-	$matchfunc = sub{1};
+        $matchfunc = sub{1};
     }
 
     my $nmatches = 0;
     my @matches;
     for my $link ( @links ) {
-	if ( $matchfunc->($link) ) {
-	    if ( $wantall ) {
-		push( @matches, $link );
-	    } else {
-		++$nmatches;
-		return $link if $nmatches >= $parms{n};
-	    }
-	}
+        if ( $matchfunc->($link) ) {
+            if ( $wantall ) {
+                push( @matches, $link );
+            } else {
+                ++$nmatches;
+                return $link if $nmatches >= $parms{n};
+            }
+        }
     } # for @links
 
     if ( $wantall ) {
-	return @matches if wantarray;
-	return \@matches;
+        return @matches if wantarray;
+        return \@matches;
     }
 
     return;
@@ -1049,10 +1053,10 @@ sub redirect_ok {
 
     my $ok = $self->SUPER::redirect_ok( $prospective_request );
     if ( $ok ) {
-	$self->{redirected_uri} = $prospective_request->uri;
+        $self->{redirected_uri} = $prospective_request->uri;
 
-	# Mimic erroneous browser behaviour by changing the method.
-	$prospective_request->method("GET") if $prospective_request->method eq "POST";
+        # Mimic erroneous browser behaviour by changing the method.
+        $prospective_request->method("GET") if $prospective_request->method eq "POST";
     }
 
     return $ok;
@@ -1076,7 +1080,7 @@ sub request {
     my $request = shift;
 
     if ( $request->method eq "GET" || $request->method eq "POST" ) {
-	$self->_push_page_stack();
+        $self->_push_page_stack();
     }
 
     $request->header( Referer => $self->{last_uri} ) if $self->{last_uri};
@@ -1094,12 +1098,12 @@ sub request {
     $self->{ct}      = $res->content_type || "";
     $self->{content} = $res->content;
     if ( $self->{res}->is_success ) {
-	$self->{uri} = $self->{redirected_uri};
-	$self->{last_uri} = $self->{uri};
+        $self->{uri} = $self->{redirected_uri};
+        $self->{last_uri} = $self->{uri};
     } else {
-	if ( $self->{autocheck} ) {
-	    $self->die( "Error ", $request->method, "ing ", $request->uri, ": ", $res->message );
-	}
+        if ( $self->{autocheck} ) {
+            $self->die( "Error ", $request->method, "ing ", $request->uri, ": ", $res->message );
+        }
     }
 
     $self->_reset_page();
@@ -1151,7 +1155,7 @@ sub follow {
         if ($link <= $#links) {
             $thislink = $links[$link];
         } else {
-	    $self->warn( "Link number $link is greater than maximum link $#links on this page ($self->{uri})" );
+            $self->warn( "Link number $link is greater than maximum link $#links on this page ($self->{uri})" );
             return;
         }
     } else {                        # user provided a regexp
@@ -1162,7 +1166,7 @@ sub follow {
             }
         }
         unless ($thislink) {
-	    $self->warn( "Can't find any link matching $link on this page ($self->{uri})" );
+            $self->warn( "Can't find any link matching $link on this page ($self->{uri})" );
             return;
         }
     }
@@ -1242,14 +1246,14 @@ sub _extract_links {
         next unless defined $url;   # probably just a name link or <AREA NOHREF...>
 
         my $text;
-	my $name;
-	if ( $tag eq "a" ) {
-	    $text = $p->get_trimmed_text("/$tag");
-	    $text = "" unless defined $text;
-	}
-	if ( $tag ne "area" ) {
-	    $name = $token->[1]{name};
-	}
+        my $name;
+        if ( $tag eq "a" ) {
+            $text = $p->get_trimmed_text("/$tag");
+            $text = "" unless defined $text;
+        }
+        if ( $tag ne "area" ) {
+            $name = $token->[1]{name};
+        }
 
         push( @{$self->{links}}, WWW::Mechanize::Link->new( $url, $text, $name, $tag ) );
     }
@@ -1257,8 +1261,8 @@ sub _extract_links {
     # Old extract_links() returned a value.  Carp if someone expects
     # this version to return something.
     if ( defined wantarray ) {
-	my $func = (caller(0))[3];
-	$self->warn( "$func does not return a useful value" );
+        my $func = (caller(0))[3];
+        $self->warn( "$func does not return a useful value" );
     }
 
     return;
@@ -1282,12 +1286,12 @@ sub _push_page_stack {
 
     # Don't push anything if it's a virgin object
     if ( $self->{res} ) {
-	my $save_stack = $self->{page_stack};
-	$self->{page_stack} = [];
+        my $save_stack = $self->{page_stack};
+        $self->{page_stack} = [];
 
-	push( @$save_stack, $self->clone );
+        push( @$save_stack, $self->clone );
 
-	$self->{page_stack} = $save_stack;
+        $self->{page_stack} = $save_stack;
     }
 
     return 1;
@@ -1336,9 +1340,9 @@ sub die {
 sub _warn {
     eval "require Carp";
     if ( $@ ) {
-	CORE::warn @_;
+        CORE::warn @_;
     } else {
-	&Carp::carp; # pass thru
+        &Carp::carp; # pass thru
     }
     return;
 }
@@ -1347,9 +1351,9 @@ sub _warn {
 sub _die {
     eval "require Carp";
     if ( $@ ) {
-	CORE::die @_;
+        CORE::die @_;
     } else {
-	&Carp::croak; # pass thru
+        &Carp::croak; # pass thru
     }
     return;
 }
