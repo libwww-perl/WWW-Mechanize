@@ -9,9 +9,9 @@ BEGIN {
     use_ok( 'WWW::Mechanize::Link' );
 }
 
-my $link = WWW::Mechanize::Link->new( "http://base.example.com/", "url.html", "text", "name", "frame" );
+my $link = WWW::Mechanize::Link->new( "url.html", "text", "name", "frame", "http://base.example.com/" );
 isa_ok( $link, 'WWW::Mechanize::Link' );
-is( scalar @$link, 5, "Should have four elements" );
+is( scalar @$link, 5, "Should have five elements" );
 
 # Test the new-style accessors
 is( $link->url, "url.html", "url works" );

@@ -1,6 +1,16 @@
-# $Id: Changes,v 1.97 2003/12/22 05:48:23 petdance Exp $
+# $Id: Changes,v 1.98 2003/12/22 20:40:28 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
+
+0.71_02 Mon Dec 22 14:29:13 CST 2003
+	[THINGS THAT MAY BREAK YOUR CODE]
+	* Added a 5th, optional parameter to WWW::Mechanize::Link's
+	  constructor.	In 0.71_01, it was at the beginning of the
+	  argument list and was required.  Now it's at the end and is
+	  optional.  If, in the 15 hours since 0.71_01 came out, you
+	  went and changed all your WWW::Mechanize::Link constructors,
+	  you'll have to change them around again.  Otherwise, you can
+	  just ignore this change.
 
 0.71_01 Sun Dec 21 23:48:12 CST 2003
 	[THINGS THAT MAY BREAK YOUR CODE]
