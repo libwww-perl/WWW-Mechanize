@@ -1,5 +1,14 @@
-# $Id: Changes,v 1.24 2003/03/25 05:45:02 alester Exp $
+# $Id: Changes,v 1.25 2003/04/02 05:24:30 alester Exp $
 Revision history for Perl extension WWW::Mechanize
+
+0.39	April 1, 2003
+	[ENHANCEMENTS]
+	* No functional enhancements.  Everything is docs.
+	
+	* Added a new example from Dan Rinzel, for posting to Movable Type
+
+	* Started playing with having the test suite not have to have
+	  live net access.
 
 0.38	March 24, 2003	
 	[DEPRECATIONS]

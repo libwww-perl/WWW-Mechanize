@@ -43,19 +43,19 @@ our @ISA = qw( LWP::UserAgent );
 
 =head1 VERSION
 
-Version 0.38
+Version 0.39
 
-    $Header: /home/cvs/www-mechanize/lib/WWW/Mechanize.pm,v 1.44 2003/03/25 05:47:37 alester Exp $
+    $Header: /home/cvs/www-mechanize/lib/WWW/Mechanize.pm,v 1.49 2003/04/02 05:26:13 alester Exp $
 
 =cut
 
-our $VERSION = "0.38";
+our $VERSION = "0.39";
 
 our %headers;
 
 =head1 METHODS
 
-=head2 new()
+=head2 C<< new() >>
 
 Creates and returns a new WWW::Mechanize object, hereafter referred to as
 the 'agent'.
@@ -65,8 +65,8 @@ the 'agent'.
 The constructor for WWW::Mechanize overrides two of the parms to the
 LWP::UserAgent constructor:
 
-    agent => "WWW::Mechanize/#.##" cookie_jar => {}    # an empty,
-    memory-only HTTP::Cookies object
+    agent => "WWW-Mechanize/#.##"
+    cookie_jar => {}    # an empty, memory-only HTTP::Cookies object
 
 You can override these overrides by passing parms to the constructor,
 as in:
@@ -98,9 +98,9 @@ sub new {
 }
 
 
-=head2 $agent->get($url)
+=head2 C<< $agent->get($url) >>
 
-Given a URL/URI, fetches it.  Returns an HTTP::Response object.
+Given a URL/URI, fetches it.  Returns an C<HTTP::Response> object.
 
 The results are stored internally in the agent object, but you don't
 know that.  Just use the accessors listed below.  Poking at the internals
@@ -122,49 +122,49 @@ sub get {
     return $self->_do_request(); 
 }
 
-=head2 $agent->uri()
+=head2 C<< $agent->uri() >>
 
 Returns the current URI.
 
-=head2 $agent->req()
+=head2 C<< $agent->req() >>
 
 Returns the current request as an C<HTTP::Request> object.
 
-=head2 $agent->res()
+=head2 C<< $agent->res() >>
 
 Returns the current response as an C<HTTP::Response> object.
 
-=head2 $agent->status()
+=head2 C<< $agent->status() >>
 
 Returns the HTTP status code of the response.
 
-=head2 $agent->ct()
+=head2 C<< $agent->ct() >>
 
 Returns the content type of the response.
 
-=head2 $agent->base()
+=head2 C<< $agent->base() >>
 
 Returns the base URI for the current response
 
-=head2 $agent->content()
+=head2 C<< $agent->content() >>
 
 Returns the content for the response
 
-=head2 $agent->forms()
+=head2 C<< $agent->forms() >>
 
 Returns a reference to an array of C<HTML::Form> objects for the forms
 found.
 
-=head2 $agent->current_form()
+=head2 C<< $agent->current_form() >>
 
 Returns the current form as an C<HTML::Form> object.  I'd call this
 C<form()> except that C<form()> already exists and sets the current_form.
 
-=head2 $agent->links()
+=head2 C<< $agent->links() >>
 
 Returns an arrayref of the links found
 
-=head2 $agent->is_html()
+=head2 C<< $agent->is_html() >>
 
 Returns true/false on whether our content is HTML, according to the
 HTTP headers.
@@ -183,7 +183,7 @@ sub forms {	    my $self = shift; return $self->{forms}; }
 sub links {	    my $self = shift; return $self->{links}; }
 sub is_html {	    my $self = shift; return $self->{ct} eq "text/html"; }
 
-=head2 $agent->title()
+=head2 C<< $agent->title() >>
 
 Returns the contents of the C<< <TITLE> >> tag, as parsed by
 HTML::HeadParser.  Returns undef if the content is not HTML.
@@ -202,7 +202,7 @@ sub title {
 
 =head1 Action methods
 
-=head2 $agent->follow($string|$num)
+=head2 C<< $agent->follow($string|$num) >>
 
 Follow a link.  If you provide a string, the first link whose text 
 matches that string will be followed.  If you provide a number, it will 
@@ -246,7 +246,7 @@ sub follow {
     return 1;
 }
 
-=head2 $agent->quiet(true/false)
+=head2 C<< $agent->quiet(true/false) >>
 
 Allows you to suppress warnings to the screen.
 
@@ -264,7 +264,7 @@ sub quiet {
     return $self->{quiet};
 }
 
-=head2 $agent->form($number|$name)
+=head2 C<< $agent->form($number|$name) >>
 
 Selects a form by number or name, depending on if it gets passed an
 all-numeric string or not.  If you have a form with a name that is all
@@ -279,7 +279,7 @@ sub form {
     return $arg =~ /^\d+$/ ? $self->form_number($arg) : $self->form_name($arg);
 }
 
-=head2 $agent->form_number($number)
+=head2 C<< $agent->form_number($number) >>
 
 Selects the Nth form on the page as the target for subsequent calls to
 field() and click().  Emits a warning and returns false if there is no
@@ -299,7 +299,7 @@ sub form_number {
     }
 }
 
-=head2 $agent->form_name($number)
+=head2 C<< $agent->form_name($number) >>
 
 Selects a form by name.  If there is more than one form on the page with
 that name, then the first one is used, and a warning is generated.
@@ -324,13 +324,13 @@ sub form_name {
     }
 }
 
-=head2 $agent->field($name, $value, $number)
+=head2 C<< $agent->field($name, $value, $number) >>
 
 Given the name of a field, set its value to the value specified.  This
-applies to the current form (as set by the form() method or defaulting
+applies to the current form (as set by the C<form()> method or defaulting
 to the first form on the page).
 
-The optional $number parameter is used to distinguish between two fields
+The optional C<$number> parameter is used to distinguish between two fields
 with the same name.  The fields are numbered from 1.
 
 =cut
@@ -347,7 +347,7 @@ sub field {
     }
 }
 
-=head2 $agent->click($button, $x, $y);
+=head2 C<< $agent->click($button, $x, $y) >>
 
 Has the effect of clicking a button on a form.  The first argument
 is the name of the button to be clicked.  The second and third
@@ -370,10 +370,13 @@ sub click {
     return $self->_do_request();
 }
 
-=head2 $agent->submit()
+=head2 C<< $agent->submit() >>
 
-Submits the page.  Note that this is no longer a synonym for
-C<<$a->click("submit")>>.
+Submits the page, without specifying a button to click.  Actually,
+no button is clicked at all.
+
+This used to be a synonym for C<< $a->click("submit") >>, but is no
+longer so.
 
 =cut
 
@@ -386,10 +389,11 @@ sub submit {
     return $self->_do_request();
 }
 
-=head2 $agent->back();
+=head2 C<< $agent->back() >>
 
 The equivalent of hitting the "back" button in a browser.  Returns to
-the previous page.  Won't go back past the first page.
+the previous page.  Won't go back past the first page. (Really, what
+would it do if it could?)
 
 =cut
 
@@ -398,15 +402,15 @@ sub back {
     $self->_pop_page_stack;
 }
 
-=head2 $agent->add_header(name => $value)
+=head2 C<< $agent->add_header(name => $value) >>
 
-Sets a header for the WWW::Mechanize agent to use every time it gets a
-webpage.  This is B<NOT> stored in the agent object (because if it were,
-it would disappear if you went back() past where you'd set it) but in
-the hash variable %WWW::Mechanize::headers, which is a hash of all headers
-to be set.  You can manipulate this directly if you want to; the
-add_header() method is just provided as a convenience function for the most
-common case of adding a header.
+Sets a header for the WWW::Mechanize agent to use every time it gets
+a webpage.  This is B<NOT> stored in the agent object (because if it
+were, it would disappear if you went back() past where you'd set it)
+but in the hash variable C<%WWW::Mechanize::headers>, which is a hash of
+all headers to be set.  You can manipulate this directly if you want to;
+the add_header() method is just provided as a convenience function for
+the most common case of adding a header.
 
 =cut
 
@@ -415,13 +419,13 @@ sub add_header {
     $WWW::Mechanize::headers{$name} = $value;
 }
 
-=head2 extract_links()
+=head2 C<< extract_links() >>
 
 Extracts HREF links from the content of a webpage.
 
 The return value is a reference to an array containing
 an array reference for every C<< <A> >> and C<< <FRAME> >>
-tag in C<$self->{content}>.  
+tag in C<< $self->{content} >>.  
 
 The array elements for the C<< <A> >> tag are: 
 
@@ -557,10 +561,15 @@ have samples you'd like to contribute, please send 'em.
 
 You can also look at the F<t/*.t> files in the distribution.
 
-=head2 get-despair
+Please note that these examples are not intended to do any specific task.
+For all I know, they're no longer functional because the sites they
+hit have changed.  They're here to give examples of how people have
+used WWW::Mechanize.
 
-Randal Schwartz submitted this bot that walks the despair.com site
-sucking down all the pictures.
+=head2 get-despair, by Randal Schwartz
+
+Randal submitted this bot that walks the despair.com site sucking down
+all the pictures.
 
     use strict; 
     $|++;
@@ -586,6 +595,49 @@ sucking down all the pictures.
 	}
 	 
 	$m->back or die "can't go back";
+    }
+
+=head2 Hacking Movable Type, by Dan Rinzel
+
+    use WWW::Mechanize;
+
+    # a tool to automatically post entries to a moveable type weblog, and set arbitary creation dates
+
+    my $mech = WWW::Mechanize->new();
+    my %entry;
+    $entry->{title} = "Test AutoEntry Title";
+    $entry->{btext} = "Test AutoEntry Body";
+    $entry->{date} = '2002-04-15 14:18:00';
+    my $start = qq|http://my.blog.site/mt.cgi|;
+
+    $mech->get($start);
+    $mech->field('username','und3f1n3d');
+    $mech->field('password','obscur3d');
+    $mech->submit(); # to get login cookie
+    $mech->get(qq|$start?__mode=view&_type=entry&blog_id=1|);
+    $mech->form('entry_form');
+    $mech->field('title',$entry->{title});
+    $mech->field('category_id',1); # adjust as needed
+    $mech->field('text',$entry->{btext});
+    $mech->field('status',2); # publish, or 1 = draft
+    $results = $mech->submit(); 
+
+    # if we're ok with this entry being datestamped "NOW" (no {date} in %entry)
+    # we're done. Otherwise, time to be tricksy
+    # MT returns a 302 redirect from this form. the redirect itself contains a <body onload=""> handler
+    # which takes the user to an editable version of the form where the create date can be edited	
+    # MT date format of YYYY-MM-DD HH:MI:SS is the only one that won't error out
+
+    if ($entry->{date} && $entry->{date} =~ /^\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}/) {
+	# travel the redirect
+	$results = $mech->get($results->{_headers}->{location});
+	$results->{_content} =~ /<body onLoad="([^\"]+)"/is;
+	my $js = $1;
+	$js =~ /\'([^']+)\'/;
+	$results = $mech->get($start.$1);
+	$mech->form('entry_form');
+	$mech->field('created_on_manual',$entry->{date});
+	$mech->submit();
     }
 
 =head1 REQUESTS & BUGS
