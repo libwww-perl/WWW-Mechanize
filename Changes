@@ -1,5 +1,9 @@
-# $Id: Changes,v 1.18 2003/06/30 02:21:02 petdance Exp $
+# $Id: Changes,v 1.19 2003/07/01 02:10:08 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
+
+0.52
+	[ENHANCEMENTS]
+	* mech-forms now handles local files.
 
 0.51	June 29, 2003
 	[ENHANCEMENTS]
