@@ -16,8 +16,12 @@ SKIP: {
     delete $ENV{HTTP_PROXY};
 
     # Now start a fake webserver, fork, and connect to ourselves
-    open SERVER, qq'"$^X" $FindBin::Bin/referer-server |'
-	or die "Couldn't spawn fake server : $!";
+    my $command = qq'"$^X" $FindBin::Bin/referer-server';
+    if ($^O eq 'VMS') {
+	$command = qq'mcr $^X t/referer-server';
+    }
+    
+    open SERVER, "$command |" or die "Couldn't spawn fake server: $!";
     sleep 1; # give the child some time
     my $url = <SERVER>;
     chomp $url;

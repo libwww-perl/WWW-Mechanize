@@ -1,4 +1,4 @@
-# $Id: Changes,v 1.95 2003/12/22 05:30:52 petdance Exp $
+# $Id: Changes,v 1.96 2003/12/22 05:47:41 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 
@@ -19,6 +19,8 @@ Revision history for Perl extension WWW::Mechanize
 	* Heavy use of the new Test::Memory::Cycle module.
 	* Fixed Makefile.PL so that the tests are selected under Win32.
 	* Changed t/mech-dump.t so that the test succeeds under Win32.
+	* Updated t/referer.t and t/mech-dump.t so they run under VMS.
+	  Thanks to Peter Prymmer.
 
 
 0.70	Sun Nov 30 23:45:27 CST 2003

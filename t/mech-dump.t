@@ -7,14 +7,19 @@ plan skip_all => "Not installing mech-dump" if -e File::Spec->catfile( qw( t SKI
 plan tests=>4;
 
 my $exe = File::Spec->catfile( qw( blib script mech-dump ) );
+if ( $^O eq "VMS" ) {
+    $exe = qq[mcr $^X "-mblib" $exe];
+}
 
 # Simply use a file: uri instead of the filename to make this test
 # more independent of what URI::* thinks.
 my $data = 'file:t/google.html';
-my $actual = `$exe --forms $data`;
+my $command = "$exe --forms $data";
+my $actual = `$command`;
 
 local $/ = undef;
 my $expected = <DATA>;
+isnt( $expected, "", "Got output from: $command" );
 
 my @actual = split /\s*\n/, $actual;
 my @expected = split /\s*\n/, $expected;
