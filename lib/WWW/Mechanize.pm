@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.61
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.69 2003/10/07 23:10:28 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.70 2003/10/08 01:11:18 petdance Exp $
 
 =cut
 
@@ -199,6 +199,8 @@ installed, or C<CORE::die> if not.
 
 Don't complain on warnings.  Setting C<< quiet => 1 >> is the same as
 calling C<< $agent->quiet(1) >>.  Default is off.
+
+=back
 
 =cut
 
