@@ -16,7 +16,7 @@ use warnings;
 
 =head1 Constructor
 
-=head2 C<< new( I<$url>, I<$text>, I<$name> ) >>
+=head2 C<< new( I<$url>, I<$text>, I<$name>, I<$tag> ) >>
 
 Creates and returns a new WWW::Mechanize::Link object.
 
@@ -49,10 +49,7 @@ Text of the link
 
 =head2 C<< $link->name() >>
 
-Name from the link tag
-
-For the C<< <A> >> tag, this is the C<HREF> attribute.
-For C<< <FRAME> >> or C<< <IFRAME> >>, it's the C<SRC> attribute.
+NAME attribute from the source tag, if any.
 
 =head2 C<< $link->tag() >>
 
