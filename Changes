@@ -1,7 +1,7 @@
-# $Id: Changes,v 1.115 2004/03/23 05:23:15 petdance Exp $
+# $Id: Changes,v 1.116 2004/03/23 05:27:11 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
-0.73_03
+0.74    Mon Mar 22 23:36:46 CST 2004
         [ENHANCEMENTS]
         * WWW::Mechanize now sends an Accept-Encoding header of "identity"
           to always enforce plaintext responses. Preliminary support for
@@ -13,22 +13,18 @@ Revision history for Perl extension WWW::Mechanize
 
         * Added url_abs and url_abs_regex parms to find_all_links().
 
+        * URLs in META REFRESH tags are now treated as links.
+
+        * t/taint.t makes sure that things that should be tainted are.
+
         [FIXES]
         * Still more fixes if the machine you're on doesn't have
           DNS pointing to it.
 
-0.73_02 Tue Mar  2 23:51:05 CST 2004
-        [FIXES]
         * The local changes use localhost as the local host name, instead
           of whatever host name that might be on the box, but not in DNS.
           Thanks to David Wheeler for letting me play on his box.
 
-0.73_01 Sat Feb 28 23:55:46 CST 2004
-        [ENHANCEMENTS]
-        * URLs in META REFRESH tags are now treated as links.
-        * t/taint.t makes sure that things that should be tainted are.
-
-        [FIXES]
         * The http_proxy and HTTP_PROXY environment variables get
           deleted during the tests that access the dummy local server.
           This should let your tests pass, and clear up a lot of RT
