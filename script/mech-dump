@@ -1,0 +1,51 @@
+#!/usr/bin/perl -w
+
+use strict;
+use WWW::Mechanize;
+use Getopt::Long;
+
+my @actions;
+
+GetOptions( 
+    'links' =>	    sub { push( @actions, \&dump_links ); },
+    'images' =>	    sub { push( @actions, \&dump_images ); },
+    'forms' =>	    sub { push( @actions, \&dump_forms ); },
+) or die "Bad parms, man, bad parms!";
+
+my $uri = shift or die "Must specify a URL or file to check\n";
+if ( -e $uri ) {
+    require URI::file;
+    $uri = URI::file->new_abs( $uri )->as_string;
+}
+
+my $mech = WWW::Mechanize->new( cookie_jar => undef );
+my $response = $mech->get( $uri );
+$response->is_success or die "Can't fetch $uri\n", $response->status_line, "\n";
+$mech->is_html or die "$uri returns type \"", $mech->ct, "\", not \"text/html\"\n";
+
+for my $action ( @actions ) {
+    $action->( $mech );
+}
+
+sub dump_links {
+    my $mech = shift;
+
+    print "Dumping links (but this isn't written yet)\n";
+}
+
+sub dump_images {
+    my $mech = shift;
+
+    print "Dumping images (but this isn't written yet)\n";
+}
+
+sub dump_forms {
+    my $mech = shift;
+
+    print "Dumping forms\n";
+    for my $form ( $mech->forms() ) {
+	print $form->dump;
+	print "\n";
+    }
+}
+

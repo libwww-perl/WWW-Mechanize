@@ -53,8 +53,11 @@ my $parms = {
     'test' => { TESTS => $tests },
 };
 
-if ( prompt( "Do you want to install the mech-forms utility?", "y" ) =~ /^y/i ) {
-    $parms->{EXE_FILES} = [ 'script/mech-forms' ];
+if ( prompt( "Do you want to install the mech-dump utility?", "y" ) =~ /^y/i ) {
+    $parms->{EXE_FILES} = [ 'script/mech-dump' ];
+    $parms->{PREREQ_PM}->{'Getopt::Long'} = 0;
+    $parms->{PREREQ_PM}->{'Pod::Usage'} = 0;
+
     local @ARGV = FLAG_SKIPMECHFORMS;
     rm_f();
 } else {

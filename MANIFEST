@@ -6,7 +6,7 @@ etc/www-mechanize-logo.png
 lib/WWW/Mechanize.pm
 lib/WWW/Mechanize/Examples.pod
 lib/WWW/Mechanize/Link.pm
-script/mech-forms
+script/mech-dump
 t/00.load.t
 t/99.pod.t
 t/add_header.t
