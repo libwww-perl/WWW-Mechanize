@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.55
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.37 2003/07/22 14:59:10 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.38 2003/07/22 15:04:05 petdance Exp $
 
 =cut
 
@@ -1186,19 +1186,6 @@ or get the specs from the environment:
     wais_proxy=http://proxy.my.place/
     no_proxy="localhost,my.domain"
     export gopher_proxy wais_proxy no_proxy
-
-
-=head1 TODO
-
-Fix failures on t/back.t
-
-Make t/tick.t run off the local server
-
-Make it easier to save content.
-
-Make a method that finds all the IMG SRC
-
-Allow saving content to a file
 
 =head1 See Also
 

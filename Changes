@@ -1,16 +1,21 @@
-# $Id: Changes,v 1.35 2003/07/22 14:59:10 petdance Exp $
+# $Id: Changes,v 1.36 2003/07/22 15:04:05 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 0.55
 	[ENHANCEMENTS]
-	* Added WWW::Mechanize::Link object to encapsulate what
-	  used to be an array reference of stuff from find_link().
+	* Added WWW::Mechanize::Link object to encapsulate what used to
+	  be an array reference of stuff from find_link().  This replaces
+	  having to know that $link->[0] was URL and so on.  However,
+	  since WWW::Mechanize::Link is a blessed arrayref, it's backwards
+	  compatible with existing code.
 
 	* The WWW::Mechanize::Link object now tracks what tag the link
 	  came from (<A>, <FRAME> or <IFRAME>).
 
 	[DOCUMENTATION]
 	* Moved the deprecated methods to their own section.
+
+	* Removed the TODO list, since it's all in RT.
 
 0.54	July 20, 2003  12:47am
 	[THINGS THAT MIGHT BREAK YOUR CODE]
