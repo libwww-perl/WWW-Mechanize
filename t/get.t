@@ -1,41 +1,57 @@
 use warnings;
 use strict;
-use Test::More;
+use Test::More tests => 29;
 
-plan skip_all => "Skipping live tests" if -f "t/SKIPLIVE";
-plan tests => 26;
+use lib 't/lib';
+use Test::HTTP::LocalServer;
+my $server = Test::HTTP::LocalServer->spawn;
 
-use_ok( 'WWW::Mechanize' );
+BEGIN {
+    use_ok( 'WWW::Mechanize' );
+}
 
 my $agent = WWW::Mechanize->new;
-isa_ok( $agent, 'WWW::Mechanize' );
+isa_ok( $agent, 'WWW::Mechanize', 'Created object' );
 
-ok($agent->get("http://www.google.com/intl/en/")->is_success, "Get google webpage");
+my $response = $agent->get($server->url);
+isa_ok( $response, 'HTTP::Response' );
+ok( $response->is_success );
+ok( $agent->success, "Get webpage" );
 isa_ok($agent->uri, "URI", "Set uri");
 ok( $agent->is_html );
-is( $agent->title, "Google" );
+is( $agent->title, "WWW::Mechanize::Shell test page" );
 
-ok( $agent->get( '/news/' )->is_success, 'Got the news' );
-is( $agent->uri, 'http://www.google.com/news/', "Got relative OK" );
+$agent->get( '/foo/' );
+ok( $agent->success, 'Got the /foo' );
+is( $agent->uri, sprintf('%sfoo/',$server->url), "Got relative OK" );
+ok( $agent->is_html,"Got HTML back" );
+is( $agent->title, "WWW::Mechanize::Shell test page", "Got the right page" );
+
+$agent->get( '../bar/' );
+ok( $agent->success, 'Got the /bar page' );
+is( $agent->uri, sprintf('%sbar/',$server->url), "Got relative OK" );
 ok( $agent->is_html );
-is( $agent->title, "News and Resources", "Got the right page" );
+is( $agent->title, "WWW::Mechanize::Shell test page", "Got the right page" );
 
-ok( $agent->get( '../help/' )->is_success, 'Got the help page' );
-is( $agent->uri, 'http://www.google.com/help/', "Got relative OK" );
+$agent->get( 'basics.html' );
+ok( $agent->success, 'Got the basics page' );
+is( $agent->uri, sprintf('%sbar/basics.html',$server->url), "Got relative OK" );
 ok( $agent->is_html );
-is( $agent->title, "Google Help Central", "Got the right page" );
+is( $agent->title, "WWW::Mechanize::Shell test page" );
+like( $agent->content, qr/WWW::Mechanize::Shell test page/, "Got the right page" );
 
-ok( $agent->get( 'basics.html' )->is_success, 'Got the basics page' );
-is( $agent->uri, 'http://www.google.com/help/basics.html', "Got relative OK" );
+$agent->get( './refinesearch.html' );
+ok( $agent->success, 'Got the "refine search" page' );
+is( $agent->uri, sprintf('%sbar/refinesearch.html',$server->url), "Got relative OK" );
 ok( $agent->is_html );
-is( $agent->title, "Google Help" );
-like( $agent->content, qr/Basics of Google Search/, "Got the right page" );
+is( $agent->title, "WWW::Mechanize::Shell test page" );
+like( $agent->content, qr/WWW::Mechanize::Shell test page/, "Got the right page" );
+my $rslength = length $agent->content;
 
-ok( $agent->get( './refinesearch.html' )->is_success, 'Got the "refine search" page' );
-is( $agent->uri, 'http://www.google.com/help/refinesearch.html', "Got relative OK" );
-ok( $agent->is_html );
-is( $agent->title, "Google Help" );
-like( $agent->content, qr/Advanced Search Made Easy/, "Got the right page" );
-
-ok( $agent->get( "http://www.google.com/images/logo.gif" )->is_success, "Got the logo" );
-ok( !$agent->is_html );
+my $tempfile = "./temp";
+unlink $tempfile;
+ok( !-e $tempfile, "tempfile isn't there right now" );
+$agent->get( './refinesearch.html', ":content_file"=>$tempfile );
+ok( -e $tempfile );
+is( -s $tempfile, $rslength, "Did all the bytes get saved?" );
+unlink $tempfile;

@@ -1,31 +1,28 @@
 use warnings;
 use strict;
-use Test::More tests => 12;
+use Test::More;
 
-use lib 't/lib';
-use Test::HTTP::LocalServer;
-my $server = Test::HTTP::LocalServer->spawn;
+plan skip_all => "Skipping live tests" if -f "t/SKIPLIVE";
+plan tests => 12;
 
-BEGIN {
-    use_ok( 'WWW::Mechanize' );
-}
+use_ok( 'WWW::Mechanize' );
 
 my $agent = WWW::Mechanize->new;
 isa_ok( $agent, 'WWW::Mechanize', 'Created object' );
 
 FIRST_GET: {
-    my $r = $agent->get($server->url);
+    my $r = $agent->get("http://www.google.com/intl/en/");
     isa_ok( $r, "HTTP::Response" );
     ok( $r->is_success, "Get google webpage");
     isa_ok($agent->uri, "URI", "Set uri");
     ok( $agent->is_html );
-    is( $agent->title, "WWW::Mechanize::Shell test page" );
+    is( $agent->title, "Google" );
 }
 
 INVALIDATE: {
     undef $agent->{content};
     undef $agent->{ct};
-    isnt( $agent->title, "WWW::Mechanize::Shell test page" );
+    isnt( $agent->title, "Google" );
     ok( !$agent->is_html );
 }
 
@@ -33,5 +30,5 @@ RELOAD: {
     my $r = $agent->reload;
     isa_ok( $r, "HTTP::Response" );
     ok( $agent->is_html );
-    ok( $agent->title, "WWW::Mechanize::Shell test page" );
+    ok( $agent->title, "Google" );
 }

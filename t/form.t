@@ -1,23 +1,22 @@
-#!/usr/bin/perl -T
-
 use warnings;
 use strict;
-use Test::More;
+use Test::More tests => 14;
 
-plan skip_all => "Skipping live tests" if -f "t/SKIPLIVE";
-plan tests => 15;
+use lib 't/lib';
+use Test::HTTP::LocalServer;
 
-use constant START => 'http://www.google.com/intl/en/';
+BEGIN {
+    use_ok( 'WWW::Mechanize' );
+}
 
-use_ok( 'WWW::Mechanize' );
+my $server = Test::HTTP::LocalServer->spawn;
 
 my $t = WWW::Mechanize->new();
 isa_ok( $t, 'WWW::Mechanize' ) or die;
 $t->quiet(1);
-$t->get(START);
+$t->get($server->url);
 ok( $t->success, "Got a page" ) or die "Can't even get google";
-is( $t->uri, START, 'Got Google' );
-like( $t->title, qr/Google/ );
+is( $t->uri, $server->url, 'Got page' );
 
 my $form_number_1 = $t->form_number(1);
 ok( $form_number_1, "Can select the first form");

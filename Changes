@@ -1,4 +1,4 @@
-# $Id: Changes,v 1.48 2003/08/08 20:09:05 petdance Exp $
+# $Id: Changes,v 1.49 2003/08/08 21:37:59 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 0.58
@@ -7,6 +7,11 @@ Revision history for Perl extension WWW::Mechanize
 	  building the text.
 
 	[INTERNALS]
+	* Determination of live vs. local tests is now done in
+	  Makefile.PL, and we don't have to set those silly semaphore
+	  files any more.
+	* Moved all the *-live.t tests into t/live/*.t, and renamed
+	  the *-local.t files to not be -local.
 	* Added more tests for <AREA> tags.
 
 0.57	July 31, 2003  11:21pm

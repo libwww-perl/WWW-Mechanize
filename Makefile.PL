@@ -2,7 +2,6 @@ use ExtUtils::MakeMaker qw( WriteMakefile prompt );
 use strict;
 
 use constant FLAG_SKIPMECHFORMS => "t/SKIP-MECH-FORMS";
-use constant FLAG_SKIPLIVE => "t/SKIP-LIVE";
 
 # Much logic stolen fromm libwww-perl's Makefile.PL
 my $skiplive = 0;
@@ -17,8 +16,9 @@ if ($s) {
 } else {
     print <<EOT;
 
-It seems that you are not directly connected to the Internet.  Many of 
-the WWW::Mechanize tests interact with websites such as Google.
+It seems that you are not directly connected to the Internet.  Some
+of the WWW::Mechanize tests interact with websites such as Google,
+in addition to its own internal tests.
 
 EOT
 
@@ -27,10 +27,9 @@ EOT
     }
 } # failed connect
 
+my $tests = 't/*.t';
 if ( $skiplive ) {
-    touch( FLAG_SKIPLIVE );
-} else {
-    unlink FLAG_SKIPLIVE;
+    $tests .= ' t/live/*.t';
 }
 
 no strict;
@@ -53,6 +52,7 @@ my $parms = {
                         HTTP::Request	    => 1.30,
                         Test::More	    => 0.34,
 			},
+    'test' => { TESTS => 't/*.t t/live/*.t' },
 };
 
 my $skipforms = "t/SKIP-MECH-FORMS";

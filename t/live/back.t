@@ -2,7 +2,6 @@ use strict;
 use Test::More;
 
 plan skip_all => "This doesn't work at all yet, and people were freaking at the unexpected successes.";
-plan skip_all => "Skipping live tests" if -f "t/SKIPLIVE";
 plan tests=>16;
 
 use_ok( 'WWW::Mechanize' );
