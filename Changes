@@ -1,7 +1,7 @@
-# $Id: Changes,v 1.6 2003/06/20 15:21:33 petdance Exp $
+# $Id: Changes,v 1.7 2003/06/20 16:08:55 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
-0.46
+0.46	June 20, 2003
 	[ENHANCEMENTS]
 	* Added tick() and untick() functions for handling checkboxes.
 	  Thanks to Mark Fowler for this patch.

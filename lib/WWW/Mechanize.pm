@@ -6,13 +6,13 @@ WWW::Mechanize - automate interaction with websites
 
 =head1 VERSION
 
-Version 0.45
+Version 0.46
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.6 2003/06/20 15:21:33 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.7 2003/06/20 16:08:55 petdance Exp $
 
 =cut
 
-our $VERSION = "0.45";
+our $VERSION = "0.46";
 
 =head1 SYNOPSIS
 
@@ -441,9 +441,9 @@ sub set_fields {
 =head2 C<< tick($name, $value [, $set] ) >>
 
 'Ticks' the first checkbox that has both the name and value assoicated
-with it on the current form.  Throws an exception (dies) if there is no
-named check box for that value.  Passing in a false value as the third
-optional argument will cause the checkbox to be unticked.
+with it on the current form.  Dies if there is no named check box for
+that value.  Passing in a false value as the third optional argument
+will cause the checkbox to be unticked.
 
 =cut
 
@@ -457,7 +457,7 @@ sub tick {
     my $input;
     my $index = 0;
     while($input = $this->current_form->find_input($name,"checkbox",$index)) {
-	# can't guarentee that the first element will be undef and the second
+	# Can't guarantee that the first element will be undef and the second
 	# element will be the right name
 	foreach my $val ($input->possible_values()) {
 	    next unless defined $val;
