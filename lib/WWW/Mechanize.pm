@@ -1,13 +1,5 @@
 package WWW::Mechanize;
 
-=head1 TODO
-
-XXX Make it easier to save content.
-
-XXX Make a method that finds all the IMG SRC
-
-XXX ALlow saving content to a file
-
 =head1 NAME
 
 WWW::Mechanize - automate interaction with websites
@@ -16,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.45
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.5 2003/06/19 14:53:44 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.6 2003/06/20 15:21:33 petdance Exp $
 
 =cut
 
@@ -446,6 +438,54 @@ sub set_fields {
     }
 }
 
+=head2 C<< tick($name, $value [, $set] ) >>
+
+'Ticks' the first checkbox that has both the name and value assoicated
+with it on the current form.  Throws an exception (dies) if there is no
+named check box for that value.  Passing in a false value as the third
+optional argument will cause the checkbox to be unticked.
+
+=cut
+
+sub tick {
+    my $this = shift;
+    my $name = shift;
+    my $value = shift;
+    my $set = @_ ? shift : 1;  # default to 1 if not passed
+
+    # loop though all the inputs
+    my $input;
+    my $index = 0;
+    while($input = $this->current_form->find_input($name,"checkbox",$index)) {
+	# can't guarentee that the first element will be undef and the second
+	# element will be the right name
+	foreach my $val ($input->possible_values()) {
+	    next unless defined $val;
+	    if ($val eq $value) {
+		$input->value($set ? $value : undef);
+		return;
+	    }
+	}
+
+	# move onto the next input
+	$index++;
+    } # while
+
+    # got this far?  Didn't find anything
+    die "No checkbox '$name' for value '$value' in form";
+} # tick()
+
+=head2 C<< untick($name, $value) >>
+
+Causes the checkbox to be unticked.  Shorthand for
+C<tick($name,$value,undef)>
+
+=cut
+
+sub untick {
+    shift->tick(shift,shift,undef);
+}
+
 =head1 Form submission methods
 
 =head2 C<< $a->click( $button [, $x, $y] ) >>
@@ -543,7 +583,7 @@ sub submit_form {
     if ( my $fields = $args{'fields'} ) {
         if ( ref $fields eq 'HASH' ) {
 	    $self->set_fields( %{$fields} ) ;
-        } # XXX What if it's not a hash?  We just ignore it silently?
+        } # TODO: What if it's not a hash?  We just ignore it silently?
     }
 
     my $response;
@@ -1009,6 +1049,18 @@ or get the specs from the environment:
     no_proxy="localhost,my.domain"
     export gopher_proxy wais_proxy no_proxy
 
+
+=head1 TODO
+
+Fix failures on t/back.t
+
+Make t/tick.t run off the local server
+
+Make it easier to save content.
+
+Make a method that finds all the IMG SRC
+
+Allow saving content to a file
 
 =head1 SEE ALSO
 

@@ -1,8 +1,10 @@
-# $Id: Changes,v 1.5 2003/06/19 14:53:44 petdance Exp $
+# $Id: Changes,v 1.6 2003/06/20 15:21:33 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 0.46
 	[ENHANCEMENTS]
+	* Added tick() and untick() functions for handling checkboxes.
+	  Thanks to Mark Fowler for this patch.
 	* The uri() will only be the URI of the requested page if it worked.
 	* Oh yes, I forgot to mention: We're on Sourceforge now.
 
