@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.70
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.93 2003/12/16 21:10:11 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.94 2003/12/16 21:18:43 petdance Exp $
 
 =cut
 
@@ -99,30 +99,26 @@ I<Spidering Hacks> from O'Reilly
 (L<http://www.oreilly.com/catalog/spiderhks/>) is a great book for anyone
 wanting to know more about screen-scraping and spidering.
 
-There are three Mech-specific hacks by Andy Lester:
+There are six hacks that refer use Mech or a Mech derivative:
 
 =over 4
 
-=item 21 WWW::Mechanize 101
+=item #21 WWW::Mechanize 101
 
-=item 36 Downloading Images from Webshots
+=item #22 Scraping with WWW::Mechanize
 
-=item 44 Archiving Yahoo! Groups Messages with WWW::Yahoo::Groups
+=item #36 Downloading Images from Webshots
 
-=item 
+=item #44 Archiving Yahoo! Groups Messages with WWW::Yahoo::Groups
 
-=back
+=item #64 Super Author Searching
 
-and two Mech hacks from Chris Elthek:
-
-=over 4
-
-=item 22 Scraping with WWW::Mechanize
-
-=item 73 Scraping TV Listings
+=item #73 Scraping TV Listings
 
 =back
 
+The book was also positively reviewed on Slashdot: 
+L<http://books.slashdot.org/article.pl?sid=03/12/11/2126256>
 
 =head2 Online resources
 
