@@ -1790,12 +1790,12 @@ sub _image_from_token {
 
     if ( $tag eq "input" ) {
         my $type = $attrs->{type} or return;
-        return unless $type eq "image";
+        return unless $type eq "submit";
     }
 
-    require WWW::Mechanize::Link;
+    require WWW::Mechanize::Image;
     return
-        WWW::Mechanize::Link->new({
+        WWW::Mechanize::Image->new({
             tag     => $tag,
             base    => $self->base,
             url     => $attrs->{src},

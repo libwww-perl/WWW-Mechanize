@@ -3,7 +3,7 @@
 use warnings;
 use strict;
 
-use Test::More tests=>3;
+use Test::More tests=>12;
 use URI::file;
 
 BEGIN {
@@ -19,6 +19,17 @@ my $uri = URI::file->new_abs( "t/image-parse.html" )->as_string;
 $mech->get( $uri );
 ok( $mech->success, "Fetched $uri" ) or die "Can't get test page";
 
-use Data::Dumper;
 my @images = $mech->images;
-print Dumper( \@images );
+is( scalar @images, 2, "Only two images" );
+
+my $first = $images[0];
+is( $first->tag, "img", "img tag" );
+is( $first->url, "wango.jpg" );
+is( $first->alt, "The world of the wango" );
+
+my $second = $images[1];
+is( $second->tag, "input", "input tag" );
+is( $second->url, "bongo.gif" );
+is( $second->alt, undef, "alt" );
+is( $second->height, 142, "height" );
+is( $second->width, 43, "width" );
