@@ -18,13 +18,13 @@ sub source_file_ok {
 
     my $n = 0;
     for ( @lines ) {
-	++$n;
-	s/^/$file ($n): /;
+        ++$n;
+        s/^/$file ($n): /;
     }
 
     my @x = grep /XXX/, @lines;
 
     if ( !is( scalar @x, 0, "Looking for XXXes" ) ) {
-	diag( $_ ) for @x;
+        diag( $_ ) for @x;
     }
 }

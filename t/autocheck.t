@@ -27,6 +27,6 @@ AUTOCHECK_ON: {
     isa_ok( $mech, 'WWW::Mechanize' );
 
     dies_ok {
-	$mech->get( NONEXISTENT );
+        $mech->get( NONEXISTENT );
     } "Mech would die 4 u";
 }

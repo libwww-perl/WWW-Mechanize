@@ -18,7 +18,7 @@ CHECK_DEATH: {
     isa_ok( $m, 'WWW::Mechanize' );
 
     dies_ok {
-	$m->die( "OH NO!  ERROR!" );
+        $m->die( "OH NO!  ERROR!" );
     } "Expecting to die";
 }
 
@@ -27,6 +27,6 @@ CHECK_LIVING: {
     isa_ok( $m, 'WWW::Mechanize' );
 
     lives_ok {
-	$m->die( "OH NO!  ERROR!" );
+        $m->die( "OH NO!  ERROR!" );
     } "Expecting to die";
 }
