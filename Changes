@@ -1,9 +1,12 @@
-# $Id: Changes,v 1.17 2003/06/29 20:57:39 petdance Exp $
+# $Id: Changes,v 1.18 2003/06/30 02:21:02 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
-0.51
+0.51	June 29, 2003
 	[ENHANCEMENTS]
 	* Added the "mech-forms" command to list all the forms on a given page.
+
+	[FIXES]
+	* Made the tick.t test not rely on 2shortplanks.com.
 
 0.50	June 24, 2003
 	[ENHANCEMENTS]
