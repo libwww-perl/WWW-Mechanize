@@ -2115,6 +2115,8 @@ sub _die {
     &Carp::croak; # pass thru
 }
 
+__END__
+
 =head1 WWW::MECHANIZE'S SUBVERSION REPOSITORY
 
 Mech is hosted by the kind generosity of Ask and Robert,
@@ -2172,6 +2174,24 @@ for Mech.
 A random array of examples submitted by users, included with the
 Mechanize distribution.
 
+=back
+
+=head1 ARTICLES ABOUT WWW::MECHANIZE
+
+=over 4
+
+=item * L<http://www.oreilly.com/catalog/googlehks2/chapter/hack84.pdf>
+
+Leland Johnson's hack #84 in I<Google Hacks, 2nd Edition> is
+an example of a production script that uses WWW::Mechanize and
+HTML::TableContentParser. It takes in keywords and returns the estimated
+price of these keywords on Google's AdWords program.
+
+=item * L<http://www.perl.com/pub/a/2004/06/04/recorder.html>
+
+Linda Julien writes about using HTTP::Recorder to create WWW::Mechanize
+scripts.
+
 =item * L<http://www.developer.com/lang/other/article.php/3454041>
 
 Jason Gilmore's article on using WWW::Mechanize for scraping sales
@@ -2207,6 +2227,10 @@ Here are modules that use or subclass Mechanize.  Let me know of any others:
 =over 4
 
 =item * L<Finance::Bank::LloydsTSB>
+
+=item * L<HTTP::Recorder>
+
+Acts as a proxy for web interaction, and then generates WWW::Mechanize scripts.
 
 =item * L<WWW::Bugzilla>
 
@@ -2271,6 +2295,7 @@ Jan Pazdziora,
 Dominique Quatravaux,
 Scott Lanning,
 Rob Casey,
+Leland Johnson,
 and the late great Iain Truskett.
 
 =head1 COPYRIGHT
