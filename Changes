@@ -1,13 +1,7 @@
-# $Id: Changes,v 1.88 2003/11/29 20:39:56 petdance Exp $
+# $Id: Changes,v 1.89 2003/12/01 05:46:55 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
-0.69_03
-
-	[INTERNALS]
-	* Removed all the checking for Carp.  I don't know why I
-	  was thinking that Carp wasn't core. RT #4523.
-
-0.69_01 Tue Nov 25 23:12:51 CST 2003
+0.70	Sun Nov 30 23:45:27 CST 2003
 	[THINGS THAT MAY BREAK YOUR CODE]
 	* Redirects are now handled better by LWP, so the code that
 	  changes POSTs to GETs on redirects has been removed.
@@ -23,6 +17,10 @@ Revision history for Perl extension WWW::Mechanize
 
 	[DOCUMENTATION]
 	* Patches from Mark Stosberg and Jim Cromie.
+
+	[INTERNALS]
+	* Removed all the checking for Carp.  I don't know why I
+	  was thinking that Carp wasn't core. RT #4523.
 
 	Also, a big bump in requirements on LWP: We need 5.76.
 
