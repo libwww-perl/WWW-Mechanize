@@ -4,6 +4,7 @@ use warnings;
 use strict;
 use Test::More;
 use URI::file;
+BEGIN { delete @ENV{ qw( http_proxy HTTP_PROXY PATH IFS CDPATH ENV BASH_ENV) }; }
 
 BEGIN {
     eval "use Test::Warn";
