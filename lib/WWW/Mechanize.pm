@@ -6,13 +6,13 @@ WWW::Mechanize - automate interaction with websites
 
 =head1 VERSION
 
-Version 0.58
+Version 0.59
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.56 2003/09/04 04:51:14 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.57 2003/09/04 05:10:35 petdance Exp $
 
 =cut
 
-our $VERSION = "0.58";
+our $VERSION = "0.59";
 
 =head1 SYNOPSIS
 
