@@ -1,12 +1,14 @@
-# $Id: Changes,v 1.127 2004/04/14 03:34:57 petdance Exp $
+# $Id: Changes,v 1.128 2004/04/14 03:46:57 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
-1.02
-        NO NEW FEATURES.
+1.02    Tue Apr 13 22:45:10 CDT 2004
+
+        No reason to install if you have 1.00.  Fixes are only in tests.
 
         [FIXES]
         * t/referer.t didn't cope with spaces in $FindBin::Bin.  Plus,
           it now forces its URL to localhost.
+
 
 1.00    Sat Apr 10 00:35:51 CDT 2004
 
