@@ -1,5 +1,11 @@
-# $Id: Changes,v 1.77 2003/10/24 04:48:34 petdance Exp $
+# $Id: Changes,v 1.78 2003/11/02 05:03:40 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
+
+0.65
+	[FIXES]
+	* Made some path naming use File::Spec->catfile so that
+	  they work correctly under Windows.
+
 
 0.64	October 23, 2003  11:15pm
 	* The start of JavaScript support, sort of! 

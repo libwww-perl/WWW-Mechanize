@@ -2,7 +2,7 @@ use ExtUtils::MakeMaker qw( WriteMakefile prompt );
 use ExtUtils::Command qw( touch rm_f );
 use strict;
 
-use constant FLAG_SKIPMECHDUMP => "t/SKIP-MECH-DUMP";
+use constant FLAG_SKIPMECHDUMP => File::Spec->catfile( "t", "SKIP-MECH-DUMP" );
 
 # Much logic stolen fromm libwww-perl's Makefile.PL
 my $skiplive = 0;
@@ -28,8 +28,8 @@ EOT
     }
 } # failed connect
 
-my $tests = 't/*.t';
-$tests .= ' t/live/*.t' unless $skiplive;
+my @tests = File::Spec->catfile( 't', '*.t' );
+push( @tests, File::Spec->catfile( 't', 'live', '*.t' ) unless $skiplive;
 
 my $parms = {
     'NAME'	    => 'WWW::Mechanize',
@@ -51,7 +51,7 @@ my $parms = {
                         'URI::URL'          => 0,
                         'URI::file'         => 0,
 			},
-    'test' => { TESTS => $tests },
+    'test' => { TESTS => join( " ", @tests ) },
 };
 
 if ( prompt( "Do you want to install the mech-dump utility?", "y" ) =~ /^y/i ) {
