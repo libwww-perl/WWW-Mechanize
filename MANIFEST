@@ -1,6 +1,5 @@
 Changes
 Makefile.PL
-README
 etc/www-mechanize-logo.png
 lib/WWW/Mechanize.pm
 lib/WWW/Mechanize/Examples.pod
@@ -22,9 +21,6 @@ t/form.t
 t/get-local.t
 t/get.t
 t/google.html
-t/lib
-t/lib/Test
-t/lib/Test/HTTP
 t/lib/Test/HTTP/LocalServer.pm
 t/lib/Test/HTTP/log-server
 t/mech.t
@@ -36,4 +32,3 @@ t/reload-local.t
 t/reload.t
 t/submit-local.t
 t/submit.t
-t/Utils.pm
