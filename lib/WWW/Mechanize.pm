@@ -2174,6 +2174,11 @@ for Mech.
 A random array of examples submitted by users, included with the
 Mechanize distribution.
 
+=item * L<http://www.developer.com/lang/other/article.php/3454041>
+
+Jason Gilmore's article on using WWW::Mechanize for scraping sales
+information from Amazon and eBay.
+
 =item * L<http://www.perl.com/pub/a/2003/01/22/mechanize.html>
 
 Chris Ball's article about using WWW::Mechanize for scraping TV
