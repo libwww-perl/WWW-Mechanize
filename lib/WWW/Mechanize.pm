@@ -1697,7 +1697,8 @@ sub update_html {
         }
     }
     $self->{form}  = $self->{forms}->[0];
-    $self->_extract_links_and_images();
+    $self->_extract_links();
+    $self->_extract_images();
 
     $self->_parse_html(); #For compatibility with folks that used to overload that method.
 
@@ -1891,7 +1892,7 @@ sub _reset_page {
     return;
 }
 
-=head2 $mech->_extract_links_and_images()
+=head2 $mech->_extract_links()
 
 Extracts links from the content of a webpage, and populates the C<{links}>
 property with L<WWW::Mechanize::Link> objects.
@@ -1906,28 +1907,37 @@ my %link_tags = (
     meta => "content",
 );
 
-my %image_tags = (
-    img => "src",
-    input => "src",
-);
-
-sub _extract_links_and_images {
+sub _extract_links {
     my $self = shift;
 
     my $parser = HTML::TokeParser->new(\$self->{content});
 
     $self->{links} = [];
+
+    while ( my $token = $parser->get_tag( keys %link_tags ) ) {
+        my $link = $self->_link_from_token( $token, $parser );
+        push( @{$self->{links}}, $link ) if $link;
+    } # while
+
+    return;
+}
+
+
+my %image_tags = (
+    img => "src",
+    input => "src",
+);
+
+sub _extract_images {
+    my $self = shift;
+
+    my $parser = HTML::TokeParser->new(\$self->{content});
+
     $self->{images} = [];
 
-    while (my $token = $parser->get_tag( keys %link_tags, keys %image_tags )) {
-        my $tag = $token->[0];
-        if ( $link_tags{ $tag } ) {
-            my $link = $self->_link_from_token( $token, $parser );
-            push( @{$self->{links}}, $link ) if $link;
-        } else {
-            my $image = $self->_image_from_token( $token, $parser );
-            push( @{$self->{images}}, $image ) if $image;
-        }
+    while ( my $token = $parser->get_tag( keys %image_tags ) ) {
+        my $image = $self->_image_from_token( $token, $parser );
+        push( @{$self->{images}}, $image ) if $image;
     } # while
 
     return;

@@ -2,6 +2,7 @@ Revision history for Perl extension WWW::Mechanize
 
 Next
         [FIXES]
+        * Fixed bug where images inside of links would not be found.
         * Fixed test failures because of Google changes.  Thanks to
           Offer Kaye and others who sent in patches.
         * Updated Google-based tests since Google changed the pages out

@@ -3,7 +3,7 @@
 use warnings;
 use strict;
 
-use Test::More tests=>12;
+use Test::More tests=>15;
 use URI::file;
 
 BEGIN {
@@ -20,7 +20,7 @@ $mech->get( $uri );
 ok( $mech->success, "Fetched $uri" ) or die "Can't get test page";
 
 my @images = $mech->images;
-is( scalar @images, 2, "Only two images" );
+is( scalar @images, 3, "Only two images" );
 
 my $first = $images[0];
 is( $first->tag, "img", "img tag" );
@@ -33,3 +33,8 @@ is( $second->url, "bongo.gif" );
 is( $second->alt, undef, "alt" );
 is( $second->height, 142, "height" );
 is( $second->width, 43, "width" );
+
+my $third = $images[2];
+is( $third->url, "linked.gif", "Got the third image" );
+is( $third->tag, "img", "input tag" );
+is( $third->alt, undef, "alt" );
