@@ -24,7 +24,7 @@ sub source_file_ok {
 
     my @x = grep /XXX/, @lines;
 
-    if ( !is( scalar @x, 0 ) ) {
+    if ( !is( scalar @x, 0, "Looking for XXXes" ) ) {
 	diag( $_ ) for @x;
     }
 }
