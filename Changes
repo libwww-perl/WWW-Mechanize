@@ -1,6 +1,6 @@
 Revision history for Perl extension WWW::Mechanize
 
-1.08
+1.08    Fri Dec 24 01:01:06 CST 2004
         [ENHANCEMENTS]
         * Added find_image() and find_all_images().
 

@@ -6,11 +6,11 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 =head1 VERSION
 
-Version 1.06
+Version 1.08
 
 =cut
 
-our $VERSION = "1.06";
+our $VERSION = "1.08";
 
 =head1 SYNOPSIS
 
@@ -1060,10 +1060,12 @@ sub select {
 
     my $input = $form->find_input($name);
     if (!$input) {
-        $self->warn( qq{ Input "$name" not found } );
+        $self->warn( qq{Input "$name" not found} );
         return;
-    } elsif ($input->type ne 'option') {
-        $self->warn( qq{ Input "$name" is not type "select" } );
+    }
+
+    if ($input->type ne 'option') {
+        $self->warn( qq{Input "$name" is not type "select"} );
         return;
     }
 
@@ -1114,10 +1116,10 @@ sub select {
     if (ref($value) eq "ARRAY") {
         $form->param($name, $value);
         return 1;
-    } else {
-        $form->value($name => $value);
-        return 1;
     }
+
+    $form->value($name => $value);
+    return 1;
 }
 
 =head2 $mech->set_fields( $name => $value ... )
