@@ -1,5 +1,7 @@
 package WWW::Mechanize::Link;
 
+use strict;
+
 =head1 NAME
 
 WWW::Mechanize::Link - Link object for WWW::Mechanize
@@ -8,11 +10,6 @@ WWW::Mechanize::Link - Link object for WWW::Mechanize
 
 Link object to encapsulate all the stuff that Mech needs but nobody
 wants to deal with as an array.
-
-=cut
-
-use strict;
-use warnings;
 
 =head1 Constructor
 
