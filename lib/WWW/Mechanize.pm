@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.48
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.13 2003/06/22 18:46:56 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.14 2003/06/23 19:35:08 petdance Exp $
 
 =cut
 
@@ -1001,9 +1001,15 @@ OK to do the redirect.
 =cut
 
 sub redirect_ok {
-    $_[0]->{redirected_uri} = $_[1]->uri;
+    my $self = shift;
+    my $prospective_request = shift;
 
-    return 1;
+    my $ok = $self->SUPER::redirect_ok( $prospective_request );
+    if ( $ok ) {
+	$self->{redirected_uri} = $prospective_request->uri;
+    }
+
+    return $ok;
 };
 
 

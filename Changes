@@ -1,5 +1,11 @@
-# $Id: Changes,v 1.13 2003/06/22 18:46:52 petdance Exp $
+# $Id: Changes,v 1.14 2003/06/23 19:35:08 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
+
+0.49	June 23, 2003
+	[FIXES]
+	* Added a fix a while ago that tracks redirect history.  That fix
+	  had the bad side effect of always allowing a redirect.
+	  That has now been fixed.
 
 0.48	June 22, 2003
 	[ENHANCEMENTS]
