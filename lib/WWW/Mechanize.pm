@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.76
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.124 2004/04/08 02:49:40 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.125 2004/04/10 02:34:17 petdance Exp $
 
 =cut
 
@@ -1258,7 +1258,7 @@ sub request {
         # should I delete the response header?
     };
 
-    if ( $self->{res}->is_success ) {
+    if ( $res->is_success ) {
         $self->{uri} = $self->{redirected_uri};
         $self->{last_uri} = $self->{uri};
     } else {
