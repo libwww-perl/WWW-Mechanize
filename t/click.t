@@ -19,4 +19,4 @@ $response = $t->click("btnG");
 isa_ok( $response, 'HTTP::Response', 'Got back a response' );
 ok( $response->is_success, "Can click 'btnG' ('Google Search' button)");
 
-like($t->{content}, qr/foo\s?fighters/i, "Found 'Foo Fighters'");
+like($t->content, qr/foo\s?fighters/i, "Found 'Foo Fighters'");

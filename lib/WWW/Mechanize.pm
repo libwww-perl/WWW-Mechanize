@@ -53,13 +53,13 @@ our @ISA = qw( LWP::UserAgent );
 
 =head1 VERSION
 
-Version 0.32
+Version 0.33
 
-    $Header: /home/cvs/www-mechanize/lib/WWW/Mechanize.pm,v 1.20 2002/10/24 04:12:42 alester Exp $
+    $Header: /home/cvs/www-mechanize/lib/WWW/Mechanize.pm,v 1.25 2003/01/16 15:58:16 alester Exp $
 
 =cut
 
-our $VERSION = "0.32";
+our $VERSION = "0.33";
 
 our %headers;
 
@@ -80,6 +80,7 @@ sub new {
     my $self = $class->SUPER::new( @_ );
 
     $self->{page_stack} = [];
+    $self->{quiet} = 0;
     $self->agent( "WWW-Mechanize/$VERSION" );
     $self->env_proxy();
 
@@ -104,7 +105,9 @@ The results are stored internally in the agent object, as follows:
      form      Current form                      [HTML::Form]
      links     Array of links found in content 
 
-You can get at them with, for example: C<< $agent->{content} >>
+You can get at them with, for example: C<< $agent->{content} >>, 
+B<BUT PLEASE DON'T>, as these internal hash elements are officially
+deprecated.  Use the accessor methods below.
 
 =cut
 
@@ -122,11 +125,67 @@ sub get {
     return $self->_do_request(); 
 }
 
+=head2 $agent->uri()
+
+Returns the current URI.
+
+=head2 $agent->req()
+
+Returns the current request as an C<HTTP::Request> object.
+
+=head2 $agent->res()
+
+Returns the current response as an C<HTTP::Response> object.
+
+=head2 $agent->status()
+
+Returns the HTTP status code of the response.
+
+=head2 $agent->ct()
+
+Returns the content type of the response.
+
+=head2 $agent->base()
+
+Returns the base URI for the current response
+
+=head2 $agent->content()
+
+Returns the content for the response
+
+=head2 $agent->forms()
+
+Returns an array of C<HTML::Form> objects for the forms found.
+
+=head2 $agent->current_form()
+
+Returns the current form as an C<HTML::Form> object.  I'd call this
+C<form()> except that C<form()> already exists and sets the current_form.
+
+=head2 $agent->links()
+
+Returns an array of the links found
+
+=cut
+
+sub uri {	    my $self = shift; return $self->{uri}; }
+sub req {	    my $self = shift; return $self->{req}; }
+sub res {	    my $self = shift; return $self->{res}; }
+sub status {	    my $self = shift; return $self->{status}; }
+sub ct {	    my $self = shift; return $self->{ct}; }
+sub base {	    my $self = shift; return $self->{base}; }
+sub content {	    my $self = shift; return $self->{content}; }
+sub current_form {  my $self = shift; return $self->{form}; }
+sub forms {	    my $self = shift; return $self->{forms}; }
+sub links {	    my $self = shift; return $self->{links}; }
+
 =head2 $agent->follow($string|$num)
 
 Follow a link.  If you provide a string, the first link whose text 
 matches that string will be followed.  If you provide a number, it will 
 be the nth link on the page.
+
+Returns true if the link was found on the page or undef otherwise.
 
 =cut
 
@@ -139,7 +198,7 @@ sub follow {
             $thislink = $links[$link];
         } else {
             warn "Link number $link is greater than maximum link $#links ",
-                 "on this page ($self->{uri})\n";
+                 "on this page ($self->{uri})\n" unless $self->quiet;
             return undef;
         }
     } else {                        # user provided a regexp
@@ -151,7 +210,7 @@ sub follow {
         }
         unless ($thislink) {
             warn "Can't find any link matching $link on this page ",
-                 "($self->{uri})\n";
+                 "($self->{uri})\n" unless $self->quiet;
             return undef;
         }
     }
@@ -162,6 +221,24 @@ sub follow {
     $self->get( $thislink );
 
     return 1;
+}
+
+=head2 $agent->quiet(true/false)
+
+Allows you to suppress warnings to the screen.
+
+    $agent->quiet(1); # turns on warnings (the default)
+    $agent->quiet(0); # turns off warnings
+    $agent->quiet();  # returns the current quietness status
+
+=cut
+
+sub quiet {
+    my $self = shift;
+
+    $self->{quiet} = $_[0] if @_;
+
+    return $self->{quiet};
 }
 
 =head2 $agent->form($number)
@@ -217,7 +294,7 @@ of the click.
 If there is only one button on the form, C<< $agent->click() >> with
 no arguments simply clicks that one button.
 
-Returns an HTTP status code.
+Returns an HTTP::Response object.
 
 =cut
 
@@ -278,13 +355,13 @@ The return value is a reference to an array containing
 an array reference for every C<< <A> >> and C<< <FRAME> >>
 tag in C<$self->{content}>.  
 
-The array elements for the C<< <A> >> tag are:
+The array elements for the C<< <A> >> tag are: 
 
 =over 4
 
-=item [0]: the contents of the C<href> attribute
+=item [0]: contents of the C<href> attribute
 
-=item [1]: the text enclosed by the C<< <A> >> tag
+=item [1]: text enclosed by the C<< <A> >> tag
 
 =item [2]: the contents of the C<name> attribute
 
@@ -294,11 +371,11 @@ The array elements for the C<< <FRAME> >> tag are:
 
 =over 4
 
-=item [0]: the contents of the C<src> attribute
+=item [0]: contents of the C<src> attribute
 
-=item [1]: the contents of the C<name> attribute
+=item [1]: text enclosed by the C<< <FRAME> >> tag
 
-=item [2]: the contents of the C<name> attribute
+=item [2]: contents of the C<name> attribute
 
 =back
 
