@@ -5,7 +5,7 @@ use Test::More;
 BEGIN {
     eval "use Test::Warn";
     plan skip_all => "Test::Warn required to test warn" if $@;
-    plan tests => 4;
+    plan tests => 6;
 }
 
 BEGIN {
@@ -22,4 +22,10 @@ warning_like {
 warning_like {
     $m->quiet(1);
     $m->warn( "Something bad" );
+} undef, "Quiets correctly";
+
+my $hushed = WWW::Mechanize->new( quiet => 1 );
+isa_ok( $hushed, "WWW::Mechanize" );
+warning_like {
+    $hushed->warn( "Something bad" );
 } undef, "Quiets correctly";
