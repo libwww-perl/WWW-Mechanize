@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.66
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.85 2003/11/26 03:49:20 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.86 2003/11/26 04:29:01 petdance Exp $
 
 =cut
 
@@ -876,6 +876,10 @@ C<text_regex> matches the text of the link against I<regex>.  To select a
 link with text that has "download" anywhere in it, regardless of case, use
 
     $a->find_link( text_regex => qr/download/i );
+
+Note that the text extracted from the page's links are trimmed.  For
+example, C<< <a> foo </a> >> is stored as 'foo', and searching for
+leading or trailing spaces will fail.
 
 =item * C<< url => string >> and C<< url_regex => regex >>
 

@@ -1,4 +1,4 @@
-# $Id: Changes,v 1.84 2003/11/26 03:47:04 petdance Exp $
+# $Id: Changes,v 1.85 2003/11/26 04:29:01 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 0.70	
@@ -11,7 +11,7 @@ Revision history for Perl extension WWW::Mechanize
 	  it in LWP 5.76.
 
 	[DOCUMENTATION]
-	* Patches from Mark Stosberg.
+	* Patches from Mark Stosberg and Jim Cromie.
 
 	Also, a big bump in requirements on LWP: We need 5.76.
 
