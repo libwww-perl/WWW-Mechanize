@@ -1,7 +1,7 @@
-# $Id: Changes,v 1.120 2004/04/05 04:45:04 petdance Exp $
+# $Id: Changes,v 1.121 2004/04/08 02:49:39 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
-0.75_02 Sun Apr  4 23:56:37 CDT 2004
+0.76    Wed Apr  7 22:01:43 CDT 2004
 
         [ENHANCEMENTS]
         * Added update_html() to let you update the HTML for the page
@@ -10,11 +10,13 @@ Revision history for Perl extension WWW::Mechanize
         [FIXES]
         * Test files account for new Google layout.
 
-0.75_01 Sat Mar 27 22:49:14 CST 2004
+        [INTERNALS]
+        * Rearranged the local tests into their own t/local/ directory.
 
-        No changes.  Just reshuffled stuff around, and showed a diag so
-        that David Wheeler can tell me more stuff about why Mech isn't
-        working right.
+        * Made the standalone tests show what server they're hitting.
+
+        * Checked that it runs under LWP 5.78.
+
 
 0.74    Mon Mar 22 23:36:46 CST 2004
 
