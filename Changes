@@ -1,5 +1,8 @@
-# $Id: Changes,v 1.125 2004/04/10 05:45:03 petdance Exp $
+# $Id: Changes,v 1.126 2004/04/10 10:09:33 corion Exp $
 Revision history for Perl extension WWW::Mechanize
+
+        [FIXES]
+        * t/referer.t didn't cope with spaces in $FindBin::Bin
 
 1.00    Sat Apr 10 00:35:51 CDT 2004
 
