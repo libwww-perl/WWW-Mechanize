@@ -51,7 +51,7 @@ do {
         my $html = shift;
 
         $html =~ s[Broken][Fixed]isg;
-        $html =~ s[</option>{0,3}</td>][</option></select></td>]isg;
+        $html =~ s[</option>.{0,3}</td>][</option></select></td>]isg;
 
         $self->WWW::Mechanize::update_html( $html );
     }
