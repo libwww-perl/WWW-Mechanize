@@ -2,7 +2,7 @@ package WWW::Mechanize::Link;
 
 =head1 NAME
 
-WWW::Mechanize::Link - link object for Mechanize
+WWW::Mechanize::Link - Link object for WWW::Mechanize
 
 =head1 SYNOPSIS
 
@@ -37,6 +37,8 @@ sub new {
     return $self;
 }
 
+=head1 Accessors
+
 =head2 C<< $link->url() >>
 
 URL from the link
@@ -67,8 +69,7 @@ sub tag  { return ($_[0])->[3]; }
 
 Copyright 2003 Andy Lester <andy@petdance.com>
 
-Released under the Artistic License.  Based on Kirrily Robert's excellent
-L<WWW::Automate> package.
+Released under the Artistic License.
 
 =cut
 
