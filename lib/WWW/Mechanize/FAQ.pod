@@ -60,12 +60,25 @@ them with
 
     my @frame_links = $mech->find_link( tag => "frame" );
 
+=head2 How do I get a list of HTTP headers and their values?
+
+All L<HTTP::Headers> methods work on a L<HTTP::Response> object which is
+returned by the I<get()>, I<reload()>, I<response()/res()>, I<click()>,
+I<submit_form()>, and I<request()> methods.
+
+    my $mech = WWW::Mechanize->new( autocheck => 1 );
+    $mech->get( 'http://my.site.com' );
+    my $res = $mech->response();
+    for my $key ( $response->header_field_names() ) {
+        print $key, " : ", $response->header( $key ), "\n";
+    }
+
 =head1 Why doesn't this work?
 
 =head2 Why don't https:// URLs work?
- 
+
 You need either L<IO::Socket::SSL> or L<Crypt::SSLeay> installed.
- 
+
 =head2 Why do I get "Input 'fieldname' is readonly"?
 
 You're trying to change the value of a hidden field and you have
@@ -78,7 +91,7 @@ you might be breaking some functionality by faking it out.
 
 If you really do want to change a hidden value, make the changes in a
 scope that has warnings turned off:
- 
+
     {
     local $^W = 0;
     $agent->field( name => $value );
@@ -106,14 +119,14 @@ check that Mech succeeded, or all bets are off.
 
     $mech->get( "http://my.site.com" );
     die "Can't even get the home page: ", $mech->response->status_line
-	unless $mech->success;
+        unless $mech->success;
 
     $mech->follow_link( "foo" );
     die "Foo link failed: ", $mech->response->status_line
-	unless $mech->success;
+        unless $mech->success;
 
 =head1 Author
 
-Copyright 2004 Andy Lester C<< <andy@petdance.com> >>
+Copyright 2005 Andy Lester C<< <andy@petdance.com> >>
 
 =cut
