@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.55
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.38 2003/07/22 15:04:05 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.39 2003/07/22 15:14:44 petdance Exp $
 
 =cut
 
@@ -107,7 +107,6 @@ WWW::Mechanize on the Perl Advent Calendar, by Mark Fowler.
 use strict;
 use warnings;
 
-use Carp qw(carp);
 use HTTP::Request 1.30;
 use LWP::UserAgent 2.003;
 use HTML::Form 1.00;
@@ -270,8 +269,9 @@ sub follow_link {
     my %parms = ( n=>1, @_ );
 
     if ( $parms{n} eq "all" ) {
+	require Carp;
 	delete $parms{n};
-	carp qq{follow_link(n=>"all") is not valid};
+	Carp::carp qq{follow_link(n=>"all") is not valid};
     }
 
     my $response;
@@ -324,8 +324,9 @@ sub form_name {
     my $temp;
     my @matches = grep {defined($temp = $_->attr('name')) and ($temp eq $form) } @{$self->{forms}};
     if ( @matches ) {
+	require Carp;
         $self->{form} = $matches[0];
-        carp "There are ", scalar @matches, " forms named $form.  The first one was used."
+	Carp::carp "There are ", scalar @matches, " forms named $form.  The first one was used."
             if @matches > 1 && !$self->{quiet};
         return 1;
     } else {
@@ -427,7 +428,8 @@ sub tick {
     } # while
 
     # got this far?  Didn't find anything
-    die "No checkbox '$name' for value '$value' in form";
+    require Carp;
+    Carp::carp "No checkbox '$name' for value '$value' in form";
 } # tick()
 
 =head2 C<< $a->untick($name, $value) >>
@@ -527,8 +529,10 @@ sub submit_form {
 
     if ( !$self->quiet ) {
 	for ( keys %args ) {
-	    carp qq{Unknown submit_form parameter "$_"}
-		unless /^(form_(number|name)|fields|button|x|y)$/;
+	    if ( !/^(form_(number|name)|fields|button|x|y)$/ ) {
+		require Carp;
+		Carp::carp qq{Unknown submit_form parameter "$_"}
+	    }
 	}
     }
 
@@ -770,8 +774,10 @@ sub find_link {
 
     if ( !$self->quiet ) {
 	for ( keys %parms ) {
-	    carp qq{Unknown link-finding parameter "$_"}
-		unless /^(n|(text|url)(_regex)?)$/;
+	    if ( !/^(n|(text|url)(_regex)?)$/ ) {
+		require Carp;
+		Carp::carp qq{Unknown link-finding parameter "$_"}
+	    }
 	}
     }
 
@@ -974,7 +980,8 @@ sub follow {
         if ($link <= $#links) {
             $thislink = $links[$link];
         } else {
-            carp "Link number $link is greater than maximum link $#links ",
+	    require Carp;
+	    Carp::carp "Link number $link is greater than maximum link $#links ",
                  "on this page ($self->{uri})" unless $self->quiet;
             return;
         }
@@ -986,7 +993,8 @@ sub follow {
             }
         }
         unless ($thislink) {
-            carp "Can't find any link matching $link on this page ($self->{uri})" unless $self->quiet;
+	    require Carp;
+	    Carp::carp "Can't find any link matching $link on this page ($self->{uri})" unless $self->quiet;
             return;
         }
     }
@@ -1073,8 +1081,9 @@ sub _extract_links {
     # Old extract_links() returned a value.  Carp if someone expects
     # this version to return something.
     if ( defined wantarray ) {
+	require Carp;
 	my $func = (caller(0))[3];
-	carp "$func does not return a useful value" if defined wantarray;
+	Carp::carp "$func does not return a useful value" if defined wantarray;
     }
 
     return;

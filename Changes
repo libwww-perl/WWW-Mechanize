@@ -1,4 +1,4 @@
-# $Id: Changes,v 1.36 2003/07/22 15:04:05 petdance Exp $
+# $Id: Changes,v 1.37 2003/07/22 15:14:44 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 0.55
@@ -11,6 +11,8 @@ Revision history for Perl extension WWW::Mechanize
 
 	* The WWW::Mechanize::Link object now tracks what tag the link
 	  came from (<A>, <FRAME> or <IFRAME>).
+
+	* No longer loads Carp unless and until it's necessary.
 
 	[DOCUMENTATION]
 	* Moved the deprecated methods to their own section.
