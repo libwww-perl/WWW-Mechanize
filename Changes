@@ -1,5 +1,8 @@
-# $Id: Changes,v 1.129 2004/05/27 20:13:37 petdance Exp $
+# $Id: Changes,v 1.130 2004/06/24 19:52:35 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
+
+        [DOCUMENTATION]
+        * Added Ian Langworth's listmod program in WWW::Mechanize::Examples.
 
 1.03_01 Thu May 27 15:13:10 CDT 2004
 
