@@ -1,4 +1,4 @@
-# $Id: Changes,v 1.37 2003/07/22 15:14:44 petdance Exp $
+# $Id: Changes,v 1.38 2003/07/22 15:28:21 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 0.55
@@ -13,6 +13,9 @@ Revision history for Perl extension WWW::Mechanize
 	  came from (<A>, <FRAME> or <IFRAME>).
 
 	* No longer loads Carp unless and until it's necessary.
+
+	* submit_form() now uses the currently specified form if a
+	  form_name or form_number parm is not specified. (RT #2768)
 
 	[DOCUMENTATION]
 	* Moved the deprecated methods to their own section.

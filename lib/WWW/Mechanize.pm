@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.55
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.39 2003/07/22 15:14:44 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.40 2003/07/22 15:28:22 petdance Exp $
 
 =cut
 
@@ -496,7 +496,8 @@ are a list of key/value pairs, all of which are optional.
 
 =item * form_number => n
 
-Selects the I<n>th form (calls C<form_number()>)
+Selects the I<n>th form (calls C<form_number()>).  If this parm is not
+specified, the currently-selected form is used.
 
 =item * form_name => name
 
@@ -541,9 +542,6 @@ sub submit_form {
     }
     elsif ( my $form_name = $args{'form_name'} ) {
         $self->form_name( $form_name ) ;
-    }
-    else {
-        $self->form_number( 1 ) ;
     }
 
     if ( my $fields = $args{'fields'} ) {
