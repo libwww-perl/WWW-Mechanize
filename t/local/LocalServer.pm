@@ -1,4 +1,4 @@
-package Test::HTTP::LocalServer;
+package LocalServer;
 
 # start a fake webserver, fork, and connect to ourselves
 use strict;
