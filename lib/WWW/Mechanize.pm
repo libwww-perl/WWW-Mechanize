@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.73_02
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.113 2004/03/05 17:02:05 corion Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.114 2004/03/15 05:46:12 petdance Exp $
 
 =cut
 
@@ -1233,6 +1233,7 @@ sub request {
 
     return $res;
 } # request
+
 =head2 $mech->_parse_html()
 
 An internal method that initializes forms and links given a HTML document.
