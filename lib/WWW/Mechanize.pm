@@ -1548,7 +1548,7 @@ sub update_html {
        }
     }
     $self->{form}  = $self->{forms}->[0];
-    $self->_extract_links();
+    $self->_extract_links_and_images();
 
     $self->_parse_html(); #For compatibility with folks that used to overload that method.
 
@@ -1700,16 +1700,14 @@ sub _reset_page {
     return;
 }
 
-=head2 $mech->_extract_links()
+=head2 $mech->_extract_links_and_images()
 
 Extracts links from the content of a webpage, and populates the C<{links}>
 property with L<WWW::Mechanize::Link> objects.
 
 =cut
 
-# NOTE: When this list is updated, also update the docs
-# for find_links() : link format mentions it as well
-my %urltags = (
+my %link_tags = (
     a => "href",
     area => "href",
     frame => "src",
@@ -1717,28 +1715,57 @@ my %urltags = (
     meta => "content",
 );
 
-sub _extract_links {
-    require WWW::Mechanize::Link;
+my %image_tags = (
+    img => "src",
+    input => "src",
+);
 
+sub _extract_links_and_images {
     my $self = shift;
 
     my $parser = HTML::TokeParser->new(\$self->{content});
 
     $self->{links} = [];
+    $self->{images} = [];
 
-    while (my $token = $parser->get_tag( keys %urltags )) {
-        my $link = $self->_link_from_token( $token, $parser );
-        push( @{$self->{links}}, $link ) if $link;
+    while (my $token = $parser->get_tag( keys %link_tags, keys %image_tags )) {
+        my $tag = $token->[0];
+        if ( $link_tags{ $tag } ) {
+            my $link = $self->_link_from_token( $token, $parser );
+            push( @{$self->{links}}, $link ) if $link;
+        } else {
+            my $image = $self->_image_from_token( $token, $parser );
+            push( @{$self->{images}}, $image ) if $image;
+        }
     } # while
 
-    # Old extract_links() returned a value.  Carp if someone expects
-    # this version to return something.
-    if ( defined wantarray ) {
-        my $func = (caller(0))[3];
-        $self->warn( "$func does not return a useful value" );
+    return;
+}
+
+sub _image_from_token {
+    my $self = shift;
+    my $token = shift;
+    my $parser = shift;
+
+    my $tag = $token->[0];
+    my $attrs = $token->[1];
+
+    if ( $tag eq "input" ) {
+        my $type = $attrs->{type} or return;
+        return unless $type eq "image";
     }
 
-    return;
+    require WWW::Mechanize::Link;
+    return
+        WWW::Mechanize::Link->new({
+            tag     => $tag,
+            base    => $self->base,
+            url     => $attrs->{src},
+            name    => $attrs->{name},
+            height  => $attrs->{height},
+            width   => $attrs->{width},
+            alt     => $attrs->{alt},
+        });
 }
 
 sub _link_from_token {
@@ -1748,7 +1775,7 @@ sub _link_from_token {
 
     my $tag = $token->[0];
     my $attrs = $token->[1];
-    my $url = $attrs->{$urltags{$tag}};
+    my $url = $attrs->{$link_tags{$tag}};
 
     my $text;
     my $name;
@@ -1781,6 +1808,8 @@ sub _link_from_token {
     } # meta
 
     return unless defined $url;   # probably just a name link or <AREA NOHREF...>
+
+    require WWW::Mechanize::Link;
     return
         WWW::Mechanize::Link->new({
             url  => $url,
