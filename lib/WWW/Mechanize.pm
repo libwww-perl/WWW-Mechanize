@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 1.05_02
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.145 2004/10/19 03:06:07 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.146 2004/10/19 03:11:38 petdance Exp $
 
 =cut
 
@@ -1885,6 +1885,7 @@ Meng Wong,
 Prakash Kailasa,
 Abigail,
 Jan Pazdziora,
+Dominique Quatravaux,
 and the late great Iain Truskett.
 
 =cut
