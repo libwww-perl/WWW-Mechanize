@@ -3,14 +3,6 @@
 use Test::More tests=>1;
 use HTML::Form;
 
-diag( "Version dump" );
-for my $file ( sort keys %INC ) {
-    my $module = $file;
-    $module =~ s[/][::]g;
-    $module =~ s/\.pm$//;
-    diag( ($module->VERSION||"undef") . "\t" . $module );
-}
-
 my $base = "http://localhost/";
 my $content = do { local $/ = undef; <DATA> };
 
