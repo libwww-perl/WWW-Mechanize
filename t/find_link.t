@@ -12,7 +12,7 @@ BEGIN {
 my $t = WWW::Mechanize->new( cookie_jar => undef );
 isa_ok( $t, 'WWW::Mechanize' );
 
-my $uri = URI::file->new_abs( "t/find_link.html" );
+my $uri = URI::file->new_abs( "t/find_link.html" )->as_string;
 
 $t->get( $uri );
 ok( $t->success, "Fetched $uri" ) or die "Can't get test page";

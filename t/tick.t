@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 
 use strict;
-use Test::More tests => 5;
+use Test::More tests => 4;
 use URI::file;
 
 use_ok( 'WWW::Mechanize' );
@@ -9,9 +9,7 @@ use_ok( 'WWW::Mechanize' );
 my $mech = WWW::Mechanize->new( cookie_jar => undef );
 isa_ok( $mech, "WWW::Mechanize" );
 
-my $uri = URI::file->new_abs( "t/tick.html" );
-isa_ok( $uri, "URI::file" );
-
+my $uri = URI::file->new_abs( "t/tick.html" )->as_string;
 $mech->get( $uri );
 ok( $mech->success, $uri );
 

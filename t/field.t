@@ -12,7 +12,7 @@ BEGIN {
 my $t = WWW::Mechanize->new( cookie_jar => undef );
 isa_ok( $t, 'WWW::Mechanize' );
 
-my $uri = URI::file->new_abs( "t/field.html" );
+my $uri = URI::file->new_abs( "t/field.html" )->as_string;
 
 my $response = $t->get( $uri );
 ok( $response->is_success, "Fetched $uri" );

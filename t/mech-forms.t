@@ -11,7 +11,7 @@ my $data = File::Spec->catfile( qw( t google.html ) );
 my $actual = `$exe $data`;
 
 my $target = URI->new_abs( "/target-page", $data );
-$target = URI::file->new_abs( $target );
+$target = URI::file->new_abs( $target )->as_string;
 
 my $expected = <DATA>;
 $expected =~ s/#TARGET#/$target/;
