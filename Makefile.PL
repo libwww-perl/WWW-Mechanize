@@ -27,16 +27,6 @@ EOT
     }
 } # failed connect
 
-eval { require IO::Socket::SSL };
-if ( $@ ) {
-    print <<EOT;
-
-It looks like you don't have IO::Socket::SSL installed.  You will
-not be able to process https:// URLs correctly.
-
-EOT
-}
-
 if ( $skiplive ) {
     touch( FLAG_SKIPLIVE );
 } else {
@@ -50,14 +40,12 @@ my $parms = {
     'ABSTRACT_FROM' => 'lib/WWW/Mechanize.pm', # retrieve abstract from module
     'AUTHOR'	    => 'Andy Lester <andy@petdance.com>',
     'PREREQ_PM'	    => { # e.g., Module::Name => 1.1
-			Carp		    => 0,
 			FindBin		    => 0,
 			HTML::HeadParser    => 0,
 			HTTP::Daemon	    => 0,
 			HTTP::Status	    => 0,
 			LWP		    => 5.69,
 			LWP::UserAgent	    => 2.003,
-			Test::Builder	    => 0.17,
 			URI::URL	    => 0,
 			URI::file	    => 0,
                         HTML::Form	    => 1.00,
@@ -73,6 +61,28 @@ if ( prompt( "Do you want to install the mech-forms utility?", "y" ) =~ /^y/i ) 
     unlink( FLAG_SKIPMECHFORMS );
 } else {
     touch( FLAG_SKIPMECHFORMS );
+}
+
+
+eval { require IO::Socket::SSL };
+if ( $@ ) {
+    print <<EOT;
+
+It looks like you don't have IO::Socket::SSL installed.  You will
+not be able to process https:// URLs correctly.
+
+EOT
+}
+
+eval { require Carp };
+if ( $@ ) {
+    print <<EOT;
+
+It seems that you do not have the Carp module installed.  This is
+optional, but WWW::Mechanize's warnings will be more useful if Carp
+is installed.
+
+EOT
 }
 
 WriteMakefile( %$parms );

@@ -1,4 +1,4 @@
-# $Id: Changes,v 1.42 2003/07/24 16:52:19 petdance Exp $
+# $Id: Changes,v 1.43 2003/07/24 17:07:25 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 0.56    July 24, 2003  11:45am
@@ -10,6 +10,12 @@ Revision history for Perl extension WWW::Mechanize
 
 	  Fortunately, unless you used the new functionality of agent() in
 	  the past two days since I released 0.55, it won't be a problem.
+
+	[ENHANCEMENTS]
+	* Removed the dependencies on Carp and Test::Builder.  There still
+	  is a dependency on Test::Builder for Test::More, but it's no
+	  longer explicit in the Makefile.PL.  Mech will use Carp if
+	  possible, but it's no longer a requirement.
 
 	[INTERNALS]
 	* Added _carp method for handling conditional warnings, rather
