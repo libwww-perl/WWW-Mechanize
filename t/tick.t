@@ -1,10 +1,8 @@
 #!/usr/bin/perl -w
 
 use strict;
-use Test::More;
+use Test::More tests => 5;
 use URI::file;
-
-plan tests => 5;
 
 use_ok( 'WWW::Mechanize' );
 
