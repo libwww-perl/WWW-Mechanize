@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.70
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.94 2003/12/16 21:18:43 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.95 2003/12/16 23:38:11 petdance Exp $
 
 =cut
 
@@ -99,7 +99,7 @@ I<Spidering Hacks> from O'Reilly
 (L<http://www.oreilly.com/catalog/spiderhks/>) is a great book for anyone
 wanting to know more about screen-scraping and spidering.
 
-There are six hacks that refer use Mech or a Mech derivative:
+There are six hacks that use Mech or a Mech derivative:
 
 =over 4
 
