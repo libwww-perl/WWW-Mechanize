@@ -2,7 +2,7 @@ use ExtUtils::MakeMaker qw( WriteMakefile prompt );
 use ExtUtils::Command qw( touch rm_f );
 use strict;
 
-use constant FLAG_SKIPMECHDUMP => "t/SKIP-MECH-FORMS";
+use constant FLAG_SKIPMECHDUMP => "t/SKIP-MECH-DUMP";
 
 # Much logic stolen fromm libwww-perl's Makefile.PL
 my $skiplive = 0;

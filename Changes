@@ -1,4 +1,4 @@
-# $Id: Changes,v 1.66 2003/10/07 22:06:41 petdance Exp $
+# $Id: Changes,v 1.67 2003/10/07 22:20:39 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 0.62	October 7, 2003  5:00pm
@@ -10,6 +10,10 @@ Revision history for Perl extension WWW::Mechanize
 	* Added a die() method.
 	* Can now override the warn() and die() handlers in the
 	  constructor.
+
+	[FIXES]
+	* mech-dump.t no longer runs if you're not installing mech-dump.
+	  See RT #3724.
 
 	[DOCUMENTATION]
 	* More FAQs.  Thanks to Gavin Estey.
