@@ -4,6 +4,7 @@ use strict;
 use Test::More tests => 6;
 use URI::file;
 
+BEGIN { delete @ENV{ qw( http_proxy HTTP_PROXY PATH IFS CDPATH ENV BASH_ENV) }; }
 use_ok( 'WWW::Mechanize' );
 
 my $mech = WWW::Mechanize->new( cookie_jar => undef );
@@ -19,7 +20,7 @@ my $reqstring = $form->click->as_string;
 $reqstring =~ s/\r//g;
 
 # trim off possible extra newline
-$reqstring =~ s/\n$//;
+$reqstring =~ s/^\Z\n//m;
 
 my $wanted = <<'EOT';
 POST http://localhost/
