@@ -56,6 +56,7 @@ my $parms = {
                         'LWP'               => 5.76,
                         'LWP::UserAgent'    => 2.024,
                         'Test::More'        => 0.34,
+						'URI'			    => 1.25,		
                         'URI::URL'          => 0,
                         'URI::file'         => 0,
                         },
