@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.70
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.92 2003/12/01 05:46:55 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.93 2003/12/16 21:10:11 petdance Exp $
 
 =cut
 
@@ -1408,9 +1408,11 @@ that turn Mechanize into more of a scripting tool.
 
 =head2 Other modules that use Mechanize
 
-Here's a list of modules that use or subclass Mechanize.  Let me know of any others:
+Here are modules that use or subclass Mechanize.  Let me know of any others:
 
 =over 4
+
+=item * L<WWW::Bugzilla>
 
 =item * L<WWW::Google::Groups>
 
