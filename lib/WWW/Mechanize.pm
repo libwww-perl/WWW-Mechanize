@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.72
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.105 2004/01/27 02:23:57 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.106 2004/02/06 15:53:04 petdance Exp $
 
 =cut
 
@@ -158,6 +158,11 @@ method existed at press time.
 =item * L<http://www.perladvent.org/2002/16th/>
 
 WWW::Mechanize on the Perl Advent Calendar, by Mark Fowler.
+
+=item * L<http://www.linux-magazin.de/Artikel/ausgabe/2004/03/perl/perl.html>
+
+Michael Schilli's article on Mech and L<WWW::Mechanize::Shell> for the
+German magazine I<Linux Magazin>.
 
 =back
 
