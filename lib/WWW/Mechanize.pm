@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.73
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.107 2004/02/28 03:21:12 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.108 2004/02/28 03:32:49 petdance Exp $
 
 =cut
 
@@ -118,7 +118,7 @@ There are six hacks that use Mech or a Mech derivative:
 
 =back
 
-The book was also positively reviewed on Slashdot: 
+The book was also positively reviewed on Slashdot:
 L<http://books.slashdot.org/article.pl?sid=03/12/11/2126256>
 
 =head2 Online resources
@@ -183,7 +183,7 @@ our %headers;
 
 =head1 Constructor and startup
 
-=head2 new() 
+=head2 new()
 
 Creates and returns a new WWW::Mechanize object, hereafter referred to as
 the 'agent'.
@@ -289,7 +289,7 @@ sub new {
     return $self;
 }
 
-=head2 $mech->agent_alias( $alias ) 
+=head2 $mech->agent_alias( $alias )
 
 Sets the user agent string to the expanded version from a table of actual user strings.
 I<$alias> can be one of the following:
@@ -355,7 +355,7 @@ sub known_agent_aliases {
 
 =head1 Page-fetching methods
 
-=head2 $mech->get($url) 
+=head2 $mech->get($url)
 
 Given a URL/URI, fetches it.  Returns an L<HTTP::Response> object.
 I<$url> can be a well-formed URL string, or a L<URI> object.
@@ -385,7 +385,7 @@ sub get {
     return $self->SUPER::get( $uri->as_string, @_ );
 }
 
-=head2 $mech->reload() 
+=head2 $mech->reload()
 
 Acts like the reload button in a browser: Reperforms the current
 request.
@@ -403,7 +403,7 @@ sub reload {
     return $self->request( $self->{req} );
 }
 
-=head2 $mech->back() 
+=head2 $mech->back()
 
 The equivalent of hitting the "back" button in a browser.  Returns to
 the previous page.  Won't go back past the first page. (Really, what
@@ -418,7 +418,7 @@ sub back {
 
 =head1 Link-following methods
 
-=head2 $mech->follow_link(...) 
+=head2 $mech->follow_link(...)
 
 Follows a specified link on the page.  You specify the match to be
 found using the same parms that C<L<find_link()>> uses.
@@ -474,7 +474,7 @@ sub follow_link {
 
 =head1 Form field filling methods
 
-=head2 $mech->form_number($number) 
+=head2 $mech->form_number($number)
 
 Selects the I<number>th form on the page as the target for subsequent
 calls to C<L<field()>> and C<L<click()>>.  Also returns the form that was
@@ -495,7 +495,7 @@ sub form_number {
     }
 }
 
-=head2 $mech->form_name($name) 
+=head2 $mech->form_name($name)
 
 Selects a form by name.  If there is more than one form on the page
 with that name, then the first one is used, and a warning is
@@ -521,7 +521,7 @@ sub form_name {
     }
 }
 
-=head2 $mech->field($name, $value, $number) 
+=head2 $mech->field($name, $value, $number)
 
 Given the name of a field, set its value to the value specified.  This
 applies to the current form (as set by the C<L<form()>> method or defaulting
@@ -544,7 +544,7 @@ sub field {
     }
 }
 
-=head2 $mech->set_fields( $name => $value ... ) 
+=head2 $mech->set_fields( $name => $value ... )
 
 This method sets multiple fields of a form. It takes a list of field
 name and value pairs. If there is more than one field with the same
@@ -643,7 +643,7 @@ sub set_visible {
 
 } # set_visible()
 
-=head2 $mech->tick( $name, $value [, $set] ) 
+=head2 $mech->tick( $name, $value [, $set] )
 
 'Ticks' the first checkbox that has both the name and value assoicated
 with it on the current form.  Dies if there is no named check box for
@@ -679,7 +679,7 @@ sub tick {
     $self->warn( qq{No checkbox "$name" for value "$value" in form} );
 } # tick()
 
-=head2 $mech->untick($name, $value) 
+=head2 $mech->untick($name, $value)
 
 Causes the checkbox to be unticked.  Shorthand for
 C<tick($name,$value,undef)>
@@ -692,7 +692,7 @@ sub untick {
 
 =head1 Form submission methods
 
-=head2 $mech->click( $button [, $x, $y] ) 
+=head2 $mech->click( $button [, $x, $y] )
 
 Has the effect of clicking a button on a form.  The first argument
 is the name of the button to be clicked.  The second and third
@@ -713,7 +713,7 @@ sub click {
     return $self->request( $request );
 }
 
-=head2 $mech->submit() 
+=head2 $mech->submit()
 
 Submits the page, without specifying a button to click.  Actually,
 no button is clicked at all.
@@ -730,7 +730,7 @@ sub submit {
     return $self->request( $request );
 }
 
-=head2 $mech->submit_form( ... ) 
+=head2 $mech->submit_form( ... )
 
 This method lets you select a form from the previously fetched page,
 fill in its fields, and submit it. It combines the form_number/form_name,
@@ -804,7 +804,7 @@ sub submit_form {
 
 =head1 Status methods
 
-=head2 $mech->success() 
+=head2 $mech->success()
 
 Returns a boolean telling whether the last request was successful.
 If there hasn't been an operation yet, returns false.
@@ -820,51 +820,51 @@ sub success {
 }
 
 
-=head2 $mech->uri() 
+=head2 $mech->uri()
 
 Returns the current URI.
 
-=head2 $mech->response() / $mech->res() 
+=head2 $mech->response() / $mech->res()
 
 Return the current response as an L<HTTP::Response> object.
 
 Synonym for C<< $mech->response() >>
 
-=head2 $mech->status() 
+=head2 $mech->status()
 
 Returns the HTTP status code of the response.
 
-=head2 $mech->ct() 
+=head2 $mech->ct()
 
 Returns the content type of the response.
 
-=head2 $mech->base() 
+=head2 $mech->base()
 
 Returns the base URI for the current response
 
-=head2 $mech->content() 
+=head2 $mech->content()
 
 Returns the content for the response
 
-=head2 $mech->forms() 
+=head2 $mech->forms()
 
 When called in a list context, returns a list of the forms found in
 the last fetched page. In a scalar context, returns a reference to
 an array with those forms. The forms returned are all L<HTML::Form>
 objects.
 
-=head2 $mech->current_form() 
+=head2 $mech->current_form()
 
 Returns the current form as an L<HTML::Form> object.  I'd call this
 C<form()> except that C<L<form()>> already exists and sets the current_form.
 
-=head2 $mech->links() 
+=head2 $mech->links()
 
 When called in a list context, returns a list of the links found in the
 last fetched page.  In a scalar context it returns a reference to an array
 with those links.  Each link is a L<WWW::Mechanize::Link> object.
 
-=head2 $mech->is_html() 
+=head2 $mech->is_html()
 
 Returns true/false on whether our content is HTML, according to the
 HTTP headers.
@@ -894,7 +894,7 @@ sub forms {
 }
 
 
-=head2 $mech->title() 
+=head2 $mech->title()
 
 Returns the contents of the C<< <TITLE> >> tag, as parsed by
 L<HTML::HeadParser>.  Returns undef if the content is not HTML.
@@ -913,7 +913,7 @@ sub title {
 
 =head1 Content-handling methods
 
-=head2 $mech->find_link() 
+=head2 $mech->find_link()
 
 This method finds a link in the currently fetched page. It returns a
 L<WWW::Mechanize::Link> object which describes the link.  (You'll probably
@@ -988,8 +988,8 @@ text of "News" and with "cnn.com" in the URL, use:
 =head2 $mech->find_link() : link format
 
 The return value is a reference to an array containing
-a L<WWW::Mechanize::Link> object for every link in 
-C<< $self->content >>.  
+a L<WWW::Mechanize::Link> object for every link in
+C<< $self->content >>.
 
 The links come from the following:
 
@@ -1027,18 +1027,18 @@ sub find_link {
             next;
         }
 
-	if ($key !~ /_regex$/) {
-	    if (ref($val) eq "Regexp") {
-		$self->warn( qq{$val passed as '$key' is a regex} );
-		delete $parms{$key};
-		next;
-	    }
-	    if ($val =~ /^\s|\s$/) {
-		$self->warn( qq{'$val' is space-padded and cannot succeed} );
-		delete $parms{$key};
-		next;
-	    }
-	}
+        if ($key !~ /_regex$/) {
+            if (ref($val) eq "Regexp") {
+                $self->warn( qq{$val passed as '$key' is a regex} );
+                delete $parms{$key};
+                next;
+            }
+            if ($val =~ /^\s|\s$/) {
+                $self->warn( qq{'$val' is space-padded and cannot succeed} );
+                delete $parms{$key};
+                next;
+            }
+        }
     } # for keys %parms
 
     my @links = $self->links or return;
@@ -1082,7 +1082,7 @@ sub find_link {
     return;
 } # find_link
 
-=head2 $mech->find_all_links( ... ) 
+=head2 $mech->find_all_links( ... )
 
 Returns all the links on the current page that match the criteria.  The
 method for specifying link criteria is the same as in C<L<find_link()>>.
@@ -1104,7 +1104,7 @@ sub find_all_links {
 
 =head1 Miscellaneous methods
 
-=head2 $mech->add_header(name => $value) 
+=head2 $mech->add_header(name => $value)
 
 Sets a header for the WWW::Mechanize agent to use every time it gets
 a webpage.  This is B<NOT> stored in the agent object (because if it
@@ -1121,7 +1121,7 @@ sub add_header {
     $WWW::Mechanize::headers{$name} = $value;
 }
 
-=head2 $mech->quiet(true/false) 
+=head2 $mech->quiet(true/false)
 
 Allows you to suppress warnings to the screen.
 
@@ -1141,7 +1141,7 @@ sub quiet {
 
 =head1 Overridden L<LWP::UserAgent> methods
 
-=head2 $mech->redirect_ok() 
+=head2 $mech->redirect_ok()
 
 An overloaded version of C<redirect_ok()> in L<LWP::UserAgent>.
 This method is used to determine whether a redirection in the request
@@ -1163,7 +1163,7 @@ sub redirect_ok {
 }
 
 
-=head2 $mech->request( $request [, $arg [, $size]]) 
+=head2 $mech->request( $request [, $arg [, $size]])
 
 Overloaded version of C<request()> in L<LWP::UserAgent>.  Performs
 the actual request.  Normally, if you're using WWW::Mechanize, it'd
@@ -1212,7 +1212,7 @@ sub request {
     return $res;
 } # request
 
-=head2 $mech->_parse_html() 
+=head2 $mech->_parse_html()
 
 An internal method that initializes forms and links given a HTML document.
 If you need to override this in your subclass, or call it multiple times,
@@ -1245,7 +1245,7 @@ sub _make_request {
 This methods have been replaced by more flexible and precise methods.
 Please use them instead.
 
-=head2 $mech->follow($string|$num) 
+=head2 $mech->follow($string|$num)
 
 B<DEPRECATED> in favor of C<L<follow_link()>>, which provides more
 flexibility.
@@ -1290,7 +1290,7 @@ sub follow {
     return 1;
 }
 
-=head2 $mech->form($number|$name) 
+=head2 $mech->form($number|$name)
 
 B<DEPRECATED> in favor of C<L<form_name()>> or C<L<form_number()>>.
 
@@ -1309,10 +1309,10 @@ sub form {
 
 =head1 Internal-only methods
 
-These methods are only used internally.  You probably don't need to 
+These methods are only used internally.  You probably don't need to
 know about them.
 
-=head2 $mech->_reset_page() 
+=head2 $mech->_reset_page()
 
 Resets the internal fields that track page parsed stuff.
 
@@ -1325,11 +1325,11 @@ sub _reset_page {
     delete $self->{title};
     $self->{forms} = [];
     delete $self->{form};
-    
+
     return;
 }
 
-=head2 $mech->_extract_links() 
+=head2 $mech->_extract_links()
 
 Extracts links from the content of a webpage, and populates the C<{links}>
 property with L<WWW::Mechanize::Link> objects.
@@ -1349,7 +1349,7 @@ sub _extract_links {
     my $self = shift;
 
     my $p = HTML::TokeParser->new(\$self->{content});
-    
+
     $self->{links} = [];
 
     while (my $token = $p->get_tag( keys %urltags )) {
@@ -1362,10 +1362,10 @@ sub _extract_links {
             $text = $p->get_trimmed_text("/$tag");
             $text = "" unless defined $text;
 
-	    my $onClick = $token->[1]{onclick};
-	    if ( $onClick && ($onClick =~ /^window\.open\(\s*'([^']+)'/) ) {
-		$url = $1;
-	    }
+            my $onClick = $token->[1]{onclick};
+            if ( $onClick && ($onClick =~ /^window\.open\(\s*'([^']+)'/) ) {
+                $url = $1;
+            }
         }
         if ( $tag ne "area" ) {
             $name = $token->[1]{name};
@@ -1385,10 +1385,10 @@ sub _extract_links {
     return;
 }
 
-=head2 $mech->_push_page_stack() / $mech->_pop_page_stack() 
+=head2 $mech->_push_page_stack() / $mech->_pop_page_stack()
 
 The agent keeps a stack of visited pages, which it can pop when it needs
-to go BACK and so on.  
+to go BACK and so on.
 
 The current page needs to be pushed onto the stack before we get a new
 page, and the stack needs to be popped when BACK occurs.

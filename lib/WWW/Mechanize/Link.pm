@@ -13,7 +13,7 @@ wants to deal with as an array.
 
 =head1 Constructor
 
-=head2 new( I<$url>, I<$text>, I<$name>, I<$tag>, I<$base> ) 
+=head2 new( I<$url>, I<$text>, I<$name>, I<$tag>, I<$base> )
 
 Creates and returns a new C<WWW::Mechanize::Link> object.
 
@@ -21,7 +21,7 @@ Creates and returns a new C<WWW::Mechanize::Link> object.
 
 sub new {
     my $class = shift;
-    
+
     my $url = shift;
     my $text = shift;
     my $name = shift;
@@ -39,23 +39,23 @@ sub new {
 
 =head1 Accessors
 
-=head2 $link->url() 
+=head2 $link->url()
 
 URL from the link
 
-=head2 $link->text() 
+=head2 $link->text()
 
 Text of the link
 
-=head2 $link->name() 
+=head2 $link->name()
 
 NAME attribute from the source tag, if any.
 
-=head2 $link->tag() 
+=head2 $link->tag()
 
 Tag name (either "a", "frame" or "iframe").
 
-=head2 $link->base() 
+=head2 $link->base()
 
 Base URL to which the links are relative.
 
