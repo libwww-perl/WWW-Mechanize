@@ -4,7 +4,7 @@ use strict;
 use Test::More;
 use URI::file;
 
-plan tests => 6;
+plan tests => 5;
 
 use_ok( 'WWW::Mechanize' );
 
@@ -29,7 +29,7 @@ my $reqstring = $form->click->as_string;
 
 my $wanted = <<'EOT';
 POST http://localhost/
-Content-Length: 21 
+Content-Length: 21
 Content-Type: application/x-www-form-urlencoded
 
 foo=bye&submit=Submit
