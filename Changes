@@ -1,4 +1,4 @@
-# $Id: Changes,v 1.27 2003/07/20 03:02:36 petdance Exp $
+# $Id: Changes,v 1.28 2003/07/20 03:33:01 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 0.54
@@ -6,6 +6,13 @@ Revision history for Perl extension WWW::Mechanize
 	* extract_links() is now an internal-only method, named
 	  _extract_links().  If you're using it, don't.  Use
 	  find_all_links() instead, which is more flexible.
+
+	* Now, when there is a failure of some kind, certain fields
+	  like title, forms and links are cleared out.  Before, you'd
+	  have leftover links from the previous page.  I suspect that
+	  at least one person out there has been mistakenly relying
+	  on this behavior, and his code will now break, but that's
+	  a good thing.  See t/failure.t for more.
 
 	[FIXES]
 	* No longer tries to tech mech-forms if you're not installing

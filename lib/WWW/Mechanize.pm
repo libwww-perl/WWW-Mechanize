@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.53
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.25 2003/07/20 03:02:36 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.26 2003/07/20 03:33:01 petdance Exp $
 
 =cut
 
@@ -150,13 +150,16 @@ sub new {
     );
 
     my $self = $class->SUPER::new( %default_parms, @_ );
+    bless $self, $class;
 
     $self->{page_stack} = [];
     $self->{quiet} = 0;
     $self->env_proxy();
     push( @{$self->requests_redirectable}, 'POST' );
 
-    return bless $self, $class;
+    $self->_reset_page;
+
+    return $self;
 }
 
 =head1 Page-fetching methods
@@ -927,10 +930,7 @@ sub quiet {
     return $self->{quiet};
 }
 
-=head1 INTERNAL METHODS
-
-These methods are only used internally.  You probably don't need to 
-know about them.
+=head1 Overridden C<LWP::UserAgent> methods
 
 =head2 C<< $a->redirect_ok() >>
 
@@ -999,14 +999,36 @@ sub request {
 	$self->{last_uri} = $self->{uri};
     }
 
-    delete $self->{qw( links title forms form )};
+    $self->_reset_page();
     if ( $self->is_html ) {
         $self->{forms} = [ HTML::Form->parse($self->{content}, $self->{res}->base) ];
-        $self->{form}  = @{$self->{forms}} ? $self->{forms}->[0] : undef;
+        $self->{form}  = $self->{forms}->[0];
         $self->_extract_links();
     }
 
     return $self->{res};
+}
+
+=head1 Internal-only methods
+
+These methods are only used internally.  You probably don't need to 
+know about them.
+
+=head2 C<< $a->_reset_page() >>
+
+Resets the internal fields that track page parsed stuff.
+
+=cut
+
+sub _reset_page {
+    my $self = shift;
+
+    $self->{links} = [];
+    delete $self->{title};
+    $self->{forms} = [];
+    delete $self->{form};
+    
+    return;
 }
 
 =head2 C<< $a->_extract_links() >>
@@ -1156,19 +1178,19 @@ Make a method that finds all the IMG SRC
 
 Allow saving content to a file
 
-=head1 SEE ALSO
+=head1 See Also
 
 See also L<WWW::Mechanize::Examples> for sample code.
 L<WWW::Mechanize::FormFiller> and L<WWW::Mechanize::Shell> are add-ons
 that turn Mechanize into more of a scripting tool.
 
-=head1 REQUESTS & BUGS
+=head1 Requests & Bugs
 
 Please report any requests, suggestions or (gasp!) bugs via the system
 at http://rt.cpan.org/, or email to bug-WWW-Mechanize@rt.cpan.org.
 This makes it much easier for me to track things.
 
-=head1 AUTHOR
+=head1 Author
 
 Copyright 2003 Andy Lester <andy@petdance.com>
 

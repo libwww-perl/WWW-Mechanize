@@ -11,6 +11,7 @@ t/add_header.t
 t/back.t
 t/click-local.t
 t/click.t
+t/failure.t
 t/field.html
 t/field.t
 t/find_link.html

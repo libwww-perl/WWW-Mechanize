@@ -1,6 +1,6 @@
 use warnings;
 use strict;
-use Test::More tests => 8;
+use Test::More tests => 15;
 
 use lib 't/lib';
 use Test::HTTP::LocalServer;
@@ -10,16 +10,35 @@ BEGIN {
     use_ok( 'WWW::Mechanize' );
 }
 
-my $agent = WWW::Mechanize->new;
-isa_ok( $agent, 'WWW::Mechanize' );
+my $a = WWW::Mechanize->new;
+isa_ok( $a, 'WWW::Mechanize', 'Created object' );
 
-my $url = $server->url;
-$agent->get( $url );
-ok( $agent->success, "Get first webpage" );
-isa_ok($agent->uri, "URI", "Set uri");
-ok( $agent->is_html );
-is( $agent->title, "WWW::Mechanize::Shell test page" );
+GOOD_PAGE: {
+    my $response = $a->get($server->url);
+    isa_ok( $response, 'HTTP::Response' );
+    ok( $response->is_success, "Success" );
+    ok( $a->success, "Get webpage" );
+    isa_ok($a->uri, "URI", "Set uri");
+    ok( $a->is_html, "It's HTML" );
+    is( $a->title, "WWW::Mechanize::Shell test page", "Correct title" );
 
-$agent->get( "http://frangotronimon.com.uk:8001/nonesuch/nada/zero/foo.html" );
-ok( !$agent->success, "Didn't get fake page" );
-is( $agent->uri, $url, "Old URI still in place" );
+    my @links = $a->links;
+    is( scalar @links, 8, "eight links, please" );
+    my @forms = $a->forms;
+    is( scalar @forms, 1, "One form" );
+}
+
+BAD_PAGE: {
+    my $badurl = "http://sdlfkjsdlfjks.blofgorongotron.com";
+    $a->get( $badurl );
+
+    ok( !$a->success, 'Failed the fetch' );
+    ok( !$a->is_html, "Isn't HTML" );
+    ok( !defined $a->title, "No title" );
+
+    my @links = $a->links;
+    is( scalar @links, 0, "No links" );
+
+    my @forms = $a->forms;
+    is( scalar @forms, 0, "No forms" );
+}
