@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.61
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.65 2003/10/07 20:14:18 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.66 2003/10/07 20:55:55 petdance Exp $
 
 =cut
 
@@ -169,15 +169,27 @@ sub new {
     my $class = shift;
 
     my %default_parms = (
-        agent       => "WWW-Mechanize/$VERSION",
+        agent	    => "WWW-Mechanize/$VERSION",
         cookie_jar  => {},
+	onwarn	    => \&WWW::Mechanize::_warn,
+	onerror	    => undef,
     );
 
-    my %parms = ( %default_parms, @_ );
+    my %ua_parms = ( %default_parms, @_ );
+    my %mech_parms;
 
-    my $self = $class->SUPER::new( %parms );
+    # Keep the mech-specific parms before creating the object.
+    for my $parm ( qw( onwarn onerror ) ) {
+	$mech_parms{$parm} = delete $ua_parms{$parm} if exists $ua_parms{$parm};
+    }
+
+    my $self = $class->SUPER::new( %ua_parms );
     bless $self, $class;
 
+    # Use the mech parms now that we have a mech object.
+    for my $parm ( keys %mech_parms ) {
+	$self->{$parm} = $mech_parms{$parm};
+    }
     $self->{page_stack} = [];
     $self->{quiet} = 0;
     $self->env_proxy();
@@ -1245,13 +1257,29 @@ sub _pop_page_stack {
 sub warn {
     my $self = shift;
 
-    if ( !$self->quiet ) {
-	eval "require Carp";
-	if ( $@ ) {
-	    warn @_;
-	} else {
-	    &Carp::carp; # pass thru
-	}
+    return unless my $handler = $self->{onwarn};
+
+    return if $self->quiet;
+
+    $handler->(@_);
+}
+
+sub die {
+    my $self = shift;
+
+    return unless my $handler = $self->{onerror};
+
+    $handler->(@_);
+}
+
+
+# NOT an object method!
+sub _warn {
+    eval "require Carp";
+    if ( $@ ) {
+	CORE::warn @_;
+    } else {
+	&Carp::carp; # pass thru
     }
     return;
 }
