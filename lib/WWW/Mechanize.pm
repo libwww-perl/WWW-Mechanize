@@ -2051,6 +2051,12 @@ sub _die {
     &Carp::croak; # pass thru
 }
 
+=head1 WWW::MECHANIZE'S SUBVERSION REPOSITORY
+
+Mech is hosted by the kind generosity of Ask and Robert,
+maintainers of perl.org.  The Subversion repository is at
+L<http://svn.perl.org/modules/www-mechanize>.
+
 =head1 OTHER DOCUMENTATION
 
 =head2 I<Spidering Hacks>, by Kevin Hemenway and Tara Calishain
@@ -2080,7 +2086,7 @@ There are six hacks that use Mech or a Mech derivative:
 The book was also positively reviewed on Slashdot:
 L<http://books.slashdot.org/article.pl?sid=03/12/11/2126256>
 
-=head2 Online resources
+=head1 ONLINE RESOURCES
 
 =over 4
 
