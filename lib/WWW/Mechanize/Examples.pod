@@ -1,0 +1,124 @@
+=head1 NAME
+
+WWW::Mechanize::Examples - Sample programs that use WWW::Mechanize
+
+=head1 SYNOPSIS
+
+Plenty of people have learned WWW::Mechanize, and now, you can too!
+
+Following are user-supplied samples of WWW::Mechanize in action.
+If you have samples you'd like to contribute, please send 'em to
+mechanize@petdance.com.
+
+You can also look at the F<t/*.t> files in the distribution.
+
+Please note that these examples are not intended to do any specific task.
+For all I know, they're no longer functional because the sites they
+hit have changed.  They're here to give examples of how people have
+used WWW::Mechanize.
+
+Note that the examples are in reverse order of my having received them,
+so the freshest examples are always at the top.
+
+=head2 lj_friends.cgi, by Matt Cashner
+
+    #!/usr/bin/perl
+
+    # Provides an rss feed of a paid user's LiveJournal friends list
+    # Full entries, protected entries, etc.
+    # Add to your favorite rss reader as
+    # http://your.site.com/cgi-bin/lj_friends.cgi?user=USER&password=PASSWORD
+
+    use warnings;
+    use strict;
+
+    use WWW::Mechanize;
+    use CGI;
+
+    my $cgi = CGI->new();
+    my $form = $cgi->Vars;
+
+    my $agent = WWW::Mechanize->new();
+
+    $agent->get('http://www.livejournal.com/login.bml');
+    $agent->form_number('3');
+    $agent->field('user',$form->{user});
+    $agent->field('password',$form->{password});
+    $agent->submit();
+    $agent->get('http://www.livejournal.com/customview.cgi?user='.$form->{user}.'&styleid=225596&checkcookies=1');
+    print "Content-type: text/plain\n\n";
+    print $agent->content();
+
+=head2 Hacking Movable Type, by Dan Rinzel
+
+    use WWW::Mechanize;
+
+    # a tool to automatically post entries to a moveable type weblog, and set arbitary creation dates
+
+    my $mech = WWW::Mechanize->new();
+    my %entry;
+    $entry->{title} = "Test AutoEntry Title";
+    $entry->{btext} = "Test AutoEntry Body";
+    $entry->{date} = '2002-04-15 14:18:00';
+    my $start = qq|http://my.blog.site/mt.cgi|;
+
+    $mech->get($start);
+    $mech->field('username','und3f1n3d');
+    $mech->field('password','obscur3d');
+    $mech->submit(); # to get login cookie
+    $mech->get(qq|$start?__mode=view&_type=entry&blog_id=1|);
+    $mech->form('entry_form');
+    $mech->field('title',$entry->{title});
+    $mech->field('category_id',1); # adjust as needed
+    $mech->field('text',$entry->{btext});
+    $mech->field('status',2); # publish, or 1 = draft
+    $results = $mech->submit(); 
+
+    # if we're ok with this entry being datestamped "NOW" (no {date} in %entry)
+    # we're done. Otherwise, time to be tricksy
+    # MT returns a 302 redirect from this form. the redirect itself contains a <body onload=""> handler
+    # which takes the user to an editable version of the form where the create date can be edited	
+    # MT date format of YYYY-MM-DD HH:MI:SS is the only one that won't error out
+
+    if ($entry->{date} && $entry->{date} =~ /^\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}/) {
+	# travel the redirect
+	$results = $mech->get($results->{_headers}->{location});
+	$results->{_content} =~ /<body onLoad="([^\"]+)"/is;
+	my $js = $1;
+	$js =~ /\'([^']+)\'/;
+	$results = $mech->get($start.$1);
+	$mech->form('entry_form');
+	$mech->field('created_on_manual',$entry->{date});
+	$mech->submit();
+    }
+
+=head2 get-despair, by Randal Schwartz
+
+Randal submitted this bot that walks the despair.com site sucking down
+all the pictures.
+
+    use strict; 
+    $|++;
+     
+    use WWW::Mechanize;
+    use File::Basename; 
+      
+    my $m = WWW::Mechanize->new;
+     
+    $m->get("http://www.despair.com/indem.html");
+     
+    my @top_links = @{$m->links};
+      
+    for my $top_link_num (0..$#top_links) {
+	next unless $top_links[$top_link_num][0] =~ /^http:/; 
+	 
+	$m->follow($top_link_num) or die "can't follow $top_link_num";
+	 
+	print $m->uri, "\n";
+	for my $image (grep m{^http://store4}, map $_->[0], @{$m->links}) { 
+	    my $local = basename $image;
+	    print " $image...", $m->mirror($image, $local)->message, "\n"
+	}
+	 
+	$m->back or die "can't go back";
+    }

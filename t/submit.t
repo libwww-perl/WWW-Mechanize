@@ -7,10 +7,10 @@ BEGIN {
 }
 
 my $t = WWW::Mechanize->new();
-isa_ok( $t, 'WWW::Mechanize', 'Created the object' );
+isa_ok( $t, 'WWW::Mechanize', 'Created the object' ) or die;
 
 my $response = $t->get( "http://www.google.com/intl/en/");
-isa_ok( $response, 'HTTP::Response', 'Got back a response' );
+isa_ok( $response, 'HTTP::Response', 'Got back a response' ) or die;
 ok( $response->is_success, 'Got google' ) or die "Can't even fetch google";
 ok( $t->is_html );
 

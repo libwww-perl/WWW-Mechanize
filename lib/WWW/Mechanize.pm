@@ -27,6 +27,9 @@ This module is intended to help you automate interaction with a website.
     use Test::More;
     like( $agent->{content}, qr/$expected/, "Got expected content" );
 
+See also L<WWW::Mechanize::Examples> for numerous examples of
+WWW::Mechanize in action.
+
 =cut
 
 use strict;
@@ -43,13 +46,13 @@ our @ISA = qw( LWP::UserAgent );
 
 =head1 VERSION
 
-Version 0.39
+Version 0.40
 
-    $Header: /home/cvs/www-mechanize/lib/WWW/Mechanize.pm,v 1.49 2003/04/02 05:26:13 alester Exp $
+    $Header: /home/cvs/www-mechanize/lib/WWW/Mechanize.pm,v 1.64 2003/04/20 02:45:06 alester Exp $
 
 =cut
 
-our $VERSION = "0.39";
+our $VERSION = "0.40";
 
 our %headers;
 
@@ -84,8 +87,8 @@ sub new {
     my $class = shift;
 
     my %default_parms = (
-	agent	    => "WWW-Mechanize/$VERSION",
-	cookie_jar  => {},
+        agent       => "WWW-Mechanize/$VERSION",
+        cookie_jar  => {},
     );
 
     my $self = $class->SUPER::new( %default_parms, @_ );
@@ -112,9 +115,9 @@ sub get {
     my ($self, $uri) = @_;
 
     if ( $self->{base} ) {
-	$self->{uri} = URI->new_abs( $uri, $self->{base} );
+        $self->{uri} = URI->new_abs( $uri, $self->{base} );
     } else {
-	$self->{uri} = URI->new( $uri );
+        $self->{uri} = URI->new( $uri );
     }
 
     $self->{req} = HTTP::Request->new( GET => $self->{uri} );
@@ -152,8 +155,10 @@ Returns the content for the response
 
 =head2 C<< $agent->forms() >>
 
-Returns a reference to an array of C<HTML::Form> objects for the forms
-found.
+When called in a list context, returns a list of the forms found in
+the last fetched page. In a scalar context, returns a reference to
+an array with those forms. The forms returned are all C<HTML::Form>
+objects.
 
 =head2 C<< $agent->current_form() >>
 
@@ -162,7 +167,10 @@ C<form()> except that C<form()> already exists and sets the current_form.
 
 =head2 C<< $agent->links() >>
 
-Returns an arrayref of the links found
+When called in a list context, returns a list of the links found in
+the last fetched page. In a scalar context it returns a reference to
+an array with those links. The links returned are all references to
+two element arrays which contain the URL and the text for each link.
 
 =head2 C<< $agent->is_html() >>
 
@@ -171,17 +179,28 @@ HTTP headers.
 
 =cut
 
-sub uri {	    my $self = shift; return $self->{uri}; }
-sub req {	    my $self = shift; return $self->{req}; }
-sub res {	    my $self = shift; return $self->{res}; }
-sub status {	    my $self = shift; return $self->{status}; }
-sub ct {	    my $self = shift; return $self->{ct}; }
-sub base {	    my $self = shift; return $self->{base}; }
-sub content {	    my $self = shift; return $self->{content}; }
+sub uri {           my $self = shift; return $self->{uri}; }
+sub req {           my $self = shift; return $self->{req}; }
+sub res {           my $self = shift; return $self->{res}; }
+sub status {        my $self = shift; return $self->{status}; }
+sub ct {            my $self = shift; return $self->{ct}; }
+sub base {          my $self = shift; return $self->{base}; }
+sub content {       my $self = shift; return $self->{content}; }
 sub current_form {  my $self = shift; return $self->{form}; }
-sub forms {	    my $self = shift; return $self->{forms}; }
-sub links {	    my $self = shift; return $self->{links}; }
-sub is_html {	    my $self = shift; return $self->{ct} eq "text/html"; }
+sub is_html {       my $self = shift; return $self->{ct} eq "text/html"; }
+
+sub links {
+    my $self = shift ;
+    return @{$self->{links}} if wantarray;
+    return $self->{links};
+}
+
+sub forms {
+    my $self = shift ;
+    return @{$self->{forms}} if wantarray;
+    return $self->{forms};
+}
+
 
 =head2 C<< $agent->title() >>
 
@@ -246,6 +265,213 @@ sub follow {
     return 1;
 }
 
+
+=head2 C<< $agent->find_link() >>
+
+This method finds a link in the current page. You can select which
+link to follow by passing in one of these key/value pairs:
+
+=over 4
+
+=item text => string
+
+Matches the text of the link against I<string>, which must be an
+exact match.
+
+To match text that says "download", use
+
+    $agent->find_link( text => "download" );
+
+=item text_regex => regex
+
+Matches the text of the link against I<regex>.
+
+To match text that has "download" anywhere in it, regardless of
+case, use
+
+    $agent->find_link( text => qr/download/ );
+
+=item url => string
+
+Matches the text of the link against I<string>, which must be an
+exact match.  This is similar to the C<text> parm.
+
+=item url_regex => regex
+
+Matches the URL of the link against I<regex>.  This is similar to
+the C<url_regex> parm.
+
+=item n => number
+
+Matches against the I<n>th link.  If C<text> or C<uri> is specified,
+then C<n> acts as a modifier for that.  For example, 
+C<< text => "download", n => 3 >> finds the 3rd link of "download".
+
+=back
+
+If C<n> is not specified, it defaults to 1.  Therefore, if you
+don't specify any parms, it defaults to the first link found on
+the page.
+
+=cut
+
+sub find_link {
+    my $self = shift;
+    my %parms = ( n=>1, @_ );
+
+    my @links = @{$self->{links}};
+
+    return undef unless @links ;
+
+    my $match;
+    my $arg;
+
+    if ( defined ($arg = $parms{url}) ) {
+	$match = sub { $_[0]->[0] eq $arg };
+
+    } elsif ( defined ($arg = $parms{url_regex}) ) {
+	$match = sub { $_[0]->[0] =~ $arg }
+
+    } elsif ( defined ($arg = $parms{text}) ) {
+	$match = sub { $_[0]->[1] eq $arg };
+
+    } elsif ( defined ($arg = $parms{text_regex} )) {
+	$match = sub { $_[0]->[1] =~ $arg }
+
+    } else {
+	$match = sub { 1 };
+    }
+
+    my $nmatches = 0;
+    for my $link ( @links ) {
+	if ( $match->($link) ) {
+	    $nmatches++;
+	    return $link if $nmatches >= $parms{n};
+	}
+    } # for @links
+
+    return undef;
+} # find_link
+
+=head2 C<< $agent->follow_link() >>
+
+Follows a specified link on the page.  You specify the match to be
+found using the same parms that C<find_link()> uses.
+
+Here's some examples:
+
+=over 4
+
+=item * 3rd link called "download"
+
+    $agent->follow_link( text => "download", n => 3 );
+
+=item * first link where the URL has "download" in it, regardless of case:
+
+    $agent->follow_link( url_regex => qr/download/i );
+
+or
+
+    $agent->follow_link( url_regex => "(?i:download)" );
+
+=item * 3rd link on the page
+
+    $agent->follow_link( n => 3 );
+
+=back
+
+Returns the result of the GET method (an HTTP::Response object) if
+a link was found. If the page has no links, or the specified link
+couldn't be found, returns undef.
+
+This method is meant to replace C<< $agent->follow() >> which should
+not be used in future development.
+
+=cut
+
+sub follow_link {
+    my $self = shift;
+
+    my $response;
+    my $link_ref = $self->find_link(@_);
+    if ( $link_ref ) {
+	my $link = $link_ref->[0];     # we just want the URL, not the text
+	$self->_push_page_stack();
+	$response = $self->get( $link );
+    }
+
+    return $response;
+}
+
+=head2 C<< $agent->submit_form() >>
+
+This method lets you select a form from the previously fetched page,
+fill in its fields, and submit it. It combines the form_number/form_name,
+set_fields and click methods into one higher level call. Its arguments
+are a list of key/value pairs, all of which are optional.
+
+=over 4
+
+=item * form_number => n
+
+Selects the I<n>th form (calls C<form_number()>)
+
+=item * form_name => name
+
+Selects the form named I<name> (calls C<form_name()>)
+
+=item * fields => fields
+
+Sets the field values from the I<fields> hashref (calls C<set_fields()>)
+
+=item * button => button
+
+Clicks on button I<button> (calls C<click()>)
+
+=item * x => x, y => y
+
+Sets the x or y values for C<click()>
+
+=back
+
+If no form is selected, the first form found is used.
+
+If I<button> is not passed, then the C<submit()> method is used instead.
+
+Returns an HTTP::Response object.
+
+=cut
+
+sub submit_form {
+    my( $self, %args ) = @_ ;
+
+    if ( my $form_number = $args{'form_number'} ) {
+	$self->form_number( $form_number ) ;
+    }
+    elsif ( my $form_name = $args{'form_name'} ) {
+        $self->form_name( $form_name ) ;
+    }
+    else {
+        $self->form_number( 1 ) ;
+    }
+
+    if ( my $fields = $args{'fields'} ) {
+        if ( ref $fields eq 'HASH' ) {
+	    $self->set_fields( %{$fields} ) ;
+        }
+    }
+
+    my $response;
+    if ( $args{button} ) {
+	$response = $self->click( $args{button}, $args{x} || 0, $args{y} || 0 );
+    } else {
+	$response = $self->submit();
+    }
+
+    return $response ;
+}
+
+
 =head2 C<< $agent->quiet(true/false) >>
 
 Allows you to suppress warnings to the screen.
@@ -268,7 +494,9 @@ sub quiet {
 
 Selects a form by number or name, depending on if it gets passed an
 all-numeric string or not.  If you have a form with a name that is all
-digits, you'll need to call C< $agent->form_name > explicitly.
+digits, you'll need to call C<< $agent->form_name >> explicitly.
+
+This method is deprecated. Use C<form_name> or C<form_number> instead.
 
 =cut
 
@@ -314,9 +542,9 @@ sub form_name {
     my $temp;
     my @matches = grep {defined($temp = $_->attr('name')) and ($temp eq $form) } @{$self->{forms}};
     if ( @matches ) {
-	$self->{form} = $matches[0];
-	warn "There are ", scalar @matches, " forms named $form.  The first one was used."
-	    if @matches > 1 && !$self->{quiet};
+        $self->{form} = $matches[0];
+        warn "There are ", scalar @matches, " forms named $form.  The first one was used."
+            if @matches > 1 && !$self->{quiet};
         return 1;
     } else {
         carp "There is no form named $form" unless $self->{quiet};
@@ -341,9 +569,42 @@ sub field {
 
     my $form = $self->{form};
     if ($number > 1) {
-	$form->find_input($name, undef, $number)->value($value);
+        $form->find_input($name, undef, $number)->value($value);
     } else {
         $form->value($name => $value);
+    }
+}
+
+=head2 C<< $agent->set_fields( $name => $value ... ) >>
+
+This method sets multiple fields of a form. It takes a list of field
+name and value pairs. If there is more than one field with the same
+name, the first one found is set. If you want to select which of the
+duplicate field to set, use a value which is an anonymous array which
+has the field value and its number as the 2 elements.
+
+        # set the second foo field
+        $agent->set_fields( $name => [ 'foo', 2 ] ) ;
+
+The fields are numbered from 1.
+
+This applies to the current form (as set by the C<form()> method or
+defaulting to the first form on the page).
+
+=cut
+
+sub set_fields {
+    my ($self, %fields ) = @_;
+
+    my $form = $self->{form};
+
+    while( my ( $field, $value ) = each %fields ) {
+        if ( ref $value eq 'ARRAY' ) {
+            $form->find_input( $field, undef,
+                         $value->[1])->value($value->[0] );
+        } else {
+            $form->value($field => $value);
+        }
     }
 }
 
@@ -459,13 +720,13 @@ sub extract_links {
     my @links;
 
     while (my $token = $p->get_tag("a", "frame")) {
-	my $tag_is_a = ($token->[0] eq 'a');
-	my $url = $tag_is_a ? $token->[1]{href} : $token->[1]{src};
-	next unless defined $url;   # probably just a name link
+        my $tag_is_a = ($token->[0] eq 'a');
+        my $url = $tag_is_a ? $token->[1]{href} : $token->[1]{src};
+        next unless defined $url;   # probably just a name link
 
-	my $text = $tag_is_a ? $p->get_trimmed_text("/a") : $token->[1]{name};
-	my $name = $token->[1]{name};
-	push(@links, [$url, $text, $name]);
+        my $text = $tag_is_a ? $p->get_trimmed_text("/a") : $token->[1]{name};
+        my $name = $token->[1]{name};
+        push(@links, [$url, $text, $name]);
     }
     return \@links;
 }
@@ -505,17 +766,17 @@ sub _pop_page_stack {
     my $self = shift;
 
     if (@{$self->{page_stack}}) {
-	my $popped = pop @{$self->{page_stack}};
+        my $popped = pop @{$self->{page_stack}};
 
-	# eliminate everything in self
-	foreach my $key ( keys %$self ) {
-	    delete $self->{ $key }		unless $key eq 'page_stack';
-	}
+        # eliminate everything in self
+        foreach my $key ( keys %$self ) {
+            delete $self->{ $key }              unless $key eq 'page_stack';
+        }
 
-	# make self just like the popped object
-	foreach my $key ( keys %$popped ) {
-	    $self->{ $key } = $popped->{ $key } unless $key eq 'page_stack';
-	}
+        # make self just like the popped object
+        foreach my $key ( keys %$popped ) {
+            $self->{ $key } = $popped->{ $key } unless $key eq 'page_stack';
+        }
     }
 
     return 1;
@@ -532,9 +793,10 @@ Returns an L<HTTP::Response> object.
 =cut
 
 sub _do_request {
-    my ($self) = @_;
-    foreach my $h (keys %WWW::Mechanize::headers) {
-        $self->{req}->header( $h => $WWW::Mechanize::headers{$h} );
+    my $self = shift;
+
+    while ( my($key,$value) = each %WWW::Mechanize::headers ) {
+        $self->{req}->header( $key => $value );
     }
     $self->{res}     = $self->request($self->{req});
 
@@ -554,91 +816,12 @@ sub _do_request {
     return $self->{res};
 }
 
-=head1 EXAMPLES
+=head1 MORE DOCUMENTATION
 
-Following are user-supplied samples of WWW::Mechanize in action.  If you
-have samples you'd like to contribute, please send 'em.
+Randal Schwartz has written a column on WWW::Mechanize, available at
+L<http://www.stonehenge.com/merlyn/LinuxMag/col47.html>.
 
-You can also look at the F<t/*.t> files in the distribution.
-
-Please note that these examples are not intended to do any specific task.
-For all I know, they're no longer functional because the sites they
-hit have changed.  They're here to give examples of how people have
-used WWW::Mechanize.
-
-=head2 get-despair, by Randal Schwartz
-
-Randal submitted this bot that walks the despair.com site sucking down
-all the pictures.
-
-    use strict; 
-    $|++;
-     
-    use WWW::Mechanize;
-    use File::Basename; 
-      
-    my $m = WWW::Mechanize->new;
-     
-    $m->get("http://www.despair.com/indem.html");
-     
-    my @top_links = @{$m->links};
-      
-    for my $top_link_num (0..$#top_links) {
-	next unless $top_links[$top_link_num][0] =~ /^http:/; 
-	 
-	$m->follow($top_link_num) or die "can't follow $top_link_num";
-	 
-	print $m->uri, "\n";
-	for my $image (grep m{^http://store4}, map $_->[0], @{$m->links}) { 
-	    my $local = basename $image;
-	    print " $image...", $m->mirror($image, $local)->message, "\n"
-	}
-	 
-	$m->back or die "can't go back";
-    }
-
-=head2 Hacking Movable Type, by Dan Rinzel
-
-    use WWW::Mechanize;
-
-    # a tool to automatically post entries to a moveable type weblog, and set arbitary creation dates
-
-    my $mech = WWW::Mechanize->new();
-    my %entry;
-    $entry->{title} = "Test AutoEntry Title";
-    $entry->{btext} = "Test AutoEntry Body";
-    $entry->{date} = '2002-04-15 14:18:00';
-    my $start = qq|http://my.blog.site/mt.cgi|;
-
-    $mech->get($start);
-    $mech->field('username','und3f1n3d');
-    $mech->field('password','obscur3d');
-    $mech->submit(); # to get login cookie
-    $mech->get(qq|$start?__mode=view&_type=entry&blog_id=1|);
-    $mech->form('entry_form');
-    $mech->field('title',$entry->{title});
-    $mech->field('category_id',1); # adjust as needed
-    $mech->field('text',$entry->{btext});
-    $mech->field('status',2); # publish, or 1 = draft
-    $results = $mech->submit(); 
-
-    # if we're ok with this entry being datestamped "NOW" (no {date} in %entry)
-    # we're done. Otherwise, time to be tricksy
-    # MT returns a 302 redirect from this form. the redirect itself contains a <body onload=""> handler
-    # which takes the user to an editable version of the form where the create date can be edited	
-    # MT date format of YYYY-MM-DD HH:MI:SS is the only one that won't error out
-
-    if ($entry->{date} && $entry->{date} =~ /^\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}/) {
-	# travel the redirect
-	$results = $mech->get($results->{_headers}->{location});
-	$results->{_content} =~ /<body onLoad="([^\"]+)"/is;
-	my $js = $1;
-	$js =~ /\'([^']+)\'/;
-	$results = $mech->get($start.$1);
-	$mech->form('entry_form');
-	$mech->field('created_on_manual',$entry->{date});
-	$mech->submit();
-    }
+L<WWW::Mechanize::Examples> has many examples of WWW::Mechanize in action.
 
 =head1 REQUESTS & BUGS
 

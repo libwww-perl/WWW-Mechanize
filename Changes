@@ -1,5 +1,16 @@
-# $Id: Changes,v 1.25 2003/04/02 05:24:30 alester Exp $
+# $Id: Changes,v 1.33 2003/04/20 02:51:58 alester Exp $
 Revision history for Perl extension WWW::Mechanize
+
+0.40	April 18, 2003
+	[ENHANCEMENTS]
+	* Three new methods.
+	  * find_link() for finding a specified link
+	  * follow_link() for following a specified link
+	  * submit_form() for all-in-one form submission.
+	  All three owe a great deal to Uri Guttmann.  Thanks, Uri!
+	* Split out the examples into WWW::Mechanize::Examples.pod
+	* Added t/back.t
+	* Documentation fixes from Abigail
 
 0.39	April 1, 2003
 	[ENHANCEMENTS]

@@ -3,11 +3,15 @@ Makefile.PL
 MANIFEST
 README
 lib/WWW/Mechanize.pm
+lib/WWW/Mechanize/Examples.pod
 t/00.load.t
+t/99.pod.t
 t/add_header.t
 t/click.t
 t/field.html
 t/field.t
+t/find_link.html
+t/find_link.t
 t/follow.t
 t/form.t
 t/get.t
