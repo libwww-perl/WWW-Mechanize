@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.72
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.104 2004/01/13 21:40:24 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.105 2004/01/27 02:23:57 petdance Exp $
 
 =cut
 
@@ -1500,6 +1500,8 @@ Here are modules that use or subclass Mechanize.  Let me know of any others:
 =item * L<WWW::Mechanize::Sleepy>
 
 =item * L<WWW::Mechanize::SpamCop>
+
+=item * L<WWW::Mechanize::Timed>
 
 =item * L<WWW::Yahoo::Groups>
 
