@@ -1,7 +1,7 @@
-# $Id: Changes,v 1.31 2003/07/20 05:26:08 petdance Exp $
+# $Id: Changes,v 1.32 2003/07/20 05:47:50 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
-0.54
+0.54	July 20, 2003  12:47am
 	[THINGS THAT MIGHT BREAK YOUR CODE]
 	* See the enhancements on extract_links() and failures.
 	  Also, see the note about #2811 below.
