@@ -30,7 +30,7 @@ GOOD_PAGE: {
 }
 
 BAD_PAGE: {
-    my $badurl = "http://sdlfkjsdlfjks.blofgorongotron.com";
+    my $badurl = "http://sdlfkjsdlfjks.blofgorongotron.xx-only-testing";
     $a->get( $badurl );
 
     ok( !$a->success, 'Failed the fetch' );
