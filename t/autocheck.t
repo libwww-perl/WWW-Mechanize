@@ -10,6 +10,7 @@ BEGIN {
     plan tests => 5;
 }
 
+BEGIN { delete $ENV{ qw( http_proxy HTTP_PROXY ) }; }
 BEGIN {
     use_ok( 'WWW::Mechanize' );
 }
