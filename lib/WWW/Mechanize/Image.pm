@@ -60,7 +60,7 @@ Name for the field from the NAME attribute, if any.
 
 =head2 $link->tag()
 
-Tag name (either "a", "frame" or "iframe").
+Tag name (either "image" or "input")
 
 =head2 $link->height()
 

@@ -78,7 +78,7 @@ NAME attribute from the source tag, if any.
 
 =head2 $link->tag()
 
-Tag name (either "a", "frame" or "iframe").
+Tag name (one of: "a", "area", "frame", "iframe" or "meta").
 
 =head2 $link->base()
 
