@@ -1,5 +1,9 @@
-# $Id: Changes,v 1.163 2004/11/06 05:37:17 petdance Exp $
+# $Id: Changes,v 1.164 2004/11/28 04:57:27 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
+
+next
+        [INTERNALS]
+        * Now uses the C<base> pragma instead of setting C<@ISA>.
 
 1.05_04 Fri Nov  5 23:35:38 CST 2004
         [ENHANCEMENTS]

@@ -101,7 +101,7 @@ use HTML::Form 1.00;
 use HTML::TokeParser;
 use URI::URL;
 
-our @ISA = qw( LWP::UserAgent );
+use base 'LWP::UserAgent';
 
 =head1 CONSTRUCTOR AND STARTUP
 
