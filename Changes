@@ -1,5 +1,9 @@
-# $Id: Changes,v 1.89 2003/12/01 05:46:55 petdance Exp $
+# $Id: Changes,v 1.90 2003/12/15 05:58:05 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
+
+	[INTERNALS]
+	* Heavy use of the new Test::Memory::Cycle module.
+
 
 0.70	Sun Nov 30 23:45:27 CST 2003
 	[THINGS THAT MAY BREAK YOUR CODE]
