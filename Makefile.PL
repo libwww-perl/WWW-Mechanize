@@ -10,9 +10,10 @@ use constant FLAG_SKIPMECHDUMP => File::Spec->catfile( "t", "SKIP-MECH-DUMP" );
 my $skiplive = 0;
 
 require IO::Socket;
-my $s = IO::Socket::INET->new(PeerAddr => "www.google.com:80",
-			      Timeout  => 10,
-			     );
+my $s = IO::Socket::INET->new(
+    PeerAddr => "www.google.com:80",
+    Timeout  => 10,
+);
 if ($s) {
     close($s);
     $skiplive = 0;
@@ -26,7 +27,7 @@ in addition to its own internal tests.
 EOT
 
     if ( prompt("Do you want to skip these tests?", "y") =~ /^y/i ) {
-	$skiplive = 1;
+        $skiplive = 1;
     }
 } # failed connect
 
@@ -34,12 +35,12 @@ my @tests = glob File::Spec->catfile( 't', '*.t' );
 push( @tests, glob File::Spec->catfile( 't', 'live', '*.t' ) ) unless $skiplive;
 
 my $parms = {
-    'NAME'	    => 'WWW::Mechanize',
+    'NAME'          => 'WWW::Mechanize',
     'VERSION_FROM'  => 'lib/WWW/Mechanize.pm', # finds $VERSION
     'ABSTRACT_FROM' => 'lib/WWW/Mechanize.pm', # retrieve abstract from module
-    'AUTHOR'	    => 'Andy Lester <andy@petdance.com>',
-    'PREREQ_PM'	    => { # e.g., Module::Name => 1.1
-			'Carp'		    => 0,
+    'AUTHOR'        => 'Andy Lester <andy@petdance.com>',
+    'PREREQ_PM'     => { # e.g., Module::Name => 1.1
+                        'Carp'              => 0,
                         'File::Temp'        => 0,
                         'FindBin'           => 0,
                         'HTML::Form'        => 1.038,
@@ -53,9 +54,9 @@ my $parms = {
                         'Test::More'        => 0.34,
                         'URI::URL'          => 0,
                         'URI::file'         => 0,
-			},
-    test	    => { TESTS => join( " ", @tests ) },
-    clean	    => { FILES => join( " ", FLAG_SKIPMECHDUMP, 'WWW-Mechanize-0*' ) },
+                        },
+    test            => { TESTS => join( " ", @tests ) },
+    clean           => { FILES => join( " ", FLAG_SKIPMECHDUMP, 'WWW-Mechanize-0*' ) },
 };
 
 if ( prompt( "Do you want to install the mech-dump utility?", "y" ) =~ /^y/i ) {
@@ -84,15 +85,16 @@ my @missing;
 my @nice = qw( Test::Pod Test::Memory::Cycle Test::Warn );
 for my $nice ( @nice ) {
     eval "require $nice";
-    push( @missing, $nice );
+    push( @missing, $nice ) if $@;
 }
 
-eval { require Test::Memory::Cycle };
 if ( @missing ) {
+    @missing = map { "\t$_\n" } @missing;
     print <<EOT;
 
-WWW::Mechanize likes to have a lot of test modules for some of its tests.  The following
-are modules that would be nice to have, but not required.
+WWW::Mechanize likes to have a lot of test modules for some of its tests.
+The following are modules that would be nice to have, but not required.
+
 @missing
 
 EOT
