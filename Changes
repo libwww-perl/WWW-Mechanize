@@ -1,8 +1,8 @@
-# $Id: Changes,v 1.96 2003/12/22 05:47:41 petdance Exp $
+# $Id: Changes,v 1.97 2003/12/22 05:48:23 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 
-0.71_01
+0.71_01 Sun Dec 21 23:48:12 CST 2003
 	[THINGS THAT MAY BREAK YOUR CODE]
 	* WWW::Mechanize::Link's constructor has a new argument
 	  that needs to be passed in, at the start of the argument
