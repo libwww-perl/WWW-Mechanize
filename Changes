@@ -1,7 +1,11 @@
-# $Id: Changes,v 1.59 2003/09/23 03:02:03 petdance Exp $
+# $Id: Changes,v 1.60 2003/10/03 15:08:42 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
-0.60	Septemberr 22, 2003  10:00pm
+0.61
+	[FIXES]
+	* Missing dependency on File::Temp.  Thanks, Ask.
+
+0.60	September 22, 2003  10:00pm
 	[FIXES]
 	* Changed how t/failure.t tries to fail.  It used to hit
 	  a bogus hostname in .com, but with Verisign doing its

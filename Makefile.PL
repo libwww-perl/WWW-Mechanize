@@ -37,6 +37,7 @@ my $parms = {
     'ABSTRACT_FROM' => 'lib/WWW/Mechanize.pm', # retrieve abstract from module
     'AUTHOR'	    => 'Andy Lester <andy@petdance.com>',
     'PREREQ_PM'	    => { # e.g., Module::Name => 1.1
+			'File::Temp'	    => 0,
 			'FindBin'    	    => 0,
 			'HTML::HeadParser'  => 0,
 			'HTTP::Daemon'	    => 0,
