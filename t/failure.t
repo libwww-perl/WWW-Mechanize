@@ -1,6 +1,6 @@
 use warnings;
 use strict;
-use Test::More tests => 15;
+use Test::More tests => 16;
 
 use lib 't/lib';
 use Test::HTTP::LocalServer;
@@ -26,6 +26,7 @@ GOOD_PAGE: {
     is( scalar @links, 8, "eight links, please" );
     my @forms = $a->forms;
     is( scalar @forms, 1, "One form" );
+    isa_ok( $forms[0], 'HTML::Form' );
 }
 
 BAD_PAGE: {

@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.57
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.51 2003/08/13 15:46:35 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.52 2003/08/13 18:31:01 petdance Exp $
 
 =cut
 
@@ -370,8 +370,9 @@ sub follow_link {
 =head2 C<< $a->form_number($number) >>
 
 Selects the I<number>th form on the page as the target for subsequent
-calls to field() and click().  Emits a warning and returns false if there
-is no such form.  Forms are indexed from 1, so the first form is number 1,
+calls to field() and click().  Also returns the form that was
+selected.  Emits a warning and returns undef if there is no such
+form.  Forms are indexed from 1, so the first form is number 1,
 not zero.
 
 =cut
@@ -380,17 +381,19 @@ sub form_number {
     my ($self, $form) = @_;
     if ($self->{forms}->[$form-1]) {
         $self->{form} = $self->{forms}->[$form-1];
-        return 1;
+        return $self->{form};
     } else {
 	$self->_carp( "There is no form numbered $form" );
-        return 0;
+        return undef;
     }
 }
 
 =head2 C<< $a->form_name($name) >>
 
-Selects a form by name.  If there is more than one form on the page with
-that name, then the first one is used, and a warning is generated.
+Selects a form by name.  If there is more than one form on the page
+with that name, then the first one is used, and a warning is
+generated.  Also returns the form itself, or undef if it's not
+found.
 
 Note that this functionality requires libwww-perl 5.69 or higher.
 
@@ -406,10 +409,10 @@ sub form_name {
         $self->{form} = $matches[0];
 	$self->_carp( "There are ", scalar @matches, " forms named $form.  The first one was used." )
 	    if @matches > 1;
-        return 1;
+        return $self->{form};
     } else {
 	$self->_carp( qq{ There is no form named "$form"} );
-        return 0;
+        return undef;
     }
 }
 

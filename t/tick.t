@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 
 use strict;
-use Test::More tests => 5;
+use Test::More tests => 6;
 use URI::file;
 
 use_ok( 'WWW::Mechanize' );
@@ -19,8 +19,8 @@ $mech->tick("foo","hello");
 $mech->tick("foo","bye");
 $mech->untick("foo","hello");
 
-my @forms = $mech->forms();
-my $form = $forms[0];
+my $form = $mech->form_number(1);
+isa_ok( $form, 'HTML::Form' );
 
 my $reqstring = $form->click->as_string;
 
