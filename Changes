@@ -1,5 +1,11 @@
-# $Id: Changes,v 1.107 2004/02/29 05:50:07 petdance Exp $
+# $Id: Changes,v 1.108 2004/03/03 05:34:27 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
+
+0.73_02
+        [FIXES]
+        * The local changes use localhost as the local host name, instead
+          of whatever host name that might be on the box, but not in DNS.
+          Thanks to David Wheeler for letting me play on his box.
 
 0.73_01 Sat Feb 28 23:55:46 CST 2004
         [ENHANCEMENTS]

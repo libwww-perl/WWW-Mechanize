@@ -104,11 +104,12 @@ C<< $server->get_output >>
 =cut
 
 sub url { 
-  my $url = $_[0]->{_server_url}->abs->as_string;
+  my $url = $_[0]->{_server_url}->abs;
 
-  $url =~ s[//[^:]+:][//localhost:];
+  # XXX This is for WWW::Mechanize only.
+  $url->host( "localhost" );
 
-  return $url;
+  return $url->as_string;
 };
 
 =head2 C<< $server->stop >>
