@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.58
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.54 2003/08/15 21:48:17 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.55 2003/08/22 14:37:54 petdance Exp $
 
 =cut
 
@@ -1303,6 +1303,24 @@ or get the specs from the environment:
 See also L<WWW::Mechanize::Examples> for sample code.
 L<WWW::Mechanize::FormFiller> and L<WWW::Mechanize::Shell> are add-ons
 that turn Mechanize into more of a scripting tool.
+
+=head2 Other modules that use Mechanize
+
+Here's a list of modules that use or subclass Mechanize.  Let me know of any others:
+
+=over 4
+
+=item * L<WWW::Mechanize::FormFiller>
+
+=item * L<WWW::Mechanize::Shell>
+
+=item * L<WWW::Mechanize::Sleepy>
+
+=item * L<WWW::Yahoo::Groups>
+
+=item * L<WWW::Mechanize::SpamCop>
+
+=back
 
 =head1 Requests & Bugs
 
