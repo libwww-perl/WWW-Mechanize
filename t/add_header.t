@@ -13,7 +13,7 @@ $agent->add_header(foo => 'bar');
 is($WWW::Mechanize::headers{'foo'}, 'bar', "set header");
 
 SKIP: {
-    eval { use Test::Memory::Cycle };
+    eval "use Test::Memory::Cycle";
     skip "Test::Memory::Cycle not installed", 1 if $@;
 
     memory_cycle_ok( $agent, "No memory cycles found" );

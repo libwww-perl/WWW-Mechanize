@@ -9,7 +9,7 @@ BEGIN {
     use_ok( 'WWW::Mechanize' );
 }
 
-eval { use Test::Memory::Cycle };
+eval "use Test::Memory::Cycle";
 my $canTMC = !$@;
 
 my $t = WWW::Mechanize->new( cookie_jar => undef );

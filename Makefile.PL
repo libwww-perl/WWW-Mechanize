@@ -80,13 +80,12 @@ not be able to process https:// URLs correctly.
 EOT
 }
 
-eval { require Carp };
+eval { require Test::Memory::Cycle };
 if ( $@ ) {
     print <<EOT;
 
-It seems that you do not have the Carp module installed.  This is
-optional, but WWW::Mechanize's warnings will be more useful if Carp
-is installed.
+WWW::Mechanize likes to have Test::Memory::Cycle for some of its tests,
+but doesn't require it.
 
 EOT
 }
