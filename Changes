@@ -1,10 +1,15 @@
-# $Id: Changes,v 1.78 2003/11/02 05:03:40 petdance Exp $
+# $Id: Changes,v 1.79 2003/11/09 18:41:45 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 0.65
+	[ENHANCEMENTS]
+	* Made a _parse_html() method that you can override or call
+	  manually, per request from Gavin Estey.
+
 	[FIXES]
 	* Made some path naming use File::Spec->catfile so that
 	  they work correctly under Windows.
+	* "make clean" cleans up temp flag files.
 
 
 0.64	October 23, 2003  11:15pm
