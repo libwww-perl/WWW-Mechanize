@@ -1,5 +1,12 @@
-# $Id: Changes,v 1.40 2003/07/22 17:10:41 petdance Exp $
+# $Id: Changes,v 1.41 2003/07/24 16:15:07 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
+
+0.56    July 24, 2003  11:45am
+	[THINGS THAT MIGHT BREAK YOUR CODE]
+	* Created agent_alias() method to do the browser string
+	  translation.	Passing "Windows IE 6" to agent() will get
+	  you back exactly that string as the agent.  You have to call
+	  $a->agent_alias( "Windows IE 6" ) to get the translation.
 
 0.55	July 22, 2003  12:10pm
 	[ENHANCEMENTS]

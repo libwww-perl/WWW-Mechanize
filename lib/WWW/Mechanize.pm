@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.55
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.41 2003/07/22 17:06:27 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.42 2003/07/24 16:15:07 petdance Exp $
 
 =cut
 
@@ -137,9 +137,6 @@ as in:
 
     my $a = WWW::Mechanize->new( agent=>"wonderbot 1.01" );
 
-Note that this agent can be one of the magic strings defined in L<agent()>
-below.
-
 If you want none of the overhead of a cookie jar, or don't want your
 bot accepting cookies, you have to explicitly disallow it, like so:
 
@@ -163,7 +160,6 @@ sub new {
     $self->{page_stack} = [];
     $self->{quiet} = 0;
     $self->env_proxy();
-    $self->agent($parms{agent}) if defined $parms{agent};
     push( @{$self->requests_redirectable}, 'POST' );
 
     $self->_reset_page;
@@ -171,12 +167,10 @@ sub new {
     return $self;
 }
 
-=head2 C<< $a->agent( [I<$str>] ) >>
+=head2 C<< $a->agent_alias( $alias ) >>
 
-Without I<$str>, returns the name of the user agent as identified to servers.
-
-If I<$str> is passed, sets the agent string to the I<$str>.  I<$str>
-can be any string, but if it's one of the following magic strings:
+Sets the user agent string to the expanded version from a table of actual user strings.
+I<$alias> can be one of the following:
 
 =over 4
 
@@ -196,17 +190,17 @@ can be any string, but if it's one of the following magic strings:
 
 then it will be replaced with a more interesting one.  For instance,
 
-    C<< $a->agent( 'Windows IE 6' );
+    $a->agent_alias( 'Windows IE 6' );
 
 sets your User-Agent to
 
     Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)
 
-Whenever the string is set, the old value is returned.
+The list of valid aliases can be returned from C<known_agent_aliases()>.
 
 =cut
 
-our %known_agents = (
+my %known_agents = (
     'Windows IE 6'	=> 'Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)',
     'Windows Mozilla'	=> 'Mozilla/5.0 (Windows; U; Windows NT 5.0; en-US; rv:1.4b) Gecko/20030516 Mozilla Firebird/0.6',
     'Mac Safari'	=> 'Mozilla/5.0 (Macintosh; U; PPC Mac OS X; en-us) AppleWebKit/85 (KHTML, like Gecko) Safari/85',
@@ -215,17 +209,29 @@ our %known_agents = (
     'Linux Konqueror'	=> 'Mozilla/5.0 (compatible; Konqueror/3; Linux)',
 );
 
-sub agent {
+sub agent_alias {
     my $self = shift;
+    my $alias = shift;
 
-    if ( @_ ) {
-	my $str = shift;
-	$str = $known_agents{$str} if defined $known_agents{$str};
-	return $self->SUPER::agent( $str );
+    if ( defined $known_agents{$alias} ) {
+	return $self->agent( $known_agents{$alias} );
     } else {
-	return $self->SUPER::agent();
+	if ( !$self->quiet ) {
+	    require Carp;
+	    Carp::carp qq{Unknown agent alias "$alias"};
+	}
+	return $self->agent();
     }
+}
 
+=head2 C<known_agent_aliases()>
+
+Returns a list of all the agent aliases that Mech knows about.
+
+=cut
+
+sub known_agent_aliases {
+    return sort keys %known_agents;
 }
 
 =head1 Page-fetching methods

@@ -1,6 +1,6 @@
 use warnings;
 use strict;
-use Test::More tests => 12;
+use Test::More tests => 11;
 
 BEGIN {
     use_ok( 'WWW::Mechanize' );
@@ -17,12 +17,14 @@ NO_AGENT: {
     is( $m->agent, "foo/bar v1.23", "Can set the agent" );
 }
 
-SPECIAL_AGENT: {
-    my $m = WWW::Mechanize->new( agent => "Windows IE 6" );
+USER_AGENT: {
+    my $alias = "Windows IE 6";
+    my $m = WWW::Mechanize->new( agent => $alias );
     isa_ok( $m, 'WWW::Mechanize' );
-    can_ok( $m, 'request');
-    unlike( $m->agent, qr/WWW-Mechanize/, "Set user agent string" );
-    unlike( $m->agent, qr/$WWW::Mechanize::VERSION/, "Set user agent version" );
+    can_ok( $m, 'request' );
+    is( $m->agent, $alias, "Aliases don't get translated in the constructor" );
+
+    $m->agent_alias( $alias );
     like( $m->agent, qr/^Mozilla.+compatible.+Windows/ ); 
 
     $m->agent( "ratso/bongo v.43" );
