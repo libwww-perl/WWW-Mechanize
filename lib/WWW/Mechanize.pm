@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.66
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.82 2003/11/13 20:38:18 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.83 2003/11/25 23:49:27 petdance Exp $
 
 =cut
 
@@ -1077,8 +1077,9 @@ details on correct behaviour.
 sub redirect_ok {
     my $self = shift;
     my $prospective_request = shift;
+    my $response = shift;
 
-    my $ok = $self->SUPER::redirect_ok( $prospective_request );
+    my $ok = $self->SUPER::redirect_ok( $prospective_request, $response );
     if ( $ok ) {
         $self->{redirected_uri} = $prospective_request->uri;
 
