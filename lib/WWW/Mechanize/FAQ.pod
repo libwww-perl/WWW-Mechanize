@@ -42,6 +42,13 @@ Use the mech-dump utility, optionaly installed with Mechanize.
 You can't.  JavaScript is entirely client-based, and WWW::Mechanize
 is a client that doesn't understand JavaScript.
 
+=head2 How do I handle frames?
+
+You don't deal with them as frames, per se, but as links.  Extract
+them with
+
+    my @frame_links = $mech->find_link( tag => "frame" );
+
 =head1 Why doesn't this work?
 
 =head2 Why don't https:// URLs work?
