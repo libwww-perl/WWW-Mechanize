@@ -103,6 +103,7 @@ __DATA__
     <input type="checkbox" name="cat" value="cat_foo" %s />
     <input type="checkbox" name="cat" value="cat_bar" %s />
     <input type="checkbox" name="cat" value="cat_baz" %s />
+    <input type="file" name="upload" value="README" />
   </form>
 </p>
 </body>

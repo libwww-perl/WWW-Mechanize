@@ -1,7 +1,7 @@
 use warnings;
 use strict;
 use lib 't/local';
-use Test::More tests => 13;
+use Test::More tests => 15;
 use LocalServer;
 
 BEGIN { delete @ENV{ qw( http_proxy HTTP_PROXY ) }; }
@@ -22,6 +22,8 @@ is( ref $mech->uri, "", "URI shouldn't be an object" );
 ok( $response->is_success, 'Got local page' ) or die "Can't even fetch local page";
 ok( $mech->is_html );
 
+is( $mech->value('upload'), '', "Hopefully no upload happens");
+
 $mech->field(query => "foo"); # Filled the "q" field
 
 $response = $mech->submit;
@@ -30,6 +32,8 @@ ok( $response->is_success, "Can click 'submit' ('submit' button)");
 is( ref $mech->uri, "", "URI shouldn't be an object" );
 
 like($mech->content, qr/\bfoo\b/i, "Found 'Foo'");
+
+is( $mech->value('upload'), '', "Hopefully no upload happens");
 
 SKIP: {
     eval "use Test::Memory::Cycle";

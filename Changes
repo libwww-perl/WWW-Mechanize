@@ -1,5 +1,11 @@
-# $Id: Changes,v 1.146 2004/10/02 21:56:45 petdance Exp $
+# $Id: Changes,v 1.147 2004/10/19 00:18:39 markjugg Exp $
 Revision history for Perl extension WWW::Mechanize
+
+XXX
+
+	[FIXES]
+	* Upload <input type="file" ... > does not use the default
+	  value to prevent attacks, patch by Jan Pazdziora (RT ##7843).
 
 1.05_02	Sat Oct  2 16:55:59 CDT 2004
 	[ENHANCEMENTS]
@@ -28,6 +34,7 @@ Revision history for Perl extension WWW::Mechanize
           work with characters like o-umlaut, even when the o-umlaut is
           encoded in the HTML, but not in the call to follow(). (RT #2416)
           By Mark Stosberg.
+
 
 
 1.04    Wed Sep 15 23:27:53 CDT 2004

@@ -42,6 +42,8 @@ t/select.t
 t/taint.t
 t/tick.html
 t/tick.t
+t/upload.html
+t/upload.t
 t/warnings.t
 t/warn.t
 

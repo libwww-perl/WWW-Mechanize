@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 1.05_02
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.143 2004/10/02 21:56:45 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.144 2004/10/19 00:18:39 markjugg Exp $
 
 =cut
 
@@ -533,6 +533,10 @@ the page).
 
 The option I<$number> parameter is used to distinguish between two fields
 with the same name.  The fields are numbered from 1.
+
+If the field is of type file (file upload field), the value is always
+cleared to prevent remote sites from downloading your local files.
+To upload a file, specify its file name explicitly.
 
 =cut
 
@@ -1403,6 +1407,15 @@ go ahead.
 sub _parse_html {
     my $self = shift;
     $self->{forms} = [ HTML::Form->parse($self->content, $self->base) ];
+    if (@{ $self->{forms} }) {
+        for my $form (@{ $self->{forms} }) {
+            for my $input ($form->inputs) {
+                 if ($input->type eq 'file') {
+                     $input->value( undef );
+                 }
+            }
+       }
+    }
     $self->{form}  = $self->{forms}->[0];
     $self->_extract_links();
 }
