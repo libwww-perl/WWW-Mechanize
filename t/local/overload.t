@@ -2,7 +2,7 @@ use warnings;
 use strict;
 use lib 't/local';
 use LocalServer;
-use Test::More tests => 10;
+use Test::More tests => 11;
 
 =pod
 
@@ -62,6 +62,7 @@ local $^W = 1;
 local *Carp::carp = sub {$carpmsg = shift};
 
 my $mech = WWW::Mechanize->new();
+isa_ok( $mech, 'WWW::Mechanize' );
 
 $mech->get ($server->url);
 like($carpmsg, qr/bad.*select/i, "Standard mech chokes on bogus HTML");
