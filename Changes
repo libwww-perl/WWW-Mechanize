@@ -1,11 +1,15 @@
-# $Id: Changes,v 1.58 2003/09/23 02:20:57 petdance Exp $
+# $Id: Changes,v 1.59 2003/09/23 03:02:03 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
-0.60
+0.60	Septemberr 22, 2003  10:00pm
 	[FIXES]
 	* Changed how t/failure.t tries to fail.  It used to hit
 	  a bogus hostname in .com, but with Verisign doing its
 	  SiteFinder crap, even bogus addresses in .com succeed.
+
+	[ENHANCEMENTS]
+	* Added _make_request() to let WWW::Mechanize::Cached easily
+	  hook into the request chain.
 
 0.59	September 3, 2003  11:56pm
 	[FIXES]

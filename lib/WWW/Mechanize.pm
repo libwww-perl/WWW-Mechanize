@@ -6,13 +6,13 @@ WWW::Mechanize - automate interaction with websites
 
 =head1 VERSION
 
-Version 0.59
+Version 0.60
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.58 2003/09/15 02:50:41 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.59 2003/09/23 03:02:03 petdance Exp $
 
 =cut
 
-our $VERSION = "0.59";
+our $VERSION = "0.60";
 
 =head1 SYNOPSIS
 
@@ -1014,7 +1014,7 @@ sub request {
     }
     $self->{req} = $request;
     $self->{redirected_uri} = $request->uri->as_string;
-    $self->{res} = $self->SUPER::request( $request, @_ );
+    $self->{res} = $self->_make_request( $request, @_ );
 
     # These internal hash elements should be dropped in favor of
     # the accessors soon. -- 1/19/03
@@ -1035,6 +1035,18 @@ sub request {
     }
 
     return $self->{res};
+}
+
+=head2 C<_make_request()>
+
+Convenience method to make it easier for subclasses like
+WWW::Mechanize::Cached to intercept the request.
+
+=cut
+
+sub _make_request {
+    my $self = shift;
+    $self->SUPER::request(@_);
 }
 
 =head1 Deprecated methods
@@ -1314,6 +1326,8 @@ Here's a list of modules that use or subclass Mechanize.  Let me know of any oth
 =over 4
 
 =item * L<WWW::Google::Groups>
+
+=item * L<WWW::Mechanize::Cached>
 
 =item * L<WWW::Mechanize::FormFiller>
 
