@@ -6,10 +6,10 @@ use URI::file;
 
 local $/ = undef;
 
-my $exe = File::Spec->catfile( qw( blib script mech-dump ) );
 plan skip_all => "Not installing mech-dump" if -e File::Spec->catfile( qw( t SKIP-MECH-DUMP ) );
 plan tests=>1;
 
+my $exe = File::Spec->catfile( qw( blib script mech-dump ) );
 my $data = File::Spec->catfile( qw( t google.html ) );
 my $actual = `$exe --forms $data`;
 
