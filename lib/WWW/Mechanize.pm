@@ -6,13 +6,13 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 =head1 VERSION
 
-Version 1.02
+Version 1.03
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.130 2004/04/14 03:46:57 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.131 2004/05/27 20:13:37 petdance Exp $
 
 =cut
 
-our $VERSION = "1.02";
+our $VERSION = "1.03_01";
 
 =head1 SYNOPSIS
 
@@ -446,6 +446,7 @@ sub form_name {
     }
 }
 
+
 =head2 $mech->field( $name, $value, $number )
 
 =head2 $mech->field( $name, \@values, $number )
@@ -508,6 +509,31 @@ sub set_fields {
         }
     } # while
 } # set_fields()
+
+
+=head2 C<< $mech->value( $name, $number ) >>
+
+Given the name of a field, return its value. This applies to the current
+form (as set by the C<form()> method or defaulting to the first form on
+the page).
+
+The option I<$number> parameter is used to distinguish between two fields
+with the same name.  The fields are numbered from 1.
+
+=cut
+
+sub value {
+    my $self = shift;
+    my $name = shift;
+    my $number = shift || 1;
+
+    my $form = $self->{form};
+    if ( $number > 1 ) {
+        return $form->find_input( $name, undef, $number )->value();
+    } else {
+        return $form->value( $name );
+    }
+} # value
 
 
 =head2 $mech->set_visible( @criteria )
