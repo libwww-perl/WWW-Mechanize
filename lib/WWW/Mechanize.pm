@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 1.03_02
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.133 2004/08/17 04:03:19 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.134 2004/08/18 15:13:39 petdance Exp $
 
 =cut
 
@@ -1736,9 +1736,13 @@ Here are modules that use or subclass Mechanize.  Let me know of any others:
 
 =over 4
 
+=item * L<Finance::Bank::LloydsTSB>
+
 =item * L<WWW::Bugzilla>
 
 =item * L<WWW::Google::Groups>
+
+=item * L<WWW::Hotmail>
 
 =item * L<WWW::Mechanize::Cached>
 
@@ -1755,6 +1759,7 @@ Here are modules that use or subclass Mechanize.  Let me know of any others:
 =item * L<WWW::SourceForge>
 
 =item * L<WWW::Yahoo::Groups>
+
 
 =back
 
