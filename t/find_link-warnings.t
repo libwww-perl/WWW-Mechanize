@@ -1,0 +1,61 @@
+#!/usr/bin/perl
+
+use warnings;
+use strict;
+use Test::More;
+use URI::file;
+
+BEGIN {
+    eval "use Test::Warn";
+    plan skip_all => "Test::Warn required to test $0" if $@;
+    plan tests => 19;
+}
+
+BEGIN {
+    use_ok( 'WWW::Mechanize' );
+}
+
+my $t = WWW::Mechanize->new( cookie_jar => undef );
+isa_ok( $t, 'WWW::Mechanize' );
+
+my $uri = URI::file->new_abs( "t/find_link.html" )->as_string;
+
+$t->get( $uri );
+ok( $t->success, "Fetched $uri" ) or die "Can't get test page";
+
+REGEX_USAGE: {
+    for my $tname (qw( TEXT NAME URL TAG )) {
+        warning_like(
+            sub { $t->find_link( $tname => "expect error" ) },
+            qr/Unknown link-finding parameter/, "detected usage error: $tname => 'string'"
+        );
+    }
+}
+
+REGEX_STRING: {
+    for my $tn (qw( text name url tag )) {
+        my $tname = $tn.'_regex';
+        warning_like(
+            sub { $t->find_link( $tname => "expect error" ) },
+            qr/passed as $tname is not a regex/, "detected usage error: $tname => 'string'"
+        );
+    }
+}
+
+NON_REGEX_STRING: {
+    for my $tname (qw( text name url tag )) {
+        warning_like(
+            sub { $t->find_link( $tname => qr/foo/ ) },
+            qr/passed as '$tname' is a regex/, "detected usage error: $tname => Regex"
+        );
+    }
+}
+
+SPACE_PADDED: {
+    for my $tname (qw( text name url tag )) {
+        warning_like(
+            sub { $t->find_link( $tname => ' a padded astring ' ) },
+            qr/is space-padded and cannot succeed/, "detected usage error: $tname => padded-string"
+        );
+    }
+}

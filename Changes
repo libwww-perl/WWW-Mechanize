@@ -1,4 +1,4 @@
-# $Id: Changes,v 1.85 2003/11/26 04:29:01 petdance Exp $
+# $Id: Changes,v 1.86 2003/11/26 04:57:09 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 0.70	
@@ -9,6 +9,11 @@ Revision history for Perl extension WWW::Mechanize
 	[FIXES]
 	* Fixed redirect_ok(), which had its API changed out from under
 	  it in LWP 5.76.
+
+	[ENHANCEMENTS]
+	* New warnings in find_link() for strings that are space padded,
+	  and for text matches that are passed a regex.  Thanks to
+	  Jim Cromie.
 
 	[DOCUMENTATION]
 	* Patches from Mark Stosberg and Jim Cromie.

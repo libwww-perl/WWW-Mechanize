@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.66
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.86 2003/11/26 04:29:01 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.87 2003/11/26 04:57:09 petdance Exp $
 
 =cut
 
@@ -959,6 +959,19 @@ sub find_link {
             delete $parms{$key};
             next;
         }
+
+	if ($key !~ /_regex$/) {
+	    if (ref($val) eq "Regexp") {
+		$self->warn( qq{$val passed as '$key' is a regex} );
+		delete $parms{$key};
+		next;
+	    }
+	    if ($val =~ /^\s|\s$/) {
+		$self->warn( qq{'$val' is space-padded and cannot succeed} );
+		delete $parms{$key};
+		next;
+	    }
+	}
     } # for keys %parms
 
     my @links = $self->links or return;
