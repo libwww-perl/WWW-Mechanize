@@ -27,18 +27,18 @@ is( $agent->title, "Google Advertising", "Got the right page" );
 ok( $agent->get( '../help/' )->is_success, 'Got the help page' );
 is( $agent->uri, 'http://www.google.com/help/', "Got relative OK" );
 ok( $agent->is_html );
-is( $agent->title, "Google Help Central", "Got the right page" );
+is( $agent->title, "Google Help Central", "Title matches" );
 
 ok( $agent->get( 'basics.html' )->is_success, 'Got the basics page' );
 is( $agent->uri, 'http://www.google.com/help/basics.html', "Got relative OK" );
-ok( $agent->is_html );
-is( $agent->title, "Google Help" );
-like( $agent->content, qr/Basics of Google Search/, "Got the right page" );
+ok( $agent->is_html, "Basics page is HTML" );
+is( $agent->title, "Google Help : Basics of Search", "Title matches" );
+like( $agent->content, qr/Essentials of Google Search/, "Got the right page" );
 
 ok( $agent->get( './refinesearch.html' )->is_success, 'Got the "refine search" page' );
 is( $agent->uri, 'http://www.google.com/help/refinesearch.html', "Got relative OK" );
-ok( $agent->is_html );
-is( $agent->title, "Google Help" );
+ok( $agent->is_html, "Refine Search page is HTML" );
+is( $agent->title, "Google Help : Advanced Search" );
 like( $agent->content, qr/Advanced Search Made Easy/, "Got the right page" );
 
 SKIP: {
