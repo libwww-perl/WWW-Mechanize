@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 1.05_02
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.150 2004/10/22 02:44:42 markjugg Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.151 2004/10/24 01:06:52 markjugg Exp $
 
 =cut
 
@@ -980,10 +980,6 @@ Returns the content type of the response.
 
 Returns the base URI for the current response
 
-=head2 $mech->content()
-
-Returns the content for the response
-
 =head2 $mech->forms()
 
 When called in a list context, returns a list of the forms found in
@@ -1015,7 +1011,6 @@ sub response {      my $self = shift; return $self->{res}; }
 sub status {        my $self = shift; return $self->{status}; }
 sub ct {            my $self = shift; return $self->{ct}; }
 sub base {          my $self = shift; return $self->{base}; }
-sub content {       my $self = shift; return $self->{content}; }
 sub current_form {  my $self = shift; return $self->{form}; }
 sub is_html {       my $self = shift; return defined $self->{ct} && ($self->{ct} eq "text/html"); }
 
@@ -1050,6 +1045,68 @@ sub title {
 }
 
 =head1 CONTENT-HANDLING METHODS
+
+=head2 $mech->content(...)
+
+Returns the content that the mech uses internally for the last page
+fetched. Ordinarily this is the same as $mech->response()->content(),
+but this may differ for HTML documents if L</update_html> is
+overloaded (in which case the value passed to the base-class
+implementation of same will be returned), and/or extra named arguments
+are passed to I<content()>:
+
+=over 2
+
+=item I<< $mech->content(format => "text") >>
+
+Returns a text-only version of the page, with all HTML markup
+stripped. This feature requires I<HTML::TreeBuilder> to be installed,
+or a fatal error will be thrown.
+
+=item I<< $mech->content(base_href => undef) >>
+
+=item I<< $mech->content(base_href => $base_href) >>
+
+Returns the HTML document, modified to contain a C<< <base
+href="$base_href"> >> mark-up in the header. $base_href is C<<
+$mech->base() >> if not specified. This is handy to pass the HTML to
+e.g. L<HTML::Display>.
+
+=back
+
+Passing arguments to content() if the current document is not HTML has
+no effect (i.e. the return value is the same as
+$self->response()->content()).
+
+=cut
+
+sub content {
+	my $self = shift;
+	my $content = $self->{content};
+	return $content unless $self->is_html;
+
+	while(my ($cmd, $arg) = splice(@_, 0, 2)) {
+		if ($cmd eq 'format') {
+			if ($arg eq 'text') {
+				require HTML::TreeBuilder;
+				my $tree = HTML::TreeBuilder->new();
+				$tree->parse($content);
+				$tree->eof();
+				$tree->elementify(); # just for safety
+				$content = $tree->as_text();
+			} else {
+				$self->die( qq{Unknown format parameter "$arg"} );
+			};
+		} elsif ($cmd eq 'base_href') {
+			$arg ||= $self->base;
+			$content=~s/<head>/<head>\n<base href="$arg">/;
+		} else {
+			$self->die( qq{Unknown named argument "$cmd"} );
+		}
+	}
+
+	return $content;
+}
 
 =head2 $mech->find_link()
 
@@ -1390,7 +1447,7 @@ sub redirect_ok {
 =head2 $mech->request( $request [, $arg [, $size]])
 
 Overloaded version of C<request()> in L<LWP::UserAgent>.  Performs
-the actual request.  Normally, if you're using WWW::Mechanize, it'd
+the actual request.  Normally, if you're using WWW::Mechanize, it's
 because you don't want to deal with this level of stuff anyway.
 
 Note that C<$request> will be modified.
@@ -1419,7 +1476,6 @@ sub request {
     $self->{status}  = $res->code;
     $self->{base}    = $res->base;
     $self->{ct}      = $res->content_type || "";
-    $self->{content} = $res->content;
 
     if ( $res->is_success ) {
         $self->{uri} = $self->{redirected_uri};
@@ -1430,8 +1486,12 @@ sub request {
         }
     }
 
-    $self->_reset_page;
-    $self->_parse_html if $self->is_html;
+	$self->_reset_page;
+	if ($self->is_html) {
+		$self->update_html($res->content);
+	} else {
+		$self->{content} = $res->content;
+	}
 
     return $res;
 } # request
@@ -1439,7 +1499,7 @@ sub request {
 =head2 $mech->update_html( $html )
 
 Allows you to replace the HTML that the mech has found.  Updates the
-forms and links.
+forms and links parse-trees that the mech uses internally.
 
 Say you have a page that you know has malformed output, and you want to
 update it so the links come out correctly:
@@ -1447,6 +1507,29 @@ update it so the links come out correctly:
     my $html = $mech->content;
     $html =~ s[</option>.?.?.?</td>][</option></select></td>]isg;
     $mech->update_html( $html );
+
+This method is also used internally by the mech itself to update its
+own HTML content when loading a page. This means that if you would
+like to I<systematically> perform the above HTML substitution, you
+would overload I<update_html> in a subclass thusly:
+
+   package MyMech;
+   use base 'WWW::Mechanize';
+
+   sub update_html {
+       my ($self, $html) = @_;
+	   $html =~ s[</option>.?.?.?</td>][</option></select></td>]isg;
+	   $self->WWW::Mechanize::update_html( $html );
+   }
+
+If you do this, then the mech will use the tidied-up HTML instead of
+the original both when parsing for its own needs, and for returning to
+you through L</content>.
+
+Overloading this method is also the recommended way of implementing
+extra validation steps (e.g. link checkers) for every HTML page
+received.  L</warn> and L</die> would then come in handy to signal
+validation errors.
 
 =cut
 
@@ -1457,22 +1540,8 @@ sub update_html {
     $self->_reset_page;
     $self->{ct} = 'text/html';
     $self->{content} = $html;
-    $self->_parse_html;
 
-    return;
-}
-
-=head2 $mech->_parse_html()
-
-An internal method that initializes forms and links given a HTML document.
-If you need to override this in your subclass, or call it multiple times,
-go ahead.
-
-=cut
-
-sub _parse_html {
-    my $self = shift;
-    $self->{forms} = [ HTML::Form->parse($self->content, $self->base) ];
+   $self->{forms} = [ HTML::Form->parse($html, $self->base) ];
     if (@{ $self->{forms} }) {
         for my $form (@{ $self->{forms} }) {
             for my $input ($form->inputs) {
@@ -1484,6 +1553,11 @@ sub _parse_html {
     }
     $self->{form}  = $self->{forms}->[0];
     $self->_extract_links();
+
+    $self->_parse_html(); #For compatibility with folks that used to
+	# overload that method.
+
+    return;
 }
 
 =head2 $mech->_modify_request( $req )
@@ -1598,6 +1672,17 @@ sub form {
 
     return $arg =~ /^\d+$/ ? $self->form_number($arg) : $self->form_name($arg);
 }
+
+=head2 $mech->_parse_html()
+
+An internal method that initializes forms and links given a HTML
+document.  Overriding this in your subclass is B<DEPRECATED>, better
+override L</update_html> instead in your new code.
+
+=cut
+
+sub _parse_html { }
+
 
 =head1 INTERNAL-ONLY METHODS
 

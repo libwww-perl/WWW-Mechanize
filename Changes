@@ -1,9 +1,16 @@
-# $Id: Changes,v 1.152 2004/10/22 02:44:42 markjugg Exp $
+# $Id: Changes,v 1.153 2004/10/24 01:06:51 markjugg Exp $
 Revision history for Perl extension WWW::Mechanize
 
 XXX
 	[ENHANCEMENTS]
 	* click_button() has a new input option for HTML::Form::SubmitInput objects (DOMQ)
+
+	* content() has new options to return the page formatted as text, with a 
+	  <base href> added. (RT#8087, patch by Dominique Quatravaux)
+
+	* update_html() method has been added, which can be used to modify the HTML
+	  that Mech parses. It should be sub-classed instead of _parse_html(), which has
+	  been deprecated. (RT#8087, patch by Dominique Quatravaux)
 
 	* select() has new option to select an option by number (RT#5789, Scott Lanning) 
 
