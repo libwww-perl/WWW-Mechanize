@@ -1,13 +1,19 @@
-# $Id: Changes,v 1.83 2003/11/26 00:17:43 petdance Exp $
+# $Id: Changes,v 1.84 2003/11/26 03:47:04 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
-0.67
+0.70	
+	[THINGS THAT MAY BREAK YOUR CODE]
+	* Redirects are now handled better by LWP, so the code that
+	  changes POSTs to GETs on redirects has been removed.
+
 	[FIXES]
 	* Fixed redirect_ok(), which had its API changed out from under
 	  it in LWP 5.76.
 
 	[DOCUMENTATION]
 	* Patches from Mark Stosberg.
+
+	Also, a big bump in requirements on LWP: We need 5.76.
 
 
 0.66	Thu Nov 13 14:35:31 CST 2003

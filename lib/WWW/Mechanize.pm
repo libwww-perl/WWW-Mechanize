@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.66
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.84 2003/11/26 00:17:43 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.85 2003/11/26 03:49:20 petdance Exp $
 
 =cut
 
@@ -1063,14 +1063,6 @@ An overloaded version of C<redirect_ok()> in L<LWP::UserAgent>.
 This method is used to determine whether a redirection in the request
 should be followed.
 
-It's also used to keep track of the last URI redirected to. Also
-if the redirection was from a POST, it changes the HTTP method
-to GET. This does not conform with the RFCs, but it is how many
-browser user agent implementations behave. As we are trying to model
-them, we must unfortunately mimic their erroneous reaction. See
-L<http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.3> for
-details on correct behaviour.
-
 =cut
 
 sub redirect_ok {
@@ -1081,13 +1073,10 @@ sub redirect_ok {
     my $ok = $self->SUPER::redirect_ok( $prospective_request, $response );
     if ( $ok ) {
         $self->{redirected_uri} = $prospective_request->uri;
-
-        # Mimic erroneous browser behaviour by changing the method.
-        $prospective_request->method("GET") if $prospective_request->method eq "POST";
     }
 
     return $ok;
-};
+}
 
 
 =head2 C<< $a->request( $request [, $arg [, $size]]) >>
