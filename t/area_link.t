@@ -6,7 +6,7 @@ use strict;
 use Test::More tests => 9;
 use URI::file;
 
-BEGIN { delete @ENV{ qw( http_proxy HTTP_PROXY PATH ) }; }
+BEGIN { delete @ENV{ qw( http_proxy HTTP_PROXY PATH IFS CDPATH ENV BASH_ENV) }; }
 BEGIN {
     use_ok( 'WWW::Mechanize' );
 }
@@ -32,12 +32,12 @@ AREA_CHECKS: {
     );
     my @links = $mech->find_all_links();
 
-   # Skip the 'base' field for now
-	for (@links) {
-		my $alt = $_->[5]; 
-    	@{$_} = @{$_}[0..3];
-		push @{$_}, $alt;
-	}
+    # Skip the 'base' field for now
+    for (@links) {
+        my $alt = $_->[5]; 
+        @{$_} = @{$_}[0..3];
+        push @{$_}, $alt;
+    }
 
     is_deeply( \@links, \@wanted_links, "Correct links came back" );
 

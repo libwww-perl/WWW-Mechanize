@@ -6,10 +6,10 @@ use Test::More tests => 7;
 use URI::file;
      
 BEGIN {
-	delete @ENV{qw(PATH)};  # Placates taint-unsafe Cwd.pm in 5.6.1
+    delete @ENV{qw(PATH IFS CDPATH ENV BASH_ENV)};  # Placates taint-unsafe Cwd.pm in 5.6.1
     use_ok( 'WWW::Mechanize' );
 }
-   
+
 my $mech = WWW::Mechanize->new( cookie_jar => undef );
 isa_ok( $mech, 'WWW::Mechanize' );
 

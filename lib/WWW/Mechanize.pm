@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 1.05_02
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.146 2004/10/19 03:11:38 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.147 2004/10/19 03:55:41 petdance Exp $
 
 =cut
 
@@ -1580,12 +1580,12 @@ sub _extract_links {
 
     while (my $token = $p->get_tag( keys %urltags )) {
         my $tag = $token->[0];
-		my $attrs = $token->[1];
+        my $attrs = $token->[1];
         my $url = $attrs->{$urltags{$tag}};
 
         my $text;
         my $name;
-		my $alt;
+        my $alt;
         if ( $tag eq "a" ) {
             $text = $p->get_trimmed_text("/$tag");
             $text = "" unless defined $text;
@@ -1596,12 +1596,12 @@ sub _extract_links {
             }
         } # a
 
-		# Of the tags we extract from, only 'AREA' has an alt tag
-		if ($tag eq 'area') {
-			$alt = $attrs->{alt};
-		}
-		# The rest should have a 'name' attribute.
-		else  {
+        # Of the tags we extract from, only 'AREA' has an alt tag
+        if ($tag eq 'area') {
+                $alt = $attrs->{alt};
+        }
+        # The rest should have a 'name' attribute.
+        else  {
             $name = $attrs->{name};
         }
         if ( $tag eq "meta" ) {
@@ -1618,13 +1618,13 @@ sub _extract_links {
 
         next unless defined $url;   # probably just a name link or <AREA NOHREF...>
         push( @{$self->{links}}, WWW::Mechanize::Link->new({
-				url => $url,
-				text => $text,
-				name => $name,
-				tag => $tag,
-				base => $self->base,
-				alt => $alt,
-			}) );
+            url => $url,
+            text => $text,
+            name => $name,
+            tag => $tag,
+            base => $self->base,
+            alt => $alt,
+        }) );
     } # while
 
     # Old extract_links() returned a value.  Carp if someone expects
