@@ -1,0 +1,18 @@
+# Thanks to merlyn for nudging me and giving me this snippet!
+
+use HTTP::Daemon;
+
+$|++;
+
+my $d = HTTP::Daemon->new or die;
+print $d->url, "\n";
+
+$counter = 5;
+while ($counter-- and my $c = $d->accept) {
+    while (my $r = $c->get_request) {
+	$c->send_response(HTTP::Response->new(200, "OK", undef,
+                                            "Referer: '" . ($r->headers->referer||"") ."'"));
+    }
+    $c->close;
+    undef($c);
+}
