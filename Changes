@@ -1,12 +1,13 @@
-# $Id: Changes,v 1.72 2003/10/13 16:37:44 petdance Exp $
+# $Id: Changes,v 1.73 2003/10/13 19:57:07 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
-0.63
+0.63	October 13, 2003  2:56pm
 	[ENHANCEMENTS]
 	* mech-dump defaults to dumping forms.
 	* Added name, name_regex, tag and tag_regex options to find_link()
 	  and follow_link().
 	* Added tests from Jim Brandt.
+
 
 0.62	October 7, 2003  8:46pm
 	[THINGS THAT MIGHT BREAK YOUR CODE]
