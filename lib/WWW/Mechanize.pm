@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 1.05_02
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.153 2004/10/30 22:23:10 markjugg Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.154 2004/10/31 00:06:28 markjugg Exp $
 
 =cut
 
@@ -1168,25 +1168,8 @@ more than one tag, as in:
 
     $mech->find_link( tag_regex => qr/^(a|frame)$/ );
 
-Currently, the following tags are supported, with Mech looking at these
-particular tag attributes:
-
- <a      href="">
- <area   href="">
- <frame  src="">
- <iframe src="">
- <meta   content="">
-
-Other tags will be ignored.
-
-=item * C<< n => number >>
-
-Matches against the I<n>th link.
-
-The C<n> parms can be combined with the other parms above as a numeric
-modifier.  For example,
-C<< text => "download", n => 3 >> finds the 3rd link which has the
-exact text "download".
+The tags and attributes looked at are defined below, at
+L<$mech->find_link() : link format>.
 
 =back
 
@@ -1217,6 +1200,8 @@ The links come from the following:
 =item C<< <FRAME SRC=...> >>
 
 =item C<< <IFRAME SRC=...> >>
+
+=item C<< <META CONTENT=...> >>
 
 =back
 
@@ -1725,7 +1710,7 @@ property with L<WWW::Mechanize::Link> objects.
 =cut
 
 # NOTE: When this list is updated, also update the docs
-# for the find_links() 'tag_regex' attribute which refers to it.
+# for find_links() : link format mentions it as well
 my %urltags = (
     a => "href",
     area => "href",
