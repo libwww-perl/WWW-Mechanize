@@ -1,5 +1,8 @@
-# $Id: Changes,v 1.131 2004/07/23 13:56:46 petdance Exp $
+# $Id: Changes,v 1.132 2004/08/17 03:36:39 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
+
+        [FIXES]
+        * Fixed tests that fail under LWP >= 5.800.
 
         [DOCUMENTATION]
         * Added Ian Langworth's listmod and John Beppu's photobucket
