@@ -52,3 +52,5 @@ t/reload.t
 t/submit.t
 t/tick.html
 t/tick.t
+t/warn.t
+t/warnings.t
