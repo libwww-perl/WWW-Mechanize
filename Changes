@@ -1,24 +1,33 @@
-# $Id: Changes,v 1.21 2003/07/03 03:04:31 petdance Exp $
+# $Id: Changes,v 1.22 2003/07/08 22:42:35 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
-0.52
+0.52	July 7, 2003
 	[ENHANCEMENTS]
 	* mech-forms now handles local files.
 	* Added t/mech-forms.t to test the app
 	* Added some parm-checking to submit_form()
+	* All the warns are now carps.  Thanks to MJD for pointing
+	  it out during his "Tricks Of The Wizards" talk.
+
+	[FIXES]
+	* Bumped up the Test::Builder requirement to 0.17, which
+	  I hope will get rid of the thread problems with t/tick.t.
+	  Thanks to Autrijus Tang for pointing out the note in
+	  Builder.pm.
 
 0.51	June 29, 2003
 	[ENHANCEMENTS]
-	* Added the "mech-forms" command to list all the forms on a given page.
+	* Added the "mech-forms" command to list all the forms on
+	  a given page.
 
 	[FIXES]
 	* Made the tick.t test not rely on 2shortplanks.com.
 
 0.50	June 24, 2003
 	[ENHANCEMENTS]
-	* Mech now does what most browsers do when they handle a redirect:
-	  It changes the POST to a GET.  This doesn't match the RFC,
-	  but it's what browsers do.  Thanks to Stuart Children.
+	* Mech now does what most browsers do when they handle a
+	  redirect: It changes the POST to a GET.  This doesn't match the
+	  RFC, but it's what browsers do.  Thanks to Stuart Children.
 
 0.49	June 23, 2003
 	[FIXES]

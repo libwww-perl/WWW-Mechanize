@@ -6,13 +6,13 @@ WWW::Mechanize - automate interaction with websites
 
 =head1 VERSION
 
-Version 0.51
+Version 0.52
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.21 2003/07/03 03:41:27 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.22 2003/07/08 22:42:35 petdance Exp $
 
 =cut
 
-our $VERSION = "0.51";
+our $VERSION = "0.52";
 
 =head1 SYNOPSIS
 
@@ -103,6 +103,7 @@ at press time.
 use strict;
 use warnings;
 
+use Carp qw(carp);
 use HTTP::Request;
 use LWP::UserAgent;
 use HTML::Form;
@@ -255,7 +256,7 @@ sub follow_link {
 
     if ( $parms{n} eq "all" ) {
 	delete $parms{n};
-	warn qq{follow_link(n=>"all") is not valid\n};
+	carp qq{follow_link(n=>"all") is not valid};
     }
 
     my $response;
@@ -291,8 +292,8 @@ sub follow {
         if ($link <= $#links) {
             $thislink = $links[$link];
         } else {
-            warn "Link number $link is greater than maximum link $#links ",
-                 "on this page ($self->{uri})\n" unless $self->quiet;
+            carp "Link number $link is greater than maximum link $#links ",
+                 "on this page ($self->{uri})" unless $self->quiet;
             return;
         }
     } else {                        # user provided a regexp
@@ -303,8 +304,7 @@ sub follow {
             }
         }
         unless ($thislink) {
-            warn "Can't find any link matching $link on this page ",
-                 "($self->{uri})\n" unless $self->quiet;
+            carp "Can't find any link matching $link on this page ($self->{uri})" unless $self->quiet;
             return;
         }
     }
@@ -375,7 +375,7 @@ sub form_name {
     my @matches = grep {defined($temp = $_->attr('name')) and ($temp eq $form) } @{$self->{forms}};
     if ( @matches ) {
         $self->{form} = $matches[0];
-        warn "There are ", scalar @matches, " forms named $form.  The first one was used."
+        carp "There are ", scalar @matches, " forms named $form.  The first one was used."
             if @matches > 1 && !$self->{quiet};
         return 1;
     } else {
@@ -577,7 +577,7 @@ sub submit_form {
 
     if ( !$self->quiet ) {
 	for ( keys %args ) {
-	    warn qq{Unknown submit_form parameter "$_"\n}
+	    carp qq{Unknown submit_form parameter "$_"}
 		unless /^(form_(number|name)|fields|button|x|y)$/;
 	}
     }
@@ -848,7 +848,7 @@ sub find_link {
 
     if ( !$self->quiet ) {
 	for ( keys %parms ) {
-	    warn qq{Unknown link-finding parameter "$_"\n}
+	    carp qq{Unknown link-finding parameter "$_"}
 		unless /^(n|(text|url)(_regex)?)$/;
 	}
     }
