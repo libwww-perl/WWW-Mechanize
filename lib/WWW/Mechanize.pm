@@ -1722,54 +1722,13 @@ sub _extract_links {
 
     my $self = shift;
 
-    my $p = HTML::TokeParser->new(\$self->{content});
+    my $parser = HTML::TokeParser->new(\$self->{content});
 
     $self->{links} = [];
 
-    while (my $token = $p->get_tag( keys %urltags )) {
-        my $tag = $token->[0];
-        my $attrs = $token->[1];
-        my $url = $attrs->{$urltags{$tag}};
-
-        my $text;
-        my $name;
-        if ( $tag eq "a" ) {
-            $text = $p->get_trimmed_text("/$tag");
-            $text = "" unless defined $text;
-
-            my $onClick = $attrs->{onclick};
-            if ( $onClick && ($onClick =~ /^window\.open\(\s*'([^']+)'/) ) {
-                $url = $1;
-            }
-        } # a
-
-        # Of the tags we extract from, only 'AREA' has an alt tag
-        # The rest should have a 'name' attribute.
-        # ... but we don't do anything with that bit of wisdom now.
-
-        $name = $attrs->{name};
-
-        if ( $tag eq "meta" ) {
-            my $equiv = $attrs->{"http-equiv"};
-            my $content = $attrs->{"content"};
-            next unless $equiv && (lc $equiv eq "refresh") && defined $content;
-
-            if ( $content =~ /^\d+\s*;\s*url\s*=\s*(\S+)/i ) {
-                $url = $1;
-            } else {
-                undef $url;
-            }
-        } # meta
-
-        next unless defined $url;   # probably just a name link or <AREA NOHREF...>
-        push( @{$self->{links}}, WWW::Mechanize::Link->new({
-            url  => $url,
-            text => $text,
-            name => $name,
-            tag  => $tag,
-            base => $self->base,
-            attrs => $attrs,
-        }) );
+    while (my $token = $parser->get_tag( keys %urltags )) {
+        my $link = $self->_link_from_token( $token, $parser );
+        push( @{$self->{links}}, $link ) if $link;
     } # while
 
     # Old extract_links() returned a value.  Carp if someone expects
@@ -1781,6 +1740,57 @@ sub _extract_links {
 
     return;
 }
+
+sub _link_from_token {
+    my $self = shift;
+    my $token = shift;
+    my $parser = shift;
+
+    my $tag = $token->[0];
+    my $attrs = $token->[1];
+    my $url = $attrs->{$urltags{$tag}};
+
+    my $text;
+    my $name;
+    if ( $tag eq "a" ) {
+        $text = $parser->get_trimmed_text("/$tag");
+        $text = "" unless defined $text;
+
+        my $onClick = $attrs->{onclick};
+        if ( $onClick && ($onClick =~ /^window\.open\(\s*'([^']+)'/) ) {
+            $url = $1;
+        }
+    } # a
+
+    # Of the tags we extract from, only 'AREA' has an alt tag
+    # The rest should have a 'name' attribute.
+    # ... but we don't do anything with that bit of wisdom now.
+
+    $name = $attrs->{name};
+
+    if ( $tag eq "meta" ) {
+        my $equiv = $attrs->{"http-equiv"};
+        my $content = $attrs->{"content"};
+        return unless $equiv && (lc $equiv eq "refresh") && defined $content;
+
+        if ( $content =~ /^\d+\s*;\s*url\s*=\s*(\S+)/i ) {
+            $url = $1;
+        } else {
+            undef $url;
+        }
+    } # meta
+
+    return unless defined $url;   # probably just a name link or <AREA NOHREF...>
+    return
+        WWW::Mechanize::Link->new({
+            url  => $url,
+            text => $text,
+            name => $name,
+            tag  => $tag,
+            base => $self->base,
+            attrs => $attrs,
+        });
+} # _link_from_token
 
 =head2 $mech->_push_page_stack() / $mech->_pop_page_stack()
 
