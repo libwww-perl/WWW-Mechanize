@@ -28,6 +28,7 @@ AREA_CHECKS: {
 	[ "http://www.slashdot.org", undef, undef, "area" ],
     );
     my @links = $mech->find_all_links();
+    @{$_} = @{$_}[0..3] for @links;
     is_deeply( \@links, \@wanted_links, "Correct links came back" );
 
     my $linkref = $mech->find_all_links();

@@ -1,5 +1,14 @@
-# $Id: Changes,v 1.90 2003/12/15 05:58:05 petdance Exp $
+# $Id: Changes,v 1.91 2003/12/20 04:27:52 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
+
+
+	[THINGS THAT MAY BREAK YOUR CODE]
+	* WWW::Mechanize::Link's constructor has a new argument
+	  that needs to be passed in, at the start of the argument
+	  list.
+
+	[ENHANCEMENTS]
+	* WWW::Mechanize::Link object
 
 	[INTERNALS]
 	* Heavy use of the new Test::Memory::Cycle module.

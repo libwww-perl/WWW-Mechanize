@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-use Test::More tests => 55;
+use Test::More tests => 54;
 use URI::file;
 
 BEGIN {
@@ -72,6 +72,7 @@ my @wanted_links= (
    [ "http://d.cpan.org/", "CPAN D", undef, "a" ], 
 );
 my @links = $mech->find_all_links( text_regex => qr/CPAN/ );
+@{$_} = @{$_}[0..3] for @links;
 is_deeply( \@links, \@wanted_links, "Correct links came back" );
 
 my $linkref = $mech->find_all_links( text_regex => qr/CPAN/ );
@@ -104,10 +105,8 @@ AREA_CHECKS: {
 	[ "http://www.cnn.com/area", undef, undef, "area" ],
     );
     my @links = $mech->find_all_links( url_regex => qr/cnn\.com/ );
+    @{$_} = @{$_}[0..3] for @links;
     is_deeply( \@links, \@wanted_links, "Correct links came back" );
-
-    my $linkref = $mech->find_all_links( url_regex => qr/cnn\.com/ );
-    is_deeply( $linkref, \@wanted_links, "Correct links came back" );
 }
 
 $x = $mech->find_link( name => "bongo" );
@@ -128,4 +127,4 @@ is_deeply( $x, [ "http://d.cpan.org/", "CPAN D", undef, "a" ], 'Got 7th <A> or <
 
 $x = $mech->find_link( text => "Rebuild Index" );
 isa_ok( $x, 'WWW::Mechanize::Link' );
-is_deeply( $x, [ "/cgi-bin/MT/mt.cgi", "Rebuild Index", undef, "a" ], 'Got the JavaScript link' );
+is_deeply( [@{$x}[0..3]], [ "/cgi-bin/MT/mt.cgi", "Rebuild Index", undef, "a" ], 'Got the JavaScript link' );

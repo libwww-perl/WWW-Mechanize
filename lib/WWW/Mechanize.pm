@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.70
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.97 2003/12/20 02:40:38 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.98 2003/12/20 04:27:52 petdance Exp $
 
 =cut
 
@@ -1301,7 +1301,7 @@ sub _extract_links {
         }
 
         next unless defined $url;   # probably just a name link or <AREA NOHREF...>
-        push( @{$self->{links}}, WWW::Mechanize::Link->new( $url, $text, $name, $tag ) );
+        push( @{$self->{links}}, WWW::Mechanize::Link->new( $self->base, $url, $text, $name, $tag ) );
     }
 
     # Old extract_links() returned a value.  Carp if someone expects

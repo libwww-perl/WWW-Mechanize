@@ -23,5 +23,9 @@ isa_ok( $x, 'WWW::Mechanize::Link' );
 
 my @links = $mech->find_all_links();
 is( scalar @links, 2, "Only two links" );
-is_deeply( $links[0], [ 'find_link.html', undef, 'top', 'frame' ], "First frame OK" );
-is_deeply( $links[1], [ 'google.html', undef, 'bottom', 'frame' ], "Second frame OK" );
+
+my $link1 = $links[0];
+is_deeply( [@{$link1}[0..3]], [ 'find_link.html', undef, 'top', 'frame' ], "First frame OK" );
+
+my $link2 = $links[1];
+is_deeply( [@{$link2}[0..3]], [ 'google.html', undef, 'bottom', 'frame' ], "Second frame OK" );
