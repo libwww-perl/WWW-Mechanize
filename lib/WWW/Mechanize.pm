@@ -6,13 +6,13 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 =head1 VERSION
 
-Version 0.63
+Version 0.64
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.77 2003/10/24 04:17:20 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.78 2003/10/24 04:48:34 petdance Exp $
 
 =cut
 
-our $VERSION = "0.63";
+our $VERSION = "0.64";
 
 =head1 SYNOPSIS
 
