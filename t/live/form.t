@@ -2,10 +2,7 @@
 
 use warnings;
 use strict;
-use Test::More;
-
-plan skip_all => "Skipping live tests" if -f "t/SKIPLIVE";
-plan tests => 15;
+use Test::More tests=>15;
 
 use constant START => 'http://www.google.com/intl/en/';
 

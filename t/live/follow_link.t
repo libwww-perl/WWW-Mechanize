@@ -1,10 +1,7 @@
 use warnings;
 use strict;
-use Test::More;
+use Test::More tests=>6;
 use constant START => 'http://www.google.com/intl/en/';
-
-plan skip_all => "Skipping live tests" if -f "t/SKIPLIVE";
-plan tests => 6;
 
 use_ok( 'WWW::Mechanize' );
 

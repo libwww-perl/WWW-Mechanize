@@ -1,9 +1,6 @@
 use warnings;
 use strict;
-use Test::More;
-
-plan skip_all => "Skipping live tests" if -f "t/SKIPLIVE";
-plan tests => 26;
+use Test::More tests=>26;
 
 use_ok( 'WWW::Mechanize' );
 
