@@ -4,8 +4,6 @@ use lib 't/local';
 use LocalServer;
 use Test::More tests => 5;
 
-=pod
-
 =head1 NAME
 
 content.t
@@ -47,9 +45,9 @@ SKIP: {
     eval "use HTML::TreeBuilder";
     skip "HTML::TreeBuilder not installed", 2 if $@;
 
-	my $text = $mech->content(format => "text");
-	like( $text, qr/Fine/);
-	unlike( $text, qr/html/i);
+    my $text = $mech->content(format => "text");
+    like( $text, qr/Fine/);
+    unlike( $text, qr/html/i);
 }
 
 =head2 $mech->content(base_href => undef)

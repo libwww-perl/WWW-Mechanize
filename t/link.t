@@ -10,8 +10,9 @@ BEGIN {
 }
 
 OLD_API: {
-    my $link = WWW::Mechanize::Link->new( "url.html", "text", "name", "frame", "http://base.example.com/", 
-		{ alt => 'alt text' });
+    my $link =
+        WWW::Mechanize::Link->new(
+            "url.html", "text", "name", "frame", "http://base.example.com/", { alt => 'alt text' } );
 
     isa_ok( $link, 'WWW::Mechanize::Link' );
     is( scalar @$link, 6, "Should have five elements" );
@@ -45,7 +46,7 @@ NEW_API: {
         name => "name",
         tag  => "frame",
         base => "http://base.example.com/",
-		attrs => { alt =>  "alt text" },
+        attrs => { alt =>  "alt text" },
     } );
 
     is( $link->url, "url.html", "url() works" );

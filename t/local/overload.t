@@ -43,16 +43,18 @@ BROKEN_HTML
 isa_ok( $server, 'LocalServer' );
 
 do {
-   package MyMech;
-   use base 'WWW::Mechanize';
+    package MyMech;
+    use base 'WWW::Mechanize';
 
-   sub update_html {
-       my ($self, $html) = @_;
-	   $html =~ s[Broken][Fixed]isg;
-	   $html =~ s[</option>.?.?.?</td>][</option></select></td>]isg;
+    sub update_html {
+        my $self = shift;
+        my $html = shift;
 
-	   $self->WWW::Mechanize::update_html( $html );
-   }
+        $html =~ s[Broken][Fixed]isg;
+        $html =~ s[</option>.?.?.?</td>][</option></select></td>]isg;
+
+        $self->WWW::Mechanize::update_html( $html );
+    }
 };
 
 my $carpmsg;
@@ -60,10 +62,9 @@ local $^W = 1;
 local *Carp::carp = sub {$carpmsg = shift};
 
 my $mech = WWW::Mechanize->new();
-do {
-	$mech->get ($server->url);
-	like($carpmsg, qr/bad.*select/i, "Standard mech chokes on bogus HTML");
-};
+
+$mech->get ($server->url);
+like($carpmsg, qr/bad.*select/i, "Standard mech chokes on bogus HTML");
 
 # If at first you don't succeed, try with a shorter bungee...
 undef $carpmsg;

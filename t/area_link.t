@@ -56,9 +56,6 @@ AREA_CHECKS: {
         push @{$_}, $attrs;
     }
 
-#	use Data::Dumper; warn Dumper (\@links,\@wanted_links);
-	
-
     is_deeply( \@links, \@wanted_links, "Correct links came back" );
 
     my $linkref = $mech->find_all_links();

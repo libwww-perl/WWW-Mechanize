@@ -1,52 +1,65 @@
-# $Id: Changes,v 1.156 2004/11/01 01:07:59 markjugg Exp $
+# $Id: Changes,v 1.157 2004/11/01 03:11:37 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
-XXX
-	[ENHANCEMENTS]
-	* click_button() has a new input option for HTML::Form::SubmitInput objects (DOMQ)
+1.05_03 Sun Oct 31 20:54:33 CST 2004
 
-	* content() has new options to return the page formatted as text, with a 
-	  <base href> added. (RT#8087, patch by Dominique Quatravaux)
+        [ENHANCEMENTS]
+        * click_button() has a new input option for HTML::Form::SubmitInput
+          objects (DOMQ)
 
-	* update_html() method has been added, which can be used to modify the HTML
-	  that Mech parses. It should be sub-classed instead of _parse_html(), which has
-	  been deprecated. (RT#8087, patch by Dominique Quatravaux)
+        * content() has new options to return the page formatted
+          as text, with a <base href> added. (RT#8087, patch by
+          Dominique Quatravaux)
 
-	* select() has new option to select an option by number (RT#5789, Scott Lanning) 
+        * update_html() method has been added, which can be used
+          to modify the HTML that Mech parses. It should be sub-classed
+          instead of _parse_html(), which has been deprecated.
+          (RT#8087, patch by Dominique Quatravaux)
 
-	* WWW::Mechanize::Link now has support providing all the attributes of the
-	  link through a new attrs() method, which returns them as a hashref. This
-	  is a replacement for the alt() method, added in 1.05_01. It's not
-	  backwards compatible with that, but, hey, that's what developer releases
-	  are for. (RT#8092, Rob Casey and Mark Stosberg)
+        * select() has new option to select an option by number
+          (RT#5789, Scott Lanning)
 
-	[FIXES]
-	* Upload <input type="file" ... > does not use the default
-	  value to prevent attacks, patch by Jan Pazdziora (RT #7843).
+        * WWW::Mechanize::Link now has support providing all the
+          attributes of the link through a new attrs() method, which
+          returns them as a hashref. This is a replacement for the
+          alt() method, added in 1.05_01. It's not backwards
+          compatible with that, but, hey, that's what developer
+          releases are for. (RT#8092, Rob Casey and Mark Stosberg)
 
-	[INTERNALS]
-	* Improved tests and documentation for select() (RT#5789, Scott Lanning) 
+        [FIXES]
+        * Upload <input type="file" ... > does not use the default
+          value to prevent attacks, patch by Jan Pazdziora (RT #7843).
 
-	* Improve taint-safeness on Perl 5.6.1 (RT#8042, patch by Dominique Quatravaux)
+        [INTERNALS]
+        * Improved tests and documentation for select() (RT#5789,
+          Scott Lanning)
 
-	* Added tests for click_button() (RT#8061, by Dominique Quatravaux)
+        * Improve taint-safeness on Perl 5.6.1 (RT#8042, patch by
+          Dominique Quatravaux)
 
-	* Require URI 1.25, fixing bug which exposed itself in WWW::Mechanize (RT#3048)
+        * Added tests for click_button() (RT#8061, by Dominique
+          Quatravaux)
 
-	* Move select() to better location in docs. Document and test the return values.
-	  The return value is now "1" on success instead of the undocumented behavior 
-	  of returning a form value. (RT#6138, spotted by MJD, patched by Mark Stosberg)
+        * Require URI 1.25, fixing bug which exposed itself in
+          WWW::Mechanize (RT#3048)
 
-	* Possible matching tags for the find_link() 'tag_regex' attribute are now
-	  documented. (RT#2989, by Mark Stosberg)
+        * Move select() to better location in docs. Document and
+          test the return values.  The return value is now "1" on
+          success instead of the undocumented behavior of returning
+          a form value. (RT#6138, spotted by MJD, patched by Mark
+          Stosberg)
 
-	* refactored find_link() to avoid use of eval(). This should improve performance 
-	  a bit and avoid potential security issues. (Mark Stosberg)
+        * Possible matching tags for the find_link() 'tag_regex'
+          attribute are now documented. (RT#2989, by Mark Stosberg)
 
-1.05_02	Sat Oct  2 16:55:59 CDT 2004
-	[ENHANCEMENTS]
-	* Added the $mech->save_content( $filename ) function, so you
-	  can dump stuff to files easily.
+        * refactored find_link() to avoid use of eval(). This should
+          improve performance a bit and avoid potential security
+          issues. (Mark Stosberg)
+
+1.05_02 Sat Oct  2 16:55:59 CDT 2004
+        [ENHANCEMENTS]
+        * Added the $mech->save_content( $filename ) function, so you
+          can dump stuff to files easily.
 
 1.05_01 Thu Sep 30 21:04:44 CDT 2004
 

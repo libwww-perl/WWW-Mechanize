@@ -24,10 +24,12 @@ my @forms = $mech->forms;
 is( scalar @forms, 1, "Only one form" );
 
 sub ok_click_success {
-	my ($mech, $message) = @_;
-	like($mech->uri(), qr/formsubmit/,   $message);
-	like($mech->uri(), qr/submit=Go/,   "Correct button was pressed");
-	like($mech->uri(), qr/cat_foo/,   "Parameters got transmitted OK");
+    my $mech = shift;
+    my $message = shift;
+
+    like($mech->uri(), qr/formsubmit/,   $message);
+    like($mech->uri(), qr/submit=Go/,   "Correct button was pressed");
+    like($mech->uri(), qr/cat_foo/,   "Parameters got transmitted OK");
 }
 
 $mech->click_button(number => 1);
