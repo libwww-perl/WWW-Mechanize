@@ -1,9 +1,14 @@
-# $Id: Changes,v 1.139 2004/09/29 18:25:19 markjugg Exp $
+# $Id: Changes,v 1.140 2004/09/29 19:07:58 markjugg Exp $
 Revision history for Perl extension WWW::Mechanize
 
 1.05_01 XXX
 		[ENHANCEMENTS]
-		t/mech-dump.t is now more portable (RT #7690)
+		* t/mech-dump.t is now more portable (RT #7690)
+
+		* WWW::Mechanize::Link has a new, easier to remember constructor
+		  interface. The old one is still supported. Support for including  
+		  an 'alt' attribute was added, which is useful for <area> links.
+		  (RT #3317). Thanks to Mark Stosberg.
 
 1.04    Wed Sep 15 23:27:53 CDT 2004
 

@@ -13,7 +13,20 @@ wants to deal with as an array.
 
 =head1 Constructor
 
-=head2 new( I<$url>, I<$text>, I<$name>, I<$tag>, I<$base> )
+=head2 new()
+
+ my $link = WWW::Mechanize::Link->new({
+	url  => $url, 
+	text => $text, 
+	name => $name, 
+	tag  => $tag,  
+	base => $base,
+	alt  => $alt,
+ });
+
+For compatibility, this older interface is also supported:
+
+ new( $url, $text, $name, $tag, $base, $alt )
 
 Creates and returns a new C<WWW::Mechanize::Link> object.
 
@@ -22,15 +35,26 @@ Creates and returns a new C<WWW::Mechanize::Link> object.
 sub new {
     my $class = shift;
 
-    my $url = shift;
-    my $text = shift;
-    my $name = shift;
-    my $tag = shift;
-    my $base = shift;
+	# new style API
+	my %p;
+    my ($url,$text,$name,$tag,$base,$alt);
+	if (ref $_[0] eq 'HASH') {
+		%p =  %{ $_[0] }; 
+		$url  = $p{url};
+		$text = $p{text};
+		$name = $p{name};
+		$tag  = $p{tag};
+		$base = $p{base};
+		$alt  = $p{alt};
+	}
+	else {
+		($url,$text,$name,$tag,$base,$alt) = @_; 
+
+	}
 
     # The order of the first four must stay as they are for
     # compatibility with older code.
-    my $self = [$url,$text,$name,$tag,$base];
+    my $self = [$url,$text,$name,$tag,$base,$alt];
 
     bless $self, $class;
 
@@ -59,6 +83,10 @@ Tag name (either "a", "frame" or "iframe").
 
 Base URL to which the links are relative.
 
+=head2 $link->alt()
+
+Alt attribute contents. Useful for 'area' tags.
+
 =cut
 
 sub url  { return ($_[0])->[0]; }
@@ -66,6 +94,7 @@ sub text { return ($_[0])->[1]; }
 sub name { return ($_[0])->[2]; }
 sub tag  { return ($_[0])->[3]; }
 sub base { return ($_[0])->[4]; }
+sub alt  { return ($_[0])->[5]; }
 
 =head2 $link->URI()
 
