@@ -20,6 +20,49 @@ used WWW::Mechanize.
 Note that the examples are in reverse order of my having received them,
 so the freshest examples are always at the top.
 
+=head2 pb-upload, by John Beppu
+
+This script takes filenames of images from the command line and
+uploads them to a www.photobucket.com folder.  John Beppu, the author, says:
+
+=over 4
+
+I had 92 pictures I wanted to upload, and doing it through a browser
+would've been torture.  But thanks to mech, all I had to do was
+`./pb.upload *.jpg` and watch it do its thing.  It felt good.
+If I had more time, I'd implement WWW::Photobucket on top of
+WWW::Mechanize.
+
+=back
+
+    #!/usr/bin/perl -w -T
+
+    use strict;
+    use WWW::Mechanize;
+
+    my $login    = "login_name";
+    my $password = "password";
+    my $folder   = "folder";
+
+    my $url = "http://img78.photobucket.com/albums/v281/$login/$folder/";
+
+    # login to your photobucket.com account
+    my $mech = WWW::Mechanize->new();
+    $mech->get($url);
+    $mech->submit_form(
+        form_number => 1,
+        fields      => { password => $password },
+    );
+    die unless ($mech->success);
+
+    # upload image files specified on command line
+    foreach (@ARGV) {
+        print "$_\n";
+        $mech->form_number(2);
+        $mech->field('the_file[]' => $_);
+        $mech->submit();
+    }
+
 =head2 listmod, by Ian Langworth
 
 Ian Langworth contributes this little gem that will bring joy to

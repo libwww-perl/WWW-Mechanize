@@ -1,13 +1,15 @@
-# $Id: Changes,v 1.130 2004/06/24 19:52:35 petdance Exp $
+# $Id: Changes,v 1.131 2004/07/23 13:56:46 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
         [DOCUMENTATION]
-        * Added Ian Langworth's listmod program in WWW::Mechanize::Examples.
+        * Added Ian Langworth's listmod and John Beppu's photobucket
+          uploader programs to WWW::Mechanize::Examples.
+
 
 1.03_01 Thu May 27 15:13:10 CDT 2004
 
-        [ENHANCEMENTS]
-        * Finally added a value() func.  Thanks to Spoon, who even now,
+        [ENHANCEMENTS] * Finally added a value() func.  Thanks to Spoon,
+        who even now,
           months after his passing, is still contributing to Mechanize.
 
 
@@ -15,8 +17,8 @@ Revision history for Perl extension WWW::Mechanize
 
         No reason to install if you have 1.00.  Fixes are only in tests.
 
-        [FIXES]
-        * t/referer.t didn't cope with spaces in $FindBin::Bin.  Plus,
+        [FIXES] * t/referer.t didn't cope with spaces in $FindBin::Bin.
+        Plus,
           it now forces its URL to localhost.
 
 
@@ -26,27 +28,27 @@ Revision history for Perl extension WWW::Mechanize
         like a good place to do it, because of the potential breakage
         described below...
 
-        [THINGS THAT WILL BREAK YOUR CODE]
-        * Header handling has changed.  There is no more package variable
-          %headers that holds all the headers to be added.  They are now
-          added on a per-object basis.
+        [THINGS THAT WILL BREAK YOUR CODE] * Header handling has changed.
+        There is no more package variable
+          %headers that holds all the headers to be added.  They are
+          now added on a per-object basis.
 
           If you were adding a header with add_header(), and the code
           relied on that header still being set later on in a later
           instance of the class, that code will now break, because the
           later instance won't have the header set.
 
-        [ENHANCEMENTS]
-        * You can now prevent a header from being sent by adding it with
+        [ENHANCEMENTS] * You can now prevent a header from being sent
+        by adding it with
           an undef value, as in:
 
             $mech->add_header( Referer => undef );
 
-        [FIXES]
-        * Now correctly adds Accept-Encoding to all requests that need it.
+        [FIXES] * Now correctly adds Accept-Encoding to all requests
+        that need it.
 
-        [INTERNALS]
-        * Added new $mech->_modify_request($req) method to do all the
+        [INTERNALS] * Added new $mech->_modify_request($req) method to
+        do all the
           HTTP header modification before the actual request gets
           sent off.  Subclasses are able to override it if they want.
 
