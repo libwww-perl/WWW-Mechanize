@@ -1,5 +1,10 @@
-# $Id: Changes,v 1.109 2004/03/03 05:44:44 petdance Exp $
+# $Id: Changes,v 1.110 2004/03/03 17:48:42 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
+
+0.73_03
+	[FIXES]
+	* Still more fixes if the machine you're on doesn't have
+	  DNS pointing to it.
 
 0.73_02 Tue Mar  2 23:51:05 CST 2004
         [FIXES]

@@ -75,7 +75,10 @@ sub spawn {
   die "Couldn't find fake server url" unless $url;
   
   $self->{_fh} = $server;
-  $self->{_server_url} = URI::URL->new($url);
+
+  my $url = URI::URL->new( $url );
+  $url->host( "localhost" );
+  $self->{_server_url} = $url;
 
   $self;
 };
@@ -105,9 +108,6 @@ C<< $server->get_output >>
 
 sub url { 
   my $url = $_[0]->{_server_url}->abs;
-
-  # XXX This is for WWW::Mechanize only.
-  $url->host( "localhost" );
 
   return $url->as_string;
 };
