@@ -1,4 +1,4 @@
-# $Id: Changes,v 1.94 2003/12/22 05:24:42 petdance Exp $
+# $Id: Changes,v 1.95 2003/12/22 05:30:52 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 
@@ -12,6 +12,8 @@ Revision history for Perl extension WWW::Mechanize
 	* WWW::Mechanize::Link object now takes a $base URL, and will
 	  return absolute URLs with the url_abs() method.  Thanks to
 	  Ashley Pond.
+	* Added another script to WWW::Mechanize::Examples.  It's a
+	  script that didn't make it into Spidering Hacks.
 
 	[INSTALL & TESTS]
 	* Heavy use of the new Test::Memory::Cycle module.
