@@ -11,8 +11,8 @@ isa_ok( $agent, 'WWW::Mechanize' );
 
 ok($agent->get("http://www.google.com/intl/en/")->is_success, "Get google webpage");
 is( ref $agent->uri, "", "URI should be a string, not an object" );
-ok( $agent->is_html );
-is( $agent->title, "Google" );
+ok( $agent->is_html, "Seems to be HTML" );
+is( $agent->title, "Google", "Title matches" );
 
 ok( $agent->get( '/services/' )->is_success, 'Got the services page' );
 is( $agent->uri, 'http://www.google.com/services/', "Got relative OK" );
