@@ -7,8 +7,7 @@ use_ok('WWW::Mechanize');
 
 SKIP: {
     eval { require HTTP::Daemon; };
-    skip "HTTP::Daemon required to test the referrer header",10
-	if ($@);
+    skip "HTTP::Daemon required to test the referrer header",10 if $@;
 
     # We want to be safe from non-resolving local host names
     delete $ENV{HTTP_PROXY};
@@ -23,33 +22,33 @@ SKIP: {
     my $agent = WWW::Mechanize->new();
     $agent->get( $url );
     is($agent->status, 200, "Got first page") or diag $agent->res->message;
-    is($agent->content, "Referer: ''", "First page gets send with empty referrer");
-    is( ref $agent->uri, "", "URI shouldn't be an object" );
+    is($agent->content, "Referer: ''", "First page gets sent with empty referrer");
+    is( ref $agent->uri, "", "URI shouldn't be an object #1" );
 
     $agent->get( $url );
     is($agent->status, 200, "Got second page") or diag $agent->res->message;
     is($agent->content, "Referer: '$url'", "Referer got sent for absolute url");
-    is( ref $agent->uri, "", "URI shouldn't be an object" );
+    is( ref $agent->uri, "", "URI shouldn't be an object #2" );
     
     $agent->get( '.' );
     is($agent->status, 200, "Got third page") or diag $agent->res->message;
     is($agent->content, "Referer: '$url'", "Referer got sent for relative url");
-    is( ref $agent->uri, "", "URI shouldn't be an object" );
+    is( ref $agent->uri, "", "URI shouldn't be an object #3" );
 
     $WWW::Mechanize::headers{Referer} = '';
     $agent->get( $url );
     is($agent->status, 200, "Got fourth page") or diag $agent->res->message;
     is($agent->content, "Referer: ''", "Referer can be set to empty again");
-    is( ref $agent->uri, "", "URI shouldn't be an object" );
+    is( ref $agent->uri, "", "URI shouldn't be an object #4" );
     
     my $ref = "This is not the referer you are looking for *jedi gesture*";
     $WWW::Mechanize::headers{Referer} = $ref;
     $agent->get( $url );
     is($agent->status, 200, "Got fourth page") or diag $agent->res->message;
     is($agent->content, "Referer: '$ref'", "Custom referer can be set");
-    is( ref $agent->uri, "", "URI shouldn't be an object" );
+    is( ref $agent->uri, "", "URI shouldn't be an object #5" );
 };
 
 END {
-    close SERVER; # boom
+    close SERVER;
 };
