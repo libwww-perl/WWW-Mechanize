@@ -2,15 +2,12 @@
 
 use Test::More tests=>1;
 use HTML::Form;
-use HTML::Parser;
-use HTML::TokeParser;
-use Data::Dumper;
 
 for my $file ( sort keys %INC ) {
     my $module = $file;
     $module =~ s[/][::]g;
     $module =~ s/\.pm$//;
-    diag( "$module is " . ($module->VERSION||"undef") );
+    diag( ($module->VERSION||"undef") . "\t" . $module );
 }
 
 my $base = "http://localhost/";
