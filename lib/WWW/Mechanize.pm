@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.57
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.50 2003/08/13 14:37:21 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.51 2003/08/13 15:46:35 petdance Exp $
 
 =cut
 
@@ -251,6 +251,7 @@ sub known_agent_aliases {
 =head2 C<< $a->get($url) >>
 
 Given a URL/URI, fetches it.  Returns an C<HTTP::Response> object.
+I<$url> can be a well-formed URL string, or a URI::* object.
 
 The results are stored internally in the agent object, but you don't
 know that.  Just use the accessors listed below.  Poking at the internals
@@ -274,7 +275,7 @@ sub get {
 	    ? URI->new_abs( $uri, $self->{base} )
 	    : URI->new( $uri );
 
-    return $self->SUPER::get( $uri, @_ );
+    return $self->SUPER::get( $uri->as_string, @_ );
 }
 
 =head2 C<< $a->reload() >>
