@@ -1,7 +1,7 @@
-# $Id: Changes,v 1.102 2004/01/27 02:42:49 petdance Exp $
+# $Id: Changes,v 1.103 2004/01/27 03:08:31 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
-0.72
+0.72    Mon Jan 26 21:07:20 CST 2004
 	[ENHANCEMENTS]
 	* Added the set_visible() method, thanks to Peter Scott.
 
