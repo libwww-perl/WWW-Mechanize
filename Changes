@@ -1,7 +1,10 @@
-# $Id: Changes,v 1.28 2003/07/20 03:33:01 petdance Exp $
+# $Id: Changes,v 1.29 2003/07/20 03:39:09 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 0.54
+	[THINGS THAT MIGHT BREAK YOUR CODE]
+	* See the enhancements on extract_links() and failures.
+
 	[ENHANCEMENTS]
 	* extract_links() is now an internal-only method, named
 	  _extract_links().  If you're using it, don't.  Use
