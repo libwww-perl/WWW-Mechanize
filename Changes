@@ -1,4 +1,4 @@
-# $Id: Changes,v 1.2 2003/06/17 03:54:52 petdance Exp $
+# $Id: Changes,v 1.3 2003/06/17 04:22:14 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 0.45	June 11, 2003
@@ -12,6 +12,11 @@ Revision history for Perl extension WWW::Mechanize
 	  aren't connected to the Net.  There's now a t/lib/ directory for
 	  those helper files, and the previous Utils.pm has been dropped.
 	  Again, Corion to the rescue.
+
+	[DOCUMENTATION]
+	* Added to the FAQ
+	* Rearranged all the functions in the file so they are now
+	  logically grouped.
 
 0.44	June 5, 2003
 	[ENHANCEMENTS]
