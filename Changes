@@ -1,5 +1,9 @@
-# $Id: Changes,v 1.69 2003/10/08 01:50:53 petdance Exp $
+# $Id: Changes,v 1.70 2003/10/11 04:20:51 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
+
+0.63
+	[ENHANCEMENTS]
+	* mech-dump defaults to dumping forms.
 
 0.62	October 7, 2003  8:46pm
 	[THINGS THAT MIGHT BREAK YOUR CODE]
