@@ -72,6 +72,33 @@ sub name { return ($_[0])->[2]; }
 sub tag  { return ($_[0])->[3]; }
 sub base { return ($_[0])->[4]; }
 
+=head2 $link->URI()
+
+Returns the URL as a L<URI::URL> object.
+
+=cut
+
+sub URI {
+    my $self = shift;
+
+    require URI::URL;
+    my $URI = URI::URL->new( $self->url, $self->base );
+
+    return $URI;
+}
+
+=head2 $link->url_abs()
+
+Returns the URL as an absolute URL string.
+
+=cut
+
+sub url_abs {
+    my $self = shift;
+
+    return $self->URI->abs;
+}
+
 =head1 Author
 
 Copyright 2003 Andy Lester C<< <andy@petdance.com> >>

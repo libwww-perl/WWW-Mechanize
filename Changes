@@ -1,4 +1,4 @@
-# $Id: Changes,v 1.93 2003/12/20 14:09:21 petdance Exp $
+# $Id: Changes,v 1.94 2003/12/22 05:24:42 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 
@@ -10,7 +10,8 @@ Revision history for Perl extension WWW::Mechanize
 
 	[ENHANCEMENTS]
 	* WWW::Mechanize::Link object now takes a $base URL, and will
-	  return relative or absolute URLs.
+	  return absolute URLs with the url_abs() method.  Thanks to
+	  Ashley Pond.
 
 	[INSTALL & TESTS]
 	* Heavy use of the new Test::Memory::Cycle module.
