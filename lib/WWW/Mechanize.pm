@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.62
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.72 2003/10/08 21:29:42 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.73 2003/10/11 01:10:02 petdance Exp $
 
 =cut
 
@@ -102,20 +102,35 @@ See L<http://www.oreilly.com/catalog/spiderhks/> for more info.
 
 =over 4
 
+=item * WWW::Mechanize Development mailing list
+
+Hosted at Sourceforge, this is where the contributors to Mech
+discuss things.  L<http://sourceforge.net/mail/?group_id=83309>
+
+=item * LWP mailing list
+
+The LWP mailing list is at
+L<http://lists.perl.org/showlist.cgi?name=libwww>, and is more
+user-oriented and well-populated than the WWW::Mechanize Development
+list.  This is a good list for Mech users, since LWP is the basis
+for Mech.
+
 =item * L<WWW::Mechanize::Examples>
 
-A random array of examples submitted by users.
+A random array of examples submitted by users, included with the
+Mechanize distribution.
 
 =item * L<http://www.perl.com/pub/a/2003/01/22/mechanize.html>
 
-Chris Ball's article about using WWW::Mechanize for scraping TV listings.
+Chris Ball's article about using WWW::Mechanize for scraping TV
+listings.
 
 =item * L<http://www.stonehenge.com/merlyn/LinuxMag/col47.html>
 
-Randal Schwartz's article on scraping Yahoo News for images.  It's already
-out of date: He manually walks the list of links hunting for matches,
-which wouldn't have been necessary if the C<find_link()> method existed
-at press time.
+Randal Schwartz's article on scraping Yahoo News for images.  It's
+already out of date: He manually walks the list of links hunting
+for matches, which wouldn't have been necessary if the C<find_link()>
+method existed at press time.
 
 =item * L<http://www.perladvent.org/2002/16th/>
 
