@@ -6,13 +6,13 @@ WWW::Mechanize - automate interaction with websites
 
 =head1 VERSION
 
-Version 0.54
+Version 0.55
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.35 2003/07/22 05:09:14 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.36 2003/07/22 14:50:52 petdance Exp $
 
 =cut
 
-our $VERSION = "0.54";
+our $VERSION = "0.55";
 
 =head1 SYNOPSIS
 
@@ -736,15 +736,17 @@ sub title {
 
 =head2 C<< $a->find_link() >>
 
-This method finds a link in the currently fetched page. It returns
-a reference to a two element array which has the link URL and link
-text, respectively. If it fails to find a link it returns undef.
-You can take the URL part and pass it to the C<get> method. The
-C<follow_link> method is recommended as it calls this method and
-also does the C<get> for you.
+This method finds a link in the currently fetched page. It returns a
+L<WWW::Mechanize::Link> object which describes the link.  (You'll probably
+be most interested in the C<url()> property.)  If it fails to find a
+link it returns undef.
 
-Note that C<< <FRAME SRC="..." >> tags are parsed out of the the
-HTML and treated as links so this method works with them.
+You can take the URL part and pass it to the C<get()> method.  If that's
+your plan, you might as well use the C<follow_link()> method directly,
+since it does the C<get()> for you automatically.
+
+Note that C<< <FRAME SRC="..."> >> tags are parsed out of the the HTML
+and treated as links so this method works with them.
 
 You can select which link to find by passing in one or more of these
 key/value pairs:
@@ -811,9 +813,6 @@ The array elements are:
 =over 4
 
 =item [0]: contents of the link
-
-For the C<< <A> >> tag, this is the C<HREF> attribute.
-For C<< <FRAME> >> or C<< <IFRAME> >>, it's the C<SRC> attribute.
 
 =item [1]: text enclosed by the tag
 
@@ -1036,8 +1035,8 @@ sub _reset_page {
 
 =head2 C<< $a->_extract_links() >>
 
-Extracts HREF links from the content of a webpage.  The format of
-the links extracted is documented in find_all_links().
+Extracts links from the content of a webpage, and populates the C<{links}>
+property with L<WWW::Mechanize::Link> objects.
 
 =cut
 
@@ -1054,7 +1053,7 @@ sub _extract_links {
 
     my $p = HTML::TokeParser->new(\$self->{content});
     
-    my $links = ($self->{links} = []);
+    $self->{links} = [];
 
     while (my $token = $p->get_tag( keys %urltags )) {
         my $tag = $token->[0];
@@ -1063,9 +1062,11 @@ sub _extract_links {
 
         my $text = $p->get_trimmed_text("/$tag");
 	$text = "" unless defined $text;
-        push(@$links, WWW::Mechanize::Link->new( $url, $text, $token->[1]{name} ) );
+        push( @{$self->{links}}, WWW::Mechanize::Link->new( $url, $text, $token->[1]{name}, $tag ) );
     }
 
+    # Old extract_links() returned a value.  Carp if someone expects
+    # this version to return something.
     if ( defined wantarray ) {
 	my $func = (caller(0))[3];
 	carp "$func does not return a useful value" if defined wantarray;

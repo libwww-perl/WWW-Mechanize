@@ -66,10 +66,10 @@ is( $x->[0], "http://c.cpan.org/", "Got c.cpan.org" );
 is( $x->url, "http://c.cpan.org/", "Got c.cpan.org" );
 
 my @wanted_links= (
-   [ "http://a.cpan.org/", "CPAN A", undef ], 
-   [ "http://b.cpan.org/", "CPAN B", undef ], 
-   [ "http://c.cpan.org/", "CPAN C", "bongo" ], 
-   [ "http://d.cpan.org/", "CPAN D", undef ], 
+   [ "http://a.cpan.org/", "CPAN A", undef, "a" ], 
+   [ "http://b.cpan.org/", "CPAN B", undef, "a" ], 
+   [ "http://c.cpan.org/", "CPAN C", "bongo", "a" ], 
+   [ "http://d.cpan.org/", "CPAN D", undef, "a" ], 
 );
 my @links = $t->find_all_links( text_regex => qr/CPAN/ );
 ok( eq_array( \@links, \@wanted_links ), "Correct links came back" );

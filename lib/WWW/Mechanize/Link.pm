@@ -28,8 +28,9 @@ sub new {
     my $url = shift;
     my $text = shift;
     my $name = shift;
+    my $tag = shift;
 
-    my $self = [$url,$text,$name];
+    my $self = [$url,$text,$name,$tag];
 
     bless $self, $class;
 
@@ -48,11 +49,19 @@ Text of the link
 
 Name from the link tag
 
+For the C<< <A> >> tag, this is the C<HREF> attribute.
+For C<< <FRAME> >> or C<< <IFRAME> >>, it's the C<SRC> attribute.
+
+=head2 C<< $link->tag() >>
+
+Tag name (either "a", "frame" or "iframe").
+
 =cut
 
-sub url { return shift->[0]; }
-sub text { return shift->[1]; }
-sub name { return shift->[2]; }
+sub url  { return ($_[0])->[0]; }
+sub text { return ($_[0])->[1]; }
+sub name { return ($_[0])->[2]; }
+sub tag  { return ($_[0])->[3]; }
 
 =head1 Author
 
