@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.73_02
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.111 2004/03/03 05:44:44 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.112 2004/03/04 16:32:19 corion Exp $
 
 =cut
 
@@ -1189,6 +1189,19 @@ sub request {
     }
     $self->{req} = $request;
     $self->{redirected_uri} = $request->uri->as_string;
+
+    # add correct Accept-Encoding header to restore compliance with
+    # http://www.freesoft.org/CIE/RFC/2068/158.htm
+    unless ($request->header('Accept-Encoding')) {
+      my $accept = 'identity';
+      # only allow "identity" for the time being
+      #eval {
+      #  require Compress::Zlib;
+      #  $accept .= ', compress, gzip';
+      #};
+      $self->add_header( 'Accept-Encoding', $accept);
+    };
+
     my $res = $self->{res} = $self->_make_request( $request, @_ );
 
     # These internal hash elements should be dropped in favor of
@@ -1197,6 +1210,17 @@ sub request {
     $self->{base}    = $res->base;
     $self->{ct}      = $res->content_type || "";
     $self->{content} = $res->content;
+
+    # decode any gzipped/compressed response
+    # (currently isn't reached because we only allow 'identity')
+    my $encoding = $res->header('Content-Encoding') || "";
+    if ($encoding eq 'gzip') {
+      $self->{content} = Compress::Zlib::memGunzip( $self->{ content });
+      # should I delete the response header?
+    } elsif ($encoding eq 'compress') {
+      $self->{content} = Compress::Zlib::uncompress( $self->{ content });
+    };
+    
     if ( $self->{res}->is_success ) {
         $self->{uri} = $self->{redirected_uri};
         $self->{last_uri} = $self->{uri};
@@ -1211,7 +1235,6 @@ sub request {
 
     return $res;
 } # request
-
 =head2 $mech->_parse_html()
 
 An internal method that initializes forms and links given a HTML document.

@@ -1,7 +1,12 @@
-# $Id: Changes,v 1.110 2004/03/03 17:48:42 petdance Exp $
+# $Id: Changes,v 1.111 2004/03/04 16:32:19 corion Exp $
 Revision history for Perl extension WWW::Mechanize
 
 0.73_03
+	[ENHANCEMENTS]
+	* WWW::Mechanize now sends an Accept-Encoding header of "identity"
+	  to always enforce plaintext responses. Preliminary support for
+	  Compress::Zlib is also there, but is disabled by default.
+	  
 	[FIXES]
 	* Still more fixes if the machine you're on doesn't have
 	  DNS pointing to it.
