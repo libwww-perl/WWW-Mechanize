@@ -1,6 +1,11 @@
-# $Id: Changes,v 1.24 2003/07/17 14:57:42 petdance Exp $
+# $Id: Changes,v 1.25 2003/07/18 20:55:44 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
+0.54
+	[DOCUMENTATION]
+	* Added a sample CPAN search from Ed Silva.
+
+	
 0.53	July 16, 2003
 	This version ONLY fixes some test-file problems.  There are no
 	functionality enhancements or bug fixes in WWW::Mechanize itself.
