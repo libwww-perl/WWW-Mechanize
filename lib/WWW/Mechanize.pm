@@ -13,7 +13,8 @@ WWW::Mechanize - automate interaction with websites
 
     $agent->follow($link);
 
-    $agent->form($number);
+    $agent->form_number($number);
+    $agent->form_name($name);
     $agent->field($name, $value);
     $agent->click($button);
 
@@ -49,13 +50,13 @@ our @ISA = qw( LWP::UserAgent );
 
 =head1 VERSION
 
-Version 0.35
+Version 0.36
 
-    $Header: /home/cvs/www-mechanize/lib/WWW/Mechanize.pm,v 1.30 2003/01/22 23:53:11 alester Exp $
+    $Header: /home/cvs/www-mechanize/lib/WWW/Mechanize.pm,v 1.34 2003/02/04 17:36:20 alester Exp $
 
 =cut
 
-our $VERSION = "0.35";
+our $VERSION = "0.36";
 
 our %headers;
 
@@ -108,22 +109,9 @@ sub new {
 
 Given a URL/URI, fetches it.  Returns an HTTP::Response object.
 
-The results are stored internally in the agent object, as follows:
-
-     uri       The current URI
-     req       The current request object        [HTTP::Request]
-     res       The response received             [HTTP::Response]
-     status    The status code of the response
-     ct        The content type of the response
-     base      The base URI for current response
-     content   The content of the response
-     forms     Array of forms found in content   [HTML::Form]
-     form      Current form                      [HTML::Form]
-     links     Array of links found in content 
-
-You can get at them with, for example: C<< $agent->{content} >>, 
-B<BUT PLEASE DON'T>, as these internal hash elements are officially
-deprecated.  Use the accessor methods below.
+The results are stored internally in the agent object, but you don't
+know that.  Just use the accessors listed below.  Poking at the internals
+is deprecated and subject to change in the future.
 
 =cut
 
@@ -180,7 +168,7 @@ C<form()> except that C<form()> already exists and sets the current_form.
 
 =head2 $agent->links()
 
-Returns an array of the links found
+Returns an arrayref of the links found
 
 =cut
 
@@ -257,7 +245,22 @@ sub quiet {
     return $self->{quiet};
 }
 
-=head2 $agent->form($number)
+=head2 $agent->form($number|$name)
+
+Selects a form by number or name, depending on if it gets passed an
+all-numeric string or not.  If you have a form with a name that is all
+digits, you'll need to call C< $agent->form_name > explicitly.
+
+=cut
+
+sub form {
+    my $self = shift;
+    my $arg = shift;
+
+    return $arg =~ /^\d+$/ ? $self->form_number($arg) : $self->form_name($arg);
+}
+
+=head2 $agent->form_number($number)
 
 Selects the Nth form on the page as the target for subsequent calls to
 field() and click().  Emits a warning and returns false if there is no
@@ -266,13 +269,37 @@ number 1 (not zero).
 
 =cut
 
-sub form {
+sub form_number {
     my ($self, $form) = @_;
     if ($self->{forms}->[$form-1]) {
         $self->{form} = $self->{forms}->[$form-1];
         return 1;
     } else {
-        carp "There is no form number $form";
+        carp "There is no form number $form" unless $self->quiet;
+        return 0;
+    }
+}
+
+=head2 $agent->form_name($number)
+
+Selects a form by name.  If there is more than one form on the page with
+that name, then the first one is used, and a warning is generated.
+
+Note that this functionality requires libwww-perl 5.69 or higher.
+
+=cut
+
+sub form_name {
+    my ($self, $form) = @_;
+
+    my @matches = grep {$_->attr('name') eq $form } @{$self->{forms}};
+    if ( @matches ) {
+	$self->{form} = $matches[0];
+	warn "There are ", scalar @matches, " forms named $form.  The first one was used."
+	    if @matches > 1 && !$self->{quiet};
+        return 1;
+    } else {
+        carp "There is no form named $form" unless $self->{quiet};
         return 0;
     }
 }
@@ -491,12 +518,48 @@ sub _do_request {
 
     if ($self->{ct} eq 'text/html') {
         $self->{forms} = [ HTML::Form->parse($self->{content}, $self->{res}->base) ];
-        $self->{form}  = $self->{forms}->[0] if @{$self->{forms}};
+        $self->{form}  = @{$self->{forms}} ? $self->{forms}->[0] : undef;
         $self->{links} = $self->extract_links();
     }
 
     return $self->{res};
 }
+
+=head1 EXAMPLES
+
+Following are user-supplied samples of WWW::Mechanize in action.  If you
+have samples you'd like to contribute, please send 'em.
+
+=head2 get-despair
+
+Randal Schwartz submitted this bot that walks the despair.com site
+sucking down all the pictures.
+
+    use strict; 
+    $|++;
+     
+    use WWW::Mechanize;
+    use File::Basename; 
+      
+    my $m = WWW::Mechanize->new;
+     
+    $m->get("http://www.despair.com/indem.html");
+     
+    my @top_links = @{$m->links};
+      
+    for my $top_link_num (0..$#top_links) {
+	next unless $top_links[$top_link_num][0] =~ /^http:/; 
+	 
+	$m->follow($top_link_num) or die "can't follow $top_link_num";
+	 
+	print $m->uri, "\n";
+	for my $image (grep m{^http://store4}, map $_->[0], @{$m->links}) { 
+	    my $local = basename $image;
+	    print " $image...", $m->mirror($image, $local)->message, "\n"
+	}
+	 
+	$m->back or die "can't go back";
+    }
 
 =head1 BUGS
 

@@ -7,6 +7,7 @@ WriteMakefile(
     'ABSTRACT_FROM' => 'lib/WWW/Mechanize.pm', # retrieve abstract from module
     'AUTHOR'	    => 'Andy Lester <andy@petdance.com>',
     'PREREQ_PM'	    => { # e.g., Module::Name => 1.1
+			LWP		    => 5.69,
 			LWP::UserAgent	    => 1.80,
                         HTTP::Request	    => 1.20,
                         HTML::Form	    => 0.03,

@@ -1,5 +1,17 @@
-# $Id: Changes,v 1.14 2003/01/22 23:53:11 alester Exp $
+# $Id: Changes,v 1.18 2003/02/04 17:36:19 alester Exp $
 Revision history for Perl extension WWW::Mechanize
+
+0.36	February 4, 2003
+	[ENHANCEMENTS]
+	* Added form lookup by name.  Thanks to Jan Ivar Pladsen and
+	  Iain Truskett for their patches.
+	* Added new functions form_name() and form_number().  Existing
+	  form() function calls each of these as appropriate.
+	* Explicitly requires LWP 5.69 because of the form naming.
+	* Added new POD section "Examples" for user-submitted sample code
+	  of how to use WWW::Mechanize.
+	* Quieted the warnings in the test suite, so that you don't get
+	  expected, but disconcerting, warnings to the screen.
 
 0.35	January 22, 2003
 	[ENHANCEMENTS]

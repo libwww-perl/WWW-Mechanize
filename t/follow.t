@@ -9,6 +9,7 @@ BEGIN {
 
 my $agent = WWW::Mechanize->new;
 isa_ok( $agent, 'WWW::Mechanize', 'Created object' );
+$agent->quiet(1);
 
 my $response = $agent->get( START );
 ok( $response->is_success, 'Got some page' );
