@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.55
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.36 2003/07/22 14:50:52 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.37 2003/07/22 14:59:10 petdance Exp $
 
 =cut
 
@@ -201,7 +201,7 @@ sub get {
 
 Acts like the reload button in a browser: Reperforms the current request.
 
-Returns undef if there's no current request, or the C<HTTP::Response>
+Returns undef if there's no current request, or the L<HTTP::Response>
 object from the reload.
 
 =cut
@@ -284,71 +284,7 @@ sub follow_link {
     return $response;
 }
 
-=head2 C<< $a->follow($string|$num) >>
-
-(Note that C<follow()> is deprecated in favor of Cfollow_link()>,
-which provides more flexibility.)
-
-Follow a link.  If you provide a string, the first link whose text
-matches that string will be followed.  If you provide a number, it
-will be the I<$num>th link on the page.  Note that the links are
-0-based.
-
-Returns true if the link was found on the page or undef otherwise.
-
-=cut
-
-sub follow {
-    my ($self, $link) = @_;
-    my @links = @{$self->{links}};
-    my $thislink;
-    if ( $link =~ /^\d+$/ ) { # is a number?
-        if ($link <= $#links) {
-            $thislink = $links[$link];
-        } else {
-            carp "Link number $link is greater than maximum link $#links ",
-                 "on this page ($self->{uri})" unless $self->quiet;
-            return;
-        }
-    } else {                        # user provided a regexp
-        LINK: foreach my $l (@links) {
-            if ($l->[1] =~ /$link/) {
-                $thislink = $l;     # grab first match
-                last LINK;
-            }
-        }
-        unless ($thislink) {
-            carp "Can't find any link matching $link on this page ($self->{uri})" unless $self->quiet;
-            return;
-        }
-    }
-
-    $thislink = $thislink->[0];     # we just want the URL, not the text
-
-    $self->_push_page_stack();
-    $self->get( $thislink );
-
-    return 1;
-}
-
 =head1 Form field filling methods
-
-=head2 C<< $a->form($number|$name) >>
-
-Selects a form by number or name, depending on if it gets passed an
-all-numeric string or not.  If you have a form with a name that is all
-digits, you'll need to call C<< $a->form_name >> explicitly.
-
-This method is deprecated. Use C<form_name> or C<form_number> instead.
-
-=cut
-
-sub form {
-    my $self = shift;
-    my $arg = shift;
-
-    return $arg =~ /^\d+$/ ? $self->form_number($arg) : $self->form_name($arg);
-}
 
 =head2 C<< $a->form_number($number) >>
 
@@ -1009,6 +945,75 @@ sub request {
     }
 
     return $self->{res};
+}
+
+=head1 Deprecated methods
+
+This methods have been replaced by more flexible and precise methods.
+Please use them instead.
+
+=head2 C<< $a->follow($string|$num) >>
+
+B<DEPRECATED> in favor of C<follow_link()>, which provides more
+flexibility.
+
+Follow a link.  If you provide a string, the first link whose text
+matches that string will be followed.  If you provide a number, it
+will be the I<$num>th link on the page.  Note that the links are
+0-based.
+
+Returns true if the link was found on the page or undef otherwise.
+
+=cut
+
+sub follow {
+    my ($self, $link) = @_;
+    my @links = @{$self->{links}};
+    my $thislink;
+    if ( $link =~ /^\d+$/ ) { # is a number?
+        if ($link <= $#links) {
+            $thislink = $links[$link];
+        } else {
+            carp "Link number $link is greater than maximum link $#links ",
+                 "on this page ($self->{uri})" unless $self->quiet;
+            return;
+        }
+    } else {                        # user provided a regexp
+        LINK: foreach my $l (@links) {
+            if ($l->[1] =~ /$link/) {
+                $thislink = $l;     # grab first match
+                last LINK;
+            }
+        }
+        unless ($thislink) {
+            carp "Can't find any link matching $link on this page ($self->{uri})" unless $self->quiet;
+            return;
+        }
+    }
+
+    $thislink = $thislink->[0];     # we just want the URL, not the text
+
+    $self->_push_page_stack();
+    $self->get( $thislink );
+
+    return 1;
+}
+
+=head2 C<< $a->form($number|$name) >>
+
+B<DEPRECATED> in favor of C<form_name()> or C<form_number()>.
+
+Selects a form by number or name, depending on if it gets passed an
+all-numeric string or not.  This means that if you have a form name
+that's all digits, this method will not do the right thing.
+
+=cut
+
+sub form {
+    my $self = shift;
+    my $arg = shift;
+
+    return $arg =~ /^\d+$/ ? $self->form_number($arg) : $self->form_name($arg);
 }
 
 =head1 Internal-only methods
