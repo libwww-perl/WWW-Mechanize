@@ -144,14 +144,19 @@ sub get_output {
   open LOG, "<", $self->{logfile}
     or die "Couldn't retrieve logfile";
   join "", <LOG>;
-};
+}
 
 sub DESTROY {
-  $_[0]->stop if $_[0]->{_server_url};
-  for my $file (@{$_[0]->{delete}}) {
-    unlink $file or warn "Couldn't remove tempfile $file : $!\n";
-  };
-};
+    my $self = shift;
+    $self->stop if $self->{_server_url};
+    if ( $self->{_fh} ) {
+        close $self->{_fh};
+        delete $self->{_fh};
+    }
+    for my $file ( @{$self->{delete}} ) {
+        unlink $file or warn "Couldn't remove tempfile $file : $!\n";
+    }
+}
 
 =head1 EXPORT
 
