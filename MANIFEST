@@ -46,6 +46,7 @@ t/mech-dump.t
 t/new.t
 t/page_stack.t
 t/pod.t
+t/pod-coverage.t
 t/referer-server
 t/referer.t
 t/regex-error.t
