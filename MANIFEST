@@ -19,6 +19,7 @@ t/aliases.t
 t/area_link.html
 t/area_link.t
 t/autocheck.t
+t/clone.t
 t/die.t
 t/field.html
 t/field.t

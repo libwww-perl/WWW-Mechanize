@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 1.03_02
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.134 2004/08/18 15:13:39 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.135 2004/09/16 02:42:22 petdance Exp $
 
 =cut
 
@@ -207,6 +207,10 @@ sub new {
     }
     $self->{page_stack} = [];
     $self->env_proxy();
+
+    # libwww-perl 5.800 (and before, I assume) has a problem where
+    # $ua->{proxy} can be undef and clone() doesn't handle it.
+    $self->{proxy} = {} unless defined $self->{proxy};
     push( @{$self->requests_redirectable}, 'POST' );
 
     $self->_reset_page;
