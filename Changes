@@ -1,5 +1,11 @@
-# $Id: Changes,v 1.43 2003/05/27 03:41:01 alester Exp $
+# $Id: Changes,v 1.45 2003/05/29 14:25:52 alester Exp $
 Revision history for Perl extension WWW::Mechanize
+
+0.43	May 29, 2003
+	[ENHANCEMENTS]
+	* Now uses request() instead of send_request().  This should
+	  solve all of our redirection and cookie bummers.
+	* Added reload() method.  Thanks, Corion.
 
 0.42	May 26, 2003
 	[ENHANCEMENTS]

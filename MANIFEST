@@ -17,4 +17,5 @@ t/form.t
 t/get.t
 t/new.t
 t/page_stack.t
+t/reload.t
 t/submit.t

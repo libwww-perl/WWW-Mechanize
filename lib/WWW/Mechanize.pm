@@ -6,13 +6,13 @@ WWW::Mechanize - automate interaction with websites
 
 =head1 VERSION
 
-Version 0.42
+Version 0.43
 
-    $Header: /home/cvs/www-mechanize/lib/WWW/Mechanize.pm,v 1.79 2003/05/27 03:40:31 alester Exp $
+    $Header: /home/cvs/www-mechanize/lib/WWW/Mechanize.pm,v 1.81 2003/05/29 14:20:58 alester Exp $
 
 =cut
 
-our $VERSION = "0.42";
+our $VERSION = "0.43";
 
 =head1 SYNOPSIS
 
@@ -181,8 +181,26 @@ sub get {
 
     my $request = HTTP::Request->new( GET => $self->{uri} );
 
-    return $self->send_request( $request ); 
+    return $self->request( $request ); 
 }
+
+=head2 reload()
+
+Acts like the reload button in a browser: Reperforms the current request.
+
+Returns undef if there's no current request, or the C<HTTP::Response>
+object from the reload.
+
+=cut
+
+sub reload {
+    my $self = shift;
+
+    return unless $self->{req};
+
+    return $self->request( $self->{req} );
+}
+
 
 =head2 C<< $agent->uri() >>
 
@@ -241,7 +259,7 @@ sub ct {            my $self = shift; return $self->{ct}; }
 sub base {          my $self = shift; return $self->{base}; }
 sub content {       my $self = shift; return $self->{content}; }
 sub current_form {  my $self = shift; return $self->{form}; }
-sub is_html {       my $self = shift; return $self->{ct} eq "text/html"; }
+sub is_html {       my $self = shift; return defined $self->{ct} && ($self->{ct} eq "text/html"); }
 
 sub links {
     my $self = shift ;
@@ -701,7 +719,7 @@ sub click {
     $self->_push_page_stack();
     $self->{uri} = $self->{form}->uri;
     my $request = $self->{form}->click($button, $x, $y);
-    return $self->send_request( $request );
+    return $self->request( $request );
 }
 
 =head2 C<< $agent->submit() >>
@@ -720,7 +738,7 @@ sub submit {
     $self->_push_page_stack();
     $self->{uri} = $self->{form}->uri;
     my $request = $self->{form}->make_request;
-    return $self->send_request( $request );
+    return $self->request( $request );
 }
 
 =head2 C<< $agent->back() >>
@@ -857,9 +875,9 @@ sub _pop_page_stack {
 }
 
 
-=head2 send_request( $request [, $arg [, $size]])
+=head2 request( $request [, $arg [, $size]])
 
-Overloaded version of C<send_request()> in L<LWP::UserAgent>.  Performs
+Overloaded version of C<request()> in L<LWP::UserAgent>.  Performs
 the actual request.  Normally, if you're using WWW::Mechanize, it'd
 because you don't want to deal with this level of stuff anyway.
 
@@ -867,7 +885,7 @@ Returns an L<HTTP::Response> object.
 
 =cut
 
-sub send_request {
+sub request {
     my $self = shift;
     my $request = shift;
 
@@ -875,7 +893,7 @@ sub send_request {
         $request->header( $key => $value );
     }
     $self->{req} = $request;
-    $self->{res} = $self->SUPER::send_request( $request, @_ );
+    $self->{res} = $self->SUPER::request( $request, @_ );
 
     # These internal hash elements should be dropped in favor of
     # the accessors soon. -- 1/19/03
@@ -892,7 +910,6 @@ sub send_request {
 
     return $self->{res};
 }
-
 
 =head1 FAQ
 
