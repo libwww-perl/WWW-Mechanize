@@ -1,9 +1,10 @@
-# $Id: Changes,v 1.29 2003/07/20 03:39:09 petdance Exp $
+# $Id: Changes,v 1.30 2003/07/20 04:36:36 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 0.54
 	[THINGS THAT MIGHT BREAK YOUR CODE]
 	* See the enhancements on extract_links() and failures.
+	  Also, see the note about #2811 below.
 
 	[ENHANCEMENTS]
 	* extract_links() is now an internal-only method, named
@@ -20,9 +21,12 @@ Revision history for Perl extension WWW::Mechanize
 	[FIXES]
 	* No longer tries to tech mech-forms if you're not installing
 	  it.
+	* Fixed #2811: The definition of the link text contents
+	  did not match the documentation.
 
 	[DOCUMENTATION]
 	* Added a sample CPAN search from Ed Silva.
+	* Added link to the Perl Advent Calendar.
 
 	
 0.53	July 16, 2003

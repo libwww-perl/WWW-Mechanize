@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.53
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.28 2003/07/20 04:10:33 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.29 2003/07/20 04:36:36 petdance Exp $
 
 =cut
 
@@ -793,28 +793,18 @@ The return value is a reference to an array containing
 an array reference for every C<< <A> >>, C<< <FRAME> >>
 or C<< <IFRAME> >> tag in C<< $self->{content} >>.  
 
-The array elements for the C<< <A> >> tag are: 
+The array elements are:
 
 =over 4
 
-=item [0]: contents of the C<href> attribute
+=item [0]: contents of the link
 
-=item [1]: text enclosed by the C<< <A> >> tag
+For the C<< <A> >> tag, this is the C<HREF> attribute.
+For C<< <FRAME> >> or C<< <IFRAME> >>, it's the C<SRC> attribute.
 
-=item [2]: the contents of the C<name> attribute
+=item [1]: text enclosed by the tag
 
-=back
-
-The array elements for the C<< <FRAME> >> and 
-C<< <IFRAME> >> tags are:
-
-=over 4
-
-=item [0]: contents of the C<src> attribute
-
-=item [1]: text enclosed by the C<< <FRAME> >> tag
-
-=item [2]: contents of the C<name> attribute
+=item [2]: the contents of the C<NAME> attribute
 
 =back
 
@@ -1060,9 +1050,9 @@ sub _extract_links {
         my $url = $token->[1]{$urltags{$tag}};
         next unless defined $url;   # probably just a name link
 
-	my $name = $token->[1]{name};
-        my $text = ($tag eq "a") ? $p->get_trimmed_text("/a") : $name;
-        push(@$links, [$url, defined $text ? $text : "", $name]);
+        my $text = $p->get_trimmed_text("/$tag");
+	$text = "" unless defined $text;
+        push(@$links, [ $url, $text, $token->[1]{name} ]);
     }
 
     if ( defined wantarray ) {
