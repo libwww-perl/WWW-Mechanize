@@ -1,5 +1,6 @@
 use ExtUtils::MakeMaker qw( WriteMakefile prompt );
 use ExtUtils::Command qw( touch rm_f );
+use File::Spec;
 use strict;
 
 use constant FLAG_SKIPMECHDUMP => File::Spec->catfile( "t", "SKIP-MECH-DUMP" );
