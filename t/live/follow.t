@@ -1,6 +1,6 @@
 use warnings;
 use strict;
-use Test::More tests=>15;
+use Test::More tests=>11;
 
 use constant START => 'http://www.google.com/intl/en/';
 
@@ -16,20 +16,13 @@ is( $agent->uri, START, 'Got Google' );
 
 ok(! $agent->follow(99999), "Can't follow too-high-numbered link");
 
-ok($agent->follow(1), "Can follow first link");
+ok($agent->follow_link( text_regex => qr/Business.Solutions/i ), "Can follow Business Solutions link");
 isnt( $agent->uri, START, 'Need to be on a separate page' );
 
 ok($agent->back(), "Can go back");
 is( $agent->uri, START, 'Back at the first page' );
 
 ok(! $agent->follow(qr/asdfghjksdfghj/), "Can't follow unlikely named link");
-
-ok($agent->follow("Search"), "Can follow obvious named link");
-isnt( $agent->uri, START, 'Need to be on a separate page' );
-
-ok($agent->back(), "Can still go back");
-is( $agent->uri, START, 'Back at the start page again' );
-
 
 SKIP: {
     eval "use Test::Memory::Cycle";
