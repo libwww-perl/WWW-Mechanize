@@ -104,7 +104,11 @@ C<< $server->get_output >>
 =cut
 
 sub url { 
-  $_[0]->{_server_url}->abs
+  my $url = $_[0]->{_server_url}->abs->as_string;
+
+  $url =~ s[//[^:]+:][//localhost:];
+
+  return $url;
 };
 
 =head2 C<< $server->stop >>
