@@ -2,10 +2,9 @@ use warnings;
 use strict;
 use Test::More;
 use File::Spec;
-use URI::file;
 
 plan skip_all => "Not installing mech-dump" if -e File::Spec->catfile( qw( t SKIP-MECH-DUMP ) );
-plan tests=>1;
+plan tests=>4;
 
 my $exe = File::Spec->catfile( qw( blib script mech-dump ) );
 
@@ -14,19 +13,25 @@ my $exe = File::Spec->catfile( qw( blib script mech-dump ) );
 my $data = 'file:t/google.html';
 my $actual = `$exe --forms $data`;
 
-my $target = URI->new_abs( "/target-page", $data );
-$target = URI::file->new_abs( $target )->as_string;
-
 local $/ = undef;
 my $expected = <DATA>;
-$expected =~ s/#TARGET#/$target/;
 
 my @actual = split /\s*\n/, $actual;
 my @expected = split /\s*\n/, $expected;
-is_deeply( \@actual, \@expected, "Matched expected output" );
+
+
+# First line is platform-dependent, so handle it accordingly.
+shift @expected;
+my $first = shift @actual;
+like( $first, qr/^GET file:.*\/target-page \[bob-the-form\]/, "First line matches" );
+
+cmp_ok( @expected, ">", 0, "Still some expected" );
+cmp_ok( @actual, ">", 0, "Still some actual" );
+
+is_deeply( \@actual, \@expected, "Rest of the lines match" );
 
 __DATA__
-GET #TARGET# [bob-the-form]
+GET file:/target-page [bob-the-form]
   hl=en                           (hidden)
   ie=ISO-8859-1                   (hidden)
   q=
