@@ -51,5 +51,6 @@ WriteMakefile(
 			HTTP::Daemon	    => 0,
 			HTTP::Status	    => 0,
 			Carp		    => 0,
+			FindBin		    => 0,
 			},
 );
