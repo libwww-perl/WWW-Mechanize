@@ -9,8 +9,7 @@ WWW::Mechanize::Image - Image object for WWW::Mechanize
 
 =head1 SYNOPSIS
 
-Image object to encapsulate all the stuff that Mech needs but nobody
-wants to deal with as an array.
+Image object to encapsulate all the stuff that Mech needs
 
 =head1 Constructor
 
