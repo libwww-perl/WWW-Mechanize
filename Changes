@@ -1,19 +1,19 @@
-# $Id: Changes,v 1.113 2004/03/21 05:54:27 petdance Exp $
+# $Id: Changes,v 1.114 2004/03/23 04:50:08 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 0.73_03
-	[ENHANCEMENTS]
-	* WWW::Mechanize now sends an Accept-Encoding header of "identity"
-	  to always enforce plaintext responses. Preliminary support for
-	  Compress::Zlib is also there, but is disabled by default.
+        [ENHANCEMENTS]
+        * WWW::Mechanize now sends an Accept-Encoding header of "identity"
+          to always enforce plaintext responses. Preliminary support for
+          Compress::Zlib is also there, but is disabled by default.
 
-	* Added click_button() and select() methods.  The field() method
-	  can now take an arrayref of values, if appropriate. Thanks,
-	  Linda Lee Julien.
-	  
-	[FIXES]
-	* Still more fixes if the machine you're on doesn't have
-	  DNS pointing to it.
+        * Added click_button() and select() methods.  The field() method
+          can now take an arrayref of values, if appropriate. Thanks,
+          Linda Lee Julien.
+
+        [FIXES]
+        * Still more fixes if the machine you're on doesn't have
+          DNS pointing to it.
 
 0.73_02 Tue Mar  2 23:51:05 CST 2004
         [FIXES]

@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.73_03
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.117 2004/03/23 04:42:48 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.118 2004/03/23 04:50:08 petdance Exp $
 
 =cut
 
@@ -468,11 +468,11 @@ sub field {
     if ($number > 1) {
         $form->find_input($name, undef, $number)->value($value);
     } else {
-	if (ref($value) eq "ARRAY") {
-	    $form->param($name, $value);
-	} else {
-	    $form->value($name => $value);
-	}
+        if ( ref($value) eq "ARRAY" ) {
+            $form->param($name, $value);
+        } else {
+            $form->value($name => $value);
+        }
     }
 }
 
@@ -690,20 +690,20 @@ sub click_button {
     for ($args{x}, $args{y}) { $_ = 1 unless defined; }
     my $form = $self->{form};
     my $request;
-    if ($args{name}) {
-	$request = $self->{form}->click($args{name}, $args{x}, $args{y});
-    } elsif ($args{number}) {
-	my $input = $form->find_input(undef, 'submit', $args{number});
-	$request = $input->click($form, $args{x}, $args{y});
-    } elsif ($args{value}) {
-	my $i = 1;
-	while (my $input = $form->find_input(undef, 'submit', $i)) {
-	    if ($args{value} && $args{value} eq $input->value) {
-		$request = $input->click($form, $args{x}, $args{y});
-		last;
-	    }
-	    $i++;
-	} # while
+    if ( $args{name} ) {
+        $request = $form->click( $args{name}, $args{x}, $args{y} );
+    } elsif ( $args{number} ) {
+        my $input = $form->find_input( undef, 'submit', $args{number} );
+        $request = $input->click( $form, $args{x}, $args{y} );
+    } elsif ( $args{value} ) {
+        my $i = 1;
+        while ( my $input = $form->find_input(undef, 'submit', $i) ) {
+            if ( $args{value} && ($args{value} eq $input->value) ) {
+                $request = $input->click( $form, $args{x}, $args{y} );
+                last;
+            }
+            $i++;
+        } # while
     } # $args{value}
 
     return $self->request( $request );
@@ -728,17 +728,17 @@ sub select {
 
     my $input = $form->find_input($name);
     if (!$input) {
-	$self->warn( qq{ Input "$name" not found } );
-	return;
+        $self->warn( qq{ Input "$name" not found } );
+        return;
     } elsif ($input->type ne 'option') {
-	$self->warn( qq{ Input "$name" is not type "select" } );
-	return;
+        $self->warn( qq{ Input "$name" is not type "select" } );
+        return;
     }
 
     if (ref($value) eq "ARRAY") {
-	$form->param($name, $value);
+        $form->param($name, $value);
     } else {
-	$form->value($name => $value);
+        $form->value($name => $value);
     }
 }
 
