@@ -8,8 +8,7 @@ eval {
     require Test::Pod;
 };
 
-my $ok = !$@;
-$ok = $ok && ($Test::Pod::VERSION >= '0.95');
+my $ok = !$@ && ($Test::Pod::VERSION >= '0.95');
 
 if (!$ok) {
     plan skip_all => "Test::Pod v0.95 required for testing POD";
