@@ -43,14 +43,14 @@ SKIP: {
     is($agent->content, "Referer: '$url'", "Referer got sent for relative url");
     is( ref $agent->uri, "", "URI shouldn't be an object #3" );
 
-    $WWW::Mechanize::headers{Referer} = '';
+    $agent->add_header( Referer => 'x' );
     $agent->get( $url );
     is($agent->status, 200, "Got fourth page") or diag $agent->res->message;
-    is($agent->content, "Referer: ''", "Referer can be set to empty again");
+    is($agent->content, "Referer: 'x'", "Referer can be set to empty again");
     is( ref $agent->uri, "", "URI shouldn't be an object #4" );
 
     my $ref = "This is not the referer you are looking for *jedi gesture*";
-    $WWW::Mechanize::headers{Referer} = $ref;
+    $agent->add_header( Referer => $ref );
     $agent->get( $url );
     is($agent->status, 200, "Got fourth page") or diag $agent->res->message;
     is($agent->content, "Referer: '$ref'", "Custom referer can be set");
