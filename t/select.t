@@ -75,5 +75,8 @@ is($return, $sendsingle, "single->single value is '$return'");
 # test return value from $mech->select
 is($rv, 1, 'return 1 after successful select');
 
-$rv = $mech->select('missing_list', 1);
+EAT_THE_WARNING: { # Mech complains about the non-existent field
+    local $SIG{__WARN__} = sub {};
+    $rv = $mech->select('missing_list', 1);
+}
 is($rv, undef, 'return undef after failed select');
