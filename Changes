@@ -1,7 +1,11 @@
-# $Id: Changes,v 1.134 2004/09/16 02:42:21 petdance Exp $
+# $Id: Changes,v 1.135 2004/09/16 03:21:00 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 1.04
+
+        [ENHANCEMENTS]
+        * $mech->get() now accepts a WWW::Mechanize::Link object.
+
         [FIXES]
         * Fixed tests that fail under LWP >= 5.800.
         * Added a workaround for LWP::UserAgent->clone() when ->{proxy}
@@ -22,8 +26,8 @@ Revision history for Perl extension WWW::Mechanize
 
         No reason to install if you have 1.00.  Fixes are only in tests.
 
-        [FIXES] * t/referer.t didn't cope with spaces in $FindBin::Bin.
-        Plus,
+        [FIXES]
+        * t/referer.t didn't cope with spaces in $FindBin::Bin.  Plus,
           it now forces its URL to localhost.
 
 
@@ -33,8 +37,8 @@ Revision history for Perl extension WWW::Mechanize
         like a good place to do it, because of the potential breakage
         described below...
 
-        [THINGS THAT WILL BREAK YOUR CODE] * Header handling has changed.
-        There is no more package variable
+        [THINGS THAT WILL BREAK YOUR CODE]
+        * Header handling has changed.  There is no more package variable
           %headers that holds all the headers to be added.  They are
           now added on a per-object basis.
 
@@ -43,17 +47,17 @@ Revision history for Perl extension WWW::Mechanize
           instance of the class, that code will now break, because the
           later instance won't have the header set.
 
-        [ENHANCEMENTS] * You can now prevent a header from being sent
-        by adding it with
+        [ENHANCEMENTS]
+        * You can now prevent a header from being sent by adding it with
           an undef value, as in:
 
             $mech->add_header( Referer => undef );
 
-        [FIXES] * Now correctly adds Accept-Encoding to all requests
-        that need it.
+        [FIXES]
+        * Now correctly adds Accept-Encoding to all requests that need it.
 
-        [INTERNALS] * Added new $mech->_modify_request($req) method to
-        do all the
+        [INTERNALS]
+        * Added new $mech->_modify_request($req) method to do all the
           HTTP header modification before the actual request gets
           sent off.  Subclasses are able to override it if they want.
 
