@@ -572,16 +572,16 @@ sub _match_any_parms {
     # No conditions, Anything matches
     return 1 unless keys %$p_ref;
 
-    return if defined $p_ref->{url}          and !($link->[0] eq $p_ref->{url} );
-    return if defined $p_ref->{url_regex}    and !($link->[0] =~ $p_ref->{url_regex} );
+    return if defined $p_ref->{url}          and !($link->url eq $p_ref->{url} );
+    return if defined $p_ref->{url_regex}    and !($link->url =~ $p_ref->{url_regex} );
     return if defined $p_ref->{url_abs}      and !($link->url_abs eq $p_ref->{url_abs} );
     return if defined $p_ref->{url_abs_regex}and !($link->url_abs =~ $p_ref->{url_abs_regex} );
-    return if defined $p_ref->{text}         and !(defined($link->[1]) and $link->[1] eq $p_ref->{text} );
-    return if defined $p_ref->{text_regex}   and !(defined($link->[1]) and $link->[1] =~ $p_ref->{text_regex} );
-    return if defined $p_ref->{name}         and !(defined($link->[2]) and $link->[2] eq $p_ref->{name} );
-    return if defined $p_ref->{name_regex}   and !(defined($link->[2]) and $link->[2] =~ $p_ref->{name_regex} );
-    return if defined $p_ref->{tag}          and !($link->[3] and $link->[3] eq $p_ref->{tag} );
-    return if defined $p_ref->{tag_regex}    and !($link->[3] and $link->[3] =~ $p_ref->{tag_regex} );
+    return if defined $p_ref->{text}         and !(defined($link->text) and $link->text eq $p_ref->{text} );
+    return if defined $p_ref->{text_regex}   and !(defined($link->text) and $link->text =~ $p_ref->{text_regex} );
+    return if defined $p_ref->{name}         and !(defined($link->name) and $link->name eq $p_ref->{name} );
+    return if defined $p_ref->{name_regex}   and !(defined($link->name) and $link->name =~ $p_ref->{name_regex} );
+    return if defined $p_ref->{tag}          and !($link->tag and $link->tag eq $p_ref->{tag} );
+    return if defined $p_ref->{tag_regex}    and !($link->tag and $link->tag =~ $p_ref->{tag_regex} );
 
     # Success: everything that was defined passed. 
     return 1;
