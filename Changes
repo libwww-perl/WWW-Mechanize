@@ -1,8 +1,10 @@
-# $Id: Changes,v 1.122 2004/04/10 03:42:38 petdance Exp $
+# $Id: Changes,v 1.123 2004/04/10 04:14:35 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
         [INTERNALS]
-        * Removed the exper
+        * Added new $mech->_modify_request($req) method to do all the
+          HTTP header modification before the actual request gets
+          sent off.  Subclasses are able to override it if they want.
 
 0.76    Wed Apr  7 22:01:43 CDT 2004
 

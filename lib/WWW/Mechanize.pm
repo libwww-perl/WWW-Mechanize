@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.76
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.126 2004/04/10 03:42:39 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.127 2004/04/10 04:14:36 petdance Exp $
 
 =cut
 
@@ -1262,28 +1262,14 @@ sub request {
     my $self = shift;
     my $request = shift;
 
+    $request = $self->_modify_request( $request );
+
     if ( $request->method eq "GET" || $request->method eq "POST" ) {
         $self->_push_page_stack();
     }
 
-    $request->header( Referer => $self->{last_uri} ) if $self->{last_uri};
-    while ( my($key,$value) = each %WWW::Mechanize::headers ) {
-        $request->header( $key => $value );
-    }
     $self->{req} = $request;
     $self->{redirected_uri} = $request->uri->as_string;
-
-    # add correct Accept-Encoding header to restore compliance with
-    # http://www.freesoft.org/CIE/RFC/2068/158.htm
-    unless ($request->header('Accept-Encoding')) {
-        my $accept = 'identity';
-        # only allow "identity" for the time being
-        #eval {
-        #  require Compress::Zlib;
-        #  $accept .= ', deflate, gzip';
-        #};
-        $self->add_header( 'Accept-Encoding', $accept);
-    };
 
     my $res = $self->{res} = $self->_make_request( $request, @_ );
 
@@ -1356,6 +1342,31 @@ sub _parse_html {
     $self->{forms} = [ HTML::Form->parse($self->content, $self->base) ];
     $self->{form}  = $self->{forms}->[0];
     $self->_extract_links();
+}
+
+=head2 $mech->_modify_request( $req )
+
+Modifies the request according to all the internal header mangling.
+
+=cut
+
+sub _modify_request {
+    my $self = shift;
+    my $req = shift;
+
+    # add correct Accept-Encoding header to restore compliance with
+    # http://www.freesoft.org/CIE/RFC/2068/158.htm
+    unless ( $req->header( 'Accept-Encoding' ) ) {
+        # Only allow "identity" for the time being
+        $req->header( 'Accept-Encoding', 'identity' );
+    }
+
+    $req->header( Referer => $self->{last_uri} ) if $self->{last_uri};
+    while ( my($key,$value) = each %{$self->{headers}} ) {
+        $req->header( $key => $value );
+    }
+
+    return $req;
 }
 
 
