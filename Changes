@@ -1,7 +1,8 @@
-# $Id: Changes,v 1.119 2004/04/05 04:42:11 petdance Exp $
+# $Id: Changes,v 1.120 2004/04/05 04:45:04 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
-0.75_02
+0.75_02 Sun Apr  4 23:56:37 CDT 2004
+
         [ENHANCEMENTS]
         * Added update_html() to let you update the HTML for the page
           you're on.
@@ -16,6 +17,7 @@ Revision history for Perl extension WWW::Mechanize
         working right.
 
 0.74    Mon Mar 22 23:36:46 CST 2004
+
         [ENHANCEMENTS]
         * WWW::Mechanize now sends an Accept-Encoding header of "identity"
           to always enforce plaintext responses. Preliminary support for
