@@ -18,8 +18,8 @@ and subsequently enriched to deal with RT ticket #8109.
 
 BEGIN {
     use_ok( 'WWW::Mechanize' );
-	delete @ENV{ qw( http_proxy HTTP_PROXY PATH IFS
-					 CDPATH ENV BASH_ENV) };
+    delete @ENV{ qw( http_proxy HTTP_PROXY ) };
+    delete @ENV{ qw( IFS CDPATH ENV BASH_ENV ) };
 
 }
 
@@ -126,18 +126,18 @@ my $server404 = HTTP::Daemon->new or die;
 
 die "Cannot fork" if (! defined (my $pid404 = fork()));
 END {
-	local $?;
-	kill KILL => $pid404; # Extreme prejudice intended, because we do not
-	# want the global cleanup to be done twice.
+    local $?;
+    kill KILL => $pid404; # Extreme prejudice intended, because we do not
+    # want the global cleanup to be done twice.
 }
 
 if (! $pid404) { # Fake HTTP server code: a true 404-compliant server!
-	while(my $c = $server404->accept()) {
-		while($c->get_request()) {
-			$c->send_response(new HTTP::Response(404));
-			$c->close();
-		}
-	}
+    while ( my $c = $server404->accept() ) {
+        while ( $c->get_request() ) {
+            $c->send_response( new HTTP::Response(404) );
+            $c->close();
+        }
+    }
 }
 
 $mech->get($server404->url);
@@ -151,7 +151,7 @@ is( scalar @{$mech->{page_stack}}, 0, "Post-404 check" );
 
 for my $link ( @links ) {
     $mech->get( $link );
-	warn $mech->status() if (! $mech->success());
+    warn $mech->status() if (! $mech->success());
     is( $mech->status, 200, "Get $link" );
 
     $mech->back();

@@ -24,28 +24,26 @@ ok( $mech->success, "Fetched $uri" ) or die "Can't get test page";
 
 AREA_CHECKS: {
     my @wanted_links = (
-        [ "http://www.msnbc.com/area", undef, undef, "area", 
-				   {
-        			'coords' => '1,2,3,4',
-                     'href' => 'http://www.msnbc.com/area'
-                   }
-		],
+        [ "http://www.msnbc.com/area", undef, undef, "area", {
+            coords => '1,2,3,4',
+            href => 'http://www.msnbc.com/area'
+        } ],
         [ "http://www.cnn.com/area", undef, undef, "area", {
-                     'coords' => '5,6,7,8',
-                     'href' => 'http://www.cnn.com/area'
-		} ],
+            coords => '5,6,7,8',
+            href => 'http://www.cnn.com/area'
+        } ],
         [ "http://www.cpan.org/area", undef, undef, "area", {
-                     '/' => '/',
-                     'coords' => '10,11,12,13',
-                     'href' => 'http://www.cpan.org/area'
-		}  ],
+             '/' => '/',
+             coords => '10,11,12,13',
+             href => 'http://www.cpan.org/area'
+        }  ],
         [ "http://www.slashdot.org", undef, undef, "area", {
-                     'href' => 'http://www.slashdot.org'
-		} ],
+             href => 'http://www.slashdot.org'
+        } ],
         [ "http://mark.stosberg.com", undef, undef, "area", { 
-				alt => "Mark Stosberg's homepage",
-                'href' => 'http://mark.stosberg.com'
-		} ],
+            alt => "Mark Stosberg's homepage",
+            href => 'http://mark.stosberg.com'
+        } ],
     );
     my @links = $mech->find_all_links();
 

@@ -337,7 +337,7 @@ sub reload {
 
     return unless $self->{req};
 
-	local $self->{inhibit_page_stack} = 1;
+    local $self->{inhibit_page_stack} = 1;
     return $self->request( $self->{req});
 }
 
@@ -484,11 +484,8 @@ text of "News" and with "cnn.com" in the URL, use:
 
     $mech->find_link( text => "News", url_regex => qr/cnn\.com/ );
 
-=head2 $mech->find_link() : link format
-
-The return value is a reference to an array containing
-a L<WWW::Mechanize::Link> object for every link in
-C<< $self->content >>.
+The return value is a reference to an array containing a
+L<WWW::Mechanize::Link> object for every link in C<< $self->content >>.
 
 The links come from the following:
 
@@ -585,7 +582,7 @@ sub _match_any_parms {
     return if defined $p->{tag}          and !($link->tag and $link->tag eq $p->{tag} );
     return if defined $p->{tag_regex}    and !($link->tag and $link->tag =~ $p->{tag_regex} );
 
-    # Success: everything that was defined passed. 
+    # Success: everything that was defined passed.
     return 1;
 
 }
@@ -853,31 +850,29 @@ sub set_visible {
     my $form = $self->current_form;
     my @inputs = $form->inputs;
 
-	my $num_set = 0;
+    my $num_set = 0;
     for my $value ( @_ ) {
         if ( ref $value eq 'ARRAY' ) {
-           my ( $type, $value ) = @$value;
-           while ( my $input = shift @inputs ) {
-               next if $input->type eq 'hidden';
-               if ( $input->type eq $type ) {
-                   $input->value( $value );
-				   $num_set++;
-                   last;
-               }
-           } # while
+            my ( $type, $value ) = @$value;
+            while ( my $input = shift @inputs ) {
+                next if $input->type eq 'hidden';
+                if ( $input->type eq $type ) {
+                    $input->value( $value );
+                    $num_set++;
+                    last;
+                }
+            } # while
         } else {
-           while ( my $input = shift @inputs ) {
-               next if $input->type eq 'hidden';
-               $input->value( $value );
-			   $num_set++;
-			   # Does this 'last' do anything useful? -mls
-               last;
-           } # while
-       }
+            while ( my $input = shift @inputs ) {
+                next if $input->type eq 'hidden';
+                $input->value( $value );
+                $num_set++;
+                last;
+            } # while
+        }
     } # for
 
-	return $num_set; 
-
+    return $num_set;
 } # set_visible()
 
 =head2 $mech->tick( $name, $value [, $set] )
@@ -1487,12 +1482,12 @@ sub request {
         }
     }
 
-	$self->_reset_page;
-	if ($self->is_html) {
-		$self->update_html($res->content);
-	} else {
-		$self->{content} = $res->content;
-	}
+    $self->_reset_page;
+    if ( $self->is_html ) {
+        $self->update_html( $res->content );
+    } else {
+        $self->{content} = $res->content;
+    }
 
     return $res;
 } # request
@@ -1519,8 +1514,8 @@ would overload I<update_html> in a subclass thusly:
 
    sub update_html {
        my ($self, $html) = @_;
-	   $html =~ s[</option>.?.?.?</td>][</option></select></td>]isg;
-	   $self->WWW::Mechanize::update_html( $html );
+       $html =~ s[</option>.?.?.?</td>][</option></select></td>]isg;
+       $self->WWW::Mechanize::update_html( $html );
    }
 
 If you do this, then the mech will use the tidied-up HTML instead of
@@ -1555,8 +1550,7 @@ sub update_html {
     $self->{form}  = $self->{forms}->[0];
     $self->_extract_links();
 
-    $self->_parse_html(); #For compatibility with folks that used to
-	# overload that method.
+    $self->_parse_html(); #For compatibility with folks that used to overload that method.
 
     return;
 }
@@ -1751,7 +1745,7 @@ sub _extract_links {
 
         # Of the tags we extract from, only 'AREA' has an alt tag
         # The rest should have a 'name' attribute.
-		# ... but we don't do anything with that bit of wisdom now. 
+        # ... but we don't do anything with that bit of wisdom now.
 
         $name = $attrs->{name};
 
@@ -1804,17 +1798,18 @@ object.
 sub _push_page_stack {
     my $self = shift;
 
-	# Hook for reload() and maybe future code (e.g. 302 chasing,
-	# frames) that may want to fetch stuff without altering the history.
-	return 1 if $self->{inhibit_page_stack};
+    # Hook for reload() and maybe future code (e.g. 302 chasing,
+    # frames) that may want to fetch stuff without altering the history.
+    return 1 if $self->{inhibit_page_stack};
+
     # Don't push anything if it's a virgin object
     if ( $self->{res} ) {
         my $save_stack = $self->{page_stack};
         $self->{page_stack} = [];
 
-		my $clone = $self->clone;
-		# Huh, LWP::UserAgent->clone() ditches cookie_jar? Copy it over now.
-		$clone->{cookie_jar} = $self->cookie_jar;
+        my $clone = $self->clone;
+        # Huh, LWP::UserAgent->clone() ditches cookie_jar? Copy it over now.
+        $clone->{cookie_jar} = $self->cookie_jar;
         push( @$save_stack, $clone );
 
         if ( $self->stack_depth > 0 ) {
@@ -1831,9 +1826,9 @@ sub _push_page_stack {
 sub _pop_page_stack {
     my $self = shift;
 
-	# Hook for reload() and maybe future code (e.g. 302 chasing,
-	# frames) that may want to fetch stuff without altering the history.
-	return 1 if $self->{inhibit_page_stack};
+    # Hook for reload() and maybe future code (e.g. 302 chasing,
+    # frames) that may want to fetch stuff without altering the history.
+    return 1 if $self->{inhibit_page_stack};
 
     if (@{$self->{page_stack}}) {
         my $popped = pop @{$self->{page_stack}};
