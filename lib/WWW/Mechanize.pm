@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.73
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.108 2004/02/28 03:32:49 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.109 2004/02/28 04:16:08 petdance Exp $
 
 =cut
 
@@ -1341,6 +1341,7 @@ my %urltags = (
     area => "href",
     frame => "src",
     iframe => "src",
+    meta => "content",
 );
 
 sub _extract_links {
@@ -1366,14 +1367,25 @@ sub _extract_links {
             if ( $onClick && ($onClick =~ /^window\.open\(\s*'([^']+)'/) ) {
                 $url = $1;
             }
-        }
+        } # a
         if ( $tag ne "area" ) {
             $name = $token->[1]{name};
         }
+        if ( $tag eq "meta" ) {
+            my $equiv = $token->[1]{"http-equiv"};
+            my $content = $token->[1]{"content"};
+            next unless $equiv && (lc $equiv eq "refresh") && defined $content;
+
+            if ( $content =~ /^\d+\s*;\s*url\s*=\s*(.+)/ ) {
+                $url = $1;
+            } else {
+                undef $url;
+            }
+        } # meta
 
         next unless defined $url;   # probably just a name link or <AREA NOHREF...>
         push( @{$self->{links}}, WWW::Mechanize::Link->new( $url, $text, $name, $tag, $self->base ) );
-    }
+    } # while
 
     # Old extract_links() returned a value.  Carp if someone expects
     # this version to return something.
