@@ -16,7 +16,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.45
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.4 2003/06/19 03:03:41 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.5 2003/06/19 14:53:44 petdance Exp $
 
 =cut
 
@@ -181,17 +181,13 @@ is deprecated and subject to change in the future.
 sub get {
     my ($self, $uri) = @_;
 
-    if ( $self->{base} ) {
-        $self->{uri} = URI->new_abs( $uri, $self->{base} );
-    } else {
-        $self->{uri} = URI->new( $uri );
-    }
+    $uri = $self->{base}
+	    ? URI->new_abs( $uri, $self->{base} )
+	    : URI->new( $uri );
 
-    # XXX this shouldn't set uri until the request has succeeded.
+    my $request = HTTP::Request->new( GET => $uri );
 
-    my $request = HTTP::Request->new( GET => $self->{uri} );
-
-    return $self->request( $request ); 
+    return $self->request( $request );
 }
 
 =head2 C<< $a->reload() >>
@@ -470,7 +466,6 @@ sub click {
     my ($self, $button, $x, $y) = @_;
     for ($x, $y) { $_ = 1 unless defined; }
     $self->_push_page_stack();
-    $self->{uri} = $self->{form}->uri;
     my $request = $self->{form}->click($button, $x, $y);
     return $self->request( $request );
 }
@@ -489,7 +484,6 @@ sub submit {
     my $self = shift;
 
     $self->_push_page_stack();
-    $self->{uri} = $self->{form}->uri;
     my $request = $self->{form}->make_request;
     return $self->request( $request );
 }
@@ -672,24 +666,7 @@ sub title {
     return $p->header('Title');
 }
 
-=head1 Miscellaneous methods
-
-=head2 C<< $a->add_header(name => $value) >>
-
-Sets a header for the WWW::Mechanize agent to use every time it gets
-a webpage.  This is B<NOT> stored in the agent object (because if it
-were, it would disappear if you went back() past where you'd set it)
-but in the hash variable C<%WWW::Mechanize::headers>, which is a hash of
-all headers to be set.  You can manipulate this directly if you want to;
-the add_header() method is just provided as a convenience function for
-the most common case of adding a header.
-
-=cut
-
-sub add_header {
-    my ($self, $name, $value) = @_;
-    $WWW::Mechanize::headers{$name} = $value;
-}
+=head2 Content-handling methods
 
 =head2 C<< $a->extract_links() >>
 
@@ -842,6 +819,27 @@ sub find_link {
 
     return;
 } # find_link
+
+
+=head1 Miscellaneous methods
+
+=head2 C<< $a->add_header(name => $value) >>
+
+Sets a header for the WWW::Mechanize agent to use every time it gets
+a webpage.  This is B<NOT> stored in the agent object (because if it
+were, it would disappear if you went back() past where you'd set it)
+but in the hash variable C<%WWW::Mechanize::headers>, which is a hash of
+all headers to be set.  You can manipulate this directly if you want to;
+the add_header() method is just provided as a convenience function for
+the most common case of adding a header.
+
+=cut
+
+sub add_header {
+    my ($self, $name, $value) = @_;
+    $WWW::Mechanize::headers{$name} = $value;
+}
+
 =head2 C<< $a->quiet(true/false) >>
 
 Allows you to suppress warnings to the screen.
@@ -941,7 +939,10 @@ sub request {
     $self->{base}    = $self->{res}->base;
     $self->{ct}      = $self->{res}->content_type || "";
     $self->{content} = $self->{res}->content;
-    $self->{last_uri} = $self->{uri};
+    if ( $self->{res}->is_success ) {
+	$self->{last_uri} = $self->{uri};
+	$self->{uri} = $request->uri;
+    }
 
     if ( $self->is_html ) {
         $self->{forms} = [ HTML::Form->parse($self->{content}, $self->{res}->base) ];
