@@ -80,12 +80,20 @@ You will not be able to process https:// URLs correctly.
 EOT
 }
 
+my @missing;
+my @nice = qw( Test::Pod Test::Memory::Cycle Test::Warn );
+for my $nice ( @nice ) {
+    eval "require $nice";
+    push( @missing, $nice );
+}
+
 eval { require Test::Memory::Cycle };
-if ( $@ ) {
+if ( @missing ) {
     print <<EOT;
 
-WWW::Mechanize likes to have Test::Memory::Cycle for some of its tests,
-but doesn't require it.
+WWW::Mechanize likes to have a lot of test modules for some of its tests.  The following
+are modules that would be nice to have, but not required.
+@missing
 
 EOT
 }
