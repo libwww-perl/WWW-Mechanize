@@ -18,7 +18,7 @@ GOOD_PAGE: {
     isa_ok( $response, 'HTTP::Response' );
     ok( $response->is_success, "Success" );
     ok( $a->success, "Get webpage" );
-    isa_ok($a->uri, "URI", "Set uri");
+    is( ref $a->uri, "", "URI should be a plain scalar, not an object");
     ok( $a->is_html, "It's HTML" );
     is( $a->title, "WWW::Mechanize::Shell test page", "Correct title" );
 

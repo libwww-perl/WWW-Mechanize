@@ -1,10 +1,18 @@
-# $Id: Changes,v 1.50 2003/08/12 05:26:03 petdance Exp $
+# $Id: Changes,v 1.51 2003/08/13 14:37:21 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 0.58
+	[THINGS THAT MIGHT BREAK YOUR CODE]
+	* $mech->uri() now returns a plain string, not a URI object.
+	  The automatic stringification of the URI object was
+	  causing problems on Win32 and/or threaded Perls, and I
+	  didn't feel like figuring out why.  If the non-objectness
+	  of the uri() method is a problem, let me know.
+
 	[FIXES]
 	* The <AREA>-handling in extract_links() was incorrectly
 	  building the text.
+	* uri() now returns a string, not a URI object.
 
 	[INTERNALS]
 	* Determination of live vs. local tests is now done in

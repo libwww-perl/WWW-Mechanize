@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.57
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.49 2003/08/08 17:18:38 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.50 2003/08/13 14:37:21 petdance Exp $
 
 =cut
 
@@ -1008,7 +1008,7 @@ sub request {
         $request->header( $key => $value );
     }
     $self->{req} = $request;
-    $self->{redirected_uri} = $request->uri;
+    $self->{redirected_uri} = $request->uri->as_string;
     $self->{res} = $self->SUPER::request( $request, @_ );
 
     # These internal hash elements should be dropped in favor of

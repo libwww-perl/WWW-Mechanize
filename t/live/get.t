@@ -8,7 +8,7 @@ my $agent = WWW::Mechanize->new;
 isa_ok( $agent, 'WWW::Mechanize' );
 
 ok($agent->get("http://www.google.com/intl/en/")->is_success, "Get google webpage");
-isa_ok($agent->uri, "URI", "Set uri");
+is( ref $agent->uri, "", "URI should be a string, not an object" );
 ok( $agent->is_html );
 is( $agent->title, "Google" );
 

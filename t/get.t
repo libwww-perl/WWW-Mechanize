@@ -17,7 +17,7 @@ my $response = $agent->get($server->url);
 isa_ok( $response, 'HTTP::Response' );
 ok( $response->is_success );
 ok( $agent->success, "Get webpage" );
-isa_ok($agent->uri, "URI", "Set uri");
+is( ref $agent->uri, "", "URI should be a string, not an object" );
 ok( $agent->is_html );
 is( $agent->title, "WWW::Mechanize::Shell test page" );
 
