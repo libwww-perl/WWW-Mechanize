@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.59
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.57 2003/09/04 05:10:35 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.58 2003/09/15 02:50:41 petdance Exp $
 
 =cut
 
@@ -1313,15 +1313,17 @@ Here's a list of modules that use or subclass Mechanize.  Let me know of any oth
 
 =over 4
 
+=item * L<WWW::Google::Groups>
+
 =item * L<WWW::Mechanize::FormFiller>
 
 =item * L<WWW::Mechanize::Shell>
 
 =item * L<WWW::Mechanize::Sleepy>
 
-=item * L<WWW::Yahoo::Groups>
-
 =item * L<WWW::Mechanize::SpamCop>
+
+=item * L<WWW::Yahoo::Groups>
 
 =back
 
