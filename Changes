@@ -1,10 +1,11 @@
-# $Id: Changes,v 1.161 2004/11/05 02:22:01 petdance Exp $
+# $Id: Changes,v 1.162 2004/11/06 05:27:37 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 XXX
         [ENHANCEMENTS]
         * Added WWW::Mechanize::Image object for representing images.
         * Improved the regex on the URL for META tags.
+        * Added --images flag to mech-dump.
 
         [FIXES]
         * When parsing urls out of meta refresh tags, "url" may now be 

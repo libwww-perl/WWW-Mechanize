@@ -17,11 +17,11 @@ my $absolute;
 GetOptions( 
     forms =>    sub { push( @actions, \&dump_forms ); },
     links =>    sub { push( @actions, \&dump_links ); },
-    images =>	sub { push( @actions, \&dump_images ); },
-    all =>	sub { push( @actions, \&dump_forms, \&dump_links, \&dump_images ); },
+    images =>   sub { push( @actions, \&dump_images ); },
+    all =>      sub { push( @actions, \&dump_forms, \&dump_links, \&dump_images ); },
     absolute => \$absolute,
-    help =>	sub { pod2usage(1); },
-) or pod2usage(2); 
+    help =>     sub { pod2usage(1); },
+) or pod2usage(2);
 
 =head1 SYNOPSIS
 
@@ -29,13 +29,13 @@ mech-dump [options] [file|url]
 
 Options:
 
-    --forms	    Dump table of forms (default action)
-    --links	    Dump table of links
-    --images	    Dump table of images
-    --all	    Dump all three of the above, in that order
+    --forms         Dump table of forms (default action)
+    --links         Dump table of links
+    --images        Dump table of images
+    --all           Dump all three of the above, in that order
 
-    --absolute	    Show URLs as absolute, even if relative in the page
-    --help	    Show this message
+    --absolute      Show URLs as absolute, even if relative in the page
+    --help          Show this message
 
 The order of the options specified is relevant.  Repeated options
 get repeated dumps.
@@ -62,8 +62,8 @@ for my $action ( @actions ) {
 sub dump_links {
     my $mech = shift;
     my $base = $mech->uri;
-    for my $link ( $mech->find_all_links ) {
-	my $url = $absolute ? URI->new_abs( $link->url, $base )->as_string : $link->url;
+    for my $link ( $mech->links ) {
+        my $url = $absolute ? URI->new_abs( $link->url, $base )->as_string : $link->url;
         print "$url\n";
     }
 }
@@ -71,15 +71,18 @@ sub dump_links {
 sub dump_images {
     my $mech = shift;
 
-    warn "Dumping images (but this isn't written yet)\n";
+    for my $image ( $mech->images ) {
+        my $url = $absolute ? $image->url_abs : $image->url;
+        print "$url\n";
+    }
 }
 
 sub dump_forms {
     my $mech = shift;
 
     for my $form ( $mech->forms() ) {
-	print $form->dump;
-	print "\n";
+        print $form->dump;
+        print "\n";
     }
 }
 
