@@ -324,7 +324,7 @@ sub get {
 
 =head2 $mech->reload()
 
-Acts like the reload button in a browser: Reperforms the current
+Acts like the reload button in a browser: repeats the current
 request. The history (as per the L<back> method) is not altered.
 
 Returns the L<HTTP::Response> object from the reload, or C<undef>
@@ -337,8 +337,8 @@ sub reload {
 
     return unless $self->{req};
 
-    local $self->{inhibit_page_stack} = 1;
-    return $self->request( $self->{req});
+    return unless defined(my $request = $self->{req});
+	$self->_update_page($request, $self->_make_request( $request, @_ ));
 }
 
 =head2 $mech->back()
@@ -1568,35 +1568,8 @@ sub request {
         $self->_push_page_stack();
     }
 
-    $self->{req} = $request;
-    $self->{redirected_uri} = $request->uri->as_string;
-
-    my $res = $self->{res} = $self->_make_request( $request, @_ );
-
-    # These internal hash elements should be dropped in favor of
-    # the accessors soon. -- 1/19/03
-    $self->{status}  = $res->code;
-    $self->{base}    = $res->base;
-    $self->{ct}      = $res->content_type || "";
-
-    if ( $res->is_success ) {
-        $self->{uri} = $self->{redirected_uri};
-        $self->{last_uri} = $self->{uri};
-    } else {
-        if ( $self->{autocheck} ) {
-            $self->die( "Error ", $request->method, "ing ", $request->uri, ": ", $res->message );
-        }
-    }
-
-    $self->_reset_page;
-    if ( $self->is_html ) {
-        $self->update_html( $res->content );
-    } else {
-        $self->{content} = $res->content;
-    }
-
-    return $res;
-} # request
+	$self->_update_page($request, $self->_make_request( $request, @_ ));
+}
 
 =head2 $mech->update_html( $html )
 
@@ -1660,6 +1633,48 @@ sub update_html {
 
     return;
 }
+
+=head2 $mech->_update_page($request, $response)
+
+Updates all internal variables in $mech as if $request was just
+performed, and returns $response. The page stack is B<not> altered by
+this method, it is up to caller (e.g. L</request>) to do that.
+
+=cut
+
+sub _update_page {
+    my ($self, $request, $res) = @_;
+
+    $self->{req} = $request;
+    $self->{redirected_uri} = $request->uri->as_string;
+
+    $self->{res} = $res;
+
+    # These internal hash elements should be dropped in favor of
+    # the accessors soon. -- 1/19/03
+    $self->{status}  = $res->code;
+    $self->{base}    = $res->base;
+    $self->{ct}      = $res->content_type || "";
+
+    if ( $res->is_success ) {
+        $self->{uri} = $self->{redirected_uri};
+        $self->{last_uri} = $self->{uri};
+    } else {
+        if ( $self->{autocheck} ) {
+            $self->die( "Error ", $request->method, "ing ", $request->uri, ": ", $res->message );
+        }
+    }
+
+    $self->_reset_page;
+    if ($self->is_html) {
+        $self->update_html($res->content);
+    } else {
+        $self->{content} = $res->content;
+    }
+
+    return $res;
+} # _update_page
+
 
 =head2 $mech->_modify_request( $req )
 
@@ -1943,10 +1958,6 @@ object.
 sub _push_page_stack {
     my $self = shift;
 
-    # Hook for reload() and maybe future code (e.g. 302 chasing,
-    # frames) that may want to fetch stuff without altering the history.
-    return 1 if $self->{inhibit_page_stack};
-
     # Don't push anything if it's a virgin object
     if ( $self->{res} ) {
         my $save_stack = $self->{page_stack};
@@ -1970,10 +1981,6 @@ sub _push_page_stack {
 
 sub _pop_page_stack {
     my $self = shift;
-
-    # Hook for reload() and maybe future code (e.g. 302 chasing,
-    # frames) that may want to fetch stuff without altering the history.
-    return 1 if $self->{inhibit_page_stack};
 
     if (@{$self->{page_stack}}) {
         my $popped = pop @{$self->{page_stack}};
