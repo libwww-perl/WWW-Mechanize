@@ -1,7 +1,10 @@
-# $Id: Changes,v 1.23 2003/07/16 02:16:59 petdance Exp $
+# $Id: Changes,v 1.24 2003/07/17 14:57:42 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
-0.53	July 15, 2003
+0.53	July 16, 2003
+	This version ONLY fixes some test-file problems.  There are no
+	functionality enhancements or bug fixes in WWW::Mechanize itself.
+
 	[FIXES]
 	* Explicitly stringifies URI::file objects in the *.t files,
 	  in hopes of getting the thread bummers fixed.  See RT
