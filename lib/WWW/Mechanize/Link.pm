@@ -18,7 +18,7 @@ use warnings;
 
 =head2 C<< new( I<$url>, I<$text>, I<$name>, I<$tag> ) >>
 
-Creates and returns a new WWW::Mechanize::Link object.
+Creates and returns a new C<WWW::Mechanize::Link> object.
 
 =cut
 
@@ -64,7 +64,7 @@ sub tag  { return ($_[0])->[3]; }
 
 =head1 Author
 
-Copyright 2003 Andy Lester <andy@petdance.com>
+Copyright 2003 Andy Lester C<< <andy@petdance.com> >>
 
 Released under the Artistic License.
 

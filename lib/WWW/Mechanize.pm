@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.60
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.59 2003/09/23 03:02:03 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.60 2003/10/04 02:06:40 petdance Exp $
 
 =cut
 
@@ -250,7 +250,7 @@ sub known_agent_aliases {
 
 =head2 C<< $a->get($url) >>
 
-Given a URL/URI, fetches it.  Returns an C<HTTP::Response> object.
+Given a URL/URI, fetches it.  Returns an L<HTTP::Response> object.
 I<$url> can be a well-formed URL string, or a URI::* object.
 
 The results are stored internally in the agent object, but you don't
@@ -258,7 +258,7 @@ know that.  Just use the accessors listed below.  Poking at the internals
 is deprecated and subject to change in the future.
 
 C<get()> is a well-behaved overloaded version of the method in
-C<LWP::UserAgent>.  This lets you do things like
+L<LWP::UserAgent>.  This lets you do things like
 
     $mech->get( $url, ":content_file"=>$tempfile );
 
@@ -655,7 +655,7 @@ Returns the current URI.
 
 =head2 C<< $a->response() >> or C<< $a->res() >>
 
-Return the current response as an C<HTTP::Response> object.
+Return the current response as an L<HTTP::Response> object.
 
 Synonym for C<< $a->response() >>
 
@@ -679,12 +679,12 @@ Returns the content for the response
 
 When called in a list context, returns a list of the forms found in
 the last fetched page. In a scalar context, returns a reference to
-an array with those forms. The forms returned are all C<HTML::Form>
+an array with those forms. The forms returned are all L<HTML::Form>
 objects.
 
 =head2 C<< $a->current_form() >>
 
-Returns the current form as an C<HTML::Form> object.  I'd call this
+Returns the current form as an L<HTML::Form> object.  I'd call this
 C<form()> except that C<form()> already exists and sets the current_form.
 
 =head2 C<< $a->links() >>
@@ -727,7 +727,7 @@ sub forms {
 =head2 C<< $a->title() >>
 
 Returns the contents of the C<< <TITLE> >> tag, as parsed by
-HTML::HeadParser.  Returns undef if the content is not HTML.
+L<HTML::HeadParser>.  Returns undef if the content is not HTML.
 
 =cut
 
@@ -954,7 +954,7 @@ sub quiet {
     return $self->{quiet};
 }
 
-=head1 Overridden C<LWP::UserAgent> methods
+=head1 Overridden L<LWP::UserAgent> methods
 
 =head2 C<< $a->redirect_ok() >>
 
