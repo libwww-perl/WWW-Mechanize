@@ -41,6 +41,22 @@ memory issues on large files.
     $mech->get( "http://www.cpan.org/src/stable.tar.gz",
                 ":content_file" => "stable.tar.gz" );
 
+=head1 Links
+
+=head2 Find all image links
+
+Find all links that point to a JPEG, GIF or PNG.
+
+    my @links = $mech->find_all_links(
+        tag => "a", url_regex => qr/\.(jpe?g|gif|png)$/i );
+
+=head2 Find all download links
+
+Find all links that have the word "download" in them.
+
+    my @links = $mech->find_all_links(
+        tag = "a", text_regex => qr/\bdownload\b/i );
+
 =head1 Author
 
 Copyright 2004 Andy Lester C<< <andy@petdance.com> >>
