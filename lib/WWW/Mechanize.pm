@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 1.05_02
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.151 2004/10/24 01:06:52 markjugg Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.152 2004/10/24 01:08:15 markjugg Exp $
 
 =cut
 
@@ -1075,8 +1075,9 @@ e.g. L<HTML::Display>.
 =back
 
 Passing arguments to content() if the current document is not HTML has
-no effect (i.e. the return value is the same as
-$self->response()->content()).
+no effect now (i.e. the return value is the same as
+$self->response()->content()). This may change in the future, but will 
+likely be backwards-compatible when it does. 
 
 =cut
 
