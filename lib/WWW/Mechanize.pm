@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.73
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.109 2004/02/28 04:16:08 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.110 2004/02/29 05:29:09 petdance Exp $
 
 =cut
 
@@ -1228,7 +1228,7 @@ sub _parse_html {
 }
 
 
-=head2 C<_make_request()>
+=head2 $mech->_make_request()
 
 Convenience method to make it easier for subclasses like
 L<WWW::Mechanize::Cached> to intercept the request.
@@ -1519,6 +1519,8 @@ Here are modules that use or subclass Mechanize.  Let me know of any others:
 =item * L<WWW::Mechanize::SpamCop>
 
 =item * L<WWW::Mechanize::Timed>
+
+=item * L<WWW::SourceForge>
 
 =item * L<WWW::Yahoo::Groups>
 

@@ -53,6 +53,7 @@ t/referer.t
 t/regex-error.t
 t/reload.t
 t/submit.t
+t/taint.t
 t/tick.html
 t/tick.t
 t/warn.t

@@ -1,9 +1,10 @@
-# $Id: Changes,v 1.105 2004/02/28 05:27:10 petdance Exp $
+# $Id: Changes,v 1.106 2004/02/29 05:29:09 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 0.73_01
         [ENHANCEMENTS]
         * URLs in META REFRESH tags are now treated as links.
+        * t/taint.t makes sure that things that should be tainted are.
 
         [FIXES]
         * The http_proxy and HTTP_PROXY environment variables get
