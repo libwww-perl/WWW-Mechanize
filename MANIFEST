@@ -11,6 +11,7 @@ lib/WWW/Mechanize.pm
 lib/WWW/Mechanize/Cookbook.pod
 lib/WWW/Mechanize/Examples.pod
 lib/WWW/Mechanize/FAQ.pod
+lib/WWW/Mechanize/Image.pm
 lib/WWW/Mechanize/Link.pm
 
 t/00.load.t
@@ -30,6 +31,7 @@ t/form-parsing.t
 t/frames.html
 t/frames.t
 t/google.html
+t/image.t
 t/link-base.t
 t/link.t
 t/mech-dump.t

@@ -1,7 +1,10 @@
-# $Id: Changes,v 1.159 2004/11/04 03:15:55 markjugg Exp $
+# $Id: Changes,v 1.160 2004/11/04 03:55:02 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 XXX
+        [ENHANCEMENTS]
+        * Added WWW::Mechanize::Image object for representing images.
+
         [FIXES]
         * When parsing urls out of meta refresh tags, "url" may now be 
           uppercase (RT#8230)
