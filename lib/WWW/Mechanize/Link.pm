@@ -1,4 +1,5 @@
 package WWW::Mechanize::Link;
+# vi:et:sw=4 ts=4
 
 use strict;
 
@@ -15,14 +16,14 @@ wants to deal with as an array.
 
 =head2 new()
 
- my $link = WWW::Mechanize::Link->new({
-	url  => $url, 
-	text => $text, 
-	name => $name, 
-	tag  => $tag,  
-	base => $base,
-	alt  => $alt,
- });
+    my $link = WWW::Mechanize::Link->new( {
+        url  => $url,
+        text => $text,
+        name => $name,
+        tag  => $tag,
+        base => $base,
+        alt  => $alt,
+    } );
 
 For compatibility, this older interface is also supported:
 
@@ -35,22 +36,22 @@ Creates and returns a new C<WWW::Mechanize::Link> object.
 sub new {
     my $class = shift;
 
-	# new style API
-	my %p;
+    # new style API
+    my %p;
     my ($url,$text,$name,$tag,$base,$alt);
-	if (ref $_[0] eq 'HASH') {
-		%p =  %{ $_[0] }; 
-		$url  = $p{url};
-		$text = $p{text};
-		$name = $p{name};
-		$tag  = $p{tag};
-		$base = $p{base};
-		$alt  = $p{alt};
-	}
-	else {
-		($url,$text,$name,$tag,$base,$alt) = @_; 
 
-	}
+    if ( ref $_[0] eq 'HASH' ) {
+        %p =  %{ $_[0] }; 
+        $url  = $p{url};
+        $text = $p{text};
+        $name = $p{name};
+        $tag  = $p{tag};
+        $base = $p{base};
+        $alt  = $p{alt};
+    }
+    else {
+        ($url,$text,$name,$tag,$base,$alt) = @_; 
+    }
 
     # The order of the first four must stay as they are for
     # compatibility with older code.
