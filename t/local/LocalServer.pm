@@ -66,7 +66,7 @@ sub spawn {
     $web_page = "";
   };
 
-  my $server_file = File::Spec->catfile( $FindBin::Bin,'lib','Test','HTTP','log-server' );
+  my $server_file = File::Spec->catfile( $FindBin::Bin,'log-server' );
 
   open my $server, qq'$^X "$server_file" "$web_page" "$logfile" |'
     or die "Couldn't spawn fake server $server_file : $!";

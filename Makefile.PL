@@ -7,31 +7,35 @@ use strict;
 use constant FLAG_SKIPMECHDUMP => File::Spec->catfile( "t", "SKIP-MECH-DUMP" );
 
 # Much logic stolen fromm libwww-perl's Makefile.PL
-my $skiplive = 0;
+my $skiplive = grep /--nolive/i, @ARGV;
+my $skiplocal = grep /--nolocal/i, @ARGV;
 
-require IO::Socket;
-my $s = IO::Socket::INET->new(
-    PeerAddr => "www.google.com:80",
-    Timeout  => 10,
-);
-if ($s) {
-    close($s);
-    $skiplive = 0;
-} else {
-    print <<EOT;
+if ( !$skiplive ) {
+    require IO::Socket;
+    my $s = IO::Socket::INET->new(
+        PeerAddr => "www.google.com:80",
+        Timeout  => 10,
+    );
+    if ($s) {
+        close($s);
+        $skiplive = 0;
+    } else {
+        print <<EOT;
 
-It seems that you are not directly connected to the Internet.  Some
-of the WWW::Mechanize tests interact with websites such as Google,
-in addition to its own internal tests.
+    It seems that you are not directly connected to the Internet.  Some
+    of the WWW::Mechanize tests interact with websites such as Google,
+    in addition to its own internal tests.
 
 EOT
 
-    if ( prompt("Do you want to skip these tests?", "y") =~ /^y/i ) {
-        $skiplive = 1;
-    }
-} # failed connect
+        if ( prompt("Do you want to skip these tests?", "y") =~ /^y/i ) {
+            $skiplive = 1;
+        }
+    } # failed connect
+}
 
 my @tests = glob File::Spec->catfile( 't', '*.t' );
+push( @tests, glob File::Spec->catfile( 't', 'local', '*.t' ) ) unless $skiplocal;
 push( @tests, glob File::Spec->catfile( 't', 'live', '*.t' ) ) unless $skiplive;
 
 my $parms = {

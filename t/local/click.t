@@ -1,7 +1,7 @@
 use warnings;
 use strict;
-use lib 't/lib';
-use Test::HTTP::LocalServer;
+use lib 't/local';
+use LocalServer;
 use Test::More tests => 10;
 
 BEGIN { delete @ENV{ qw( http_proxy HTTP_PROXY ) }; }
@@ -12,8 +12,8 @@ BEGIN {
 my $mech = WWW::Mechanize->new();
 isa_ok( $mech, 'WWW::Mechanize', 'Created the object' );
 
-my $server = Test::HTTP::LocalServer->spawn();
-isa_ok( $server, 'Test::HTTP::LocalServer' );
+my $server = LocalServer->spawn();
+isa_ok( $server, 'LocalServer' );
 
 my $response = $mech->get( $server->url );
 isa_ok( $response, 'HTTP::Response', 'Got back a response' );

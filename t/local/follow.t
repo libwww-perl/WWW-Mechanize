@@ -1,16 +1,16 @@
 use warnings;
 use strict;
 use Test::More tests => 20;
-use lib 't/lib';
-use Test::HTTP::LocalServer;
+use lib 't/local';
+use LocalServer;
 
 BEGIN { delete @ENV{ qw( http_proxy HTTP_PROXY ) }; }
 BEGIN {
     use_ok( 'WWW::Mechanize' );
 }
 
-my $server = Test::HTTP::LocalServer->spawn;
-isa_ok( $server, 'Test::HTTP::LocalServer' );
+my $server = LocalServer->spawn;
+isa_ok( $server, 'LocalServer' );
 
 my $agent = WWW::Mechanize->new;
 isa_ok( $agent, 'WWW::Mechanize', 'Created object' );
