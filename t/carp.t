@@ -17,7 +17,7 @@ isa_ok( $m, 'WWW::Mechanize' );
 
 warning_like {
     $m->_carp( "Something bad" );
-} qr[Something bad.+carp.t.+line \d+], "Passes the message, and includes the filename and line number";
+} qr[Something bad.+line \d+], "Passes the message, and includes the line number";
 
 warning_like {
     $m->quiet(1);

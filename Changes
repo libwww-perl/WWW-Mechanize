@@ -1,4 +1,4 @@
-# $Id: Changes,v 1.41 2003/07/24 16:15:07 petdance Exp $
+# $Id: Changes,v 1.42 2003/07/24 16:52:19 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 0.56    July 24, 2003  11:45am
@@ -7,6 +7,13 @@ Revision history for Perl extension WWW::Mechanize
 	  translation.	Passing "Windows IE 6" to agent() will get
 	  you back exactly that string as the agent.  You have to call
 	  $a->agent_alias( "Windows IE 6" ) to get the translation.
+
+	  Fortunately, unless you used the new functionality of agent() in
+	  the past two days since I released 0.55, it won't be a problem.
+
+	[INTERNALS]
+	* Added _carp method for handling conditional warnings, rather
+	  than checking quiet() all the time.
 
 0.55	July 22, 2003  12:10pm
 	[ENHANCEMENTS]

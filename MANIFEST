@@ -10,6 +10,7 @@ t/00.load.t
 t/99.pod.t
 t/add_header.t
 t/back.t
+t/carp.t
 t/click-local.t
 t/click.t
 t/failure.t

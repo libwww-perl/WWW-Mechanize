@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.55
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.43 2003/07/24 16:31:37 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.44 2003/07/24 16:52:19 petdance Exp $
 
 =cut
 
@@ -1185,8 +1185,12 @@ sub _carp {
     my $self = shift;
 
     if ( !$self->quiet ) {
-	require Carp;
-	&Carp::carp; # pass thru
+	eval "require Carp";
+	if ( $@ ) {
+	    warn @_;
+	} else {
+	    &Carp::carp; # pass thru
+	}
     }
     return;
 }
