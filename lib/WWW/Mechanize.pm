@@ -6,13 +6,13 @@ WWW::Mechanize - automate interaction with websites
 
 =head1 VERSION
 
-Version 0.46
+Version 0.47
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.9 2003/06/22 03:18:15 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.10 2003/06/22 03:49:38 petdance Exp $
 
 =cut
 
-our $VERSION = "0.46";
+our $VERSION = "0.47";
 
 =head1 SYNOPSIS
 
@@ -252,9 +252,15 @@ not be used in future development.
 
 sub follow_link {
     my $self = shift;
+    my %parms = ( n=>1, @_ );
+
+    if ( $parms{n} eq "all" ) {
+	delete $parms{n};
+	warn qq{follow_link(n=>"all") is not valid\n};
+    }
 
     my $response;
-    my $link_ref = $self->find_link(@_);
+    my $link_ref = $self->find_link(%parms);
     if ( $link_ref ) {
 	my $link = $link_ref->[0];     # we just want the URL, not the text
 	$self->_push_page_stack();
