@@ -30,7 +30,7 @@ is( $mech->title, $title, "Title set back?" );
 
 is( scalar @{$mech->{page_stack}}, 0, "Pre-search check" );
 $mech->submit_form(
-    fields => { q => "perl" },
+    fields => { 'q' => "perl" },
 );
 ok( $mech->success, "Searched for Perl" );
 like( $mech->title, qr/^Google Search: perl/, "Right page title" );

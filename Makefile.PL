@@ -30,7 +30,7 @@ EOT
     }
 } # failed connect
 
-my @tests = File::Spec->catfile( 't', '*.t' );
+my @tests = glob File::Spec->catfile( 't', '*.t' );
 push( @tests, glob File::Spec->catfile( 't', 'live', '*.t' ) ) unless $skiplive;
 
 my $parms = {
@@ -70,13 +70,12 @@ if ( prompt( "Do you want to install the mech-dump utility?", "y" ) =~ /^y/i ) {
     touch();
 }
 
-
-eval { require IO::Socket::SSL };
-if ( $@ ) {
+eval { require LWP; };
+if ($@ or ! LWP::Protocol::implementor('https') ) {
     print <<EOT;
 
-It looks like you don't have IO::Socket::SSL installed.  You will
-not be able to process https:// URLs correctly.
+It looks like you don't have SSL capability (like IO::Socket::SSL) installed. 
+You will not be able to process https:// URLs correctly.
 
 EOT
 }
