@@ -1,6 +1,6 @@
 use warnings;
 use strict;
-use Test::More tests => 20;
+use Test::More tests => 28;
 use lib 't/local';
 use LocalServer;
 
@@ -33,7 +33,20 @@ is( $agent->uri, $server->url, 'Back at the first page' );
 
 ok(! $agent->follow(qr/asdfghjksdfghj/), "Can't follow unlikely named link");
 
+#juse Data::Dumper;
+#warn Dumper ('test',$agent->content);
+
 ok($agent->follow("Link /foo"), "Can follow obvious named link");
+is( ref $agent->uri, "", "URI shouldn't be an object" );
+isnt( $agent->uri, $server->url, 'Need to be on a separate page' );
+
+ok($agent->back(), "Can still go back");
+ok($agent->follow('Löschen'), "Can follow link with o-umlaut");
+is( ref $agent->uri, "", "URI shouldn't be an object" );
+isnt( $agent->uri, $server->url, 'Need to be on a separate page' );
+
+ok($agent->back(), "Can still go back");
+ok($agent->follow('Stösberg'), "Can follow link with o-umlaut, when it's encoded in the HTML, but not in 'follow'");
 is( ref $agent->uri, "", "URI shouldn't be an object" );
 isnt( $agent->uri, $server->url, 'Need to be on a separate page' );
 

@@ -27,7 +27,7 @@ GOOD_PAGE: {
     is( $mech->title, "WWW::Mechanize::Shell test page", "Correct title" );
 
     my @links = $mech->links;
-    is( scalar @links, 8, "eight links, please" );
+    is( scalar @links, 10, "10 links, please" );
     my @forms = $mech->forms;
     is( scalar @forms, 1, "One form" );
     isa_ok( $forms[0], 'HTML::Form' );

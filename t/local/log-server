@@ -87,6 +87,9 @@ __DATA__
   <a href="/foo1.save_log_server_test.tmp">Link foo1.save_log_server_test.tmp</a>
   <a href="/foo2.save_log_server_test.tmp">Link foo2.save_log_server_test.tmp</a>
   <a href="/foo3.save_log_server_test.tmp">Link foo3.save_log_server_test.tmp</a>
+  <a href="/o-umlaut">Löschen -- testing for o-umlaut.</a>
+  <a href="/o-umlaut-encoded">St&ouml;sberg -- testing for encoded o-umlaut.</a>
+
   <table>
     <tr><th>Col1</th><th>Col2</th><th>Col3</th></tr>
     <tr><td>A1</td><td>A2</td><td>A3</td></tr>

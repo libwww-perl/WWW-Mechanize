@@ -1,4 +1,4 @@
-# $Id: Changes,v 1.141 2004/09/29 19:38:54 markjugg Exp $
+# $Id: Changes,v 1.142 2004/09/30 03:30:10 markjugg Exp $
 Revision history for Perl extension WWW::Mechanize
 
 1.05_01 XXX
@@ -13,6 +13,11 @@ Revision history for Perl extension WWW::Mechanize
 		* When links are extracted from <area> tags, the ALT attribute will
 		  be captured become part of the WWW::Mechanize::Link object.
 		  (RT #3317). Patch by Mark Stosberg. 
+
+		* t/local/follow.t has new tests to confirm that 'follow*' functions
+		  work with characters like o-umlaut, even when the o-umlaut is
+		  encoded in the HTML, but not in the call to follow(). (RT #2416)
+		  By Mark Stosberg. 
 
 1.04    Wed Sep 15 23:27:53 CDT 2004
 
