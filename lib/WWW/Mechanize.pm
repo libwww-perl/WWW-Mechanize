@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.60
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.61 2003/10/06 22:43:12 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.62 2003/10/06 23:02:27 petdance Exp $
 
 =cut
 
@@ -402,13 +402,11 @@ sub form_name {
     my ($self, $form) = @_;
 
     my $temp;
-    my @matches = grep {defined($temp = $_->attr('name')) and ($temp eq $form) } @{$self->{forms}};
+    my @matches = grep {defined($temp = $_->attr('name')) and ($temp eq $form) } $self->forms;
     if ( @matches ) {
-	require Carp;
-        $self->{form} = $matches[0];
 	$self->_carp( "There are ", scalar @matches, " forms named $form.  The first one was used." )
 	    if @matches > 1;
-        return $self->{form};
+        return $self->{form} = $matches[0];
     } else {
 	$self->_carp( qq{ There is no form named "$form"} );
         return undef;
@@ -457,19 +455,20 @@ defaulting to the first form on the page).
 =cut
 
 sub set_fields {
-    my ($self, %fields ) = @_;
+    my $self = shift;
+    my %fields = @_;
 
-    my $form = $self->{form};
+    my $form = $self->current_form;
 
-    while( my ( $field, $value ) = each %fields ) {
+    while ( my ( $field, $value ) = each %fields ) {
         if ( ref $value eq 'ARRAY' ) {
             $form->find_input( $field, undef,
                          $value->[1])->value($value->[0] );
         } else {
             $form->value($field => $value);
         }
-    }
-}
+    } # while
+} # set_fields()
 
 =head2 C<< $a->tick($name, $value [, $set] ) >>
 
@@ -487,9 +486,8 @@ sub tick {
     my $set = @_ ? shift : 1;  # default to 1 if not passed
 
     # loop though all the inputs
-    my $input;
     my $index = 0;
-    while($input = $self->current_form->find_input($name,"checkbox",$index)) {
+    while ( my $input = $self->current_form->find_input( $name, "checkbox", $index ) ) {
 	# Can't guarantee that the first element will be undef and the second
 	# element will be the right name
 	foreach my $val ($input->possible_values()) {
