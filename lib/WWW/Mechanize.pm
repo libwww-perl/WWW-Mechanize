@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.50
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.17 2003/06/24 14:50:30 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.18 2003/06/29 23:41:49 petdance Exp $
 
 =cut
 
@@ -353,7 +353,7 @@ sub form_number {
     } else {
 	unless ( $self->{quiet} ) {
 	    require Carp;
-	    Carp::carp "There is no form named $form";
+	    Carp::carp "There is no form numbered $form";
 	}
         return 0;
     }

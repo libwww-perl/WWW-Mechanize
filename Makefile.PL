@@ -33,7 +33,7 @@ if ( $skiplive ) {
 }
 
 no strict;
-WriteMakefile(
+my $parms = {
     'NAME'	    => 'WWW::Mechanize',
     'VERSION_FROM'  => 'lib/WWW/Mechanize.pm', # finds $VERSION
     'ABSTRACT_FROM' => 'lib/WWW/Mechanize.pm', # retrieve abstract from module
@@ -53,4 +53,9 @@ WriteMakefile(
 			Carp		    => 0,
 			FindBin		    => 0,
 			},
-);
+};
+if ( prompt( "Do you want to install the mech-forms utility?", "y" ) =~ /^y/i ) {
+    $parms->{EXE_FILES} = [ 'script/mech-forms' ];
+}
+
+WriteMakefile( %$parms );
