@@ -3,11 +3,16 @@
 use strict;
 use WWW::Mechanize;
 
-my $url = shift or die "Must specify a URL to check\n";
+my $uri = shift or die "Must specify a URL or file to check\n";
 
 my $mech = new WWW::Mechanize();
-$mech->get( $url );
-$mech->success or die "Can't fetch $url\n", $mech->res->status_line, "\n";
+$mech->get( $uri );
+$mech->success or die "Can't fetch $uri\n", $mech->res->status_line, "\n";
 
-$mech->is_html or die "$url returns type \"", $mech->ct, "\", not \"text/html\"\n";
+$mech->is_html or die "$uri returns type \"", $mech->ct, "\", not \"text/html\"\n";
+
+for my $form ( $mech->forms() ) {
+    print $form->dump;
+    print "\n";
+}
 
