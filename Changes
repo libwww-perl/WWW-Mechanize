@@ -1,7 +1,7 @@
-# $Id: Changes,v 1.52 2003/08/13 18:31:00 petdance Exp $
+# $Id: Changes,v 1.53 2003/08/15 04:30:48 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
-0.58
+0.58	August 14, 2003  11:30pm
 	[THINGS THAT MIGHT BREAK YOUR CODE]
 	* $mech->uri() now returns a plain string, not a URI object.
 	  The automatic stringification of the URI object was
