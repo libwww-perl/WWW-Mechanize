@@ -1,8 +1,7 @@
-blib
-blibdirs
+blib*
 Makefile
 Makefile.old
-pm_to_blib
+pm_to_blib*
 *.tar.gz
 .lwpcookies
 WWW-Mechanize-*
