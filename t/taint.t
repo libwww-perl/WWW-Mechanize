@@ -1,6 +1,5 @@
 #!perl -T
 
-
 use warnings;
 use strict;
 use Test::More;

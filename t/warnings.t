@@ -1,3 +1,5 @@
+#!perl -T
+
 use warnings;
 use strict;
 use Test::More;
@@ -17,6 +19,6 @@ UNKNOWN_ALIAS: {
     isa_ok( $m, 'WWW::Mechanize' );
 
     warning_is {
-	$m->agent_alias( "Blongo" );
+        $m->agent_alias( "Blongo" );
     } 'Unknown agent alias "Blongo"', "Unknown aliases squawk appropriately";
 }
