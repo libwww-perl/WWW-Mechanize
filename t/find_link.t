@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-use Test::More tests => 15;
+use Test::More tests => 16;
 use URI::file;
 
 BEGIN {
@@ -57,5 +57,8 @@ my @wanted_links= (
    [ "http://c.cpan.org/", "CPAN C", "bongo" ], 
    [ "http://d.cpan.org/", "CPAN D", undef ], 
 );
-my @links = $t->find_link( text_regex => qr/CPAN/, n=>"all" );
+my @links = $t->find_all_links( text_regex => qr/CPAN/ );
 ok( eq_array( \@links, \@wanted_links ), "Correct links came back" );
+
+my $linkref = $t->find_all_links( text_regex => qr/CPAN/ );
+ok( eq_array( $linkref, \@wanted_links ), "Correct links came back" );
