@@ -679,7 +679,7 @@ sub find_link {
 
     my $wantall = ( $parms{n} eq "all" );
 
-    $self->_clean_keys( \%parms );
+    $self->_clean_keys( \%parms, qr/^(n|(text|url|url_abs|name|tag)(_regex)?)$/ );
 
     my @links = $self->links or return;
 
@@ -709,10 +709,11 @@ sub find_link {
 sub _clean_keys {
     my $self = shift;
     my $parms = shift;
+    my $rx_keyname = shift;
 
     for my $key ( keys %$parms ) {
         my $val = $parms->{$key};
-        if ( $key !~ /^(n|(text|url|url_abs|name|tag)(_regex)?)$/ ) {
+        if ( $key !~ qr/$rx_keyname/ ) {
             $self->warn( qq{Unknown link-finding parameter "$key"} );
             delete $parms->{$key};
             next;
