@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-use Test::More tests => 45;
+use Test::More tests => 53;
 use URI::file;
 
 BEGIN {
@@ -109,3 +109,20 @@ AREA_CHECKS: {
     my $linkref = $t->find_all_links( url_regex => qr/cnn\.com/ );
     is_deeply( $linkref, \@wanted_links, "Correct links came back" );
 }
+
+$x = $t->find_link( name => "bongo" );
+isa_ok( $x, 'WWW::Mechanize::Link' );
+is_deeply( $x, [ "http://c.cpan.org/", "CPAN C", "bongo", "a" ], 'Got the CPAN C link' );
+
+$x = $t->find_link( name_regex => qr/^[A-Z]/, n => 2 );
+isa_ok( $x, 'WWW::Mechanize::Link' );
+is_deeply( $x, [ "http://www.cnn.com/", "News", "Fred", "a" ], 'Got 2nd link that begins with a capital' );
+
+$x = $t->find_link( tag => 'a', n => 3 );
+isa_ok( $x, 'WWW::Mechanize::Link' );
+is_deeply( $x, [ "http://b.cpan.org/", "CPAN B", undef, "a" ], 'Got 3rd <A> tag' );
+
+$x = $t->find_link( tag_regex => qr/^(a|frame)$/, n => 7 );
+isa_ok( $x, 'WWW::Mechanize::Link' );
+is_deeply( $x, [ "http://d.cpan.org/", "CPAN D", undef, "a" ], 'Got 7th <A> or <FRAME> tag' );
+
