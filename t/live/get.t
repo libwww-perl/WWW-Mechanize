@@ -1,6 +1,6 @@
 use warnings;
 use strict;
-use Test::More tests => 27;
+use Test::More tests => 25;
 
 BEGIN {
     use_ok( 'WWW::Mechanize' );
@@ -14,10 +14,10 @@ is( ref $agent->uri, "", "URI should be a string, not an object" );
 ok( $agent->is_html );
 is( $agent->title, "Google" );
 
-ok( $agent->get( '/news/' )->is_success, 'Got the news' );
-is( $agent->uri, 'http://www.google.com/news/', "Got relative OK" );
+ok( $agent->get( '/services/' )->is_success, 'Got the services page' );
+is( $agent->uri, 'http://www.google.com/services/', "Got relative OK" );
 ok( $agent->is_html );
-is( $agent->title, "News and Resources", "Got the right page" );
+is( $agent->title, "Google Business Solutions", "Got the right page" );
 
 ok( $agent->get( '../help/' )->is_success, 'Got the help page' );
 is( $agent->uri, 'http://www.google.com/help/', "Got relative OK" );
@@ -35,9 +35,6 @@ is( $agent->uri, 'http://www.google.com/help/refinesearch.html', "Got relative O
 ok( $agent->is_html );
 is( $agent->title, "Google Help" );
 like( $agent->content, qr/Advanced Search Made Easy/, "Got the right page" );
-
-ok( $agent->get( "http://www.google.com/images/logo.gif" )->is_success, "Got the logo" );
-ok( !$agent->is_html );
 
 SKIP: {
     eval "use Test::Memory::Cycle";
