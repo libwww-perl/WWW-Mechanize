@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.58
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.55 2003/08/22 14:37:54 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.56 2003/09/04 04:51:14 petdance Exp $
 
 =cut
 
@@ -358,7 +358,6 @@ sub follow_link {
     my $response;
     my $link = $self->find_link(%parms);
     if ( $link ) {
-	$self->_push_page_stack();
 	$response = $self->get( $link->url );
     }
 
@@ -539,7 +538,6 @@ Returns an L<HTTP::Response> object.
 sub click {
     my ($self, $button, $x, $y) = @_;
     for ($x, $y) { $_ = 1 unless defined; }
-    $self->_push_page_stack();
     my $request = $self->{form}->click($button, $x, $y);
     return $self->request( $request );
 }
@@ -557,7 +555,6 @@ longer so.
 sub submit {
     my $self = shift;
 
-    $self->_push_page_stack();
     my $request = $self->{form}->make_request;
     return $self->request( $request );
 }
@@ -1007,6 +1004,10 @@ sub request {
     my $self = shift;
     my $request = shift;
 
+    if ( $request->method eq "GET" || $request->method eq "POST" ) {
+	$self->_push_page_stack();
+    }
+
     $request->header( Referer => $self->{last_uri} ) if $self->{last_uri};
     while ( my($key,$value) = each %WWW::Mechanize::headers ) {
         $request->header( $key => $value );
@@ -1081,7 +1082,6 @@ sub follow {
 
     $thislink = $thislink->[0];     # we just want the URL, not the text
 
-    $self->_push_page_stack();
     $self->get( $thislink );
 
     return 1;
@@ -1193,12 +1193,15 @@ object.
 sub _push_page_stack {
     my $self = shift;
 
-    my $save_stack = $self->{page_stack};
-    $self->{page_stack} = [];
+    # Don't push anything if it's a virgin object
+    if ( $self->{res} ) {
+	my $save_stack = $self->{page_stack};
+	$self->{page_stack} = [];
 
-    push( @$save_stack, $self->clone );
+	push( @$save_stack, $self->clone );
 
-    $self->{page_stack} = $save_stack;
+	$self->{page_stack} = $save_stack;
+    }
 
     return 1;
 }
