@@ -597,7 +597,7 @@ key/value pairs:
 
 =over 4
 
-=item * C<< text => string >> and C<< text_regex => regex >>
+=item * C<< text => 'string', >> and C<< text_regex => qr/regex/, >>
 
 C<text> matches the text of the link against I<string>, which must be an
 exact match.  To select a link with text that is exactly "download", use
@@ -613,7 +613,7 @@ Note that the text extracted from the page's links are trimmed.  For
 example, C<< <a> foo </a> >> is stored as 'foo', and searching for
 leading or trailing spaces will fail.
 
-=item * C<< url => string >> and C<< url_regex => regex >>
+=item * C<< url => 'string', >> and C<< url_regex => qr/regex/, >>
 
 Matches the URL of the link against I<string> or I<regex>, as appropriate.
 The URL may be a relative URL, like F<foo/bar.html>, depending on how
@@ -790,6 +790,74 @@ sub images {
     my $self = shift ;
     return @{$self->{images}} if wantarray;
     return $self->{images};
+}
+
+=head2 $mech->find_mage()
+
+Finds an image in the current page. It returns a
+L<WWW::Mechanize::Image> object which describes the image.  If it fails
+to find an image it returns undef.
+
+You can select which link to find by passing in one or more of these
+key/value pairs:
+
+=over 4
+
+=item * C<< alt => 'string' >> and C<< alt_regex => qr/regex/, >>
+
+C<alt> matches the ALT attribute of the image against I<string>, which must be an
+exact match. To select a image with an ALT tag that is exactly "download", use
+
+    $mech->find_image( alt  => "download" );
+
+C<alt_regex> matches the ALT attribute of the image  against a regular
+expression.  To select an image with an ALT attribute that has "download"
+anywhere in it, regardless of case, use
+
+    $mech->find_image( alt_regex => qr/download/i );
+
+=item * C<< url => 'string', >> and C<< url_regex => qr/regex/, >>
+
+Matches the URL of the image against I<string> or I<regex>, as appropriate.
+The URL may be a relative URL, like F<foo/bar.html>, depending on how
+it's coded on the page.
+
+=item * C<< url_abs => string >> and C<< url_abs_regex => regex >>
+
+Matches the absolute URL of the image against I<string> or I<regex>,
+as appropriate.  The URL will be an absolute URL, even if it's relative
+in the page.
+
+=item * C<< tag => string >> and C<< tag_regex => regex >>
+
+Matches the tag that the image came from against I<string> or I<regex>,
+as appropriate.  The C<tag_regex> is probably most useful to check for
+more than one tag, as in:
+
+    $mech->find_image( tag_regex => qr/^(img|input)$/ );
+
+The tags supported are <img> and <input> . 
+
+=back
+
+If C<n> is not specified, it defaults to 1.  Therefore, if you don't
+specify any parms, this method defaults to finding the first image on the
+page.
+
+Note that you can specify multiple ALT or URL parameters, which
+will be ANDed together.  For example, to find the first image with
+ALT text of "News" and with "cnn.com" in the URL, use:
+
+    $mech->find_image( image => "News", url_regex => qr/cnn\.com/ );
+
+The return value is a reference to an array containing a
+L<WWW::Mechanize::Image> object for every image in C<< $self->content >>.
+
+=cut
+
+sub find_image {
+    my $self = shift; 
+    # Write me.
 }
 
 =head2 $mech->find_all_images( ... )
