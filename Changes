@@ -1,7 +1,7 @@
-# $Id: Changes,v 1.68 2003/10/07 23:10:28 petdance Exp $
+# $Id: Changes,v 1.69 2003/10/08 01:50:53 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
-0.62	October 7, 2003  5:00pm
+0.62	October 7, 2003  8:46pm
 	[THINGS THAT MIGHT BREAK YOUR CODE]
 	* The parms for find_link()'s url_regex and text_regex must now
 	  be actual regex objects, as in qr// objects.	They can't just
