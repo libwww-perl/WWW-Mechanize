@@ -1,0 +1,14 @@
+0.20
+----
+
+Frames are now included in the links array.
+
+add_header() method allows you to add arbitrary headers to your HTTP
+requests.
+
+Minor documentation updates.
+
+0.10
+----
+
+Initial release

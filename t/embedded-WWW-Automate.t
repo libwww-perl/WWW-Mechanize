@@ -25,7 +25,7 @@ tie *STDOUT, 'Catch' or die $!;
 
 
 {
-#line 63 lib/WWW/Automate.pm
+#line 72 lib/WWW/Automate.pm
 
 BEGIN: {
     use lib qw(lib/);
@@ -44,7 +44,7 @@ like($agent->agent(), qr/$WWW::Automate::VERSION/, "Set user agent version");
 }
 
 {
-#line 112 lib/WWW/Automate.pm
+#line 121 lib/WWW/Automate.pm
 
 ok($agent->get("http://google.com"), "Get google webpage");
 isa_ok($agent->{uri}, "URI", "Set uri");
@@ -54,7 +54,7 @@ isa_ok($agent->{req}, 'HTTP::Request', "req should be a HTTP::Request");
 }
 
 {
-#line 135 lib/WWW/Automate.pm
+#line 144 lib/WWW/Automate.pm
 
 ok(! $agent->follow(99999), "Can't follow too-high-numbered link");
 ok($agent->follow(1), "Can follow first link");
@@ -68,7 +68,7 @@ $agent->back();
 }
 
 {
-#line 193 lib/WWW/Automate.pm
+#line 202 lib/WWW/Automate.pm
 
 my $t = WWW::Automate->new();
 $t->get("http://google.com");
@@ -81,7 +81,7 @@ is($t->{form}, $t->{forms}->[0], "Form is still set to 1");
 }
 
 {
-#line 244 lib/WWW/Automate.pm
+#line 253 lib/WWW/Automate.pm
 
 my $t = WWW::Automate->new();
 $t->get("http://google.com");
@@ -93,7 +93,16 @@ like($t->{content}, qr/foo\s?fighters/i, "Found 'Foo Fighters'");
 }
 
 {
-#line 306 lib/WWW/Automate.pm
+#line 307 lib/WWW/Automate.pm
+
+$agent->add_header(foo => 'bar');
+is($WWW::Automate::headers{'foo'}, 'bar', "set header");
+
+
+}
+
+{
+#line 339 lib/WWW/Automate.pm
 
 my $t = WWW::Automate->new();
 $t->get("http://www.google.com");

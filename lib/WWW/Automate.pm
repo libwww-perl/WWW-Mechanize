@@ -5,7 +5,7 @@
 # the file COPYING for details.
 
 #
-# $Id: Automate.pm,v 1.6 2002/02/13 12:46:40 skud Exp $
+# $Id: Automate.pm,v 1.11 2002/02/18 16:29:10 skud Exp $
 #
 
 package WWW::Automate;
@@ -19,7 +19,9 @@ use Carp;
 
 our @ISA = qw( LWP::UserAgent );
 
-my $VERSION = $VERSION = "0.10";
+my $VERSION = $VERSION = "0.20";
+
+my $headers;
 
 =pod 
 
@@ -33,10 +35,17 @@ WWW::Automate - automate interaction with websites
   my $agent = WWW::Automate->new();
 
   $agent->get($url);
+
   $agent->follow($link);
+
   $agent->form($number);
   $agent->field($name, $value);
   $agent->click($button);
+
+  $agent->back();
+
+  $agent->add_header($name => $value);
+
   print "OK" if $agent->{content} =~ /$expected/;
 
 =head1 DESCRIPTION
@@ -283,6 +292,30 @@ sub back {
     $self->pop_page_stack;
 }
 
+=head2 $agent->add_header(name => $value)
+
+Sets a header for the WWW::Automate agent to use every time it gets a
+webpage.  This is *NOT* stored in the agent object (because if it were,
+it would disappear if you went back() past where you'd set it) but in
+the hash variable %WWW::Automate::headers, which is a hashref of all headers
+to be set.  You can manipulate this directly if you want to; the
+add_header() method is just provided as a convenience function for the most
+common case of adding a header.
+
+=begin testing
+
+$agent->add_header(foo => 'bar');
+is($WWW::Automate::headers{'foo'}, 'bar', "set header");
+
+=end testing
+
+=cut
+
+sub add_header {
+    my ($self, $name, $value) = @_;
+    $WWW::Automate::headers{$name} = $value;
+}
+
 =head1 INTERNAL METHODS
 
 These methods are only used internally.  You probably don't need to 
@@ -348,11 +381,12 @@ sub extract_links {
     my $p = HTML::TokeParser->new(\$self->{content});
     my @links;
 
-    while (my $token = $p->get_tag("a")) {
-        my $url = $token->[1]{href};
-        next unless defined $url;   # probably just a name link
-        my $text = $p->get_trimmed_text("/a");
-        push(@links, [$url => $text]);
+    while (my $token = $p->get_tag("a", "frame")) {
+		my $url = $token->[0] eq 'a' ? $token->[1]{href} : $token->[1]{src};
+		next unless defined $url;   # probably just a name link
+		my $text = $token->[0] eq 'a' ?
+			$p->get_trimmed_text("/a"):$token->[1]{name};
+		push(@links, [$url => $text]);
     }
     return \@links;
 }
@@ -366,6 +400,9 @@ a bunch of attributes on $self.
 
 sub do_request {
     my ($self) = @_;
+    foreach my $h (keys %WWW::Automate::headers) {
+        $self->{req}->header( $h => $WWW::Automate::headers{$h} );
+    }
     $self->{res}     = $self->request($self->{req});
     $self->{status}  = $self->{res}->code;
     $self->{base}    = $self->{res}->base;
