@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-use Test::More tests => 54;
+use Test::More tests => 57;
 use URI::file;
 
 BEGIN {
@@ -128,3 +128,12 @@ is_deeply( $x, [ "http://d.cpan.org/", "CPAN D", undef, "a" ], 'Got 7th <A> or <
 $x = $mech->find_link( text => "Rebuild Index" );
 isa_ok( $x, 'WWW::Mechanize::Link' );
 is_deeply( [@{$x}[0..3]], [ "/cgi-bin/MT/mt.cgi", "Rebuild Index", undef, "a" ], 'Got the JavaScript link' );
+
+$x = $mech->find_link( url => "blongo.html" );
+isa_ok( $x, 'WWW::Mechanize::Link' );
+
+$x = $mech->find_link( url_abs => "blongo.html" );
+ok( !defined $x, "No match" );
+
+$x = $mech->find_link( url_abs_regex => qr[t/blongo\.html$] );
+isa_ok( $x, 'WWW::Mechanize::Link' );

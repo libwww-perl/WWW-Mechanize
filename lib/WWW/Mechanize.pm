@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.73_03
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.118 2004/03/23 04:50:08 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.119 2004/03/23 05:22:40 petdance Exp $
 
 =cut
 
@@ -980,6 +980,14 @@ leading or trailing spaces will fail.
 =item * C<< url => string >> and C<< url_regex => regex >>
 
 Matches the URL of the link against I<string> or I<regex>, as appropriate.
+The URL may be a relative URL, like F<foo/bar.html>, depending on how
+it's coded on the page.
+
+=item * C<< url_abs => string >> and C<< url_abs_regex => regex >>
+
+Matches the absolute URL of the link against I<string> or I<regex>,
+as appropriate.  The URL will be an absolute URL, even if it's relative
+in the page.
 
 =item * C<< name => string >> and C<< name_regex => regex >>
 
@@ -1044,7 +1052,7 @@ sub find_link {
 
     for my $key ( keys %parms ) {
         my $val = $parms{$key};
-        if ( $key !~ /^(n|(text|url|name|tag)(_regex)?)$/ ) {
+        if ( $key !~ /^(n|(text|url|url_abs|name|tag)(_regex)?)$/ ) {
             $self->warn( qq{Unknown link-finding parameter "$key"} );
             delete $parms{$key};
             next;
@@ -1075,6 +1083,8 @@ sub find_link {
     my @conditions;
     push @conditions, q/ $_[0]->[0] eq $parms{url} /                                if defined $parms{url};
     push @conditions, q/ $_[0]->[0] =~ $parms{url_regex} /                          if defined $parms{url_regex};
+    push @conditions, q/ $_[0]->url_abs eq $parms{url_abs} /                        if defined $parms{url_abs};
+    push @conditions, q/ $_[0]->url_abs =~ $parms{url_abs_regex} /                  if defined $parms{url_abs_regex};
     push @conditions, q/ defined($_[0]->[1]) and $_[0]->[1] eq $parms{text} /       if defined $parms{text};
     push @conditions, q/ defined($_[0]->[1]) and $_[0]->[1] =~ $parms{text_regex} / if defined $parms{text_regex};
     push @conditions, q/ defined($_[0]->[2]) and $_[0]->[2] eq $parms{name} /       if defined $parms{name};
