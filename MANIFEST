@@ -26,6 +26,7 @@ t/field.html
 t/field.t
 t/find_link.html
 t/find_link.t
+t/find_image.t
 t/find_link-warnings.t
 t/form-parsing.t
 t/frames.html
