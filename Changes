@@ -1,5 +1,10 @@
 Revision history for Perl extension WWW::Mechanize
 
+NEXT
+        [FIXES]
+        * Fixed RT #9026: hang in t/local/back.t under Windows XP.
+          Thanks Andrew Savige.
+
 1.11_01 Mon Feb 14 00:12:48 CST 2005
         [THINGS THAT MAY BREAK YOUR CODE]
         * Removed deprecated _parse_html() method.
