@@ -1,10 +1,21 @@
 use warnings;
 use strict;
-use Test::More tests => 11;
+use Test::More tests => 14;
 
 BEGIN {
     use_ok( 'WWW::Mechanize' );
 }
+
+RES_ON_NEW: {
+    my $m = WWW::Mechanize->new;
+    isa_ok( $m, 'WWW::Mechanize' );
+
+    ok( !$m->success, "success() is false before any get" );
+
+    my $res = $m->res;
+    ok( !defined $res, "res() is undef" );
+}
+
 
 NO_AGENT: {
     my $m = WWW::Mechanize->new;
@@ -25,7 +36,7 @@ USER_AGENT: {
     is( $m->agent, $alias, "Aliases don't get translated in the constructor" );
 
     $m->agent_alias( $alias );
-    like( $m->agent, qr/^Mozilla.+compatible.+Windows/ ); 
+    like( $m->agent, qr/^Mozilla.+compatible.+Windows/, "Alias sets the agent" ); 
 
     $m->agent( "ratso/bongo v.43" );
     is( $m->agent, "ratso/bongo v.43", "Can still set the agent" );
