@@ -2,27 +2,26 @@ package WWW::Mechanize;
 
 =head1 NAME
 
-WWW::Mechanize - automate interaction with websites
+WWW::Mechanize - Handy web browsing in a Perl object
 
 =head1 VERSION
 
-Version 0.60
+Version 0.61
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.62 2003/10/06 23:02:27 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.63 2003/10/06 23:37:39 petdance Exp $
 
 =cut
 
-our $VERSION = "0.60";
+our $VERSION = "0.61";
 
 =head1 SYNOPSIS
 
-C<WWW::Mechanize>, or Mech for short, was designed to help you
-automate interaction with a website. It supports performing a
-sequence of page fetches including following links and submitting
-forms. Each fetched page is parsed and its links and forms are
-extracted. A link or a form can be selected, form fields can be
-filled and the next page can be fetched. Mech also stores a history
-of the URLs you've visited, which can be queried and revisited.
+C<WWW::Mechanize>, or Mech for short, helps you automate interaction with
+a website. It supports performing a sequence of page fetches including
+following links and submitting forms. Each fetched page is parsed and
+its links and forms are extracted. A link or a form can be selected, form
+fields can be filled and the next page can be fetched. Mech also stores
+a history of the URLs you've visited, which can be queried and revisited.
 
     use WWW::Mechanize;
     my $a = WWW::Mechanize->new();
@@ -48,9 +47,9 @@ of the URLs you've visited, which can be queried and revisited.
     );
 
 
-Mech is well suited for use in testing web applications.  If you
-use one of the Test::* modules, you can check the fetched content
-and use that as input to a test call.
+Mech is well suited for use in testing web applications.  If you use
+one of the Test::*, like L<Test::HTML::Lint> modules, you can check the
+fetched content and use that as input to a test call.
 
     use Test::More;
     like( $a->content(), qr/$expected/, "Got expected content" );
@@ -93,6 +92,13 @@ link if your bug isn't already reported.
 =back
 
 =head1 OTHER DOCUMENTATION
+
+=head2 I<Spidering Hacks>
+
+I<Spidering Hacks> has three hacks by Andy Lester that discuss Mechanize.
+See L<http://www.oreilly.com/catalog/spiderhks/> for more info.
+
+=head2 Online resources
 
 =over 4
 
@@ -470,7 +476,7 @@ sub set_fields {
     } # while
 } # set_fields()
 
-=head2 C<< $a->tick($name, $value [, $set] ) >>
+=head2 C<< $a->tick( $name, $value [, $set] ) >>
 
 'Ticks' the first checkbox that has both the name and value assoicated
 with it on the current form.  Dies if there is no named check box for
@@ -1249,67 +1255,6 @@ sub _carp {
     }
     return;
 }
-
-
-=head1 FAQ
-
-=head2 Why don't https:// URLs work?
-
-You probably don't have L<IO::Socket::SSL> installed.
-
-=head2 I tried to [such-and-such] and I got this weird error.
-
-Are you checking your errors?
-
-Are you sure?
-
-Are you checking that your action succeeded after every action?
-
-Are you sure?
-
-For example, if you try this:
-
-    $mech->get( "http://my.site.com" );
-    $mech->follow_link( "foo" );
-
-and the C<get> call fails for some reason, then the Mech internals
-will be unusable for the C<follow_link> and you'll get a weird
-error.  You B<must>, after every action that GETs or POSTs a page,
-check that Mech succeeded, or all bets are off.
-
-    $mech->get( "http://my.site.com" );
-    die "Can't even get the home page: ", $mech->response->status_line
-	unless $mech->success;
-
-    $mech->follow_link( "foo" );
-    die "Foo link failed: ", $mech->response->status_line
-	unless $mech->success;
-
-I guarantee you this will be the very first thing that I ask if
-you mail me about a problem with Mech.
-
-=head2 Can I do [such-and-such] with WWW::Mechanize?
-
-If it's possible with LWP::UserAgent, then yes.  WWW::Mechanize is
-a subclass of L<LWP::UserAgent>, so all the wondrous magic of that
-class is inherited.
-
-=head2 How do I use WWW::Mechanize through a proxy server?
-
-See the docs in LWP::UserAgent on how to use the proxy.  Short
-version:
-
-    $a->proxy(['http', 'ftp'], 'http://proxy.example.com:8000/');
-
-or get the specs from the environment:
-
-    $a->env_proxy();
-
-    # Environment set like so:
-    gopher_proxy=http://proxy.my.place/
-    wais_proxy=http://proxy.my.place/
-    no_proxy="localhost,my.domain"
-    export gopher_proxy wais_proxy no_proxy
 
 =head1 See Also
 

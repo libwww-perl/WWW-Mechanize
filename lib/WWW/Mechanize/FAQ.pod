@@ -1,0 +1,68 @@
+=head1 NAME
+
+WWW::Mechanize::FAQ - Frequently Asked Questions about WWW::Mechanize
+
+=head1 How do I do X?
+
+=head2 Can I do [such-and-such] with WWW::Mechanize?
+
+If it's possible with LWP::UserAgent, then yes.  WWW::Mechanize is
+a subclass of L<LWP::UserAgent>, so all the wondrous magic of that
+class is inherited.
+
+=head2 How do I use WWW::Mechanize through a proxy server?
+
+See the docs in LWP::UserAgent on how to use the proxy.  Short
+version:
+
+    $a->proxy(['http', 'ftp'], 'http://proxy.example.com:8000/');
+
+or get the specs from the environment:
+
+    $a->env_proxy();
+
+    # Environment set like so:
+    gopher_proxy=http://proxy.my.place/
+    wais_proxy=http://proxy.my.place/
+    no_proxy="localhost,my.domain"
+    export gopher_proxy wais_proxy no_proxy
+
+=head1 Why doesn't this work?
+
+=head2 Why don't https:// URLs work?
+
+You probably don't have L<IO::Socket::SSL> installed.
+
+=head2 I tried to [such-and-such] and I got this weird error.
+
+Are you checking your errors?
+
+Are you sure?
+
+Are you checking that your action succeeded after every action?
+
+Are you sure?
+
+For example, if you try this:
+
+    $mech->get( "http://my.site.com" );
+    $mech->follow_link( "foo" );
+
+and the C<get> call fails for some reason, then the Mech internals
+will be unusable for the C<follow_link> and you'll get a weird
+error.  You B<must>, after every action that GETs or POSTs a page,
+check that Mech succeeded, or all bets are off.
+
+    $mech->get( "http://my.site.com" );
+    die "Can't even get the home page: ", $mech->response->status_line
+	unless $mech->success;
+
+    $mech->follow_link( "foo" );
+    die "Foo link failed: ", $mech->response->status_line
+	unless $mech->success;
+
+=head1 Author
+
+Copyright 2003 Andy Lester C<< <andy@petdance.com> >>
+
+=cut

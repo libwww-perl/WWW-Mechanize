@@ -1,7 +1,10 @@
-# $Id: Changes,v 1.62 2003/10/06 22:43:12 petdance Exp $
+# $Id: Changes,v 1.63 2003/10/06 23:37:39 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
-0.61
+0.61	October 6, 2003  6:30pm
+	No new functionality here.  It's mostly to get the new tests
+	into the pipeline so the CPAN testers can run 'em.
+	
 	[FIXES]
 	* Missing dependency on File::Temp.  Thanks, Ask.
 
@@ -10,6 +13,9 @@ Revision history for Perl extension WWW::Mechanize
 	  file, since I spent so long getting it down to a simple case.
 	* Internal code uses accessors instead of direct hash entries.
 	  Prepare for deprecation of existing hash entries!
+
+	[DOCUMENTATION]
+	* The FAQ is now its own document at WWW::Mechanize::FAQ.
 
 
 0.60	September 22, 2003  10:00pm
