@@ -1,10 +1,13 @@
-# $Id: Changes,v 1.82 2003/11/25 23:49:27 petdance Exp $
+# $Id: Changes,v 1.83 2003/11/26 00:17:43 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 0.67
 	[FIXES]
 	* Fixed redirect_ok(), which had its API changed out from under
 	  it in LWP 5.76.
+
+	[DOCUMENTATION]
+	* Patches from Mark Stosberg.
 
 
 0.66	Thu Nov 13 14:35:31 CST 2003

@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.66
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.83 2003/11/25 23:49:27 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.84 2003/11/26 00:17:43 petdance Exp $
 
 =cut
 
@@ -793,10 +793,9 @@ C<form()> except that C<L<form()>> already exists and sets the current_form.
 
 =head2 C<< $a->links() >>
 
-When called in a list context, returns a list of the links found in
-the last fetched page. In a scalar context it returns a reference to
-an array with those links. The links returned are all references to
-two element arrays which contain the URL and the text for each link.
+When called in a list context, returns a list of the links found in the
+last fetched page.  In a scalar context it returns a reference to an array
+with those links.  Each link is a L<WWW::Mechanize::Link> object.
 
 =head2 C<< $a->is_html() >>
 
