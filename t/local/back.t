@@ -28,7 +28,7 @@ isa_ok( $mech, "WWW::Mechanize" );
 ok(defined($mech->cookie_jar()),
    'this $mech starts with a cookie jar');
 
-isa_ok((my $server = LocalServer->spawn(html => <<'HTML')), "LocalServer");
+my $html = <<'HTML';
 <html>
 <head><title>%s</title></head>
 <body>Whatever.
@@ -43,6 +43,9 @@ isa_ok((my $server = LocalServer->spawn(html => <<'HTML')), "LocalServer");
 </body>
 </html>
 HTML
+
+my $server = LocalServer->spawn( html => $html );
+isa_ok( $server, "LocalServer" );
 
 $mech->get($server->url);
 ok( $mech->success, 'Fetched OK' );
