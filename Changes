@@ -1,4 +1,4 @@
-# $Id: Changes,v 1.132 2004/08/17 03:36:39 petdance Exp $
+# $Id: Changes,v 1.133 2004/08/17 03:51:53 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
         [FIXES]
@@ -7,6 +7,7 @@ Revision history for Perl extension WWW::Mechanize
         [DOCUMENTATION]
         * Added Ian Langworth's listmod and John Beppu's photobucket
           uploader programs to WWW::Mechanize::Examples.
+        * Minor doc tweak for find_link()
 
 
 1.03_01 Thu May 27 15:13:10 CDT 2004
