@@ -1,7 +1,9 @@
-# $Id: Changes,v 1.150 2004/10/20 01:54:28 markjugg Exp $
+# $Id: Changes,v 1.151 2004/10/22 01:23:55 markjugg Exp $
 Revision history for Perl extension WWW::Mechanize
 
 XXX
+	[ENHANCEMENTS]
+	* click_button() has a new input option for HTML::Form::SubmitInput objects (DOMQ)
 
 	[FIXES]
 	* Upload <input type="file" ... > does not use the default
@@ -9,6 +11,8 @@ XXX
 
 	[INTERNALS]
 	* Improve taint-safeness on Perl 5.6.1 (RT#8042, patch by Dominique Quatravaux)
+
+	* Added tests for click_button() (RT#8061, by Dominique Quatravaux)
 
 	* Require URI 1.25, fixing bug which exposed itself in WWW::Mechanize (RT#3048)
 

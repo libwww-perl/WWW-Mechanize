@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 1.05_02
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.148 2004/10/20 01:54:28 markjugg Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.149 2004/10/22 01:23:57 markjugg Exp $
 
 =cut
 
@@ -530,11 +530,11 @@ sub select {
 
 =head2 $mech->set_fields( $name => $value ... )
 
-This method sets multiple fields of a form. It takes a list of field
-name and value pairs. If there is more than one field with the same
-name, the first one found is set. If you want to select which of the
-duplicate field to set, use a value which is an anonymous array which
-has the field value and its number as the 2 elements.
+This method sets multiple fields of the current form. It takes a list
+of field name and value pairs. If there is more than one field with
+the same name, the first one found is set. If you want to select which
+of the duplicate field to set, use a value which is an anonymous array
+which has the field value and its number as the 2 elements.
 
         # set the second foo field
         $mech->set_fields( $name => [ 'foo', 2 ] ) ;
@@ -564,11 +564,11 @@ sub set_fields {
 
 =head2 $mech->set_visible( @criteria )
 
-This method sets fields of a form without having to know their
-names.  So if you have a login screen that wants a username and
-password, you do not have to fetch the form and inspect the source
-(or use the F<mech-dump> utility, installed with WWW::Mechanize)
-to see what the field names are; you can just say
+This method sets fields of the current form without having to know
+their names.  So if you have a login screen that wants a username and
+password, you do not have to fetch the form and inspect the source (or
+use the F<mech-dump> utility, installed with WWW::Mechanize) to see
+what the field names are; you can just say
 
     $mech->set_visible( $username, $password ) ;
 
@@ -605,6 +605,7 @@ sub set_visible {
     my $form = $self->current_form;
     my @inputs = $form->inputs;
 
+	my $num_set = 0;
     for my $value ( @_ ) {
         if ( ref $value eq 'ARRAY' ) {
            my ( $type, $value ) = @$value;
@@ -612,6 +613,7 @@ sub set_visible {
                next if $input->type eq 'hidden';
                if ( $input->type eq $type ) {
                    $input->value( $value );
+				   $num_set++;
                    last;
                }
            } # while
@@ -619,10 +621,14 @@ sub set_visible {
            while ( my $input = shift @inputs ) {
                next if $input->type eq 'hidden';
                $input->value( $value );
+			   $num_set++;
+			   # Does this 'last' do anything useful? -mls
                last;
            } # while
        }
     } # for
+
+	return $num_set; 
 
 } # set_visible()
 
@@ -705,9 +711,9 @@ sub value {
 
 =head2 $mech->click( $button [, $x, $y] )
 
-Has the effect of clicking a button on a form.  The first argument
-is the name of the button to be clicked.  The second and third
-arguments (optional) allow you to specify the (x,y) coordinates
+Has the effect of clicking a button on the current form.  The first
+argument is the name of the button to be clicked.  The second and
+third arguments (optional) allow you to specify the (x,y) coordinates
 of the click.
 
 If there is only one button on the form, C<< $mech->click() >> with
@@ -724,27 +730,35 @@ sub click {
     return $self->request( $request );
 }
 
-=head2 $mech->click_button( ... ) 
+=head2 $mech->click_button( ... )
 
-Has the effect of clicking a button on a form by specifying its name,
-value, or index.  Its arguments are a list of key/value pairs.  Only
-one of name, number, or value must be specified.
-
-TODO: This function has no tests.
+Has the effect of clicking a button on the current form by specifying
+its name, value, or index.  Its arguments are a list of key/value
+pairs.  Only one of name, number, input or value must be specified in
+the keys.
 
 =over 4
 
 =item * name => name
 
-Clicks the button named I<name>.
+Clicks the button named I<name> in the current form.
 
 =item * number => n
 
-Clicks the I<n>th button in the form.
+Clicks the I<n>th button in the current form. Numbering starts at 1.
 
 =item * value => value
 
-Clicks the button with the value I<value>.
+Clicks the button with the value I<value> in the current form.
+
+=item * input => $inputobject
+
+Clicks on the button referenced by $inputobject, an instance of
+L<HTML::Form::SubmitInput> obtained e.g. from
+
+  $mech->current_form()->find_input(undef, "submit")
+
+$inputobject must belong to the current form.
 
 =item * x => x
 =item * y => y
@@ -761,8 +775,8 @@ sub click_button {
     my %args = @_;
 
     for ( keys %args ) {
-        if ( !/^(number|name|value|x|y)$/ ) {
-            $self->warn( qq{Unknown click_button_form parameter "$_"} );
+        if ( !/^(number|name|value|input|x|y)$/ ) {
+            $self->warn( qq{Unknown click_button parameter "$_"} );
         }
     }
 
@@ -774,6 +788,8 @@ sub click_button {
     } elsif ( $args{number} ) {
         my $input = $form->find_input( undef, 'submit', $args{number} );
         $request = $input->click( $form, $args{x}, $args{y} );
+    } elsif ( $args{input} ) {
+        $request = $args{input}->click( $form, $args{x}, $args{y} );
     } elsif ( $args{value} ) {
         my $i = 1;
         while ( my $input = $form->find_input(undef, 'submit', $i) ) {
