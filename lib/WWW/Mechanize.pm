@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 1.05_02
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.154 2004/10/31 00:06:28 markjugg Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.155 2004/10/31 00:58:11 markjugg Exp $
 
 =cut
 
@@ -1243,30 +1243,10 @@ sub find_link {
 
     my @links = $self->links or return;
 
-    my @conditions;
-    push @conditions, q/ $_[0]->[0] eq $parms{url} /                                if defined $parms{url};
-    push @conditions, q/ $_[0]->[0] =~ $parms{url_regex} /                          if defined $parms{url_regex};
-    push @conditions, q/ $_[0]->url_abs eq $parms{url_abs} /                        if defined $parms{url_abs};
-    push @conditions, q/ $_[0]->url_abs =~ $parms{url_abs_regex} /                  if defined $parms{url_abs_regex};
-    push @conditions, q/ defined($_[0]->[1]) and $_[0]->[1] eq $parms{text} /       if defined $parms{text};
-    push @conditions, q/ defined($_[0]->[1]) and $_[0]->[1] =~ $parms{text_regex} / if defined $parms{text_regex};
-    push @conditions, q/ defined($_[0]->[2]) and $_[0]->[2] eq $parms{name} /       if defined $parms{name};
-    push @conditions, q/ defined($_[0]->[2]) and $_[0]->[2] =~ $parms{name_regex} / if defined $parms{name_regex};
-    push @conditions, q/ $_[0]->[3] and $_[0]->[3] eq $parms{tag} /                 if defined $parms{tag};
-    push @conditions, q/ $_[0]->[3] and $_[0]->[3] =~ $parms{tag_regex} /           if defined $parms{tag_regex};
-
-    my $matchfunc;
-    if ( @conditions ) {
-        local $" = ") && (";
-        $matchfunc = eval "sub { return 1 if (@conditions); return; }";
-    } else {
-        $matchfunc = sub{1};
-    }
-
     my $nmatches = 0;
     my @matches;
     for my $link ( @links ) {
-        if ( $matchfunc->($link) ) {
+        if ( _match_any_parms($link,\%parms) ) {
             if ( $wantall ) {
                 push( @matches, $link );
             } else {
@@ -1283,6 +1263,31 @@ sub find_link {
 
     return;
 } # find_link
+
+# Used by find_links to check for matches
+# The logic is such that ALL parm criteria that are given must match
+sub _match_any_parms {
+	my ($link,$p_ref) = @_;
+
+	# No conditions, Anything matches
+	return 1 unless keys %$p_ref;
+
+	return undef if (defined $p_ref->{url}          and not ($link->[0] eq $p_ref->{url} )                                );
+    return undef if (defined $p_ref->{url_regex}    and not ($link->[0] =~ $p_ref->{url_regex} )                          );
+    return undef if (defined $p_ref->{url_abs}      and not ($link->url_abs eq $p_ref->{url_abs} )                        );
+    return undef if (defined $p_ref->{url_abs_regex}and not ($link->url_abs =~ $p_ref->{url_abs_regex} )                  );
+    return undef if (defined $p_ref->{text}         and not (defined($link->[1]) and $link->[1] eq $p_ref->{text} )       );
+    return undef if (defined $p_ref->{text_regex}   and not (defined($link->[1]) and $link->[1] =~ $p_ref->{text_regex} ) );
+    return undef if (defined $p_ref->{name}         and not (defined($link->[2]) and $link->[2] eq $p_ref->{name} )       );
+    return undef if (defined $p_ref->{name_regex}   and not (defined($link->[2]) and $link->[2] =~ $p_ref->{name_regex} ) );
+    return undef if (defined $p_ref->{tag}          and not ($link->[3] and $link->[3] eq $p_ref->{tag} )                 );
+    return undef if (defined $p_ref->{tag_regex}    and not ($link->[3] and $link->[3] =~ $p_ref->{tag_regex} )           );
+
+	# Success: everything that was defined passed. 
+	return 1;
+
+}
+
 
 =head2 $mech->find_all_links( ... )
 
