@@ -1,6 +1,8 @@
 Revision history for Perl extension WWW::Mechanize
 
-Next
+NEXT
+
+1.10    Tue Jan 31 11:30pm-ish
         [FIXES]
         * Fixed bug where images inside of links would not be found.
 
