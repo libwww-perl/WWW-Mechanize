@@ -28,7 +28,7 @@ t/live/click.t
 t/live/follow.t
 t/live/follow_link.t
 t/live/form.t
-t/live/get.t:
+t/live/get.t
 t/live/reload.t
 t/live/submit.t
 t/mech-forms.t
