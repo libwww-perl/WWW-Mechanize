@@ -4,6 +4,7 @@ META.yml
 Makefile.PL
 etc/www-mechanize-logo.png
 lib/WWW/Mechanize.pm
+lib/WWW/Mechanize/Cookbook.pod
 lib/WWW/Mechanize/Examples.pod
 lib/WWW/Mechanize/FAQ.pod
 lib/WWW/Mechanize/Link.pm
