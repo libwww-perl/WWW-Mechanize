@@ -55,7 +55,7 @@ Find all links that point to a JPEG, GIF or PNG.
 Find all links that have the word "download" in them.
 
     my @links = $mech->find_all_links(
-        tag = "a", text_regex => qr/\bdownload\b/i );
+        tag => "a", text_regex => qr/\bdownload\b/i );
 
 =head1 Author
 
