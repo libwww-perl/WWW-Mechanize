@@ -1939,7 +1939,7 @@ sub _image_from_token {
 
     if ( $tag eq "input" ) {
         my $type = $attrs->{type} or return;
-        return unless $type eq "submit";
+        return unless $type eq "image";
     }
 
     require WWW::Mechanize::Image;
@@ -2294,6 +2294,7 @@ Rob Casey,
 Leland Johnson,
 Joshua Gatcomb,
 Julien Beasley,
+Abe Timmerman,
 and the late great Iain Truskett.
 
 =head1 COPYRIGHT

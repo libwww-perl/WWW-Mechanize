@@ -4,6 +4,10 @@ NEXT
         [THINGS THAT MAY BREAK YOUR CODE]
         * Removed deprecated _parse_html() method.
 
+        [FIXES]
+        * Was incorrectly looking for INPUT tags TYPE="SUBMIT" as images.
+          Thanks to Abe Timmerman.
+
         [ENHANCEMENTS]
         * Calling $mech->set_fields() with no current form now dies.
           Thanks to Julien Beasley.
