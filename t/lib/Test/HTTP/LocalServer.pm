@@ -73,12 +73,12 @@ sub spawn {
   my $url = <$server>;
   chomp $url;
   die "Couldn't find fake server url" unless $url;
-  
+
   $self->{_fh} = $server;
 
-  my $url = URI::URL->new( $url );
-  $url->host( "localhost" );
-  $self->{_server_url} = $url;
+  my $lhurl = URI::URL->new( $url );
+  $lhurl->host( "localhost" );
+  $self->{_server_url} = $lhurl;
 
   $self;
 };
@@ -91,7 +91,7 @@ if you need to compare results from two runs.
 
 =cut
 
-sub port { 
+sub port {
   carp __PACKAGE__ . "::port called without a server" unless $_[0]->{_server_url};
   $_[0]->{_server_url}->port
 };
@@ -106,7 +106,7 @@ C<< $server->get_output >>
 
 =cut
 
-sub url { 
+sub url {
   my $url = $_[0]->{_server_url}->abs;
 
   return $url->as_string;
@@ -119,8 +119,8 @@ url.
 
 =cut
 
-sub stop { 
-  get( $_[0]->{_server_url} . "quit_server" ); 
+sub stop {
+  get( $_[0]->{_server_url} . "quit_server" );
   undef $_[0]->{_server_url}
 };
 
@@ -143,7 +143,7 @@ sub get_output {
   join "", <LOG>;
 };
 
-sub DESTROY { 
+sub DESTROY {
   $_[0]->stop if $_[0]->{_server_url};
   for my $file (@{$_[0]->{delete}}) {
     unlink $file or warn "Couldn't remove tempfile $file : $!\n";
