@@ -277,7 +277,7 @@ sub agent_alias {
     }
 }
 
-=head2 C<known_agent_aliases()>
+=head2 known_agent_aliases()
 
 Returns a list of all the agent aliases that Mech knows about.
 
@@ -354,7 +354,21 @@ sub back {
     $self->_pop_page_stack;
 }
 
-=head1 LINK-HANDLING METHODS
+=head1 LINK METHODS
+
+=head2 $mech->links
+
+Lists all the links on the current page.  Each link is a
+WWW::Mechanize::Link object. In list context, returns a list of all
+links.  In scalar context, returns an array reference of all links.
+
+=cut
+
+sub links {
+    my $self = shift ;
+    return @{$self->{links}} if wantarray;
+    return $self->{links};
+}
 
 =head2 $mech->follow_link(...)
 
@@ -608,8 +622,47 @@ sub find_all_links {
 }
 
 
+=head1 IMAGE METHODS
 
-=head1 FORM FIELD FILLING METHODS
+=head2 $mech->images
+
+Lists all the images on the current page.  Each image is a
+WWW::Mechanize::Image object. In list context, returns a list of all
+images.  In scalar context, returns an array reference of all images.
+
+=cut
+
+sub images {
+    my $self = shift ;
+    return @{$self->{images}} if wantarray;
+    return $self->{images};
+}
+
+=head2 $mech->find_all_images( ... )
+
+=cut
+
+sub find_all_images {
+    my $self = shift;
+    return $self->find_image( @_, n=>'all' );
+}
+
+=head1 FORM METHODS
+
+=head2 $mech->forms
+
+Lists all the forms on the current page.  Each form is an HTML::Form
+object.  In list context, returns a list of all forms.  In scalar
+context, returns an array reference of all forms.
+
+=cut
+
+sub forms {
+    my $self = shift ;
+    return @{$self->{forms}} if wantarray;
+    return $self->{forms};
+}
+
 
 =head2 $mech->form_number($number)
 
@@ -922,7 +975,7 @@ sub untick {
     shift->tick(shift,shift,undef);
 }
 
-=head2 C<< $mech->value( $name, $number ) >>
+=head2 $mech->value( $name, $number )
 
 Given the name of a field, return its value. This applies to the current
 form (as set by the C<form()> method or defaulting to the first form on
@@ -949,8 +1002,6 @@ sub value {
         return $form->value( $name );
     }
 } # value
-
-=head1 FORM SUBMISSION METHODS
 
 =head2 $mech->click( $button [, $x, $y] )
 
@@ -1209,19 +1260,6 @@ sub ct {            my $self = shift; return $self->{ct}; }
 sub base {          my $self = shift; return $self->{base}; }
 sub current_form {  my $self = shift; return $self->{form}; }
 sub is_html {       my $self = shift; return defined $self->{ct} && ($self->{ct} eq "text/html"); }
-
-sub links {
-    my $self = shift ;
-    return @{$self->{links}} if wantarray;
-    return $self->{links};
-}
-
-sub forms {
-    my $self = shift ;
-    return @{$self->{forms}} if wantarray;
-    return $self->{forms};
-}
-
 
 =head2 $mech->title()
 
