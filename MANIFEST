@@ -32,6 +32,8 @@ t/frames.html
 t/frames.t
 t/google.html
 t/image.t
+t/image-parse.html
+t/image-parse.t
 t/link-base.t
 t/link.t
 t/mech-dump.t
