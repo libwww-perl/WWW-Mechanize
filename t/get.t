@@ -1,6 +1,6 @@
 use warnings;
 use strict;
-use Test::More tests => 35;
+use Test::More tests => 36;
 
 use lib 't/lib';
 use Test::HTTP::LocalServer;
@@ -17,6 +17,7 @@ isa_ok( $agent, 'WWW::Mechanize', 'Created object' );
 
 my $response = $agent->get($server->url);
 isa_ok( $response, 'HTTP::Response' );
+isa_ok( $agent->response, 'HTTP::Response' );
 ok( $response->is_success );
 ok( $agent->success, "Get webpage" );
 is( ref $agent->uri, "", "URI should be a string, not an object" );
