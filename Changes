@@ -1,7 +1,7 @@
 Revision history for Perl extension WWW::Mechanize
 
 NEXT
-        [INTERNALS]
+        [THINGS THAT MAY BREAK YOUR CODE]
         * Removed deprecated _parse_html() method.
 
 1.10    Tue Jan 31 11:30pm-ish
