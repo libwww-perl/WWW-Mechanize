@@ -679,36 +679,7 @@ sub find_link {
 
     my $wantall = ( $parms{n} eq "all" );
 
-    for my $key ( keys %parms ) {
-        my $val = $parms{$key};
-        if ( $key !~ /^(n|(text|url|url_abs|name|tag)(_regex)?)$/ ) {
-            $self->warn( qq{Unknown link-finding parameter "$key"} );
-            delete $parms{$key};
-            next;
-        }
-
-        my $key_regex = ( $key =~ /_regex$/ );
-        my $val_regex = ( ref($val) eq "Regexp" );
-
-        if ( $key_regex ) {
-            if ( !$val_regex ) {
-                $self->warn( qq{$val passed as $key is not a regex} );
-                delete $parms{$key};
-                next;
-            }
-        } else {
-            if ( $val_regex ) {
-                $self->warn( qq{$val passed as '$key' is a regex} );
-                delete $parms{$key};
-                next;
-            }
-            if ( $val =~ /^\s|\s$/ ) {
-                $self->warn( qq{'$val' is space-padded and cannot succeed} );
-                delete $parms{$key};
-                next;
-            }
-        }
-    } # for keys %parms
+    $self->_clean_keys( \%parms );
 
     my @links = $self->links or return;
 
@@ -732,6 +703,44 @@ sub find_link {
 
     return;
 } # find_link
+
+# Cleans the %parms parameter for the find_link and find_image methods.
+
+sub _clean_keys {
+    my $self = shift;
+    my $parms = shift;
+
+    for my $key ( keys %$parms ) {
+        my $val = $parms->{$key};
+        if ( $key !~ /^(n|(text|url|url_abs|name|tag)(_regex)?)$/ ) {
+            $self->warn( qq{Unknown link-finding parameter "$key"} );
+            delete $parms->{$key};
+            next;
+        }
+
+        my $key_regex = ( $key =~ /_regex$/ );
+        my $val_regex = ( ref($val) eq "Regexp" );
+
+        if ( $key_regex ) {
+            if ( !$val_regex ) {
+                $self->warn( qq{$val passed as $key is not a regex} );
+                delete $parms->{$key};
+                next;
+            }
+        } else {
+            if ( $val_regex ) {
+                $self->warn( qq{$val passed as '$key' is a regex} );
+                delete $parms->{$key};
+                next;
+            }
+            if ( $val =~ /^\s|\s$/ ) {
+                $self->warn( qq{'$val' is space-padded and cannot succeed} );
+                delete $parms->{$key};
+                next;
+            }
+        }
+    } # for keys %parms
+} # _clean_keys()
 
 # Used by find_links to check for matches
 # The logic is such that ALL parm criteria that are given must match
