@@ -1,6 +1,10 @@
-# $Id: Changes,v 1.98 2003/12/22 20:40:28 petdance Exp $
+# $Id: Changes,v 1.99 2004/01/02 03:59:19 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
+0.71_03
+	[INTERNALS]
+	* Made the globbing in Makefile.PL a little less command-line
+	  intensive.  Also fixed the missing files in MANIFEST.
 
 0.71_02 Mon Dec 22 14:29:13 CST 2003
 	[THINGS THAT MAY BREAK YOUR CODE]

@@ -29,7 +29,7 @@ EOT
     }
 } # failed connect
 
-my @tests = glob File::Spec->catfile( 't', '*.t' );
+my @tests = File::Spec->catfile( 't', '*.t' );
 push( @tests, glob File::Spec->catfile( 't', 'live', '*.t' ) ) unless $skiplive;
 
 my $parms = {
