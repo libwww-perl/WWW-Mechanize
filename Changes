@@ -1,7 +1,7 @@
-# $Id: Changes,v 1.39 2003/07/22 17:06:27 petdance Exp $
+# $Id: Changes,v 1.40 2003/07/22 17:10:41 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
-0.55
+0.55	July 22, 2003  12:10pm
 	[ENHANCEMENTS]
 	* Added WWW::Mechanize::Link object to encapsulate what used to
 	  be an array reference of stuff from find_link().  This replaces
