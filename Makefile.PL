@@ -29,7 +29,7 @@ EOT
 } # failed connect
 
 my @tests = File::Spec->catfile( 't', '*.t' );
-push( @tests, File::Spec->catfile( 't', 'live', '*.t' ) unless $skiplive;
+push( @tests, File::Spec->catfile( 't', 'live', '*.t' ) ) unless $skiplive;
 
 my $parms = {
     'NAME'	    => 'WWW::Mechanize',
@@ -51,7 +51,8 @@ my $parms = {
                         'URI::URL'          => 0,
                         'URI::file'         => 0,
 			},
-    'test' => { TESTS => join( " ", @tests ) },
+    test	    => { TESTS => join( " ", @tests ) },
+    clean	    => { FILES => FLAG_SKIPMECHDUMP },
 };
 
 if ( prompt( "Do you want to install the mech-dump utility?", "y" ) =~ /^y/i ) {
