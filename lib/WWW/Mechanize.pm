@@ -6,13 +6,13 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 =head1 VERSION
 
-Version 1.04
+Version 1.05_01
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.140 2004/09/29 19:38:55 markjugg Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.141 2004/10/01 01:56:35 petdance Exp $
 
 =cut
 
-our $VERSION = "1.04";
+our $VERSION = "1.05_01";
 
 =head1 SYNOPSIS
 
@@ -105,7 +105,7 @@ use URI::URL;
 
 our @ISA = qw( LWP::UserAgent );
 
-=head1 Constructor and startup
+=head1 CONSTRUCTOR AND STARTUP
 
 =head2 new()
 
@@ -289,7 +289,7 @@ sub known_agent_aliases {
     return sort keys %known_agents;
 }
 
-=head1 Page-fetching methods
+=head1 PAGE-FETCHING METHODS
 
 =head2 $mech->get( $url )
 
@@ -411,7 +411,7 @@ sub follow_link {
     return $response;
 }
 
-=head1 Form field filling methods
+=head1 FORM FIELD FILLING METHODS
 
 =head2 $mech->form_number($number)
 
@@ -593,7 +593,7 @@ sub set_visible {
     my $form = $self->current_form;
     my @inputs = $form->inputs;
 
-    while (my $value = shift) {
+    for my $value ( @_ ) {
         if ( ref $value eq 'ARRAY' ) {
            my ( $type, $value ) = @$value;
            while ( my $input = shift @inputs ) {
@@ -610,7 +610,7 @@ sub set_visible {
                last;
            } # while
        }
-    } # while
+    } # for
 
 } # set_visible()
 
@@ -661,7 +661,7 @@ sub untick {
     shift->tick(shift,shift,undef);
 }
 
-=head1 Form submission methods
+=head1 FORM SUBMISSION METHODS
 
 =head2 $mech->click( $button [, $x, $y] )
 
@@ -870,7 +870,7 @@ sub submit_form {
     return $response;
 }
 
-=head1 Status methods
+=head1 STATUS METHODS
 
 =head2 $mech->success()
 
@@ -979,7 +979,7 @@ sub title {
     return $p->header('Title');
 }
 
-=head1 Content-handling methods
+=head1 CONTENT-HANDLING METHODS
 
 =head2 $mech->find_link()
 
@@ -1180,7 +1180,7 @@ sub find_all_links {
 }
 
 
-=head1 Miscellaneous methods
+=head1 MISCELLANEOUS METHODS
 
 =head2 $mech->add_header( name => $value [, name => $value... ] )
 
@@ -1277,7 +1277,7 @@ sub stack_depth {
     return $self->{stack_depth};
 }
 
-=head1 Overridden L<LWP::UserAgent> methods
+=head1 OVERRIDDEN L<LWP::UserAgent> METHODS
 
 =head2 $mech->redirect_ok()
 
@@ -1437,7 +1437,7 @@ sub _make_request {
     $self->SUPER::request(@_);
 }
 
-=head1 Deprecated methods
+=head1 DEPRECATED METHODS
 
 This methods have been replaced by more flexible and precise methods.
 Please use them instead.
@@ -1504,7 +1504,7 @@ sub form {
     return $arg =~ /^\d+$/ ? $self->form_number($arg) : $self->form_name($arg);
 }
 
-=head1 Internal-only methods
+=head1 INTERNAL-ONLY METHODS
 
 These methods are only used internally.  You probably don't need to
 know about them.
@@ -1811,10 +1811,9 @@ Here are modules that use or subclass Mechanize.  Let me know of any others:
 
 =item * L<WWW::Yahoo::Groups>
 
-
 =back
 
-=head1 Requests & Bugs
+=head1 REQUESTS & BUGS
 
 Please report any requests, suggestions or (gasp!) bugs via the
 excellent RT bug-tracking system at http://rt.cpan.org/, or email to
@@ -1824,7 +1823,7 @@ track things.
 L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=WWW-Mechanize> is the RT queue
 for Mechanize.  Please check to see if your bug has already been reported.
 
-=head1 Author
+=head1 AUTHOR
 
 Copyright 2004 Andy Lester <andy@petdance.com>
 

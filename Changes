@@ -1,23 +1,27 @@
-# $Id: Changes,v 1.142 2004/09/30 03:30:10 markjugg Exp $
+# $Id: Changes,v 1.143 2004/10/01 01:56:34 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 1.05_01 XXX
-		[ENHANCEMENTS]
-		* t/mech-dump.t is now more portable (RT #7690)
+        [FIXES]
+        * set_visible() doesn't stop setting values when it finds a zero.
 
-		* WWW::Mechanize::Link has a new, easier to remember constructor
-		  interface. The old one is still supported. Support for including  
-		  an 'alt' attribute was added, which is useful for <area> links.
-		  (RT #3317). Thanks to Mark Stosberg.
+        [ENHANCEMENTS]
+        * WWW::Mechanize::Link has a new, easier to remember constructor
+          interface. The old one is still supported. Support for including
+          an 'alt' attribute was added, which is useful for <area> links.
+          (RT #3317). Thanks to Mark Stosberg.
 
-		* When links are extracted from <area> tags, the ALT attribute will
-		  be captured become part of the WWW::Mechanize::Link object.
-		  (RT #3317). Patch by Mark Stosberg. 
+        * When links are extracted from <area> tags, the ALT attribute will
+          be captured become part of the WWW::Mechanize::Link object.
+          (RT #3317). Patch by Mark Stosberg. 
 
-		* t/local/follow.t has new tests to confirm that 'follow*' functions
-		  work with characters like o-umlaut, even when the o-umlaut is
-		  encoded in the HTML, but not in the call to follow(). (RT #2416)
-		  By Mark Stosberg. 
+        [INTERNALS]
+        * t/mech-dump.t is now more portable (RT #7690)
+
+        * t/local/follow.t has new tests to confirm that 'follow*' functions
+          work with characters like o-umlaut, even when the o-umlaut is
+          encoded in the HTML, but not in the call to follow(). (RT #2416)
+          By Mark Stosberg. 
 
 1.04    Wed Sep 15 23:27:53 CDT 2004
 
