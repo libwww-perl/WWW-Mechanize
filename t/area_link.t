@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-use Test::More tests => 6;
+use Test::More tests => 5;
 use URI::file;
 
 BEGIN {
@@ -12,9 +12,7 @@ BEGIN {
 my $t = WWW::Mechanize->new( cookie_jar => undef );
 isa_ok( $t, 'WWW::Mechanize' );
 
-my $uri = URI::file->new_abs( "t/area_link.html" )->as_string;
-is( ref $uri, "", "We don't want a ref here" );
-
+my $uri = URI::file->new_abs( "t/area_link.html" );
 $t->get( $uri );
 ok( $t->success, "Fetched $uri" ) or die "Can't get test page";
 
