@@ -41,6 +41,38 @@ memory issues on large files.
     $mech->get( "http://www.cpan.org/src/stable.tar.gz",
                 ":content_file" => "stable.tar.gz" );
 
+=head2 Fetch a page with credentials
+
+Mech's C<credentials()> method comes straight from L<LWP::UserAgent>, since
+WWW::Mechanize is a subclass. It takes four arguments: the base, realm,
+user, and password.
+
+    my $url= 'http://10.11.12.13/password.html';
+    my $mech = WWW::Mechanize->new( autocheck => 1 );
+    $mech->credentials(
+        '10.11.12.13:80',
+        'ABCDEF',
+        'admin' => 'password'
+    );
+    $mech->get( $url );
+    print $mech->content();
+
+"Normal" browsers do this in two steps: they try to fetch the resource
+and get a 401 response that contains the challenge (which has the realm
+information). They ask the user for the name and password, which they
+then use to request the resource again. They save that information for
+future accesses to the same realm. The realm helps the user agent keep
+things straight on the user side, and the server doesn't really care
+about it otherwise. Sometimes you'll need to pull the auth method from
+the challenge, but usually it's just "Basic".
+
+If you want to do it in one step (so you don't get the 401 at all),
+you stick the "Authorization" header in the initial request. It
+makes no difference to the server that you don't know the realm
+name. With L<HTTP::Request> you just add the header to the request. In
+WWW::Mechanize, you can use the C<add_header()> method. The HTTP
+specification (RFC 2616) explains the format of the Authorization header.
+
 =head1 Links
 
 =head2 Find all image links

@@ -1,5 +1,9 @@
 Revision history for Perl extension WWW::Mechanize
 
+NEXT
+        [DOCUMENTATION]
+        * Added an example of using credentials() in the cookbook.
+
 1.12    Thu Feb 24 23:38:44 CST 2005
         [FIXES]
         * Fixed RT #9026: hang in t/local/back.t under Windows XP.
