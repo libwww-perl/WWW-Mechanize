@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.46
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.7 2003/06/20 16:08:55 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.8 2003/06/21 17:05:53 petdance Exp $
 
 =cut
 
@@ -950,6 +950,20 @@ sub _pop_page_stack {
 }
 
 
+=head2 C<< redirect_ok() >>
+
+Keep track of the last uri redirected to, and tell our parent that it's
+OK to do the redirect.
+
+=cut
+
+sub redirect_ok {
+    $_[0]->{redirected_uri} = $_[1]->uri;
+
+    return 1;
+};
+
+
 =head2 C<< $a->request( $request [, $arg [, $size]]) >>
 
 Overloaded version of C<request()> in L<LWP::UserAgent>.  Performs
@@ -962,6 +976,7 @@ Returns an L<HTTP::Response> object.
 
 =cut
 
+
 sub request {
     my $self = shift;
     my $request = shift;
@@ -971,6 +986,7 @@ sub request {
         $request->header( $key => $value );
     }
     $self->{req} = $request;
+    $self->{redirected_uri} = $request->uri;
     $self->{res} = $self->SUPER::request( $request, @_ );
 
     # These internal hash elements should be dropped in favor of
@@ -980,8 +996,8 @@ sub request {
     $self->{ct}      = $self->{res}->content_type || "";
     $self->{content} = $self->{res}->content;
     if ( $self->{res}->is_success ) {
+	$self->{uri} = $self->{redirected_uri};
 	$self->{last_uri} = $self->{uri};
-	$self->{uri} = $request->uri;
     }
 
     if ( $self->is_html ) {
