@@ -37,6 +37,17 @@ Use the mech-dump utility, optionaly installed with Mechanize.
       mode=all                        (option)  [*all|module|dist|author]
       <NONAME>=CPAN Search            (submit) 
 
+=head2 How do I get Mech to handle authentication?
+
+    my $agent = WWW::Mechanize->new();
+    my @args = (
+        Authorization => "Basic " .
+        MIME::Base64::encode( USER . ':' . PASS)
+    );
+
+    $agent->credentials( ADDRESS, REALM, USER, PASS );
+    $agent->get( URL, @args );
+
 =head2 How can I get WWW::Mechanize to execute this JavaScript?
 
 You can't.  JavaScript is entirely client-based, and WWW::Mechanize
