@@ -12,8 +12,7 @@ class is inherited.
 
 =head2 How do I use WWW::Mechanize through a proxy server?
 
-See the docs in LWP::UserAgent on how to use the proxy.  Short
-version:
+See the docs in L<LWP::UserAgent> on how to use the proxy.  Short version:
 
     $a->proxy(['http', 'ftp'], 'http://proxy.example.com:8000/');
 
@@ -27,11 +26,40 @@ or get the specs from the environment:
     no_proxy="localhost,my.domain"
     export gopher_proxy wais_proxy no_proxy
 
+=head2 How can I see what fields are on the forms?
+
+Use the mech-dump utility, optionaly installed with Mechanize.
+
+    $ mech-dump --forms http://search.cpan.org
+    Dumping forms
+    GET http://search.cpan.org/search
+      query=
+      mode=all                        (option)  [*all|module|dist|author]
+      <NONAME>=CPAN Search            (submit) 
+
 =head1 Why doesn't this work?
 
 =head2 Why don't https:// URLs work?
+ 
+You need either L<IO::Socket::SSL> or L<Crypt::SSLeay> installed.
+ 
+=head2 Why do I get "Input 'fieldname' is readonly"?
 
-You probably don't have L<IO::Socket::SSL> installed.
+You're trying to change the value of a hidden field and you have
+warnings on.
+
+First, make sure that you actually mean to change the field that you're
+changing, and that you don't have a typo.  Usually, hidden variables are
+set by the site you're working on for a reason.  If you change the value,
+you might be breaking some functionality by faking it out.
+
+If you really do want to change a hidden value, make the changes in a
+scope that has warnings turned off:
+ 
+    {
+    local $^W = 0;
+    $agent->field( name => $value );
+    }
 
 =head2 I tried to [such-and-such] and I got this weird error.
 

@@ -1,5 +1,10 @@
-# $Id: Changes,v 1.63 2003/10/06 23:37:39 petdance Exp $
+# $Id: Changes,v 1.64 2003/10/07 14:52:29 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
+
+0.62
+
+	[DOCUMENTATION]
+	* More FAQs.  Thanks to Gavin Estey.
 
 0.61	October 6, 2003  6:30pm
 	No new functionality here.  It's mostly to get the new tests
