@@ -55,6 +55,10 @@ URL from the link
 
 Base URL to which the links are relative.
 
+=head2 $link->name()
+
+Name for the field from the NAME attribute, if any.
+
 =head2 $link->tag()
 
 Tag name (either "a", "frame" or "iframe").
