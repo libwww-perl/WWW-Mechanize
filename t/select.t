@@ -6,6 +6,7 @@ use Test::More tests => 7;
 use URI::file;
 
 BEGIN {
+	delete @ENV{qw(PATH)};  # Placates taint-unsafe Cwd.pm in 5.6.1
     use_ok( 'WWW::Mechanize' );
 }
 

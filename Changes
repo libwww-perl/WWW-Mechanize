@@ -1,11 +1,14 @@
-# $Id: Changes,v 1.147 2004/10/19 00:18:39 markjugg Exp $
+# $Id: Changes,v 1.148 2004/10/19 00:30:54 markjugg Exp $
 Revision history for Perl extension WWW::Mechanize
 
 XXX
 
 	[FIXES]
 	* Upload <input type="file" ... > does not use the default
-	  value to prevent attacks, patch by Jan Pazdziora (RT ##7843).
+	  value to prevent attacks, patch by Jan Pazdziora (RT #7843).
+
+	[INTERNALS]
+	* Improve taint-safeness on Perl 5.6.1 (RT#8042, patch by Dominique Quatravaux)
 
 1.05_02	Sat Oct  2 16:55:59 CDT 2004
 	[ENHANCEMENTS]
