@@ -22,6 +22,8 @@ t/field.html
 t/field.t
 t/find_link.html
 t/find_link.t
+t/frames.html
+t/frames.t
 t/follow.t
 t/form.t
 t/form-parsing.t
