@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 1.05_02
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.149 2004/10/22 01:23:57 markjugg Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.150 2004/10/22 02:44:42 markjugg Exp $
 
 =cut
 
@@ -490,18 +490,21 @@ sub field {
     }
 }
 
-=head2 $mech->select($name, $value) 
+=head2 $mech->select($name, $value)
 
-=head2 $mech->select($name, \@values) 
+=head2 $mech->select($name, \@values)
 
 Given the name of a C<select> field, set its value to the value
 specified.  If the field is not E<lt>select multipleE<gt> and the
-C<$value> is an array, only the last value will be set.  This applies
-to the current form (as set by the C<L<form()>> method or defaulting
-to the first form on the page).
+C<$value> is an array, only the B<first> value will be set.  [Note:
+the documentation previously claimed that only the last value would
+be set, but this was incorrect.]  Passing C<$value> as a hash with
+an C<n> key selects an item by number (e.g. C<{n => 3> or C<{n => [2,4]}>).
+The numbering starts at 1.  This applies to the current form (as set by the
+C<L<form()>> method or defaulting to the first form on the page).
 
 Returns 1 on successfully setting the value. On failure, returns
-undef and calls C<$self->warn()> with an error message.  
+undef and calls C<$self->warn()> with an error message.
 
 =cut
 
@@ -519,12 +522,56 @@ sub select {
         return;
     }
 
+    # For $mech->select($name, {n => 3}) or $mech->select($name, {n => [2,4]}),
+    # transform the 'n' number(s) into value(s) and put it in $value.
+    if (ref($value) eq "HASH") {
+        for (keys %$value) {
+            $self->warn(qq{Unknown select value parameter "$_"})
+              unless $_ eq 'n';
+        }
+
+        if (defined($value->{n})) {
+            my @inputs = $form->find_input($name, 'option');
+            my @values = ();
+            # distinguish between multiple and non-multiple selects
+            # (see INPUTS section of `perldoc HTML::Form`)
+            if (@inputs == 1) {
+                @values = $inputs[0]->possible_values();
+            } else {
+                foreach my $input (@inputs) {
+                    my @possible = $input->possible_values();
+                    push @values, pop @possible;
+                }
+            }
+
+            my $n = $value->{n};
+            if (ref($n) eq 'ARRAY') {
+                $value = [];
+                for (@$n) {
+                    unless (/^\d+$/) {
+                        $self->warn(qq{"n" value "$_" is not a positive integer});
+                        return;
+                    }
+                    push @$value, $values[$_ - 1];  # might be undef
+                }
+            } elsif (!ref($n) && $n =~ /^\d+$/) {
+                $value = $values[$n - 1];           # might be undef
+            } else {
+                $self->warn('"n" value is not a positive integer or an array ref');
+                return;
+            }
+        } else {
+            $self->warn('Hash value is invalid');
+            return;
+        }
+    }
+
     if (ref($value) eq "ARRAY") {
         $form->param($name, $value);
-		return 1;
+        return 1;
     } else {
         $form->value($name => $value);
-		return 1;
+        return 1;
     }
 }
 

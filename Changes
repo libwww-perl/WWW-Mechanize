@@ -1,15 +1,19 @@
-# $Id: Changes,v 1.151 2004/10/22 01:23:55 markjugg Exp $
+# $Id: Changes,v 1.152 2004/10/22 02:44:42 markjugg Exp $
 Revision history for Perl extension WWW::Mechanize
 
 XXX
 	[ENHANCEMENTS]
 	* click_button() has a new input option for HTML::Form::SubmitInput objects (DOMQ)
 
+	* select() has new option to select an option by number (RT#5789, Scott Lanning) 
+
 	[FIXES]
 	* Upload <input type="file" ... > does not use the default
 	  value to prevent attacks, patch by Jan Pazdziora (RT #7843).
 
 	[INTERNALS]
+	* Improved tests and documentation for select() (RT#5789, Scott Lanning) 
+
 	* Improve taint-safeness on Perl 5.6.1 (RT#8042, patch by Dominique Quatravaux)
 
 	* Added tests for click_button() (RT#8061, by Dominique Quatravaux)
