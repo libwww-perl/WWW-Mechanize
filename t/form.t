@@ -16,6 +16,7 @@ isa_ok( $t, 'WWW::Mechanize' ) or die;
 $t->quiet(1);
 $t->get($server->url);
 ok( $t->success, "Got a page" ) or die "Can't even get google";
+is( ref $t->uri, "", "URI shouldn't be an object" );
 is( $t->uri, $server->url, 'Got page' );
 
 my $form_number_1 = $t->form_number(1);
