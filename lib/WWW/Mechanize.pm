@@ -6,13 +6,13 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 =head1 VERSION
 
-Version 0.76
+Version 1.00
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.128 2004/04/10 04:54:06 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.129 2004/04/10 05:30:10 petdance Exp $
 
 =cut
 
-our $VERSION = "0.76";
+our $VERSION = "1.00";
 
 =head1 SYNOPSIS
 
@@ -35,9 +35,9 @@ a history of the URLs you've visited, which can be queried and revisited.
     $mech->submit_form(
         form_number => 3,
         fields      => {
-                        username    => 'yourname',
-                        password    => 'dummy',
-                        }
+            username    => 'yourname',
+            password    => 'dummy',
+        }
     );
 
     $mech->submit_form(
@@ -184,6 +184,7 @@ sub new {
         onwarn      => \&WWW::Mechanize::_warn,
         onerror     => \&WWW::Mechanize::_die,
         quiet       => 0,
+        headers     => {},
     );
 
     my %passed_parms = @_;
@@ -1279,14 +1280,6 @@ sub request {
     $self->{base}    = $res->base;
     $self->{ct}      = $res->content_type || "";
     $self->{content} = $res->content;
-
-    # decode any gzipped/compressed response
-    # (currently isn't reached because we only allow 'identity')
-    my $encoding = $res->header('Content-Encoding') || "";
-    if ($encoding =~ /^(?:gzip|deflate)$/) {
-        $self->{content} = Compress::Zlib::memGunzip( $self->{content});
-        # should I delete the response header?
-    };
 
     if ( $res->is_success ) {
         $self->{uri} = $self->{redirected_uri};
