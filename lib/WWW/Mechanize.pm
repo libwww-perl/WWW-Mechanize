@@ -687,19 +687,22 @@ sub find_link {
             next;
         }
 
-        if ( ($key =~ /_regex$/) && (ref($val) ne "Regexp" ) ) {
-            $self->warn( qq{$val passed as $key is not a regex} );
-            delete $parms{$key};
-            next;
-        }
+        my $key_regex = ( $key =~ /_regex$/ );
+        my $val_regex = ( ref($val) eq "Regexp" );
 
-        if ($key !~ /_regex$/) {
-            if (ref($val) eq "Regexp") {
+        if ( $key_regex ) {
+            if ( !$val_regex ) {
+                $self->warn( qq{$val passed as $key is not a regex} );
+                delete $parms{$key};
+                next;
+            }
+        } else {
+            if ( $val_regex ) {
                 $self->warn( qq{$val passed as '$key' is a regex} );
                 delete $parms{$key};
                 next;
             }
-            if ($val =~ /^\s|\s$/) {
+            if ( $val =~ /^\s|\s$/ ) {
                 $self->warn( qq{'$val' is space-padded and cannot succeed} );
                 delete $parms{$key};
                 next;
