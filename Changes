@@ -1,6 +1,6 @@
 Revision history for Perl extension WWW::Mechanize
 
-NEXT
+1.12    Thu Feb 24 23:38:44 CST 2005
         [FIXES]
         * Fixed RT #9026: hang in t/local/back.t under Windows XP.
           Thanks Andrew Savige.  It also should no longer complain
@@ -31,7 +31,8 @@ NEXT
 
         [INTERNALS]
 
-        * Added explanation of running live tests against Google in Makefile.PL.
+        * Added explanation of running live tests against Google in
+          Makefile.PL.
 
 
 1.08    Fri Dec 24 01:01:06 CST 2004
@@ -52,12 +53,13 @@ NEXT
         * When parsing urls out of meta refresh tags, "url" may now be
           uppercase (RT#8230)
 
-        * Behavior of back() fixed in a number of cases (RT#8109  reported by
-          Josh Purinton, patched by Dominique Quatravaux)
+        * Behavior of back() fixed in a number of cases (RT#8109 reported
+          by Josh Purinton, patched by Dominique Quatravaux)
 
         [INTERNALS]
-        * Mark figured out to how to prevent his text editor from putting tabs
-          into the code. Andy's blood pressure dropped slightly.
+        * Mark figured out to how to prevent his text editor from
+          putting tabs into the code. Andy's blood pressure dropped
+          slightly.
 
 1.05_03 Sun Oct 31 20:54:33 CST 2004
 
