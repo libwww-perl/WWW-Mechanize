@@ -1,5 +1,9 @@
-# $Id: Changes,v 1.7 2003/06/20 16:08:55 petdance Exp $
+# $Id: Changes,v 1.8 2003/06/21 17:11:07 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
+
+0.47
+	[FIXES]
+	* Tracks URI history properly after redirects.
 
 0.46	June 20, 2003
 	[ENHANCEMENTS]
