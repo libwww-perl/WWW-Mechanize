@@ -6,13 +6,13 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 =head1 VERSION
 
-Version 0.73_02
+Version 0.73_03
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.114 2004/03/15 05:46:12 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.115 2004/03/21 05:41:59 petdance Exp $
 
 =cut
 
-our $VERSION = "0.73_02";
+our $VERSION = "0.73_03";
 
 =head1 SYNOPSIS
 
@@ -710,6 +710,70 @@ sub click {
     my ($self, $button, $x, $y) = @_;
     for ($x, $y) { $_ = 1 unless defined; }
     my $request = $self->{form}->click($button, $x, $y);
+    return $self->request( $request );
+}
+
+=head2 $mech->click_button( ... ) 
+
+Has the effect of clicking a button on a form by specifying its name,
+value, or index.  Its arguments are a list of key/value pairs.  Only
+one of name, number, or value must be specified.
+
+TODO: This function has no tests.
+
+=over 4
+
+=item * name => name
+
+Clicks the button named I<name>.
+
+=item * number => n
+
+Clicks the I<n>th button in the form.
+
+=item * value => value
+
+Clicks the button with the value I<value>.
+
+=item * x => x
+=item * y => y
+
+These arguments (optional) allow you to specify the (x,y) coordinates
+of the click.
+
+=back
+
+=cut
+
+sub click_button {
+    my $self = shift;
+    my %args = @_;
+
+    for ( keys %args ) {
+        if ( !/^(number|name|value|x|y)$/ ) {
+            $self->warn( qq{Unknown click_button_form parameter "$_"} );
+        }
+    }
+
+    for ($args{x}, $args{y}) { $_ = 1 unless defined; }
+    my $form = $self->{form};
+    my $request;
+    if ($args{name}) {
+	$request = $self->{form}->click($args{name}, $args{x}, $args{y});
+    } elsif ($args{number}) {
+	my $input = $form->find_input(undef, 'submit', $args{number});
+	$request = $input->click($form, $args{x}, $args{y});
+    } elsif ($args{value}) {
+	my $i = 1;
+	while (my $input = $form->find_input(undef, 'submit', $i)) {
+	    if ($args{value} && $args{value} eq $input->value) {
+		$request = $input->click($form, $args{x}, $args{y});
+		last;
+	    }
+	    $i++;
+	} # while
+    } # $args{value}
+
     return $self->request( $request );
 }
 
