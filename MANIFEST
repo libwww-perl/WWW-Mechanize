@@ -23,7 +23,6 @@ t/get.t
 t/google.html
 t/lib/Test/HTTP/LocalServer.pm
 t/lib/Test/HTTP/log-server
-t/mech.t
 t/new-local.t
 t/new.t
 t/page_stack-local.t
