@@ -33,8 +33,8 @@ a history of the URLs you've visited, which can be queried and revisited.
     $mech->submit_form(
         form_number => 3,
         fields      => {
-            username    => 'yourname',
-            password    => 'dummy',
+            username    => 'mungo',
+            password    => 'lost-and-alone',
         }
     );
 
@@ -2039,7 +2039,7 @@ sub warn {
 =head2 die( @messages )
 
 Centralized error method.  Defaults to calling C<CORE::die>, but
-may be overridden by setting C<onerror> in the construcotr.
+may be overridden by setting C<onerror> in the constructor.
 
 =cut
 
