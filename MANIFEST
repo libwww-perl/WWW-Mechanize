@@ -1,0 +1,6 @@
+Makefile.PL
+MANIFEST
+
+lib/WWW/Automate.pm
+
+t/embedded-WWW-Automate.t
