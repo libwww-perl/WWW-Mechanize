@@ -36,20 +36,23 @@ sub new {
     return $self;
 }
 
-sub url {
-    my $self = shift;
-    return $self->[0];
-}
+=head2 C<< $link->url() >>
 
-sub text {
-    my $self = shift;
-    return $self->[1];
-}
+URL from the link
 
-sub name {
-    my $self = shift;
-    return $self->[2];
-}
+=head2 C<< $link->text() >>
+
+Text of the link
+
+=head2 C<< $link->name() >>
+
+Name from the link tag
+
+=cut
+
+sub url { return shift->[0]; }
+sub text { return shift->[1]; }
+sub name { return shift->[2]; }
 
 =head1 Author
 
