@@ -2,7 +2,7 @@ use warnings;
 use strict;
 use lib 't/lib';
 use Test::HTTP::LocalServer;
-use Test::More tests => 9;
+use Test::More tests => 10;
 
 BEGIN {
     use_ok( 'WWW::Mechanize' );
@@ -18,6 +18,8 @@ my $response = $t->get( $server->url );
 isa_ok( $response, 'HTTP::Response', 'Got back a response' );
 ok( $response->is_success, 'Got URL' ) or die "Can't even fetch local url";
 ok( $t->is_html, "Local page is HTML" );
+my @forms = $t->forms;
+is( scalar @forms, 1, "Only one form" );
 
 $t->field(query => "foo"); # Filled the "q" field
 
