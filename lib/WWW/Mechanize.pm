@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.56
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.45 2003/07/24 17:16:29 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.46 2003/07/25 20:05:34 petdance Exp $
 
 =cut
 
@@ -76,6 +76,21 @@ L<WWW::Mechanize> is a proper subclass of L<LWP::UserAgent> and
 you can also use any of L<LWP::UserAgent>'s methods.
 
     $a->add_header($name => $value);
+
+=head1 IMPORTANT LINKS
+
+=over 4
+
+=item * L<http://search.cpan.org/dist/WWW-Mechanize/>
+
+The CPAN documentation page for Mechanize.
+
+=item * L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=WWW-Mechanize>
+
+The RT queue for bugs & enhancements in Mechanize.  Click the "Report bug"
+link if your bug isn't already reported.
+
+=back
 
 =head1 OTHER DOCUMENTATION
 
@@ -1264,9 +1279,13 @@ that turn Mechanize into more of a scripting tool.
 
 =head1 Requests & Bugs
 
-Please report any requests, suggestions or (gasp!) bugs via the system
-at http://rt.cpan.org/, or email to bug-WWW-Mechanize@rt.cpan.org.
-This makes it much easier for me to track things.
+Please report any requests, suggestions or (gasp!) bugs via the
+excellent RT bug-tracking system at http://rt.cpan.org/, or email to
+bug-WWW-Mechanize@rt.cpan.org.  This makes it much easier for me to
+track things.
+
+L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=WWW-Mechanize> is the RT queue
+for Mechanize.  Please check to see if your bug has already been reported.
 
 =head1 Author
 
