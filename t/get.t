@@ -1,6 +1,6 @@
 use warnings;
 use strict;
-use Test::More tests => 36;
+use Test::More tests => 37;
 
 use lib 't/lib';
 use Test::HTTP::LocalServer;
@@ -8,6 +8,9 @@ use Test::HTTP::LocalServer;
 BEGIN {
     use_ok( 'WWW::Mechanize' );
 }
+
+eval "use Test::Memory::Cycle";
+my $canTMC = !$@;
 
 my $server = Test::HTTP::LocalServer->spawn;
 isa_ok( $server, 'Test::HTTP::LocalServer' );
@@ -63,3 +66,9 @@ $agent->get( './refinesearch.html', ":content_file"=>$tempfile );
 ok( -e $tempfile );
 is( -s $tempfile, $rslength, "Did all the bytes get saved?" );
 unlink $tempfile;
+
+SKIP: {
+    skip "Test::Memory::Cycle not installed", 1 unless $canTMC;
+
+    memory_cycle_ok( $agent, "Mech: no cycles" );
+}

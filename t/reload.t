@@ -1,6 +1,6 @@
 use warnings;
 use strict;
-use Test::More tests => 15;
+use Test::More tests => 16;
 
 use lib 't/lib';
 use Test::HTTP::LocalServer;
@@ -42,4 +42,11 @@ RELOAD: {
     is( ref $agent->uri, "", "URI shouldn't be an object" );
     ok( $agent->is_html );
     ok( $agent->title, "WWW::Mechanize::Shell test page" );
+}
+
+SKIP: {
+    eval "use Test::Memory::Cycle";
+    skip "Test::Memory::Cycle not installed", 1 if $@;
+
+    memory_cycle_ok( $agent, "Mech: no cycles" );
 }
