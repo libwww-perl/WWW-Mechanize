@@ -32,4 +32,5 @@ t/reload-local.t
 t/reload.t
 t/submit-local.t
 t/submit.t
+t/tick.html
 t/tick.t

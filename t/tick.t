@@ -2,25 +2,38 @@
 
 use strict;
 use Test::More;
+use URI::file;
 
-# TODO: Run this locally, and just look at the request
-plan skip_all => "Skipping live tests" if -f "t/SKIPLIVE";
 plan tests => 6;
 
 use_ok( 'WWW::Mechanize' );
 
-my $mech = WWW::Mechanize->new();
+my $mech = WWW::Mechanize->new( cookie_jar => undef );
 isa_ok( $mech, "WWW::Mechanize" );
-$mech->get("http://2shortplanks.com/ticky/checkbox.html");
-ok( $mech->success, "Got the page OK" );
+
+my $uri = URI::file->new_abs( "t/tick.html" );
+isa_ok( $uri, "URI::file" );
+
+$mech->get( $uri );
+ok( $mech->success, $uri );
 
 $mech->form_number( 1 );
 $mech->tick("foo","hello");
 $mech->tick("foo","bye");
 $mech->untick("foo","hello");
 
-$mech->submit;
-ok( $mech->success, "Posted OK" );
+my @forms = $mech->forms();
+my $form = $forms[0];
 
-like($mech->content(), "/foo=bye/");
-unlike($mech->content(), "/foo=hello/");
+my $reqstring = $form->click->as_string;
+
+my $wanted = <<'EOT';
+POST http://localhost/
+Content-Length: 21 
+Content-Type: application/x-www-form-urlencoded
+
+foo=bye&submit=Submit
+EOT
+
+is( $reqstring, $wanted, "Proper posting" );
+
