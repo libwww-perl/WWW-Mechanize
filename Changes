@@ -1,12 +1,19 @@
-# $Id: Changes,v 1.65 2003/10/07 20:14:18 petdance Exp $
+# $Id: Changes,v 1.66 2003/10/07 22:06:41 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
-0.62
+0.62	October 7, 2003  5:00pm
 	[ENHANCEMENTS]
+	* Added autocheck parm, to tell your Mech object to die on
+	  any error.  This saves you from having to check yourself.
+	  This closes RT #3056.
 	* Renamed the internal _carp() method as warn().
+	* Added a die() method.
+	* Can now override the warn() and die() handlers in the
+	  constructor.
 
 	[DOCUMENTATION]
 	* More FAQs.  Thanks to Gavin Estey.
+
 
 0.61	October 6, 2003  6:30pm
 	No new functionality here.  It's mostly to get the new tests

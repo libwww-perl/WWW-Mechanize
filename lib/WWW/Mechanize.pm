@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.61
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.67 2003/10/07 21:38:07 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.68 2003/10/07 22:06:41 petdance Exp $
 
 =cut
 
@@ -172,7 +172,7 @@ parms that L<LWP::UserAgent> recognizes.
 
 Checks each request made to see if it was successful.  This saves you
 the trouble of manually checking yourself.  Any errors found are errors,
-not warnings.
+not warnings.  Default is off.
 
 =item * onwarn => \&func()
 
@@ -198,7 +198,7 @@ installed, or C<CORE::die> if not.
 =item * quiet => [0|1]
 
 Don't complain on warnings.  Setting C<< quiet => 1 >> is the same as
-calling C<< $agent->quiet(1) >>.
+calling C<< $agent->quiet(1) >>.  Default is off.
 
 =cut
 
@@ -211,6 +211,7 @@ sub new {
     );
 
     my %mech_parms = (
+	autocheck   => 0,
 	onwarn	    => \&WWW::Mechanize::_warn,
 	onerror	    => \&WWW::Mechanize::_die,
 	quiet	    => 0,
@@ -1084,6 +1085,10 @@ sub request {
     if ( $self->{res}->is_success ) {
 	$self->{uri} = $self->{redirected_uri};
 	$self->{last_uri} = $self->{uri};
+    } else {
+	if ( $self->{autocheck} ) {
+	    $self->die( "Error ", $request->method, "ing ", $request->uri, ": ", $res->message );
+	}
     }
 
     $self->_reset_page();
