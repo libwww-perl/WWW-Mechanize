@@ -9,14 +9,14 @@ BEGIN {
     use_ok( 'WWW::Mechanize' );
 }
 
-my $t = WWW::Mechanize->new( cookie_jar => undef );
-isa_ok( $t, 'WWW::Mechanize' );
+my $mech = WWW::Mechanize->new( cookie_jar => undef );
+isa_ok( $mech, 'WWW::Mechanize' );
 
 my $uri = URI::file->new_abs( "t/field.html" )->as_string;
 
-my $response = $t->get( $uri );
+my $response = $mech->get( $uri );
 ok( $response->is_success, "Fetched $uri" );
 
-$t->field("dingo","Modified!");
-my $form = $t->current_form();
+$mech->field("dingo","Modified!");
+my $form = $mech->current_form();
 is( $form->value( "dingo" ), "Modified!" );

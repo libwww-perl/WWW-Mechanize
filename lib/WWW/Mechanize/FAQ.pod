@@ -14,11 +14,11 @@ class is inherited.
 
 See the docs in L<LWP::UserAgent> on how to use the proxy.  Short version:
 
-    $a->proxy(['http', 'ftp'], 'http://proxy.example.com:8000/');
+    $mech->proxy(['http', 'ftp'], 'http://proxy.example.com:8000/');
 
 or get the specs from the environment:
 
-    $a->env_proxy();
+    $mech->env_proxy();
 
     # Environment set like so:
     gopher_proxy=http://proxy.my.place/

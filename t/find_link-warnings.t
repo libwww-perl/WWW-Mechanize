@@ -15,18 +15,18 @@ BEGIN {
     use_ok( 'WWW::Mechanize' );
 }
 
-my $t = WWW::Mechanize->new( cookie_jar => undef );
-isa_ok( $t, 'WWW::Mechanize' );
+my $mech = WWW::Mechanize->new( cookie_jar => undef );
+isa_ok( $mech, 'WWW::Mechanize' );
 
 my $uri = URI::file->new_abs( "t/find_link.html" )->as_string;
 
-$t->get( $uri );
-ok( $t->success, "Fetched $uri" ) or die "Can't get test page";
+$mech->get( $uri );
+ok( $mech->success, "Fetched $uri" ) or die "Can't get test page";
 
 REGEX_USAGE: {
     for my $tname (qw( TEXT NAME URL TAG )) {
         warning_like(
-            sub { $t->find_link( $tname => "expect error" ) },
+            sub { $mech->find_link( $tname => "expect error" ) },
             qr/Unknown link-finding parameter/, "detected usage error: $tname => 'string'"
         );
     }
@@ -36,7 +36,7 @@ REGEX_STRING: {
     for my $tn (qw( text name url tag )) {
         my $tname = $tn.'_regex';
         warning_like(
-            sub { $t->find_link( $tname => "expect error" ) },
+            sub { $mech->find_link( $tname => "expect error" ) },
             qr/passed as $tname is not a regex/, "detected usage error: $tname => 'string'"
         );
     }
@@ -45,7 +45,7 @@ REGEX_STRING: {
 NON_REGEX_STRING: {
     for my $tname (qw( text name url tag )) {
         warning_like(
-            sub { $t->find_link( $tname => qr/foo/ ) },
+            sub { $mech->find_link( $tname => qr/foo/ ) },
             qr/passed as '$tname' is a regex/, "detected usage error: $tname => Regex"
         );
     }
@@ -54,7 +54,7 @@ NON_REGEX_STRING: {
 SPACE_PADDED: {
     for my $tname (qw( text name url tag )) {
         warning_like(
-            sub { $t->find_link( $tname => ' a padded astring ' ) },
+            sub { $mech->find_link( $tname => ' a padded astring ' ) },
             qr/is space-padded and cannot succeed/, "detected usage error: $tname => padded-string"
         );
     }
