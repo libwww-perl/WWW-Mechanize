@@ -1,4 +1,4 @@
-# $Id: Changes,v 1.61 2003/10/06 04:01:03 petdance Exp $
+# $Id: Changes,v 1.62 2003/10/06 22:43:12 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 0.61
@@ -8,6 +8,9 @@ Revision history for Perl extension WWW::Mechanize
 	[ENHANCEMENTS]
 	* Added the test case for the form processing problem as a .t
 	  file, since I spent so long getting it down to a simple case.
+	* Internal code uses accessors instead of direct hash entries.
+	  Prepare for deprecation of existing hash entries!
+
 
 0.60	September 22, 2003  10:00pm
 	[FIXES]

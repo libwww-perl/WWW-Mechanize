@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.60
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.60 2003/10/04 02:06:40 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.61 2003/10/06 22:43:12 petdance Exp $
 
 =cut
 
@@ -271,8 +271,8 @@ sub get {
     my $self = shift;
     my $uri = shift;
 
-    $uri = $self->{base}
-	    ? URI->new_abs( $uri, $self->{base} )
+    $uri = $self->base
+	    ? URI->new_abs( $uri, $self->base )
 	    : URI->new( $uri );
 
     return $self->SUPER::get( $uri->as_string, @_ );
@@ -815,7 +815,7 @@ text of "News" and with "cnn.com" in the URL, use:
 
 The return value is a reference to an array containing
 a L<WWW::Mechanize::Link> object for every link in 
-C<< $self->{content} >>.  
+C<< $self->content >>.  
 
 The links come from the following:
 
@@ -1014,14 +1014,14 @@ sub request {
     }
     $self->{req} = $request;
     $self->{redirected_uri} = $request->uri->as_string;
-    $self->{res} = $self->_make_request( $request, @_ );
+    my $res = $self->{res} = $self->_make_request( $request, @_ );
 
     # These internal hash elements should be dropped in favor of
     # the accessors soon. -- 1/19/03
-    $self->{status}  = $self->{res}->code;
-    $self->{base}    = $self->{res}->base;
-    $self->{ct}      = $self->{res}->content_type || "";
-    $self->{content} = $self->{res}->content;
+    $self->{status}  = $res->code;
+    $self->{base}    = $res->base;
+    $self->{ct}      = $res->content_type || "";
+    $self->{content} = $res->content;
     if ( $self->{res}->is_success ) {
 	$self->{uri} = $self->{redirected_uri};
 	$self->{last_uri} = $self->{uri};
@@ -1029,12 +1029,12 @@ sub request {
 
     $self->_reset_page();
     if ( $self->is_html ) {
-        $self->{forms} = [ HTML::Form->parse($self->{content}, $self->{res}->base) ];
+        $self->{forms} = [ HTML::Form->parse($self->content, $self->base) ];
         $self->{form}  = $self->{forms}->[0];
         $self->_extract_links();
     }
 
-    return $self->{res};
+    return $res;
 }
 
 =head2 C<_make_request()>
@@ -1070,7 +1070,7 @@ Returns true if the link was found on the page or undef otherwise.
 
 sub follow {
     my ($self, $link) = @_;
-    my @links = @{$self->{links}};
+    my @links = $self->links;
     my $thislink;
     if ( $link =~ /^\d+$/ ) { # is a number?
         if ($link <= $#links) {
