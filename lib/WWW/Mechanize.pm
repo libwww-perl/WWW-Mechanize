@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.53
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.30 2003/07/20 05:23:01 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.31 2003/07/20 05:35:49 petdance Exp $
 
 =cut
 
@@ -824,8 +824,6 @@ sub find_link {
 
     return unless @links ;
 
-    my $match;
-    my $arg;
     my $wantall = ( $parms{n} eq "all" );
 
     if ( !$self->quiet ) {
@@ -836,33 +834,23 @@ sub find_link {
     }
 
     my @conditions;
-    if ( defined ($arg = $parms{url}) ) {
-	push @conditions, q/ $_[0]->[0] eq $parms{url} /;
-    }
+    push @conditions, q/ $_[0]->[0] eq $parms{url} /	    if defined $parms{url};
+    push @conditions, q/ $_[0]->[0] =~ $parms{url_regex} /  if defined $parms{url_regex};
+    push @conditions, q/ $_[0]->[1] eq $parms{text} /	    if defined $parms{text};
+    push @conditions, q/ $_[0]->[1] =~ $parms{text_regex} / if defined $parms{text_regex};
 
-    if ( defined ($arg = $parms{url_regex}) ) {
-	push @conditions, q/ $_[0]->[0] =~ $parms{url_regex} /;
-    }
-
-    if ( defined ($arg = $parms{text}) ) {
-	push @conditions, q/ $_[0]->[1] eq $parms{text} /;
-    }
-
-    if ( defined ($arg = $parms{text_regex} )) {
-	push @conditions, q/ $_[0]->[1] =~ $parms{text_regex} /;
-    }
-
+    my $matchfunc;
     if ( @conditions ) {
-	my $conditions = join( " and ", @conditions );
-	$match = eval "sub { $conditions }";
+	local $" = " && ";
+	$matchfunc = eval "sub { @conditions }";
     } else {
-	$match = sub{1};
+	$matchfunc = sub{1};
     }
 
     my $nmatches = 0;
     my @matches;
     for my $link ( @links ) {
-	if ( $match->($link) ) {
+	if ( $matchfunc->($link) ) {
 	    if ( $wantall ) {
 		push( @matches, $link );
 	    } else {
