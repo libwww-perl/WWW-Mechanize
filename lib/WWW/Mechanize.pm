@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.66
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.87 2003/11/26 04:57:09 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.88 2003/11/26 05:12:28 petdance Exp $
 
 =cut
 
@@ -988,8 +988,8 @@ sub find_link {
 
     my $matchfunc;
     if ( @conditions ) {
-        local $" = " && ";
-        $matchfunc = eval "sub { @conditions }";
+        local $" = ") && (";
+        $matchfunc = eval "sub { return 1 if (@conditions); return; }";
     } else {
         $matchfunc = sub{1};
     }
