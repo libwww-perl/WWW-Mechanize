@@ -42,7 +42,6 @@ use HTTP::Request;
 use LWP::UserAgent;
 use HTML::Form;
 use HTML::TokeParser;
-use Clone qw(clone);
 use Carp;
 use URI::URL;
 
@@ -50,13 +49,13 @@ our @ISA = qw( LWP::UserAgent );
 
 =head1 VERSION
 
-Version 0.36
+Version 0.37
 
-    $Header: /home/cvs/www-mechanize/lib/WWW/Mechanize.pm,v 1.34 2003/02/04 17:36:20 alester Exp $
+    $Header: /home/cvs/www-mechanize/lib/WWW/Mechanize.pm,v 1.39 2003/03/04 21:04:11 alester Exp $
 
 =cut
 
-our $VERSION = "0.36";
+our $VERSION = "0.37";
 
 our %headers;
 
@@ -170,6 +169,11 @@ C<form()> except that C<form()> already exists and sets the current_form.
 
 Returns an arrayref of the links found
 
+=head2 $agent->is_html()
+
+Returns true/false on whether our content is HTML, according to the
+HTTP headers.
+
 =cut
 
 sub uri {	    my $self = shift; return $self->{uri}; }
@@ -182,6 +186,26 @@ sub content {	    my $self = shift; return $self->{content}; }
 sub current_form {  my $self = shift; return $self->{form}; }
 sub forms {	    my $self = shift; return $self->{forms}; }
 sub links {	    my $self = shift; return $self->{links}; }
+sub is_html {	    my $self = shift; return $self->{ct} eq "text/html"; }
+
+=head2 $agent->title()
+
+Returns the contents of the C<< <TITLE> >> tag, as parsed by
+HTML::HeadParser.  Returns undef if the content is not HTML.
+
+=cut
+
+sub title {
+    my $self = shift;
+    return undef unless $self->is_html;
+
+    require HTML::HeadParser;
+    my $p = HTML::HeadParser->new;
+    $p->parse($self->content);
+    return $p->header('Title');
+}
+
+=head1 Action methods
 
 =head2 $agent->follow($string|$num)
 
@@ -292,7 +316,8 @@ Note that this functionality requires libwww-perl 5.69 or higher.
 sub form_name {
     my ($self, $form) = @_;
 
-    my @matches = grep {$_->attr('name') eq $form } @{$self->{forms}};
+    my $temp;
+    my @matches = grep {defined($temp = $_->attr('name')) and ($temp eq $form) } @{$self->{forms}};
     if ( @matches ) {
 	$self->{form} = $matches[0];
 	warn "There are ", scalar @matches, " forms named $form.  The first one was used."
@@ -465,7 +490,7 @@ sub _push_page_stack {
     my $save_stack = $self->{page_stack};
     $self->{page_stack} = [];
 
-    push( @$save_stack, clone($self) );
+    push( @$save_stack, $self->clone );
 
     $self->{page_stack} = $save_stack;
 
@@ -516,7 +541,7 @@ sub _do_request {
     $self->{ct}      = $self->{res}->content_type || "";
     $self->{content} = $self->{res}->content;
 
-    if ($self->{ct} eq 'text/html') {
+    if ( $self->is_html ) {
         $self->{forms} = [ HTML::Form->parse($self->{content}, $self->{res}->base) ];
         $self->{form}  = @{$self->{forms}} ? $self->{forms}->[0] : undef;
         $self->{links} = $self->extract_links();
@@ -529,6 +554,8 @@ sub _do_request {
 
 Following are user-supplied samples of WWW::Mechanize in action.  If you
 have samples you'd like to contribute, please send 'em.
+
+You can also look at the F<t/*.t> files in the distribution.
 
 =head2 get-despair
 
@@ -561,10 +588,11 @@ sucking down all the pictures.
 	$m->back or die "can't go back";
     }
 
-=head1 BUGS
+=head1 REQUESTS & BUGS
 
-Please report any bugs via the system at http://rt.cpan.org/, or email to
-bug-WWW-Mechanize@rt.cpan.org.
+Please report any requests, suggestions or (gasp!) bugs via the system
+at http://rt.cpan.org/, or email to bug-WWW-Mechanize@rt.cpan.org.
+This makes it much easier for me to track things.
 
 =head1 AUTHOR
 

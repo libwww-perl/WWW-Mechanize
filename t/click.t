@@ -1,6 +1,6 @@
 use warnings;
 use strict;
-use Test::More tests => 7;
+use Test::More tests => 8;
 
 BEGIN {
     use_ok( 'WWW::Mechanize' );
@@ -12,6 +12,7 @@ isa_ok( $t, 'WWW::Mechanize', 'Created the object' );
 my $response = $t->get( "http://www.google.com/intl/en/");
 isa_ok( $response, 'HTTP::Response', 'Got back a response' );
 ok( $response->is_success, 'Got google' ) or die "Can't even fetch google";
+ok( $t->is_html );
 
 $t->field(q => "foo"); # Filled the "q" field
 

@@ -1,5 +1,13 @@
-# $Id: Changes,v 1.18 2003/02/04 17:36:19 alester Exp $
+# $Id: Changes,v 1.21 2003/03/04 21:04:11 alester Exp $
 Revision history for Perl extension WWW::Mechanize
+
+0.37	March 4, 2003
+	[ENHANCEMENTS]
+	* Added an is_html() method
+	* Added a title() method
+	* No longer requires the Clone module.
+	* No longer requires the Test::Pod module, although it's nice
+	  to have.
 
 0.36	February 4, 2003
 	[ENHANCEMENTS]

@@ -12,7 +12,6 @@ WriteMakefile(
                         HTTP::Request	    => 1.20,
                         HTML::Form	    => 0.03,
                         HTML::TokeParser    => 2.20,
-                        Clone		    => 0.13,
                         Test::More	    => 0.34,
 			},
 );
