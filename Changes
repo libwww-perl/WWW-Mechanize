@@ -1,553 +1,557 @@
-# $Id: Changes,v 1.103 2004/01/27 03:08:31 petdance Exp $
+# $Id: Changes,v 1.104 2004/02/28 03:21:12 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
+0.73_01
+        [ENHANCEMENTS]
+        * URLs in META REFRESH tags are now treated as links.
+
 0.72    Mon Jan 26 21:07:20 CST 2004
-	[ENHANCEMENTS]
-	* Added the set_visible() method, thanks to Peter Scott.
+        [ENHANCEMENTS]
+        * Added the set_visible() method, thanks to Peter Scott.
 
         [DOCUMENTATION]
         * Started the Cookbook at WWW::Mechanize::Cookbook.pod.
 
-	[INTERNALS]
-	* Made the globbing in Makefile.PL a little less command-line
-	  intensive.  Also fixed the missing files in MANIFEST.
-	* Added t/pod-coverage.t for testing POD coverage.
+        [INTERNALS]
+        * Made the globbing in Makefile.PL a little less command-line
+          intensive.  Also fixed the missing files in MANIFEST.
+        * Added t/pod-coverage.t for testing POD coverage.
 
 0.71_02 Mon Dec 22 14:29:13 CST 2003
-	[THINGS THAT MAY BREAK YOUR CODE]
-	* Added a 5th, optional parameter to WWW::Mechanize::Link's
-	  constructor.	In 0.71_01, it was at the beginning of the
-	  argument list and was required.  Now it's at the end and is
-	  optional.  If, in the 15 hours since 0.71_01 came out, you
-	  went and changed all your WWW::Mechanize::Link constructors,
-	  you'll have to change them around again.  Otherwise, you can
-	  just ignore this change.
+        [THINGS THAT MAY BREAK YOUR CODE]
+        * Added a 5th, optional parameter to WWW::Mechanize::Link's
+          constructor.  In 0.71_01, it was at the beginning of the
+          argument list and was required.  Now it's at the end and is
+          optional.  If, in the 15 hours since 0.71_01 came out, you
+          went and changed all your WWW::Mechanize::Link constructors,
+          you'll have to change them around again.  Otherwise, you can
+          just ignore this change.
 
 0.71_01 Sun Dec 21 23:48:12 CST 2003
-	[THINGS THAT MAY BREAK YOUR CODE]
-	* WWW::Mechanize::Link's constructor has a new argument
-	  that needs to be passed in, at the start of the argument
-	  list.
+        [THINGS THAT MAY BREAK YOUR CODE]
+        * WWW::Mechanize::Link's constructor has a new argument
+          that needs to be passed in, at the start of the argument
+          list.
 
-	[ENHANCEMENTS]
-	* WWW::Mechanize::Link object now takes a $base URL, and will
-	  return absolute URLs with the url_abs() method.  Thanks to
-	  Ashley Pond.
-	* Added another script to WWW::Mechanize::Examples.  It's a
-	  script that didn't make it into Spidering Hacks.
+        [ENHANCEMENTS]
+        * WWW::Mechanize::Link object now takes a $base URL, and will
+          return absolute URLs with the url_abs() method.  Thanks to
+          Ashley Pond.
+        * Added another script to WWW::Mechanize::Examples.  It's a
+          script that didn't make it into Spidering Hacks.
 
-	[INSTALL & TESTS]
-	* Heavy use of the new Test::Memory::Cycle module.
-	* Fixed Makefile.PL so that the tests are selected under Win32.
-	* Changed t/mech-dump.t so that the test succeeds under Win32.
-	* Updated t/referer.t and t/mech-dump.t so they run under VMS.
-	  Thanks to Peter Prymmer.
-
-
-0.70	Sun Nov 30 23:45:27 CST 2003
-	[THINGS THAT MAY BREAK YOUR CODE]
-	* Redirects are now handled better by LWP, so the code that
-	  changes POSTs to GETs on redirects has been removed.
-
-	[FIXES]
-	* Fixed redirect_ok(), which had its API changed out from under
-	  it in LWP 5.76.
-
-	[ENHANCEMENTS]
-	* New warnings in find_link() for strings that are space padded,
-	  and for text matches that are passed a regex.  Thanks to
-	  Jim Cromie.
-
-	[DOCUMENTATION]
-	* Patches from Mark Stosberg and Jim Cromie.
-
-	[INTERNALS]
-	* Removed all the checking for Carp.  I don't know why I
-	  was thinking that Carp wasn't core. RT #4523.
-
-	Also, a big bump in requirements on LWP: We need 5.76.
+        [INSTALL & TESTS]
+        * Heavy use of the new Test::Memory::Cycle module.
+        * Fixed Makefile.PL so that the tests are selected under Win32.
+        * Changed t/mech-dump.t so that the test succeeds under Win32.
+        * Updated t/referer.t and t/mech-dump.t so they run under VMS.
+          Thanks to Peter Prymmer.
 
 
-0.66	Thu Nov 13 14:35:31 CST 2003
+0.70    Sun Nov 30 23:45:27 CST 2003
+        [THINGS THAT MAY BREAK YOUR CODE]
+        * Redirects are now handled better by LWP, so the code that
+          changes POSTs to GETs on redirects has been removed.
 
-	No new functionality.  Fixed up some install bugs and made a
-	few documentation tweaks, mostly to plug Spidering Hacks.
+        [FIXES]
+        * Fixed redirect_ok(), which had its API changed out from under
+          it in LWP 5.76.
 
+        [ENHANCEMENTS]
+        * New warnings in find_link() for strings that are space padded,
+          and for text matches that are passed a regex.  Thanks to
+          Jim Cromie.
 
-0.65	Mon Nov 10 00:11:06 CST 2003
-	[ENHANCEMENTS]
-	* Made a _parse_html() method that you can override or call
-	  manually, per request from Gavin Estey.
+        [DOCUMENTATION]
+        * Patches from Mark Stosberg and Jim Cromie.
 
-	[FIXES]
-	* Made some path naming use File::Spec->catfile so that
-	  they work correctly under Windows.
-	* "make clean" cleans up temp flag files.
+        [INTERNALS]
+        * Removed all the checking for Carp.  I don't know why I
+          was thinking that Carp wasn't core. RT #4523.
 
-	[INTERNALS]
-	* Uses the new Test::Pod 1.00 for simplicity.
-
-
-0.64	October 23, 2003  11:15pm
-	[ENHANCEMENTS]
-	* Many new tests, based on the excellent coverage reporting
-	  created by Paul Johnson's Devel::Cover module.
-
-	* The start of JavaScript support, sort of!
-
-	  If you have an <A> tag that does an onClick that opens a
-	  window, Mech will find the URL from that and make that
-	  be the link for the tag.  This is for things like Movable
-	  Type that pop little windows to rebuild indexes.
-
-	  This is subject to change in the future.  I don't know
-	  if it will, but I'm not making promises.  It might be so
-	  buggy I just yank the whole thing.
-
-	* Big jump in requirements, since we'll soon be using Gisle's
-	  new HTML::Form stuff.  Also, older versions of HTML::Form
-	  don't give output I'm expecting.
-
-	[FIXES]
-	* Fixed the t/mech-dump.t failure.
-
-0.63	October 13, 2003  2:56pm
-	[ENHANCEMENTS]
-	* mech-dump defaults to dumping forms.
-	* Added name, name_regex, tag and tag_regex options to find_link()
-	  and follow_link().
-	* Added tests from Jim Brandt.
+        Also, a big bump in requirements on LWP: We need 5.76.
 
 
-0.62	October 7, 2003  8:46pm
-	[THINGS THAT MIGHT BREAK YOUR CODE]
-	* The parms for find_link()'s url_regex and text_regex must now
-	  be actual regex objects, as in qr// objects.	They can't just
-	  be little text strings.  If this is a big bummer, let me know.
+0.66    Thu Nov 13 14:35:31 CST 2003
 
-	[ENHANCEMENTS]
-	* Added autocheck parm, to tell your Mech object to die on
-	  any error.  This saves you from having to check yourself.
-	  This closes RT #3056.
-	* Renamed the internal _carp() method as warn().
-	* Added a die() method.
-	* Can now override the warn() and die() handlers in the
-	  constructor.
-	* find_link() now complains if it gets a *_regex parm that isn't
-	  actually a regex.  See RT #3032.
-
-	[FIXES]
-	* mech-dump.t no longer runs if you're not installing mech-dump.
-	  See RT #3724.
-
-	[DOCUMENTATION]
-	* More FAQs.  Thanks to Gavin Estey.
+        No new functionality.  Fixed up some install bugs and made a
+        few documentation tweaks, mostly to plug Spidering Hacks.
 
 
-0.61	October 6, 2003  6:30pm
-	No new functionality here.  It's mostly to get the new tests
-	into the pipeline so the CPAN testers can run 'em.
+0.65    Mon Nov 10 00:11:06 CST 2003
+        [ENHANCEMENTS]
+        * Made a _parse_html() method that you can override or call
+          manually, per request from Gavin Estey.
 
-	[FIXES]
-	* Missing dependency on File::Temp.  Thanks, Ask.
+        [FIXES]
+        * Made some path naming use File::Spec->catfile so that
+          they work correctly under Windows.
+        * "make clean" cleans up temp flag files.
 
-	[ENHANCEMENTS]
-	* Added the test case for the form processing problem as a .t
-	  file, since I spent so long getting it down to a simple case.
-	* Internal code uses accessors instead of direct hash entries.
-	  Prepare for deprecation of existing hash entries!
-
-	[DOCUMENTATION]
-	* The FAQ is now its own document at WWW::Mechanize::FAQ.
+        [INTERNALS]
+        * Uses the new Test::Pod 1.00 for simplicity.
 
 
-0.60	September 22, 2003  10:00pm
-	[FIXES]
-	* Changed how t/failure.t tries to fail.  It used to hit
-	  a bogus hostname in .com, but with Verisign doing its
-	  SiteFinder crap, even bogus addresses in .com succeed.
+0.64    October 23, 2003  11:15pm
+        [ENHANCEMENTS]
+        * Many new tests, based on the excellent coverage reporting
+          created by Paul Johnson's Devel::Cover module.
 
-	[ENHANCEMENTS]
-	* Added _make_request() to let WWW::Mechanize::Cached easily
-	  hook into the request chain.
+        * The start of JavaScript support, sort of!
 
-0.59	September 3, 2003  11:56pm
-	[FIXES]
-	* Squelched a warning in follow() where it tries to do a regex
-	  match against an undef value.
-	* The page stack functionality, including the back() button,
-	  was entirely broken.  Now it works.  Thanks to the mighty
-	  Iain Truskett for help.
+          If you have an <A> tag that does an onClick that opens a
+          window, Mech will find the URL from that and make that
+          be the link for the tag.  This is for things like Movable
+          Type that pop little windows to rebuild indexes.
 
-	[ENHANCEMENTS]
-	* Added the mech-dump script, which replaces mech-forms.
-	  It will dump forms and lists of links.  Eventually it will
-	  do lists of images, too, but not yet.
+          This is subject to change in the future.  I don't know
+          if it will, but I'm not making promises.  It might be so
+          buggy I just yank the whole thing.
 
-0.58	August 14, 2003  11:30pm
-	[THINGS THAT MIGHT BREAK YOUR CODE]
-	* $mech->uri() now returns a plain string, not a URI object.
-	  The automatic stringification of the URI object was
-	  causing problems on Win32 and/or threaded Perls, and I
-	  didn't feel like figuring out why.  If the non-objectness
-	  of the uri() method is a problem, let me know.
-	* form(), form_name() and form_number() now return the
-	  HTML::Form object of the form that was chosen.  They used
-	  to return a 1 or 0.  This means that if you're explicitly
-	  checking for 1 or 0, instead of evaluating the return
-	  code in a boolean context, your code will break.
+        * Big jump in requirements, since we'll soon be using Gisle's
+          new HTML::Form stuff.  Also, older versions of HTML::Form
+          don't give output I'm expecting.
 
-	[FIXES]
-	* The <AREA>-handling in extract_links() was incorrectly
-	  building the text.
-	* uri() now returns a string, not a URI object.
-	* form(), form_name() and form_number() now return the
-	  HTML::Form object of the form that was chosen.
+        [FIXES]
+        * Fixed the t/mech-dump.t failure.
 
-	[INTERNALS]
-	* Determination of live vs. local tests is now done in
-	  Makefile.PL, and we don't have to set those silly semaphore
-	  files any more.
-	* Made other cleanups in Makefile.PL, like using
-	  ExtUtils::Command instead of rolling my own touch().
-	* Moved all the *-live.t tests into t/live/*.t, and renamed
-	  the *-local.t files to not be -local.
-	* Added more tests for <AREA> tags.
+0.63    October 13, 2003  2:56pm
+        [ENHANCEMENTS]
+        * mech-dump defaults to dumping forms.
+        * Added name, name_regex, tag and tag_regex options to find_link()
+          and follow_link().
+        * Added tests from Jim Brandt.
 
-0.57	July 31, 2003  11:21pm
-	[ENHANCEMENTS]
-	* Added <AREA HREF=...> tags to those that are links per
-	  find_links().
+
+0.62    October 7, 2003  8:46pm
+        [THINGS THAT MIGHT BREAK YOUR CODE]
+        * The parms for find_link()'s url_regex and text_regex must now
+          be actual regex objects, as in qr// objects.  They can't just
+          be little text strings.  If this is a big bummer, let me know.
+
+        [ENHANCEMENTS]
+        * Added autocheck parm, to tell your Mech object to die on
+          any error.  This saves you from having to check yourself.
+          This closes RT #3056.
+        * Renamed the internal _carp() method as warn().
+        * Added a die() method.
+        * Can now override the warn() and die() handlers in the
+          constructor.
+        * find_link() now complains if it gets a *_regex parm that isn't
+          actually a regex.  See RT #3032.
+
+        [FIXES]
+        * mech-dump.t no longer runs if you're not installing mech-dump.
+          See RT #3724.
+
+        [DOCUMENTATION]
+        * More FAQs.  Thanks to Gavin Estey.
+
+
+0.61    October 6, 2003  6:30pm
+        No new functionality here.  It's mostly to get the new tests
+        into the pipeline so the CPAN testers can run 'em.
+
+        [FIXES]
+        * Missing dependency on File::Temp.  Thanks, Ask.
+
+        [ENHANCEMENTS]
+        * Added the test case for the form processing problem as a .t
+          file, since I spent so long getting it down to a simple case.
+        * Internal code uses accessors instead of direct hash entries.
+          Prepare for deprecation of existing hash entries!
+
+        [DOCUMENTATION]
+        * The FAQ is now its own document at WWW::Mechanize::FAQ.
+
+
+0.60    September 22, 2003  10:00pm
+        [FIXES]
+        * Changed how t/failure.t tries to fail.  It used to hit
+          a bogus hostname in .com, but with Verisign doing its
+          SiteFinder crap, even bogus addresses in .com succeed.
+
+        [ENHANCEMENTS]
+        * Added _make_request() to let WWW::Mechanize::Cached easily
+          hook into the request chain.
+
+0.59    September 3, 2003  11:56pm
+        [FIXES]
+        * Squelched a warning in follow() where it tries to do a regex
+          match against an undef value.
+        * The page stack functionality, including the back() button,
+          was entirely broken.  Now it works.  Thanks to the mighty
+          Iain Truskett for help.
+
+        [ENHANCEMENTS]
+        * Added the mech-dump script, which replaces mech-forms.
+          It will dump forms and lists of links.  Eventually it will
+          do lists of images, too, but not yet.
+
+0.58    August 14, 2003  11:30pm
+        [THINGS THAT MIGHT BREAK YOUR CODE]
+        * $mech->uri() now returns a plain string, not a URI object.
+          The automatic stringification of the URI object was
+          causing problems on Win32 and/or threaded Perls, and I
+          didn't feel like figuring out why.  If the non-objectness
+          of the uri() method is a problem, let me know.
+        * form(), form_name() and form_number() now return the
+          HTML::Form object of the form that was chosen.  They used
+          to return a 1 or 0.  This means that if you're explicitly
+          checking for 1 or 0, instead of evaluating the return
+          code in a boolean context, your code will break.
+
+        [FIXES]
+        * The <AREA>-handling in extract_links() was incorrectly
+          building the text.
+        * uri() now returns a string, not a URI object.
+        * form(), form_name() and form_number() now return the
+          HTML::Form object of the form that was chosen.
+
+        [INTERNALS]
+        * Determination of live vs. local tests is now done in
+          Makefile.PL, and we don't have to set those silly semaphore
+          files any more.
+        * Made other cleanups in Makefile.PL, like using
+          ExtUtils::Command instead of rolling my own touch().
+        * Moved all the *-live.t tests into t/live/*.t, and renamed
+          the *-local.t files to not be -local.
+        * Added more tests for <AREA> tags.
+
+0.57    July 31, 2003  11:21pm
+        [ENHANCEMENTS]
+        * Added <AREA HREF=...> tags to those that are links per
+          find_links().
 
 0.56    July 24, 2003  12:15pm
-	[THINGS THAT MIGHT BREAK YOUR CODE]
-	* Created agent_alias() method to do the browser string
-	  translation.	Passing "Windows IE 6" to agent() will get
-	  you back exactly that string as the agent.  You have to call
-	  $a->agent_alias( "Windows IE 6" ) to get the translation.
+        [THINGS THAT MIGHT BREAK YOUR CODE]
+        * Created agent_alias() method to do the browser string
+          translation.  Passing "Windows IE 6" to agent() will get
+          you back exactly that string as the agent.  You have to call
+          $a->agent_alias( "Windows IE 6" ) to get the translation.
 
-	  Fortunately, unless you used the new functionality of agent() in
-	  the past two days since I released 0.55, it won't be a problem.
+          Fortunately, unless you used the new functionality of agent() in
+          the past two days since I released 0.55, it won't be a problem.
 
-	[ENHANCEMENTS]
-	* Removed the dependencies on Carp and Test::Builder.  There still
-	  is a dependency on Test::Builder for Test::More, but it's no
-	  longer explicit in the Makefile.PL.  Mech will use Carp if
-	  possible, but it's no longer a requirement.
+        [ENHANCEMENTS]
+        * Removed the dependencies on Carp and Test::Builder.  There still
+          is a dependency on Test::Builder for Test::More, but it's no
+          longer explicit in the Makefile.PL.  Mech will use Carp if
+          possible, but it's no longer a requirement.
 
-	[INTERNALS]
-	* Added _carp method for handling conditional warnings, rather
-	  than checking quiet() all the time.
+        [INTERNALS]
+        * Added _carp method for handling conditional warnings, rather
+          than checking quiet() all the time.
 
-0.55	July 22, 2003  12:10pm
-	[ENHANCEMENTS]
-	* Added WWW::Mechanize::Link object to encapsulate what used to
-	  be an array reference of stuff from find_link().  This replaces
-	  having to know that $link->[0] was URL and so on.  However,
-	  since WWW::Mechanize::Link is a blessed arrayref, it's backwards
-	  compatible with existing code.
+0.55    July 22, 2003  12:10pm
+        [ENHANCEMENTS]
+        * Added WWW::Mechanize::Link object to encapsulate what used to
+          be an array reference of stuff from find_link().  This replaces
+          having to know that $link->[0] was URL and so on.  However,
+          since WWW::Mechanize::Link is a blessed arrayref, it's backwards
+          compatible with existing code.
 
-	* The WWW::Mechanize::Link object now tracks what tag the link
-	  came from (<A>, <FRAME> or <IFRAME>).
+        * The WWW::Mechanize::Link object now tracks what tag the link
+          came from (<A>, <FRAME> or <IFRAME>).
 
-	* No longer loads Carp unless and until it's necessary.
+        * No longer loads Carp unless and until it's necessary.
 
-	* submit_form() now uses the currently specified form if a
-	  form_name or form_number parm is not specified. (RT #2768)
+        * submit_form() now uses the currently specified form if a
+          form_name or form_number parm is not specified. (RT #2768)
 
-	* Added a translate table of handy browser strings that the
-	  agent() method recognizes.  These strings may be one of the
-	  following:
+        * Added a translate table of handy browser strings that the
+          agent() method recognizes.  These strings may be one of the
+          following:
 
-	     * Windows IE 6
-	     * Windows Mozilla
-	     * Mac Safari
-	     * Mac Mozilla
-	     * Linux Mozilla
-	     * Linux Konqueror
+             * Windows IE 6
+             * Windows Mozilla
+             * Mac Safari
+             * Mac Mozilla
+             * Linux Mozilla
+             * Linux Konqueror
 
-	  For example, "Windows IE 6" gets replaced with
-	  "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)".
-	  Thanks to Ed Silva for the list.
+          For example, "Windows IE 6" gets replaced with
+          "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)".
+          Thanks to Ed Silva for the list.
 
-	[DOCUMENTATION]
-	* Moved the deprecated methods to their own section.
+        [DOCUMENTATION]
+        * Moved the deprecated methods to their own section.
 
-	* Removed the TODO list, since it's all in RT.
+        * Removed the TODO list, since it's all in RT.
 
-0.54	July 20, 2003  12:47am
-	[THINGS THAT MIGHT BREAK YOUR CODE]
-	* See the enhancements on extract_links() and failures.
-	  Also, see the note about #2811 below.
+0.54    July 20, 2003  12:47am
+        [THINGS THAT MIGHT BREAK YOUR CODE]
+        * See the enhancements on extract_links() and failures.
+          Also, see the note about #2811 below.
 
-	[ENHANCEMENTS]
-	* find_all_links() and find_link() can specify multiple
-	  text or url parameters, which will be anded together.
-	  Before, there was a pecking order in which parm took
-	  precedence, and any extras were ignored.  To find the
-	  first link with text of "news" and with "cnn.com" in the
-	  URL, use:
+        [ENHANCEMENTS]
+        * find_all_links() and find_link() can specify multiple
+          text or url parameters, which will be anded together.
+          Before, there was a pecking order in which parm took
+          precedence, and any extras were ignored.  To find the
+          first link with text of "news" and with "cnn.com" in the
+          URL, use:
 
-	    $a->find_link( text => "news", url_regex => qr/cnn\.com/ );
+            $a->find_link( text => "news", url_regex => qr/cnn\.com/ );
 
-	  Thanks to Greg Davies for the idea. (RT #2973)
+          Thanks to Greg Davies for the idea. (RT #2973)
 
-	* extract_links() is now an internal-only method, named
-	  _extract_links().  If you're using it, don't.  Use
-	  find_all_links() instead, which is more flexible.
+        * extract_links() is now an internal-only method, named
+          _extract_links().  If you're using it, don't.  Use
+          find_all_links() instead, which is more flexible.
 
-	* Now, when there is a failure of some kind, certain fields
-	  like title, forms and links are cleared out.  Before, you'd
-	  have leftover links from the previous page.  I suspect that
-	  at least one person out there has been mistakenly relying
-	  on this behavior, and his code will now break, but that's
-	  a good thing.  See t/failure.t for more.
+        * Now, when there is a failure of some kind, certain fields
+          like title, forms and links are cleared out.  Before, you'd
+          have leftover links from the previous page.  I suspect that
+          at least one person out there has been mistakenly relying
+          on this behavior, and his code will now break, but that's
+          a good thing.  See t/failure.t for more.
 
-	[FIXES]
-	* No longer tries to tech mech-forms if you're not installing
-	  it.
-	* Fixed #2811: The definition of the link text contents
-	  did not match the documentation.
+        [FIXES]
+        * No longer tries to tech mech-forms if you're not installing
+          it.
+        * Fixed #2811: The definition of the link text contents
+          did not match the documentation.
 
-	[DOCUMENTATION]
-	* Added a sample CPAN search from Ed Silva.
-	* Added link to the Perl Advent Calendar.
+        [DOCUMENTATION]
+        * Added a sample CPAN search from Ed Silva.
+        * Added link to the Perl Advent Calendar.
 
 
-0.53	July 16, 2003
-	This version ONLY fixes some test-file problems.  There are no
-	functionality enhancements or bug fixes in WWW::Mechanize itself.
+0.53    July 16, 2003
+        This version ONLY fixes some test-file problems.  There are no
+        functionality enhancements or bug fixes in WWW::Mechanize itself.
 
-	[FIXES]
-	* Explicitly stringifies URI::file objects in the *.t files,
-	  in hopes of getting the thread bummers fixed.  See RT
-	  #2874 and #2880.
+        [FIXES]
+        * Explicitly stringifies URI::file objects in the *.t files,
+          in hopes of getting the thread bummers fixed.  See RT
+          #2874 and #2880.
 
-0.52	July 7, 2003
-	[ENHANCEMENTS]
-	* mech-forms now handles local files.
-	* Added t/mech-forms.t to test the app
-	* Added some parm-checking to submit_form()
-	* All the warns are now carps.  Thanks to MJD for pointing
-	  it out during his "Tricks Of The Wizards" talk.
+0.52    July 7, 2003
+        [ENHANCEMENTS]
+        * mech-forms now handles local files.
+        * Added t/mech-forms.t to test the app
+        * Added some parm-checking to submit_form()
+        * All the warns are now carps.  Thanks to MJD for pointing
+          it out during his "Tricks Of The Wizards" talk.
 
-	[FIXES]
-	* Bumped up the Test::Builder requirement to 0.17, which
-	  I hope will get rid of the thread problems with t/tick.t.
-	  Thanks to Autrijus Tang for pointing out the note in
-	  Builder.pm.
+        [FIXES]
+        * Bumped up the Test::Builder requirement to 0.17, which
+          I hope will get rid of the thread problems with t/tick.t.
+          Thanks to Autrijus Tang for pointing out the note in
+          Builder.pm.
 
-0.51	June 29, 2003
-	[ENHANCEMENTS]
-	* Added the "mech-forms" command to list all the forms on
-	  a given page.
+0.51    June 29, 2003
+        [ENHANCEMENTS]
+        * Added the "mech-forms" command to list all the forms on
+          a given page.
 
-	[FIXES]
-	* Made the tick.t test not rely on 2shortplanks.com.
+        [FIXES]
+        * Made the tick.t test not rely on 2shortplanks.com.
 
-0.50	June 24, 2003
-	[ENHANCEMENTS]
-	* Mech now does what most browsers do when they handle a
-	  redirect: It changes the POST to a GET.  This doesn't match the
-	  RFC, but it's what browsers do.  Thanks to Stuart Children.
+0.50    June 24, 2003
+        [ENHANCEMENTS]
+        * Mech now does what most browsers do when they handle a
+          redirect: It changes the POST to a GET.  This doesn't match the
+          RFC, but it's what browsers do.  Thanks to Stuart Children.
 
-0.49	June 23, 2003
-	[FIXES]
-	* Added a fix a while ago that tracks redirect history.  That fix
-	  had the bad side effect of always allowing a redirect.
-	  That has now been fixed.
+0.49    June 23, 2003
+        [FIXES]
+        * Added a fix a while ago that tracks redirect history.  That fix
+          had the bad side effect of always allowing a redirect.
+          That has now been fixed.
 
-0.48	June 22, 2003
-	[ENHANCEMENTS]
-	* Added find_all_links() as the counterpart to find_link().
+0.48    June 22, 2003
+        [ENHANCEMENTS]
+        * Added find_all_links() as the counterpart to find_link().
 
-	[FIXES]
-	* get() wasn't passing through its parms to LWP::UserAgent::get(),
-	  so you couldn't use the :content_file parm.  Now it
-	  behaves like a good little subclass.
+        [FIXES]
+        * get() wasn't passing through its parms to LWP::UserAgent::get(),
+          so you couldn't use the :content_file parm.  Now it
+          behaves like a good little subclass.
 
-0.47	June 21, 2003
-	[ENHANCEMENTS]
-	* find_link() now lets you pass n=>"all" to get back a list
-	  of all links that match the other criteria.  NOTE: Outdated!  See
-	  v0.48 for the preferred way.
-	* find_link() and follow_link() now complain if you pass
-	  invalid parms to them.
+0.47    June 21, 2003
+        [ENHANCEMENTS]
+        * find_link() now lets you pass n=>"all" to get back a list
+          of all links that match the other criteria.  NOTE: Outdated!  See
+          v0.48 for the preferred way.
+        * find_link() and follow_link() now complain if you pass
+          invalid parms to them.
 
-	[FIXES]
-	* Tracks URI history properly after redirects.
+        [FIXES]
+        * Tracks URI history properly after redirects.
 
-0.46	June 20, 2003
-	[ENHANCEMENTS]
-	* Added tick() and untick() functions for handling checkboxes.
-	  Thanks to Mark Fowler for this patch.
-	* The uri() will only be the URI of the requested page if it worked.
-	* Oh yes, I forgot to mention: We're on Sourceforge now.
+0.46    June 20, 2003
+        [ENHANCEMENTS]
+        * Added tick() and untick() functions for handling checkboxes.
+          Thanks to Mark Fowler for this patch.
+        * The uri() will only be the URI of the requested page if it worked.
+        * Oh yes, I forgot to mention: We're on Sourceforge now.
 
-0.45	June 11, 2003
-	[ENHANCEMENTS]
-	* Added response() method, which is identical to res().
-	* Added a convenience method success(), which is just a wrapper
-	  around $agent->res->is_success().
-	* Passes along a Referer: header.  It can still be overridden
-	  with the %Headers hash, though.  Thanks, Corion.
-	* We now have a set of localized tests that run for machines that
-	  aren't connected to the Net.  There's now a t/lib/ directory for
-	  those helper files, and the previous Utils.pm has been dropped.
-	  Again, Corion to the rescue.
+0.45    June 11, 2003
+        [ENHANCEMENTS]
+        * Added response() method, which is identical to res().
+        * Added a convenience method success(), which is just a wrapper
+          around $agent->res->is_success().
+        * Passes along a Referer: header.  It can still be overridden
+          with the %Headers hash, though.  Thanks, Corion.
+        * We now have a set of localized tests that run for machines that
+          aren't connected to the Net.  There's now a t/lib/ directory for
+          those helper files, and the previous Utils.pm has been dropped.
+          Again, Corion to the rescue.
 
-	[DOCUMENTATION]
-	* Added to the FAQ
-	* Rearranged all the functions in the file so they are now
-	  logically grouped.
+        [DOCUMENTATION]
+        * Added to the FAQ
+        * Rearranged all the functions in the file so they are now
+          logically grouped.
 
-0.44	June 5, 2003
-	[ENHANCEMENTS]
-	* Now follows redirects after a POST.  By default, LWP::UserAgent
-	  does NOT follow redirects after a POST.  This matches the
-	  official RFC.  However, since WWW::Mechanize is meant to be a
-	  browser clone, and browsers follow the redirects after a POST,
-	  I've changed this behavior.  If this causes bummers, let me
-	  know and maybe I'll throw in a switch.
+0.44    June 5, 2003
+        [ENHANCEMENTS]
+        * Now follows redirects after a POST.  By default, LWP::UserAgent
+          does NOT follow redirects after a POST.  This matches the
+          official RFC.  However, since WWW::Mechanize is meant to be a
+          browser clone, and browsers follow the redirects after a POST,
+          I've changed this behavior.  If this causes bummers, let me
+          know and maybe I'll throw in a switch.
 
-	[DOCUMENTATION]
-	* The package now includes the WWW::Mechanize logo in the etc/
-	  directory.  I have no idea what I'll do with it, but thanks
-	  to Mengwong for making it!
+        [DOCUMENTATION]
+        * The package now includes the WWW::Mechanize logo in the etc/
+          directory.  I have no idea what I'll do with it, but thanks
+          to Mengwong for making it!
 
-0.43	May 29, 2003
-	[ENHANCEMENTS]
-	* Now uses request() instead of send_request().  This should
-	  solve all of our redirection and cookie bummers.
-	* Added reload() method.  Thanks, Corion.
+0.43    May 29, 2003
+        [ENHANCEMENTS]
+        * Now uses request() instead of send_request().  This should
+          solve all of our redirection and cookie bummers.
+        * Added reload() method.  Thanks, Corion.
 
-0.42	May 26, 2003
-	[ENHANCEMENTS]
-	* Renamed _do_request() to send_request(), so it's now a
-	  proper overload of LWP::UserAgent.  Thanks to Philippe Bruhat.
-	  Recorded in RT ticket #1708.
-	* Removed the req() method, and tests that used it.
-	* extract_links() now checks for <IFRAME> tags along with the
-	  existing <A> and <FRAME>.
-	* Now explicitly requires HTML::HeadParser.
-	* Doesn't load Carp unless it's actually needed.
+0.42    May 26, 2003
+        [ENHANCEMENTS]
+        * Renamed _do_request() to send_request(), so it's now a
+          proper overload of LWP::UserAgent.  Thanks to Philippe Bruhat.
+          Recorded in RT ticket #1708.
+        * Removed the req() method, and tests that used it.
+        * extract_links() now checks for <IFRAME> tags along with the
+          existing <A> and <FRAME>.
+        * Now explicitly requires HTML::HeadParser.
+        * Doesn't load Carp unless it's actually needed.
 
-0.41	May 22, 2003
-	[ENHANCEMENTS]
-	* There are no enhancements in functionality.
-	* Testing suite getting more network-independent.
+0.41    May 22, 2003
+        [ENHANCEMENTS]
+        * There are no enhancements in functionality.
+        * Testing suite getting more network-independent.
 
-	[DOCUMENTATION]
-	* Started a FAQ section.
-	* New SYNOPSIS section.  Thanks to Uri Guttmann.
-	* Documentation fixes.  Thanks to Mark Stosberg, Mike Fragassi.
+        [DOCUMENTATION]
+        * Started a FAQ section.
+        * New SYNOPSIS section.  Thanks to Uri Guttmann.
+        * Documentation fixes.  Thanks to Mark Stosberg, Mike Fragassi.
 
-0.40	April 18, 2003
-	[ENHANCEMENTS]
-	* Three new methods.
-	  * find_link() for finding a specified link
-	  * follow_link() for following a specified link
-	  * submit_form() for all-in-one form submission.
-	  All three owe a great deal to Uri Guttmann.  Thanks, Uri!
-	* Split out the examples into WWW::Mechanize::Examples.pod
-	* Added t/back.t
-	* Documentation fixes from Abigail
+0.40    April 18, 2003
+        [ENHANCEMENTS]
+        * Three new methods.
+          * find_link() for finding a specified link
+          * follow_link() for following a specified link
+          * submit_form() for all-in-one form submission.
+          All three owe a great deal to Uri Guttmann.  Thanks, Uri!
+        * Split out the examples into WWW::Mechanize::Examples.pod
+        * Added t/back.t
+        * Documentation fixes from Abigail
 
-0.39	April 1, 2003
-	[ENHANCEMENTS]
-	* No functional enhancements.  Everything is docs.
+0.39    April 1, 2003
+        [ENHANCEMENTS]
+        * No functional enhancements.  Everything is docs.
 
-	* Added a new example from Dan Rinzel, for posting to Movable Type
+        * Added a new example from Dan Rinzel, for posting to Movable Type
 
-	* Started playing with having the test suite not have to have
-	  live net access.
+        * Started playing with having the test suite not have to have
+          live net access.
 
-0.38	March 24, 2003
-	[DEPRECATIONS]
-	* The %WWW::Mechanize::Headers hash is officially deprecated.
-	  It will be removed pretty soon.  I'm not sure what the
-	  replacement will be, but it won't be a package-level hash.
+0.38    March 24, 2003
+        [DEPRECATIONS]
+        * The %WWW::Mechanize::Headers hash is officially deprecated.
+          It will be removed pretty soon.  I'm not sure what the
+          replacement will be, but it won't be a package-level hash.
 
-	[ENHANCEMENTS]
-	* The submit() method is no longer an alias for click("submit"),
-	  because some forms don't have a button called "submit".
-	  In fact, some may not have any buttons at all if they're
-	  JavaScript-controlled.
+        [ENHANCEMENTS]
+        * The submit() method is no longer an alias for click("submit"),
+          because some forms don't have a button called "submit".
+          In fact, some may not have any buttons at all if they're
+          JavaScript-controlled.
 
-	[FIXES]
-	* RT #2056: $agent->field() wasn't returning proper input field,
-	  because of an incorrect call to the underlying HTML::Form.
-	  Thanks to Prakash Kailasa.
+        [FIXES]
+        * RT #2056: $agent->field() wasn't returning proper input field,
+          because of an incorrect call to the underlying HTML::Form.
+          Thanks to Prakash Kailasa.
 
-0.37	March 4, 2003
-	[ENHANCEMENTS]
-	* Added an is_html() method
-	* Added a title() method
-	* No longer requires the Clone module.
-	* No longer requires the Test::Pod module, although it's nice
-	  to have.
+0.37    March 4, 2003
+        [ENHANCEMENTS]
+        * Added an is_html() method
+        * Added a title() method
+        * No longer requires the Clone module.
+        * No longer requires the Test::Pod module, although it's nice
+          to have.
 
-0.36	February 4, 2003
-	[ENHANCEMENTS]
-	* Added form lookup by name.  Thanks to Jan Ivar Pladsen and
-	  Iain Truskett for their patches.
-	* Added new functions form_name() and form_number().  Existing
-	  form() function calls each of these as appropriate.
-	* Explicitly requires LWP 5.69 because of the form naming.
-	* Added new POD section "Examples" for user-submitted sample code
-	  of how to use WWW::Mechanize.
-	* Quieted the warnings in the test suite, so that you don't get
-	  expected, but disconcerting, warnings to the screen.
+0.36    February 4, 2003
+        [ENHANCEMENTS]
+        * Added form lookup by name.  Thanks to Jan Ivar Pladsen and
+          Iain Truskett for their patches.
+        * Added new functions form_name() and form_number().  Existing
+          form() function calls each of these as appropriate.
+        * Explicitly requires LWP 5.69 because of the form naming.
+        * Added new POD section "Examples" for user-submitted sample code
+          of how to use WWW::Mechanize.
+        * Quieted the warnings in the test suite, so that you don't get
+          expected, but disconcerting, warnings to the screen.
 
-0.35	January 22, 2003
-	[ENHANCEMENTS]
-	* Now creates an internal cookie_jar by default.
-	* Beefing up the test suite
-	* Don't forget, direct access to internal members is deprecated.
-	  Use the accessors starting now.
+0.35    January 22, 2003
+        [ENHANCEMENTS]
+        * Now creates an internal cookie_jar by default.
+        * Beefing up the test suite
+        * Don't forget, direct access to internal members is deprecated.
+          Use the accessors starting now.
 
-0.33	January 15, 2003
-	[ENHANCEMENTS]
-	* Added accessor methods
-	* Deprecated the direct accessing of object contents.  You can
-	  no longer rely on the names of any of the hash elements.
-	* Added a quiet() method to suppress warnings to the screen.
+0.33    January 15, 2003
+        [ENHANCEMENTS]
+        * Added accessor methods
+        * Deprecated the direct accessing of object contents.  You can
+          no longer rely on the names of any of the hash elements.
+        * Added a quiet() method to suppress warnings to the screen.
 
-	[FIXES]
-	* More documentation fixes.  (Thanks to Briac Pilpré)
+        [FIXES]
+        * More documentation fixes.  (Thanks to Briac Pilpré)
 
-0.32	September 23, 2002
-	[FIXES]
-	* Now correctly calls the LWP::UserAgent constructor.  (Thanks to
-	  Philippe "BooK" Bruhat)
+0.32    September 23, 2002
+        [FIXES]
+        * Now correctly calls the LWP::UserAgent constructor.  (Thanks to
+          Philippe "BooK" Bruhat)
 
-	* Fixed doc on what get() method returns.  (Again thanks to BooK)
+        * Fixed doc on what get() method returns.  (Again thanks to BooK)
 
-	* Now uses http://www.google.com/intl/en/ as the basis for
-	  testing, since non-US users apparently get redirected to
-	  country-specific sites when they hit http://www.google.com/
+        * Now uses http://www.google.com/intl/en/ as the basis for
+          testing, since non-US users apparently get redirected to
+          country-specific sites when they hit http://www.google.com/
 
-0.31	September 13, 2002
-	[ENHANCEMENTS]
-	* get() now returns the HTTP::Response object.
-	* Prepended push_page_stack(), pop_page_stack() and
-	  do_request() with underscores, to emphasize that they
-	  are for internal use only.
+0.31    September 13, 2002
+        [ENHANCEMENTS]
+        * get() now returns the HTTP::Response object.
+        * Prepended push_page_stack(), pop_page_stack() and
+          do_request() with underscores, to emphasize that they
+          are for internal use only.
 
-0.30	September 10, 2002
-	[ENHANCEMENTS]
-	* Fixed the stack popping problem.
+0.30    September 10, 2002
+        [ENHANCEMENTS]
+        * Fixed the stack popping problem.
 
-	[FIXES]
-	* Put all the inline tests into t/*.t
+        [FIXES]
+        * Put all the inline tests into t/*.t
 
-	* get() doesn't work w/relative URLs
-	http://rt.cpan.org/NoAuth/Bug.html?id=1492
+        * get() doesn't work w/relative URLs
+        http://rt.cpan.org/NoAuth/Bug.html?id=1492
 
-	* The arrays returned by extract_links()
-	now have a third element, which contains
-	the name attribute of the link (undef
-	if the link has no name attribute).
+        * The arrays returned by extract_links()
+        now have a third element, which contains
+        the name attribute of the link (undef
+        if the link has no name attribute).
 
 
 Code before this point is forked off from WWW::Automate 0.20b.
