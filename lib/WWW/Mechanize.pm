@@ -22,7 +22,7 @@ WWW::Mechanize - automate interaction with websites
     $agent->add_header($name => $value);
 
     use Test::More;
-    like( $agent->{content}, /$expected/, "Got expected content" );
+    like( $agent->{content}, qr/$expected/, "Got expected content" );
 
 =head1 DESCRIPTION
 
@@ -53,13 +53,13 @@ our @ISA = qw( LWP::UserAgent );
 
 =head1 VERSION
 
-Version 0.30
+Version 0.31
 
-    $Header: /home/cvs/www-mechanize/lib/WWW/Mechanize.pm,v 1.12 2002/09/10 21:38:16 alester Exp $
+    $Header: /home/cvs/www-mechanize/lib/WWW/Mechanize.pm,v 1.17 2002/09/13 20:16:39 alester Exp $
 
 =cut
 
-our $VERSION = "0.30";
+our $VERSION = "0.31";
 
 our %headers;
 
@@ -89,7 +89,7 @@ sub new {
 
 =head2 $agent->get($url)
 
-Given a URL/URI, fetches it.  
+Given a URL/URI, fetches it.  Returns an HTTP status code.
 
 The results are stored internally in the agent object, as follows:
 
@@ -104,7 +104,7 @@ The results are stored internally in the agent object, as follows:
      form      Current form                      [HTML::Form]
      links     Array of links found in content 
 
-You can get at them with, for example: $agent->{content}
+You can get at them with, for example: C<< $agent->{content} >>
 
 =cut
 
@@ -118,7 +118,8 @@ sub get {
     }
 
     $self->{req} = HTTP::Request->new( GET => $self->{uri} );
-    $self->do_request(); 
+
+    return $self->_do_request(); 
 }
 
 =head2 $agent->follow($string|$num)
@@ -157,7 +158,7 @@ sub follow {
 
     $thislink = $thislink->[0];     # we just want the URL, not the text
 
-    $self->push_page_stack();
+    $self->_push_page_stack();
     $self->get( $thislink );
 
     return 1;
@@ -208,19 +209,25 @@ sub field {
 
 =head2 $agent->click($button, $x, $y);
 
-Has the effect of clicking a button on a form.  This method takes an
-optional method which is the name of the button to be pressed.  If there
-is only one button on the form, it simply clicks that one button.
+Has the effect of clicking a button on a form.  The first argument
+is the name of the button to be clicked.  The second and third
+arguments (optional) allow you to specify the (x,y) cooridinates
+of the click.
+
+If there is only one button on the form, C<< $agent->click() >> with
+no arguments simply clicks that one button.
+
+Returns an HTTP status code.
 
 =cut
 
 sub click {
     my ($self, $button, $x, $y) = @_;
     for ($x, $y) { $_ = 1 unless defined; }
-    $self->push_page_stack();
+    $self->_push_page_stack();
     $self->{uri} = $self->{form}->uri;
     $self->{req} = $self->{form}->click($button, $x, $y);
-    $self->do_request();
+    return $self->_do_request();
 }
 
 =head2 $agent->submit()
@@ -231,7 +238,7 @@ Shortcut for $a->click("submit")
 
 sub submit {
     my ($self) = shift;
-    $self->click("submit");
+    return $self->click("submit");
 }
 
 =head2 $agent->back();
@@ -243,7 +250,7 @@ the previous page.  Won't go back past the first page.
 
 sub back {
     my $self = shift;
-    $self->pop_page_stack;
+    $self->_pop_page_stack;
 }
 
 =head2 $agent->add_header(name => $value)
@@ -263,60 +270,37 @@ sub add_header {
     $WWW::Mechanize::headers{$name} = $value;
 }
 
-=head1 INTERNAL METHODS
-
-These methods are only used internally.  You probably don't need to 
-know about them.
-
-=head2 push_page_stack() / pop_page_stack()
-
-The agent keeps a stack of visited pages, which it can pop when it needs
-to go BACK and so on.  
-
-The current page needs to be pushed onto the stack before we get a new
-page, and the stack needs to be popped when BACK occurs.
-
-Neither of these take any arguments, they just operate on the $agent
-object.
-
-=cut
-
-sub push_page_stack {
-    my $self = shift;
-
-    my $save_stack = $self->{page_stack};
-    $self->{page_stack} = [];
-
-    push( @$save_stack, clone($self) );
-
-    $self->{page_stack} = $save_stack;
-
-    return 1;
-}
-
-sub pop_page_stack {
-    my $self = shift;
-
-    if (@{$self->{page_stack}}) {
-	my $popped = pop @{$self->{page_stack}};
-
-	# eliminate everything in self
-	foreach my $key ( keys %$self ) {
-	    delete $self->{ $key }		unless $key eq 'page_stack';
-	}
-
-	# make self just like the popped object
-	foreach my $key ( keys %$popped ) {
-	    $self->{ $key } = $popped->{ $key } unless $key eq 'page_stack';
-	}
-    }
-
-    return 1;
-}
-
 =head2 extract_links()
 
 Extracts HREF links from the content of a webpage.
+
+The return value is a reference to an array containing
+an array reference for every C<< <A> >> and C<< <FRAME> >>
+tag in C<$self->{content}>.  
+
+The array elements for the C<< <A> >> tag are:
+
+=over 4
+
+=item [0]: the contents of the C<href> attribute
+
+=item [1]: the text enclosed by the C<< <A> >> tag
+
+=item [2]: the contents of the C<name> attribute
+
+=back
+
+The array elements for the C<< <FRAME> >> tag are:
+
+=over 4
+
+=item [0]: the contents of the C<src> attribute
+
+=item [1]: the contents of the C<name> attribute
+
+=item [2]: the contents of the C<name> attribute
+
+=back
 
 =cut
 
@@ -337,14 +321,68 @@ sub extract_links {
     return \@links;
 }
 
-=head2 do_request()
+=head1 INTERNAL METHODS
 
-Actually performs a request on the $self->{req} request object, and sets
-a bunch of attributes on $self.
+These methods are only used internally.  You probably don't need to 
+know about them.
+
+=head2 _push_page_stack() / _pop_page_stack()
+
+The agent keeps a stack of visited pages, which it can pop when it needs
+to go BACK and so on.  
+
+The current page needs to be pushed onto the stack before we get a new
+page, and the stack needs to be popped when BACK occurs.
+
+Neither of these take any arguments, they just operate on the $agent
+object.
 
 =cut
 
-sub do_request {
+sub _push_page_stack {
+    my $self = shift;
+
+    my $save_stack = $self->{page_stack};
+    $self->{page_stack} = [];
+
+    push( @$save_stack, clone($self) );
+
+    $self->{page_stack} = $save_stack;
+
+    return 1;
+}
+
+sub _pop_page_stack {
+    my $self = shift;
+
+    if (@{$self->{page_stack}}) {
+	my $popped = pop @{$self->{page_stack}};
+
+	# eliminate everything in self
+	foreach my $key ( keys %$self ) {
+	    delete $self->{ $key }		unless $key eq 'page_stack';
+	}
+
+	# make self just like the popped object
+	foreach my $key ( keys %$popped ) {
+	    $self->{ $key } = $popped->{ $key } unless $key eq 'page_stack';
+	}
+    }
+
+    return 1;
+}
+
+
+=head2 _do_request()
+
+Performs a request on the $self->{req} request object, and sets
+a bunch of attributes on $self.
+
+Returns an L<HTTP::Response> object.
+
+=cut
+
+sub _do_request {
     my ($self) = @_;
     foreach my $h (keys %WWW::Mechanize::headers) {
         $self->{req}->header( $h => $WWW::Mechanize::headers{$h} );
@@ -360,6 +398,8 @@ sub do_request {
         $self->{form}  = $self->{forms}->[0] if @{$self->{forms}};
         $self->{links} = $self->extract_links();
     }
+
+    return $self->{res};
 }
 
 =head1 BUGS
