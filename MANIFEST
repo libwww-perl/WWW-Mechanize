@@ -36,6 +36,7 @@ t/image-new.t
 t/image-parse.html
 t/image-parse.t
 t/link-base.t
+t/link-relative.t
 t/link.t
 t/mech-dump.t
 t/new.t
