@@ -1,7 +1,7 @@
 #!/usr/bin/perl -w
 
 use strict;
-use Test::More tests => 4;
+use Test::More tests => 5;
 use URI::file;
 
 use_ok( 'WWW::Mechanize' );
@@ -11,6 +11,7 @@ isa_ok( $mech, "WWW::Mechanize" );
 
 my $uri = URI::file->new_abs( "t/tick.html" )->as_string;
 $mech->get( $uri );
+is( ref $mech->uri, "", "URI shouldn't be an object" );
 ok( $mech->success, $uri );
 
 $mech->form_number( 1 );

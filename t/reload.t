@@ -1,6 +1,6 @@
 use warnings;
 use strict;
-use Test::More tests => 12;
+use Test::More tests => 13;
 
 use lib 't/lib';
 use Test::HTTP::LocalServer;
@@ -32,6 +32,7 @@ INVALIDATE: {
 RELOAD: {
     my $r = $agent->reload;
     isa_ok( $r, "HTTP::Response" );
+    is( ref $agent->uri, "", "URI shouldn't be an object" );
     ok( $agent->is_html );
     ok( $agent->title, "WWW::Mechanize::Shell test page" );
 }
