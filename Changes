@@ -1,5 +1,12 @@
-# $Id: Changes,v 1.12 2003/01/16 15:58:16 alester Exp $
+# $Id: Changes,v 1.14 2003/01/22 23:53:11 alester Exp $
 Revision history for Perl extension WWW::Mechanize
+
+0.35	January 22, 2003
+	[ENHANCEMENTS]
+	* Now creates an internal cookie_jar by default.
+	* Beefing up the test suite
+	* Don't forget, direct access to internal members is deprecated.
+	  Use the accessors starting now.
 
 0.33	January 15, 2003
 	[ENHANCEMENTS]

@@ -27,14 +27,10 @@ WWW::Mechanize - automate interaction with websites
 =head1 DESCRIPTION
 
 This module is intended to help you automate interaction with a website.
-It bears a not-very-remarkable outwards resemblance to WWW::Chat, on which
+It bears a not-very-remarkable outwards resemblance to L<WWW::Chat>, on which
 it is based.  The main difference between this module and WWW::Chat is
 that WWW::Chat requires a pre-processing stage before you can run your
 script, whereas WWW::Mechanize does not.
-
-WWW::Mechanize is a subclass of LWP::UserAgent, so anything you can do
-with an LWP::UserAgent, you can also do with this.  See L<LWP::UserAgent>
-for more information on the possibilities.
 
 =cut
 
@@ -53,13 +49,13 @@ our @ISA = qw( LWP::UserAgent );
 
 =head1 VERSION
 
-Version 0.33
+Version 0.35
 
-    $Header: /home/cvs/www-mechanize/lib/WWW/Mechanize.pm,v 1.25 2003/01/16 15:58:16 alester Exp $
+    $Header: /home/cvs/www-mechanize/lib/WWW/Mechanize.pm,v 1.30 2003/01/22 23:53:11 alester Exp $
 
 =cut
 
-our $VERSION = "0.33";
+our $VERSION = "0.35";
 
 our %headers;
 
@@ -72,16 +68,36 @@ the 'agent'.
 
     my $agent = WWW::Mechanize->new()
 
+The constructor for WWW::Mechanize overrides two of the parms to the
+LWP::UserAgent constructor:
+
+    agent => "WWW::Mechanize/#.##" cookie_jar => {}    # an empty,
+    memory-only HTTP::Cookies object
+
+You can override these overrides by passing parms to the constructor,
+as in:
+
+    my $agent = WWW::Mechanize->new( agent=>"wonderbot 1.01" );
+
+If you want none of the overhead of a cookie jar, or don't want your
+bot accepting cookies, you have to explicitly disallow it, like so:
+
+    my $agent = WWW::Mechanize->new( cookie_jar => undef );
+
 =cut
 
 sub new {
     my $class = shift;
 
-    my $self = $class->SUPER::new( @_ );
+    my %default_parms = (
+	agent	    => "WWW-Mechanize/$VERSION",
+	cookie_jar  => {},
+    );
+
+    my $self = $class->SUPER::new( %default_parms, @_ );
 
     $self->{page_stack} = [];
     $self->{quiet} = 0;
-    $self->agent( "WWW-Mechanize/$VERSION" );
     $self->env_proxy();
 
     return bless $self, $class;
@@ -227,8 +243,8 @@ sub follow {
 
 Allows you to suppress warnings to the screen.
 
-    $agent->quiet(1); # turns on warnings (the default)
-    $agent->quiet(0); # turns off warnings
+    $agent->quiet(0); # turns on warnings (the default)
+    $agent->quiet(1); # turns off warnings
     $agent->quiet();  # returns the current quietness status
 
 =cut
@@ -465,6 +481,9 @@ sub _do_request {
         $self->{req}->header( $h => $WWW::Mechanize::headers{$h} );
     }
     $self->{res}     = $self->request($self->{req});
+
+    # These internal hash elements should be dropped in favor of
+    # the accessors soon. -- 1/19/03
     $self->{status}  = $self->{res}->code;
     $self->{base}    = $self->{res}->base;
     $self->{ct}      = $self->{res}->content_type || "";
