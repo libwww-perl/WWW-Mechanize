@@ -1,3 +1,9 @@
+#!perl -T
+
+BEGIN {
+    delete @ENV{ qw( IFS CDPATH ENV BASH_ENV PATH ) };
+}
+
 use warnings;
 use strict;
 use Test::More;

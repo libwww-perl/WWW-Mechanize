@@ -1,9 +1,13 @@
-use Test::More tests => 2;
+#!perl -T
+
+use Test::More tests => 3;
 use File::Spec;
 use strict;
 
-
 my $file = File::Spec->catfile( qw( lib WWW ), "Mechanize.pm" );
+source_file_ok( $file );
+
+$file = File::Spec->catfile( qw( lib WWW Mechanize ), "Link.pm" );
 source_file_ok( $file );
 
 $file = File::Spec->catfile( qw( lib WWW Mechanize ), "Examples.pod" );

@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl -w
+#!perl -T
 
 use Test::More tests=>1;
 use HTML::Form;
