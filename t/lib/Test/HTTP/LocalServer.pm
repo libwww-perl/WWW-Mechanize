@@ -9,17 +9,28 @@ use File::Temp;
 use URI::URL qw();
 use Carp qw(carp croak);
 
-=head 2 C<Test::HTTP::LocalServer-E<gt>spawn %ARGS>
+=head2 C<< Test::HTTP::LocalServer->spawn %ARGS >>
 
 This spawns a new HTTP server. The server will stay running until
-  $server->stop
-is called.
+C<< $server->stop >> is called.
 
-Valid arguments are :
+Valid arguments are:
 
-  html => scalar containing the page to be served
-  file => filename containing the page to be served
-  debug => 1 # to make the spawned server output debug information
+=over 4
+
+=item * html
+
+scalar containing the page to be served
+
+=item * file
+
+filename containing the page to be served
+
+=item * debug
+
+Set to true to make the spawned server output debug information
+
+=back
 
 All served HTML will have the first %s replaced by the current location.
 
@@ -55,7 +66,6 @@ sub spawn {
     $web_page = "";
   };
 
-  #my $server_file = File::Spec->catfile( $FindBin::Bin,File::Spec->updir,'inc','Test','HTTP','log-server' );
   my $server_file = File::Spec->catfile( $FindBin::Bin,'lib','Test','HTTP','log-server' );
 
   open my $server, qq'$^X $server_file "$web_page" "$logfile" |'
@@ -70,7 +80,7 @@ sub spawn {
   $self;
 };
 
-=head2 C<$server-E<gt>port>
+=head2 C<< $server->port >>
 
 This returns the port of the current server. As new instances
 will most likely run under a different port, this is convenient
@@ -83,13 +93,13 @@ sub port {
   $_[0]->{_server_url}->port
 };
 
-=head2 C<$server-E<gt>url>
+=head2 C<< $server->url >>
 
 This returns the url where you can contact the server. This url
 is valid until you call
-  $server->stop;
+C<< $server->stop >>
 or
-  $server->get_output;
+C<< $server->get_output >>
 
 =cut
 
@@ -97,7 +107,7 @@ sub url {
   $_[0]->{_server_url}->abs
 };
 
-=head2 C<$server-E<gt>stop>
+=head2 C<< $server->stop >>
 
 This stops the server process by requesting a special
 url.
@@ -109,7 +119,7 @@ sub stop {
   undef $_[0]->{_server_url}
 };
 
-=head2 C<$server-E<gt>get_output>
+=head2 C<< $server->get_output >>
 
 This stops the server by calling C<stop> and then returns the
 output of the server process. This output will be a list of
