@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.62
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.71 2003/10/08 01:50:53 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.72 2003/10/08 21:29:42 petdance Exp $
 
 =cut
 
@@ -168,13 +168,13 @@ parms that L<LWP::UserAgent> recognizes.
 
 =over 4
 
-=item * autocheck => [0|1]
+=item * C<< autocheck => [0|1] >>
 
 Checks each request made to see if it was successful.  This saves you
 the trouble of manually checking yourself.  Any errors found are errors,
 not warnings.  Default is off.
 
-=item * onwarn => \&func()
+=item * C<< onwarn => \&func() >>
 
 Reference to a C<warn>-compatible function, such as C<< L<Carp>::carp >>,
 that is called when a warning needs to be shown.
@@ -185,7 +185,7 @@ it's probably better to use the C<quiet> method to control that behavior.
 If this value is not passed, Mech uses C<Carp::carp> if L<Carp> is
 installed, or C<CORE::warn> if not.
 
-=item * onerror => \&func()
+=item * C<< onerror => \&func() >>
 
 Reference to a C<die>-compatible function, such as C<< L<Carp>::croak >>,
 that is called when there's a fatal error.
@@ -195,7 +195,7 @@ If this is set to C<undef>, no errors will ever be shown.
 If this value is not passed, Mech uses C<Carp::croak> if L<Carp> is
 installed, or C<CORE::die> if not.
 
-=item * quiet => [0|1]
+=item * C<< quiet => [0|1] >>
 
 Don't complain on warnings.  Setting C<< quiet => 1 >> is the same as
 calling C<< $agent->quiet(1) >>.  Default is off.
@@ -315,7 +315,7 @@ sub known_agent_aliases {
 =head2 C<< $a->get($url) >>
 
 Given a URL/URI, fetches it.  Returns an L<HTTP::Response> object.
-I<$url> can be a well-formed URL string, or a URI::* object.
+I<$url> can be a well-formed URL string, or a L<URI> object.
 
 The results are stored internally in the agent object, but you don't
 know that.  Just use the accessors listed below.  Poking at the internals
@@ -377,7 +377,7 @@ sub back {
 =head2 C<< $a->follow_link(...) >>
 
 Follows a specified link on the page.  You specify the match to be
-found using the same parms that C<find_link()> uses.
+found using the same parms that C<L<find_link()>> uses.
 
 Here some examples:
 
@@ -393,7 +393,7 @@ Here some examples:
 
 or
 
-    $a->follow_link( url_regex => "(?i:download)" );
+    $a->follow_link( url_regex => qr/(?i:download)/ );
 
 =item * 3rd link on the page
 
@@ -433,7 +433,7 @@ sub follow_link {
 =head2 C<< $a->form_number($number) >>
 
 Selects the I<number>th form on the page as the target for subsequent
-calls to field() and click().  Also returns the form that was
+calls to C<L<field()>> and C<L<click()>>.  Also returns the form that was
 selected.  Emits a warning and returns undef if there is no such
 form.  Forms are indexed from 1, so the first form is number 1,
 not zero.
@@ -480,10 +480,10 @@ sub form_name {
 =head2 C<< $a->field($name, $value, $number) >>
 
 Given the name of a field, set its value to the value specified.  This
-applies to the current form (as set by the C<form()> method or defaulting
+applies to the current form (as set by the C<L<form()>> method or defaulting
 to the first form on the page).
 
-The optional C<$number> parameter is used to distinguish between two fields
+The optional I<$number> parameter is used to distinguish between two fields
 with the same name.  The fields are numbered from 1.
 
 =cut
@@ -513,7 +513,7 @@ has the field value and its number as the 2 elements.
 
 The fields are numbered from 1.
 
-This applies to the current form (as set by the C<form()> method or
+This applies to the current form (as set by the C<L<form()>> method or
 defaulting to the first form on the page).
 
 =cut
@@ -632,32 +632,32 @@ are a list of key/value pairs, all of which are optional.
 
 =item * form_number => n
 
-Selects the I<n>th form (calls C<form_number()>).  If this parm is not
+Selects the I<n>th form (calls C<L<form_number()>>).  If this parm is not
 specified, the currently-selected form is used.
 
 =item * form_name => name
 
-Selects the form named I<name> (calls C<form_name()>)
+Selects the form named I<name> (calls C<L<form_name()>>)
 
 =item * fields => fields
 
-Sets the field values from the I<fields> hashref (calls C<set_fields()>)
+Sets the field values from the I<fields> hashref (calls C<L<set_fields()>>)
 
 =item * button => button
 
-Clicks on button I<button> (calls C<click()>)
+Clicks on button I<button> (calls C<L<click()>>)
 
 =item * x => x, y => y
 
-Sets the x or y values for C<click()>
+Sets the x or y values for C<L<click()>>
 
 =back
 
 If no form is selected, the first form found is used.
 
-If I<button> is not passed, then the C<submit()> method is used instead.
+If I<button> is not passed, then the C<L<submit()>> method is used instead.
 
-Returns an HTTP::Response object.
+Returns an L<HTTP::Response> object.
 
 =cut
 
@@ -747,7 +747,7 @@ objects.
 =head2 C<< $a->current_form() >>
 
 Returns the current form as an L<HTML::Form> object.  I'd call this
-C<form()> except that C<form()> already exists and sets the current_form.
+C<form()> except that C<L<form()>> already exists and sets the current_form.
 
 =head2 C<< $a->links() >>
 
@@ -812,9 +812,9 @@ L<WWW::Mechanize::Link> object which describes the link.  (You'll probably
 be most interested in the C<url()> property.)  If it fails to find a
 link it returns undef.
 
-You can take the URL part and pass it to the C<get()> method.  If that's
-your plan, you might as well use the C<follow_link()> method directly,
-since it does the C<get()> for you automatically.
+You can take the URL part and pass it to the C<L<get()>> method.
+If that's your plan, you might as well use the C<L<follow_link()>>
+method directly, since it does the C<L<get()>> for you automatically.
 
 Note that C<< <FRAME SRC="..."> >> tags are parsed out of the the HTML
 and treated as links so this method works with them.
@@ -824,7 +824,7 @@ key/value pairs:
 
 =over 4
 
-=item * text => string
+=item * C<< text => string >>
 
 Matches the text of the link against I<string>, which must be an
 exact match.
@@ -833,7 +833,7 @@ To select a link with text that is exactly "download", use
 
     $a->find_link( text => "download" );
 
-=item * text_regex => regex
+=item * C<< text_regex => regex >>
 
 Matches the text of the link against I<regex>.
 
@@ -842,17 +842,17 @@ regardless of case, use
 
     $a->find_link( text_regex => qr/download/i );
 
-=item * url => string
+=item * C<< url => string >>
 
 Matches the URL of the link against I<string>, which must be an
 exact match.  This is similar to the C<text> parm.
 
-=item * url_regex => regex
+=item * C<< url_regex => regex >>
 
 Matches the URL of the link against I<regex>.  This is similar to
 the C<text_regex> parm.
 
-=item * n => I<number>
+=item * C<< n => number >>
 
 Matches against the I<n>th link.
 
@@ -890,18 +890,6 @@ The links come from the following:
 =item C<< <FRAME SRC=...> >>
 
 =item C<< <IFRAME SRC=...> >>
-
-=back
-
-The array elements are:
-
-=over 4
-
-=item [0]: contents of the link
-
-=item [1]: text enclosed by the tag
-
-=item [2]: the contents of the C<NAME> attribute
 
 =back
 
@@ -967,10 +955,9 @@ sub find_link {
 
 =head2 C<< $a->find_all_links( ... ) >>
 
-Returns all the links on the current page that match the criteria.
-The method for specifying link criteria is the same as in
-C<find_link()>.  Each of the links returned is in the same format
-as in C<find_link()>.
+Returns all the links on the current page that match the criteria.  The
+method for specifying link criteria is the same as in C<L<find_link()>>.
+Each of the links returned is a L<WWW::Mechanize::Link> object.
 
 In list context, C<find_all_links()> returns a list of the links.
 Otherwise, it returns a reference to the list of links.
@@ -1113,7 +1100,7 @@ sub request {
 =head2 C<_make_request()>
 
 Convenience method to make it easier for subclasses like
-WWW::Mechanize::Cached to intercept the request.
+L<WWW::Mechanize::Cached> to intercept the request.
 
 =cut
 
@@ -1129,7 +1116,7 @@ Please use them instead.
 
 =head2 C<< $a->follow($string|$num) >>
 
-B<DEPRECATED> in favor of C<follow_link()>, which provides more
+B<DEPRECATED> in favor of C<L<follow_link()>>, which provides more
 flexibility.
 
 Follow a link.  If you provide a string, the first link whose text
@@ -1174,7 +1161,7 @@ sub follow {
 
 =head2 C<< $a->form($number|$name) >>
 
-B<DEPRECATED> in favor of C<form_name()> or C<form_number()>.
+B<DEPRECATED> in favor of C<L<form_name()>> or C<L<form_number()>>.
 
 Selects a form by number or name, depending on if it gets passed an
 all-numeric string or not.  This means that if you have a form name
