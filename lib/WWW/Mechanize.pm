@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.58
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.53 2003/08/15 04:30:48 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.54 2003/08/15 21:48:17 petdance Exp $
 
 =cut
 
@@ -1068,7 +1068,7 @@ sub follow {
         }
     } else {                        # user provided a regexp
         LINK: foreach my $l (@links) {
-            if ($l->[1] =~ /$link/) {
+            if ( defined($l->[1]) && $l->[1] =~ /$link/) {
                 $thislink = $l;     # grab first match
                 last LINK;
             }

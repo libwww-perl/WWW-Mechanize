@@ -1,5 +1,10 @@
-# $Id: Changes,v 1.53 2003/08/15 04:30:48 petdance Exp $
+# $Id: Changes,v 1.54 2003/08/15 21:48:17 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
+
+0.59
+	[FIXES]
+	* Squelched a warning in follow() where it tries to do a regex
+	  match against an undef value.
 
 0.58	August 14, 2003  11:30pm
 	[THINGS THAT MIGHT BREAK YOUR CODE]
