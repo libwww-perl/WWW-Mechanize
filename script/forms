@@ -9,3 +9,5 @@ my $mech = new WWW::Mechanize();
 $mech->get( $url );
 $mech->success or die "Can't fetch $url\n", $mech->res->status_line, "\n";
 
+$mech->is_html or die "$url returns type \"", $mech->ct, "\", not \"text/html\"\n";
+

@@ -1,5 +1,9 @@
-# $Id: Changes,v 1.15 2003/06/24 14:50:30 petdance Exp $
+# $Id: Changes,v 1.16 2003/06/29 20:27:57 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
+
+0.51
+	[ENHANCEMENTS]
+	* Added the "forms" command to list all the forms on a given page.
 
 0.50	June 24, 2003
 	[ENHANCEMENTS]
