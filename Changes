@@ -1,9 +1,13 @@
-# $Id: Changes,v 1.60 2003/10/03 15:08:42 petdance Exp $
+# $Id: Changes,v 1.61 2003/10/06 04:01:03 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 0.61
 	[FIXES]
 	* Missing dependency on File::Temp.  Thanks, Ask.
+
+	[ENHANCEMENTS]
+	* Added the test case for the form processing problem as a .t
+	  file, since I spent so long getting it down to a simple case.
 
 0.60	September 22, 2003  10:00pm
 	[FIXES]

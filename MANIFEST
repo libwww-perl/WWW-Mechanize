@@ -22,6 +22,7 @@ t/find_link.html
 t/find_link.t
 t/follow.t
 t/form.t
+t/form-parsing.t
 t/get.t
 t/google.html
 t/lib/Test/HTTP/LocalServer.pm
