@@ -101,12 +101,10 @@ AREA_CHECKS: {
     my @wanted_links = (
 	[ "http://www.cnn.com/", "CNN", undef, "a" ],
 	[ "http://www.cnn.com/", "News", "Fred", "a" ],
-	[ "http://www.cnn.com/a", undef, undef, "area" ],
+	[ "http://www.cnn.com/area", undef, undef, "area" ],
     );
     my @links = $t->find_all_links( url_regex => qr/cnn\.com/ );
     is_deeply( \@links, \@wanted_links, "Correct links came back" );
-    use Data::Dumper;
-    print Dumper [   @links];
 
     my $linkref = $t->find_all_links( url_regex => qr/cnn\.com/ );
     is_deeply( $linkref, \@wanted_links, "Correct links came back" );

@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.56
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.46 2003/07/25 20:05:34 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.47 2003/07/31 14:02:38 petdance Exp $
 
 =cut
 
@@ -813,8 +813,22 @@ text of "News" and with "cnn.com" in the URL, use:
 =head2 C<< $a->find_link() >>: link format
 
 The return value is a reference to an array containing
-an array reference for every C<< <A> >>, C<< <FRAME> >>
-or C<< <IFRAME> >> tag in C<< $self->{content} >>.  
+a L<WWW::Mechanize::Link> object for every link in 
+C<< $self->{content} >>.  
+
+The links come from the following:
+
+=over 4
+
+=item C<< <A HREF=...> >>
+
+=item C<< <AREA HREF=...> >>
+
+=item C<< <FRAME SRC=...> >>
+
+=item C<< <IFRAME SRC=...> >>
+
+=back
 
 The array elements are:
 
@@ -1117,6 +1131,7 @@ property with L<WWW::Mechanize::Link> objects.
 
 my %urltags = (
     a => "href",
+    area => "href",
     frame => "src",
     iframe => "src",
 );
