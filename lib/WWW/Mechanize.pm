@@ -2014,18 +2014,11 @@ track things.
 L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=WWW-Mechanize> is the RT queue
 for Mechanize.  Please check to see if your bug has already been reported.
 
-=head1 AUTHOR
-
-Copyright 2004 Andy Lester <andy@petdance.com>
-
-Released under the Artistic License.  Based on Kirrily Robert's excellent
-L<WWW::Automate> package.
-
 =head1 ACKNOWLEDGEMENTS
 
 Thanks to the numerous people who have helped out on WWW::Mechanize in
 one way or another, including
-Kirrily Robert,
+Kirrily Robert for the orignal C<WWW::Automate>,
 Mike O'Regan,
 Mark Stosberg,
 Uri Guttman,
@@ -2051,6 +2044,12 @@ Dominique Quatravaux,
 Scott Lanning,
 Rob Casey,
 and the late great Iain Truskett.
+
+=head1 COPYRIGHT
+
+Copyright (c) 2004 Andy Lester. All rights reserved. This program is
+free software; you can redistribute it and/or modify it under the same
+terms as Perl itself.
 
 =cut
 

@@ -124,11 +124,11 @@ sub url_abs {
     return $self->URI->abs;
 }
 
-=head1 Author
+=head1 COPYRIGHT
 
-Copyright 2003 Andy Lester C<< <andy@petdance.com> >>
-
-Released under the Artistic License.
+Copyright (c) 2004 Andy Lester. All rights reserved. This program is
+free software; you can redistribute it and/or modify it under the same
+terms as Perl itself.
 
 =cut
 
