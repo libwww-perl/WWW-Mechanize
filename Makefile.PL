@@ -54,6 +54,7 @@ my $parms = {
 			FindBin		    => 0,
 			},
 };
+
 if ( prompt( "Do you want to install the mech-forms utility?", "y" ) =~ /^y/i ) {
     $parms->{EXE_FILES} = [ 'script/mech-forms' ];
 }
