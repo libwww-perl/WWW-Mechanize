@@ -1,4 +1,4 @@
-#!perl -T
+#!perl -Tw
 
 BEGIN {
     delete @ENV{ qw( IFS CDPATH ENV BASH_ENV PATH ) };
