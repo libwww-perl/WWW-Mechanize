@@ -4,8 +4,6 @@ use Test::More;
 use File::Spec;
 use URI::file;
 
-local $/ = undef;
-
 plan skip_all => "Not installing mech-dump" if -e File::Spec->catfile( qw( t SKIP-MECH-DUMP ) );
 plan tests=>1;
 
@@ -19,13 +17,12 @@ my $actual = `$exe --forms $data`;
 my $target = URI->new_abs( "/target-page", $data );
 $target = URI::file->new_abs( $target )->as_string;
 
+local $/ = undef;
 my $expected = <DATA>;
 $expected =~ s/#TARGET#/$target/;
 
 my @actual = split /\s*\n/, $actual;
 my @expected = split /\s*\n/, $expected;
-
-# is( $actual, $expected, "Matched expected output" );
 is_deeply( \@actual, \@expected, "Matched expected output" );
 
 __DATA__

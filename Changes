@@ -1,19 +1,21 @@
-# $Id: Changes,v 1.92 2003/12/20 11:06:43 corion Exp $
+# $Id: Changes,v 1.93 2003/12/20 14:09:21 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 
+0.71_01
 	[THINGS THAT MAY BREAK YOUR CODE]
 	* WWW::Mechanize::Link's constructor has a new argument
 	  that needs to be passed in, at the start of the argument
 	  list.
 
 	[ENHANCEMENTS]
-	* WWW::Mechanize::Link object
+	* WWW::Mechanize::Link object now takes a $base URL, and will
+	  return relative or absolute URLs.
 
-	[INTERNALS]
+	[INSTALL & TESTS]
 	* Heavy use of the new Test::Memory::Cycle module.
-	* Fixed Makefile.PL so that the tests are selected under Win32
-	* Changed t/mech-dump.t so that the test succeeds under Win32
+	* Fixed Makefile.PL so that the tests are selected under Win32.
+	* Changed t/mech-dump.t so that the test succeeds under Win32.
 
 
 0.70	Sun Nov 30 23:45:27 CST 2003
