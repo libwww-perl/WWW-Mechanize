@@ -1,7 +1,7 @@
-# $Id: Changes,v 1.45 2003/07/31 14:05:59 petdance Exp $
+# $Id: Changes,v 1.46 2003/08/01 04:21:47 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
-0.57	
+0.57	July 31, 2003  11:21pm
 	[ENHANCEMENTS]
 	* Added <AREA HREF=...> tags to those that are links per
 	  find_links().
