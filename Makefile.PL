@@ -1,4 +1,4 @@
-require 5;
+require 5.6.1;
 use ExtUtils::MakeMaker qw( WriteMakefile prompt );
 use ExtUtils::Command qw( touch rm_f );
 use File::Spec;
