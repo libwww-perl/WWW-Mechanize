@@ -16,13 +16,13 @@ is( ref $agent->uri, "", "URI should be a string, not an object" );
 ok( $agent->is_html, "Seems to be HTML" );
 is( $agent->title, "Google", "Title matches" );
 
-my $services = $agent->find_link( url_regex => qr[/services/] );
+my $services = $agent->find_link( url_regex => qr[/ads/] );
 isa_ok( $services, 'WWW::Mechanize::Link' );
 
-ok( $agent->get( $services )->is_success, 'Got the services page' );
-is( $agent->uri, 'http://www.google.com/services/', "Got relative OK" );
+ok( $agent->get( $services )->is_success, 'Got the ads page' );
+is( $agent->uri, 'http://www.google.com/ads/', "Got relative OK" );
 ok( $agent->is_html );
-is( $agent->title, "Google Business Solutions", "Got the right page" );
+is( $agent->title, "Google Advertising", "Got the right page" );
 
 ok( $agent->get( '../help/' )->is_success, 'Got the help page' );
 is( $agent->uri, 'http://www.google.com/help/', "Got relative OK" );

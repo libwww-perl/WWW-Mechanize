@@ -18,7 +18,7 @@ is( $agent->uri, START, 'Got Google' );
 
 ok(! $agent->follow(99999), "Can't follow too-high-numbered link");
 
-ok($agent->follow_link( text_regex => qr/Business.Solutions/i ), "Can follow Business Solutions link");
+ok($agent->follow_link( text_regex => qr/Advertising.Programs/i ), "Can follow Advertising Programs link");
 isnt( $agent->uri, START, 'Need to be on a separate page' );
 
 ok($agent->back(), "Can go back");
