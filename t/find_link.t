@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-use Test::More tests => 21;
+use Test::More tests => 43;
 use URI::file;
 
 BEGIN {
@@ -19,37 +19,51 @@ ok( $t->success, "Fetched $uri" ) or die "Can't get test page";
 
 my $x;
 $x = $t->find_link();
+isa_ok( $x, 'WWW::Mechanize::Link' );
 is( $x->[0], "http://blargle.com/", "First link on the page" );
+is( $x->url, "http://blargle.com/", "First link on the page" );
 
 $x = $t->find_link( text => "CPAN A" );
+isa_ok( $x, 'WWW::Mechanize::Link' );
 is( $x->[0], "http://a.cpan.org/", "First CPAN link" );
+is( $x->url, "http://a.cpan.org/", "First CPAN link" );
 
 $x = $t->find_link( url => "CPAN" );
 ok( !defined $x, "No url matching CPAN" );
 
 $x = $t->find_link( text_regex => "CPAN", n=>3 );
+isa_ok( $x, 'WWW::Mechanize::Link' );
 is( $x->[0], "http://c.cpan.org/", "3rd CPAN text" );
+is( $x->url, "http://c.cpan.org/", "3rd CPAN text" );
 
 $x = $t->find_link( text => "CPAN", n=>34 );
 ok( !defined $x, "No 34th CPAN text" );
 
 $x = $t->find_link( text_regex => "(?i:cpan)" );
+isa_ok( $x, 'WWW::Mechanize::Link' );
 is( $x->[0], "http://a.cpan.org/", "Got 1st cpan via regex" );
+is( $x->url, "http://a.cpan.org/", "Got 1st cpan via regex" );
 
 $x = $t->find_link( text_regex => qr/cpan/i );
+isa_ok( $x, 'WWW::Mechanize::Link' );
 is( $x->[0], "http://a.cpan.org/", "Got 1st cpan via regex" );
+is( $x->url, "http://a.cpan.org/", "Got 1st cpan via regex" );
 
 $x = $t->find_link( text_regex => qr/cpan/i, n=>153 );
 ok( !defined $x, "No 153rd cpan link" );
 
 $x = $t->find_link( url => "http://b.cpan.org/" );
+isa_ok( $x, 'WWW::Mechanize::Link' );
 is( $x->[0], "http://b.cpan.org/", "Got b.cpan.org" );
+is( $x->url, "http://b.cpan.org/", "Got b.cpan.org" );
 
 $x = $t->find_link( url => "http://b.cpan.org", n=>2 );
 ok( !defined $x, "Not a second b.cpan.org" );
 
 $x = $t->find_link( url_regex => qr/[b-d]\.cpan\.org/, n=>2 );
+isa_ok( $x, 'WWW::Mechanize::Link' );
 is( $x->[0], "http://c.cpan.org/", "Got c.cpan.org" );
+is( $x->url, "http://c.cpan.org/", "Got c.cpan.org" );
 
 my @wanted_links= (
    [ "http://a.cpan.org/", "CPAN A", undef ], 
@@ -65,14 +79,21 @@ ok( eq_array( $linkref, \@wanted_links ), "Correct links came back" );
 
 # Check combinations of links
 $x = $t->find_link( text => "News" );
+isa_ok( $x, 'WWW::Mechanize::Link' );
 is( $x->[0], "http://www.msnbc.com/", "First News is MSNBC" );
+is( $x->url, "http://www.msnbc.com/", "First News is MSNBC" );
 
 $x = $t->find_link( text => "News", url_regex => qr/bbc/ );
+isa_ok( $x, 'WWW::Mechanize::Link' );
 is( $x->[0], "http://www.bbc.co.uk/", "First BBC news link" );
+is( $x->url, "http://www.bbc.co.uk/", "First BBC news link" );
 is( $x->[1], "News", "First BBC news text" );
+is( $x->text, "News", "First BBC news text" );
 
 $x = $t->find_link( text => "News", url_regex => qr/cnn/ );
+isa_ok( $x, 'WWW::Mechanize::Link' );
 is( $x->[0], "http://www.cnn.com/", "First CNN news link" );
+is( $x->url, "http://www.cnn.com/", "First CNN news link" );
 is( $x->[1], "News", "First CNN news text" );
-
+is( $x->text, "News", "First CNN news text" );
 
