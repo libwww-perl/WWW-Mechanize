@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.44
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.1 2003/06/13 15:46:42 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.2 2003/06/17 04:13:39 petdance Exp $
 
 =cut
 
@@ -16,68 +16,66 @@ our $VERSION = "0.44";
 
 =head1 SYNOPSIS
 
-WWW::Mechanize is intended to help you automate interaction with
-a website. It supports performing a sequence of page fetches
-including following links and submitting forms. Each fetched page
-is parsed and its links and forms are extracted. A link or a form
-can be selected, form fields can be filled and the next page can
-be fetched. A history of fetched pages is also stored and can be
-traversed.
+C<WWW::Mechanize>, or Mech for short, was designed to help you
+automate interaction with a website. It supports performing a
+sequence of page fetches including following links and submitting
+forms. Each fetched page is parsed and its links and forms are
+extracted. A link or a form can be selected, form fields can be
+filled and the next page can be fetched. Mech also stores a history
+of the URLs you've visited, which can be queried and revisited.
 
     use WWW::Mechanize;
-    my $agent = WWW::Mechanize->new();
+    my $a = WWW::Mechanize->new();
 
-    $agent->get($url);
+    $a->get($url);
 
-    $agent->follow_link( 'n' => 3 );
-    $agent->follow_link( 'text_regex' => qr/download this/i );
-    $agent->follow_link( 'url' => 'http://host.com/index.html' );
+    $a->follow_link( n => 3 );
+    $a->follow_link( text_regex => qr/download this/i );
+    $a->follow_link( url => 'http://host.com/index.html' );
 
-    $agent->submit_form(
-	'form_number' => 3,
-	'fields'      => {
-			    'user_name'  => 'yourname',
-			    'password'   => 'dummy'
+    $a->submit_form(
+	form_number => 3,
+	fields      => {
+			username    => 'yourname',
+			password    => 'dummy',
 			}
     );
 
-    $agent->submit_form(
-	'form_name' => 'search',
-	'fields'    => {
-			'query'  => 'pot of gold',
-			},
-	'button'    => 'Search Now'
+    $a->submit_form(
+	form_name => 'search',
+	fields    => { query  => 'pot of gold', },
+	button    => 'Search Now'
     );
 
 
-WWW::Mechanize is well suited for use in testing web applications.
-If you use one of the Test::* modules, you can check the fetched
-content and use that as input to a test call.
+Mech is well suited for use in testing web applications.  If you
+use one of the Test::* modules, you can check the fetched content
+and use that as input to a test call.
 
     use Test::More;
-    like( $agent->content(), qr/$expected/, "Got expected content" );
+    like( $a->content(), qr/$expected/, "Got expected content" );
 
 Each page fetch stores its URL in a history stack which you can
 traverse.
 
-    $agent->back();
+    $a->back();
 
 If you want finer control over over your page fetching, you can use
-these methods. C< follow_link > and C< submit_form > are just high
+these methods. C<follow_link> and C<submit_form> are just high
 level wrappers around them.
 
-    $agent->follow($link);
-    $agent->find_link(n => $number);
-    $agent->form_number($number);
-    $agent->form_name($name);
-    $agent->field($name, $value);
-    $agent->set_fields( %field_values );
-    $agent->click($button);
+    $a->follow($link);
+    $a->find_link(n => $number);
+    $a->form_number($number);
+    $a->form_name($name);
+    $a->field($name, $value);
+    $a->set_fields( %field_values );
+    $a->click($button);
 
-WWW::Mechanize is a subclass of LWP::UserAgent and you can also use
-any of its methods.
+L<WWW::Mechanize> is a proper subclass of L<LWP::UserAgent> and
+you can also use any of L<LWP::UserAgent>'s methods.
 
-    $agent->add_header($name => $value);
+    $a->add_header($name => $value);
 
 =head1 OTHER DOCUMENTATION
 
@@ -115,14 +113,14 @@ our @ISA = qw( LWP::UserAgent );
 
 our %headers;
 
-=head1 METHODS
+=head1 Constructor
 
 =head2 C<< new() >>
 
 Creates and returns a new WWW::Mechanize object, hereafter referred to as
 the 'agent'.
 
-    my $agent = WWW::Mechanize->new()
+    my $a = WWW::Mechanize->new()
 
 The constructor for WWW::Mechanize overrides two of the parms to the
 LWP::UserAgent constructor:
@@ -133,12 +131,12 @@ LWP::UserAgent constructor:
 You can override these overrides by passing parms to the constructor,
 as in:
 
-    my $agent = WWW::Mechanize->new( agent=>"wonderbot 1.01" );
+    my $a = WWW::Mechanize->new( agent=>"wonderbot 1.01" );
 
 If you want none of the overhead of a cookie jar, or don't want your
 bot accepting cookies, you have to explicitly disallow it, like so:
 
-    my $agent = WWW::Mechanize->new( cookie_jar => undef );
+    my $a = WWW::Mechanize->new( cookie_jar => undef );
 
 =cut
 
@@ -160,8 +158,9 @@ sub new {
     return bless $self, $class;
 }
 
+=head1 Page-fetching methods
 
-=head2 C<< $agent->get($url) >>
+=head2 C<< $a->get($url) >>
 
 Given a URL/URI, fetches it.  Returns an C<HTTP::Response> object.
 
@@ -185,7 +184,7 @@ sub get {
     return $self->request( $request ); 
 }
 
-=head2 reload()
+=head2 C<< $a->reload() >>
 
 Acts like the reload button in a browser: Reperforms the current request.
 
@@ -202,114 +201,72 @@ sub reload {
     return $self->request( $self->{req} );
 }
 
-=head2 success()
+=head2 C<< $a->back() >>
 
-Returns a boolean telling whether the last request was successful.
-If there hasn't been an operation yet, returns false.
-
-This is a convenience function that wraps C<< $agent->res->is_success >>.
+The equivalent of hitting the "back" button in a browser.  Returns to
+the previous page.  Won't go back past the first page. (Really, what
+would it do if it could?)
 
 =cut
 
-sub success {
+sub back {
+    my $self = shift;
+    $self->_pop_page_stack;
+}
+
+=head1 Link-following methods
+
+=head2 C<< $a->follow_link(...) >>
+
+Follows a specified link on the page.  You specify the match to be
+found using the same parms that C<find_link()> uses.
+
+Here some examples:
+
+=over 4
+
+=item * 3rd link called "download"
+
+    $a->follow_link( text => "download", n => 3 );
+
+=item * first link where the URL has "download" in it, regardless of case:
+
+    $a->follow_link( url_regex => qr/download/i );
+
+or
+
+    $a->follow_link( url_regex => "(?i:download)" );
+
+=item * 3rd link on the page
+
+    $a->follow_link( n => 3 );
+
+=back
+
+Returns the result of the GET method (an HTTP::Response object) if
+a link was found. If the page has no links, or the specified link
+couldn't be found, returns undef.
+
+This method is meant to replace C<< $a->follow() >> which should
+not be used in future development.
+
+=cut
+
+sub follow_link {
     my $self = shift;
 
-    return $self->res && $self->res->is_success;
+    my $response;
+    my $link_ref = $self->find_link(@_);
+    if ( $link_ref ) {
+	my $link = $link_ref->[0];     # we just want the URL, not the text
+	$self->_push_page_stack();
+	$response = $self->get( $link );
+    }
+
+    return $response;
 }
 
-
-=head2 C<< $agent->uri() >>
-
-Returns the current URI.
-
-=head2 C<< $agent->res() >>
-
-Returns the current response as an C<HTTP::Response> object.
-
-=head2 C<< $agent->status() >>
-
-Returns the HTTP status code of the response.
-
-=head2 C<< $agent->ct() >>
-
-Returns the content type of the response.
-
-=head2 C<< $agent->base() >>
-
-Returns the base URI for the current response
-
-=head2 C<< $agent->content() >>
-
-Returns the content for the response
-
-=head2 C<< $agent->forms() >>
-
-When called in a list context, returns a list of the forms found in
-the last fetched page. In a scalar context, returns a reference to
-an array with those forms. The forms returned are all C<HTML::Form>
-objects.
-
-=head2 C<< $agent->current_form() >>
-
-Returns the current form as an C<HTML::Form> object.  I'd call this
-C<form()> except that C<form()> already exists and sets the current_form.
-
-=head2 C<< $agent->links() >>
-
-When called in a list context, returns a list of the links found in
-the last fetched page. In a scalar context it returns a reference to
-an array with those links. The links returned are all references to
-two element arrays which contain the URL and the text for each link.
-
-=head2 C<< $agent->is_html() >>
-
-Returns true/false on whether our content is HTML, according to the
-HTTP headers.
-
-=cut
-
-sub uri {           my $self = shift; return $self->{uri}; }
-sub res {           my $self = shift; return $self->{res}; }
-sub status {        my $self = shift; return $self->{status}; }
-sub ct {            my $self = shift; return $self->{ct}; }
-sub base {          my $self = shift; return $self->{base}; }
-sub content {       my $self = shift; return $self->{content}; }
-sub current_form {  my $self = shift; return $self->{form}; }
-sub is_html {       my $self = shift; return defined $self->{ct} && ($self->{ct} eq "text/html"); }
-
-sub links {
-    my $self = shift ;
-    return @{$self->{links}} if wantarray;
-    return $self->{links};
-}
-
-sub forms {
-    my $self = shift ;
-    return @{$self->{forms}} if wantarray;
-    return $self->{forms};
-}
-
-
-=head2 C<< $agent->title() >>
-
-Returns the contents of the C<< <TITLE> >> tag, as parsed by
-HTML::HeadParser.  Returns undef if the content is not HTML.
-
-=cut
-
-sub title {
-    my $self = shift;
-    return unless $self->is_html;
-
-    require HTML::HeadParser;
-    my $p = HTML::HeadParser->new;
-    $p->parse($self->content);
-    return $p->header('Title');
-}
-
-=head1 Action methods
-
-=head2 C<< $agent->follow($string|$num) >>
+=head2 C<< $a->follow($string|$num) >>
 
 Follow a link.  If you provide a string, the first link whose text 
 matches that string will be followed.  If you provide a number, it will 
@@ -353,8 +310,426 @@ sub follow {
     return 1;
 }
 
+=head1 Form field filling methods
 
-=head2 C<< $agent->find_link() >>
+=head2 C<< $a->form($number|$name) >>
+
+Selects a form by number or name, depending on if it gets passed an
+all-numeric string or not.  If you have a form with a name that is all
+digits, you'll need to call C<< $a->form_name >> explicitly.
+
+This method is deprecated. Use C<form_name> or C<form_number> instead.
+
+=cut
+
+sub form {
+    my $self = shift;
+    my $arg = shift;
+
+    return $arg =~ /^\d+$/ ? $self->form_number($arg) : $self->form_name($arg);
+}
+
+=head2 C<< $a->form_number($number) >>
+
+Selects the I<number>th form on the page as the target for subsequent
+calls to field() and click().  Emits a warning and returns false if there
+is no such form.  Forms are indexed from 1, so the first form is number 1,
+not zero.
+
+=cut
+
+sub form_number {
+    my ($self, $form) = @_;
+    if ($self->{forms}->[$form-1]) {
+        $self->{form} = $self->{forms}->[$form-1];
+        return 1;
+    } else {
+	unless ( $self->{quiet} ) {
+	    require Carp;
+	    Carp::carp "There is no form named $form";
+	}
+        return 0;
+    }
+}
+
+=head2 C<< $a->form_name($name) >>
+
+Selects a form by name.  If there is more than one form on the page with
+that name, then the first one is used, and a warning is generated.
+
+Note that this functionality requires libwww-perl 5.69 or higher.
+
+=cut
+
+sub form_name {
+    my ($self, $form) = @_;
+
+    my $temp;
+    my @matches = grep {defined($temp = $_->attr('name')) and ($temp eq $form) } @{$self->{forms}};
+    if ( @matches ) {
+        $self->{form} = $matches[0];
+        warn "There are ", scalar @matches, " forms named $form.  The first one was used."
+            if @matches > 1 && !$self->{quiet};
+        return 1;
+    } else {
+	unless ( $self->{quiet} ) {
+	    require Carp;
+	    Carp::carp "There is no form named $form";
+	}
+        return 0;
+    }
+}
+
+=head2 C<< $a->field($name, $value, $number) >>
+
+Given the name of a field, set its value to the value specified.  This
+applies to the current form (as set by the C<form()> method or defaulting
+to the first form on the page).
+
+The optional C<$number> parameter is used to distinguish between two fields
+with the same name.  The fields are numbered from 1.
+
+=cut
+
+sub field {
+    my ($self, $name, $value, $number) = @_;
+    $number ||= 1;
+
+    my $form = $self->{form};
+    if ($number > 1) {
+        $form->find_input($name, undef, $number)->value($value);
+    } else {
+        $form->value($name => $value);
+    }
+}
+
+=head2 C<< $a->set_fields( $name => $value ... ) >>
+
+This method sets multiple fields of a form. It takes a list of field
+name and value pairs. If there is more than one field with the same
+name, the first one found is set. If you want to select which of the
+duplicate field to set, use a value which is an anonymous array which
+has the field value and its number as the 2 elements.
+
+        # set the second foo field
+        $a->set_fields( $name => [ 'foo', 2 ] ) ;
+
+The fields are numbered from 1.
+
+This applies to the current form (as set by the C<form()> method or
+defaulting to the first form on the page).
+
+=cut
+
+sub set_fields {
+    my ($self, %fields ) = @_;
+
+    my $form = $self->{form};
+
+    while( my ( $field, $value ) = each %fields ) {
+        if ( ref $value eq 'ARRAY' ) {
+            $form->find_input( $field, undef,
+                         $value->[1])->value($value->[0] );
+        } else {
+            $form->value($field => $value);
+        }
+    }
+}
+
+=head1 Form submission methods
+
+=head2 C<< $a->click( $button [, $x, $y] ) >>
+
+Has the effect of clicking a button on a form.  The first argument
+is the name of the button to be clicked.  The second and third
+arguments (optional) allow you to specify the (x,y) coordinates
+of the click.
+
+If there is only one button on the form, C<< $a->click() >> with
+no arguments simply clicks that one button.
+
+Returns an L<HTTP::Response> object.
+
+=cut
+
+sub click {
+    my ($self, $button, $x, $y) = @_;
+    for ($x, $y) { $_ = 1 unless defined; }
+    $self->_push_page_stack();
+    $self->{uri} = $self->{form}->uri;
+    my $request = $self->{form}->click($button, $x, $y);
+    return $self->request( $request );
+}
+
+=head2 C<< $a->submit() >>
+
+Submits the page, without specifying a button to click.  Actually,
+no button is clicked at all.
+
+This used to be a synonym for C<< $a->click("submit") >>, but is no
+longer so.
+
+=cut
+
+sub submit {
+    my $self = shift;
+
+    $self->_push_page_stack();
+    $self->{uri} = $self->{form}->uri;
+    my $request = $self->{form}->make_request;
+    return $self->request( $request );
+}
+
+=head2 C<< $a->submit_form( ... ) >>
+
+This method lets you select a form from the previously fetched page,
+fill in its fields, and submit it. It combines the form_number/form_name,
+set_fields and click methods into one higher level call. Its arguments
+are a list of key/value pairs, all of which are optional.
+
+=over 4
+
+=item * form_number => n
+
+Selects the I<n>th form (calls C<form_number()>)
+
+=item * form_name => name
+
+Selects the form named I<name> (calls C<form_name()>)
+
+=item * fields => fields
+
+Sets the field values from the I<fields> hashref (calls C<set_fields()>)
+
+=item * button => button
+
+Clicks on button I<button> (calls C<click()>)
+
+=item * x => x, y => y
+
+Sets the x or y values for C<click()>
+
+=back
+
+If no form is selected, the first form found is used.
+
+If I<button> is not passed, then the C<submit()> method is used instead.
+
+Returns an HTTP::Response object.
+
+=cut
+
+sub submit_form {
+    my( $self, %args ) = @_ ;
+
+    if ( my $form_number = $args{'form_number'} ) {
+	$self->form_number( $form_number ) ;
+    }
+    elsif ( my $form_name = $args{'form_name'} ) {
+        $self->form_name( $form_name ) ;
+    }
+    else {
+        $self->form_number( 1 ) ;
+    }
+
+    if ( my $fields = $args{'fields'} ) {
+        if ( ref $fields eq 'HASH' ) {
+	    $self->set_fields( %{$fields} ) ;
+        } # XXX What if it's not a hash?  We just ignore it silently?
+    }
+
+    my $response;
+    if ( $args{button} ) {
+	$response = $self->click( $args{button}, $args{x} || 0, $args{y} || 0 );
+    } else {
+	$response = $self->submit();
+    }
+
+    return $response;
+}
+
+=head1 Status methods
+
+=head2 C<< $a->success() >>
+
+Returns a boolean telling whether the last request was successful.
+If there hasn't been an operation yet, returns false.
+
+This is a convenience function that wraps C<< $a->res->is_success >>.
+
+=cut
+
+sub success {
+    my $self = shift;
+
+    return $self->res && $self->res->is_success;
+}
+
+
+=head2 C<< $a->uri() >>
+
+Returns the current URI.
+
+=head2 C<< $a->response() >> or C<< $a->res() >>
+
+Return the current response as an C<HTTP::Response> object.
+
+Synonym for C<< $a->response() >>
+
+=head2 C<< $a->status() >>
+
+Returns the HTTP status code of the response.
+
+=head2 C<< $a->ct() >>
+
+Returns the content type of the response.
+
+=head2 C<< $a->base() >>
+
+Returns the base URI for the current response
+
+=head2 C<< $a->content() >>
+
+Returns the content for the response
+
+=head2 C<< $a->forms() >>
+
+When called in a list context, returns a list of the forms found in
+the last fetched page. In a scalar context, returns a reference to
+an array with those forms. The forms returned are all C<HTML::Form>
+objects.
+
+=head2 C<< $a->current_form() >>
+
+Returns the current form as an C<HTML::Form> object.  I'd call this
+C<form()> except that C<form()> already exists and sets the current_form.
+
+=head2 C<< $a->links() >>
+
+When called in a list context, returns a list of the links found in
+the last fetched page. In a scalar context it returns a reference to
+an array with those links. The links returned are all references to
+two element arrays which contain the URL and the text for each link.
+
+=head2 C<< $a->is_html() >>
+
+Returns true/false on whether our content is HTML, according to the
+HTTP headers.
+
+=cut
+
+sub uri {           my $self = shift; return $self->{uri}; }
+sub res {           my $self = shift; return $self->{res}; }
+sub response {      my $self = shift; return $self->{res}; }
+sub status {        my $self = shift; return $self->{status}; }
+sub ct {            my $self = shift; return $self->{ct}; }
+sub base {          my $self = shift; return $self->{base}; }
+sub content {       my $self = shift; return $self->{content}; }
+sub current_form {  my $self = shift; return $self->{form}; }
+sub is_html {       my $self = shift; return defined $self->{ct} && ($self->{ct} eq "text/html"); }
+
+sub links {
+    my $self = shift ;
+    return @{$self->{links}} if wantarray;
+    return $self->{links};
+}
+
+sub forms {
+    my $self = shift ;
+    return @{$self->{forms}} if wantarray;
+    return $self->{forms};
+}
+
+
+=head2 C<< $a->title() >>
+
+Returns the contents of the C<< <TITLE> >> tag, as parsed by
+HTML::HeadParser.  Returns undef if the content is not HTML.
+
+=cut
+
+sub title {
+    my $self = shift;
+    return unless $self->is_html;
+
+    require HTML::HeadParser;
+    my $p = HTML::HeadParser->new;
+    $p->parse($self->content);
+    return $p->header('Title');
+}
+
+=head1 Miscellaneous methods
+
+=head2 C<< $a->add_header(name => $value) >>
+
+Sets a header for the WWW::Mechanize agent to use every time it gets
+a webpage.  This is B<NOT> stored in the agent object (because if it
+were, it would disappear if you went back() past where you'd set it)
+but in the hash variable C<%WWW::Mechanize::headers>, which is a hash of
+all headers to be set.  You can manipulate this directly if you want to;
+the add_header() method is just provided as a convenience function for
+the most common case of adding a header.
+
+=cut
+
+sub add_header {
+    my ($self, $name, $value) = @_;
+    $WWW::Mechanize::headers{$name} = $value;
+}
+
+=head2 C<< $a->extract_links() >>
+
+Extracts HREF links from the content of a webpage.
+
+The return value is a reference to an array containing
+an array reference for every C<< <A> >>, C<< <FRAME> >>
+or C<< <IFRAME> >> tag in C<< $self->{content} >>.  
+
+The array elements for the C<< <A> >> tag are: 
+
+=over 4
+
+=item [0]: contents of the C<href> attribute
+
+=item [1]: text enclosed by the C<< <A> >> tag
+
+=item [2]: the contents of the C<name> attribute
+
+=back
+
+The array elements for the C<< <FRAME> >> and 
+C<< <IFRAME> >> tags are:
+
+=over 4
+
+=item [0]: contents of the C<src> attribute
+
+=item [1]: text enclosed by the C<< <FRAME> >> tag
+
+=item [2]: contents of the C<name> attribute
+
+=back
+
+=cut
+
+sub extract_links {
+    my $self = shift;
+    my $p = HTML::TokeParser->new(\$self->{content});
+    my @links;
+
+    while (my $token = $p->get_tag("a", "frame", "iframe")) {
+        my $tag_is_a = ($token->[0] eq 'a');
+        my $url = $tag_is_a ? $token->[1]{href} : $token->[1]{src};
+        next unless defined $url;   # probably just a name link
+
+        my $text = $tag_is_a ? $p->get_trimmed_text("/a") : $token->[1]{name};
+        my $name = $token->[1]{name};
+        push(@links, [$url, $text, $name]);
+    }
+    return \@links;
+}
+
+=head2 C<< $a->find_link() >>
 
 This method finds a link in the currently fetched page. It returns
 a reference to a two element array which has the link URL and link
@@ -378,7 +753,7 @@ exact match.
 
 To select a link with text that is exactly "download", use
 
-    $agent->find_link( text => "download" );
+    $a->find_link( text => "download" );
 
 =item * text_regex => regex
 
@@ -387,7 +762,7 @@ Matches the text of the link against I<regex>.
 To select a link with text that has "download" anywhere in it,
 regardless of case, use
 
-    $agent->find_link( text_regex => qr/download/i );
+    $a->find_link( text_regex => qr/download/i );
 
 =item * url => string
 
@@ -453,133 +828,13 @@ sub find_link {
 
     return;
 } # find_link
-
-=head2 C<< $agent->follow_link() >>
-
-Follows a specified link on the page.  You specify the match to be
-found using the same parms that C<find_link()> uses.
-
-Here some examples:
-
-=over 4
-
-=item * 3rd link called "download"
-
-    $agent->follow_link( text => "download", n => 3 );
-
-=item * first link where the URL has "download" in it, regardless of case:
-
-    $agent->follow_link( url_regex => qr/download/i );
-
-or
-
-    $agent->follow_link( url_regex => "(?i:download)" );
-
-=item * 3rd link on the page
-
-    $agent->follow_link( n => 3 );
-
-=back
-
-Returns the result of the GET method (an HTTP::Response object) if
-a link was found. If the page has no links, or the specified link
-couldn't be found, returns undef.
-
-This method is meant to replace C<< $agent->follow() >> which should
-not be used in future development.
-
-=cut
-
-sub follow_link {
-    my $self = shift;
-
-    my $response;
-    my $link_ref = $self->find_link(@_);
-    if ( $link_ref ) {
-	my $link = $link_ref->[0];     # we just want the URL, not the text
-	$self->_push_page_stack();
-	$response = $self->get( $link );
-    }
-
-    return $response;
-}
-
-=head2 C<< $agent->submit_form() >>
-
-This method lets you select a form from the previously fetched page,
-fill in its fields, and submit it. It combines the form_number/form_name,
-set_fields and click methods into one higher level call. Its arguments
-are a list of key/value pairs, all of which are optional.
-
-=over 4
-
-=item * form_number => n
-
-Selects the I<n>th form (calls C<form_number()>)
-
-=item * form_name => name
-
-Selects the form named I<name> (calls C<form_name()>)
-
-=item * fields => fields
-
-Sets the field values from the I<fields> hashref (calls C<set_fields()>)
-
-=item * button => button
-
-Clicks on button I<button> (calls C<click()>)
-
-=item * x => x, y => y
-
-Sets the x or y values for C<click()>
-
-=back
-
-If no form is selected, the first form found is used.
-
-If I<button> is not passed, then the C<submit()> method is used instead.
-
-Returns an HTTP::Response object.
-
-=cut
-
-sub submit_form {
-    my( $self, %args ) = @_ ;
-
-    if ( my $form_number = $args{'form_number'} ) {
-	$self->form_number( $form_number ) ;
-    }
-    elsif ( my $form_name = $args{'form_name'} ) {
-        $self->form_name( $form_name ) ;
-    }
-    else {
-        $self->form_number( 1 ) ;
-    }
-
-    if ( my $fields = $args{'fields'} ) {
-        if ( ref $fields eq 'HASH' ) {
-	    $self->set_fields( %{$fields} ) ;
-        }
-    }
-
-    my $response;
-    if ( $args{button} ) {
-	$response = $self->click( $args{button}, $args{x} || 0, $args{y} || 0 );
-    } else {
-	$response = $self->submit();
-    }
-
-    return $response ;
-}
-
-
-=head2 C<< $agent->quiet(true/false) >>
+=head2 C<< $a->quiet(true/false) >>
 
 Allows you to suppress warnings to the screen.
 
-    $agent->quiet(0); # turns on warnings (the default)
-    $agent->quiet(1); # turns off warnings
-    $agent->quiet();  # returns the current quietness status
+    $a->quiet(0); # turns on warnings (the default)
+    $a->quiet(1); # turns off warnings
+    $a->quiet();  # returns the current quietness status
 
 =cut
 
@@ -591,260 +846,12 @@ sub quiet {
     return $self->{quiet};
 }
 
-=head2 C<< $agent->form($number|$name) >>
-
-Selects a form by number or name, depending on if it gets passed an
-all-numeric string or not.  If you have a form with a name that is all
-digits, you'll need to call C<< $agent->form_name >> explicitly.
-
-This method is deprecated. Use C<form_name> or C<form_number> instead.
-
-=cut
-
-sub form {
-    my $self = shift;
-    my $arg = shift;
-
-    return $arg =~ /^\d+$/ ? $self->form_number($arg) : $self->form_name($arg);
-}
-
-=head2 C<< $agent->form_number($number) >>
-
-Selects the I<number>th form on the page as the target for subsequent
-calls to field() and click().  Emits a warning and returns false if there
-is no such form.  Forms are indexed from 1, so the first form is number 1,
-not zero.
-
-=cut
-
-sub form_number {
-    my ($self, $form) = @_;
-    if ($self->{forms}->[$form-1]) {
-        $self->{form} = $self->{forms}->[$form-1];
-        return 1;
-    } else {
-	unless ( $self->{quiet} ) {
-	    require Carp;
-	    Carp::carp "There is no form named $form";
-	}
-        return 0;
-    }
-}
-
-=head2 C<< $agent->form_name($name) >>
-
-Selects a form by name.  If there is more than one form on the page with
-that name, then the first one is used, and a warning is generated.
-
-Note that this functionality requires libwww-perl 5.69 or higher.
-
-=cut
-
-sub form_name {
-    my ($self, $form) = @_;
-
-    my $temp;
-    my @matches = grep {defined($temp = $_->attr('name')) and ($temp eq $form) } @{$self->{forms}};
-    if ( @matches ) {
-        $self->{form} = $matches[0];
-        warn "There are ", scalar @matches, " forms named $form.  The first one was used."
-            if @matches > 1 && !$self->{quiet};
-        return 1;
-    } else {
-	unless ( $self->{quiet} ) {
-	    require Carp;
-	    Carp::carp "There is no form named $form";
-	}
-        return 0;
-    }
-}
-
-=head2 C<< $agent->field($name, $value, $number) >>
-
-Given the name of a field, set its value to the value specified.  This
-applies to the current form (as set by the C<form()> method or defaulting
-to the first form on the page).
-
-The optional C<$number> parameter is used to distinguish between two fields
-with the same name.  The fields are numbered from 1.
-
-=cut
-
-sub field {
-    my ($self, $name, $value, $number) = @_;
-    $number ||= 1;
-
-    my $form = $self->{form};
-    if ($number > 1) {
-        $form->find_input($name, undef, $number)->value($value);
-    } else {
-        $form->value($name => $value);
-    }
-}
-
-=head2 C<< $agent->set_fields( $name => $value ... ) >>
-
-This method sets multiple fields of a form. It takes a list of field
-name and value pairs. If there is more than one field with the same
-name, the first one found is set. If you want to select which of the
-duplicate field to set, use a value which is an anonymous array which
-has the field value and its number as the 2 elements.
-
-        # set the second foo field
-        $agent->set_fields( $name => [ 'foo', 2 ] ) ;
-
-The fields are numbered from 1.
-
-This applies to the current form (as set by the C<form()> method or
-defaulting to the first form on the page).
-
-=cut
-
-sub set_fields {
-    my ($self, %fields ) = @_;
-
-    my $form = $self->{form};
-
-    while( my ( $field, $value ) = each %fields ) {
-        if ( ref $value eq 'ARRAY' ) {
-            $form->find_input( $field, undef,
-                         $value->[1])->value($value->[0] );
-        } else {
-            $form->value($field => $value);
-        }
-    }
-}
-
-=head2 C<< $agent->click($button, $x, $y) >>
-
-Has the effect of clicking a button on a form.  The first argument
-is the name of the button to be clicked.  The second and third
-arguments (optional) allow you to specify the (x,y) cooridinates
-of the click.
-
-If there is only one button on the form, C<< $agent->click() >> with
-no arguments simply clicks that one button.
-
-Returns an HTTP::Response object.
-
-=cut
-
-sub click {
-    my ($self, $button, $x, $y) = @_;
-    for ($x, $y) { $_ = 1 unless defined; }
-    $self->_push_page_stack();
-    $self->{uri} = $self->{form}->uri;
-    my $request = $self->{form}->click($button, $x, $y);
-    return $self->request( $request );
-}
-
-=head2 C<< $agent->submit() >>
-
-Submits the page, without specifying a button to click.  Actually,
-no button is clicked at all.
-
-This used to be a synonym for C<< $a->click("submit") >>, but is no
-longer so.
-
-=cut
-
-sub submit {
-    my $self = shift;
-
-    $self->_push_page_stack();
-    $self->{uri} = $self->{form}->uri;
-    my $request = $self->{form}->make_request;
-    return $self->request( $request );
-}
-
-=head2 C<< $agent->back() >>
-
-The equivalent of hitting the "back" button in a browser.  Returns to
-the previous page.  Won't go back past the first page. (Really, what
-would it do if it could?)
-
-=cut
-
-sub back {
-    my $self = shift;
-    $self->_pop_page_stack;
-}
-
-=head2 C<< $agent->add_header(name => $value) >>
-
-Sets a header for the WWW::Mechanize agent to use every time it gets
-a webpage.  This is B<NOT> stored in the agent object (because if it
-were, it would disappear if you went back() past where you'd set it)
-but in the hash variable C<%WWW::Mechanize::headers>, which is a hash of
-all headers to be set.  You can manipulate this directly if you want to;
-the add_header() method is just provided as a convenience function for
-the most common case of adding a header.
-
-=cut
-
-sub add_header {
-    my ($self, $name, $value) = @_;
-    $WWW::Mechanize::headers{$name} = $value;
-}
-
-=head2 C<< extract_links() >>
-
-Extracts HREF links from the content of a webpage.
-
-The return value is a reference to an array containing
-an array reference for every C<< <A> >>, C<< <FRAME> >>
-or C<< <IFRAME> >> tag in C<< $self->{content} >>.  
-
-The array elements for the C<< <A> >> tag are: 
-
-=over 4
-
-=item [0]: contents of the C<href> attribute
-
-=item [1]: text enclosed by the C<< <A> >> tag
-
-=item [2]: the contents of the C<name> attribute
-
-=back
-
-The array elements for the C<< <FRAME> >> and 
-C<< <IFRAME> >> tags are:
-
-=over 4
-
-=item [0]: contents of the C<src> attribute
-
-=item [1]: text enclosed by the C<< <FRAME> >> tag
-
-=item [2]: contents of the C<name> attribute
-
-=back
-
-=cut
-
-sub extract_links {
-    my $self = shift;
-    my $p = HTML::TokeParser->new(\$self->{content});
-    my @links;
-
-    while (my $token = $p->get_tag("a", "frame", "iframe")) {
-        my $tag_is_a = ($token->[0] eq 'a');
-        my $url = $tag_is_a ? $token->[1]{href} : $token->[1]{src};
-        next unless defined $url;   # probably just a name link
-
-        my $text = $tag_is_a ? $p->get_trimmed_text("/a") : $token->[1]{name};
-        my $name = $token->[1]{name};
-        push(@links, [$url, $text, $name]);
-    }
-    return \@links;
-}
-
 =head1 INTERNAL METHODS
 
 These methods are only used internally.  You probably don't need to 
 know about them.
 
-=head2 _push_page_stack() / _pop_page_stack()
+=head2 C<< $a->_push_page_stack() >> and C<< $a->_pop_page_stack() >>
 
 The agent keeps a stack of visited pages, which it can pop when it needs
 to go BACK and so on.  
@@ -852,7 +859,7 @@ to go BACK and so on.
 The current page needs to be pushed onto the stack before we get a new
 page, and the stack needs to be popped when BACK occurs.
 
-Neither of these take any arguments, they just operate on the $agent
+Neither of these take any arguments, they just operate on the $a
 object.
 
 =cut
@@ -891,7 +898,7 @@ sub _pop_page_stack {
 }
 
 
-=head2 request( $request [, $arg [, $size]])
+=head2 C<< $a->request( $request [, $arg [, $size]]) >>
 
 Overloaded version of C<request()> in L<LWP::UserAgent>.  Performs
 the actual request.  Normally, if you're using WWW::Mechanize, it'd
@@ -933,6 +940,37 @@ sub request {
 
 =head1 FAQ
 
+=head2 I tried to [such-and-such] and I got this weird error.
+
+Are you checking your errors?
+
+Are you sure?
+
+Are you checking that your action succeeded after every action?
+
+Are you sure?
+
+For example, if you try this:
+
+    $mech->get( "http://my.site.com" );
+    $mech->follow_link( "foo" );
+
+and the C<get> call fails for some reason, then the Mech internals
+will be unusable for the C<follow_link> and you'll get a weird
+error.  You B<must>, after every action that GETs or POSTs a page,
+check that Mech succeeded, or all bets are off.
+
+    $mech->get( "http://my.site.com" );
+    die "Can't even get the home page: ", $mech->response->status_line
+	unless $mech->success;
+
+    $mech->follow_link( "foo" );
+    die "Foo link failed: ", $mech->response->status_line
+	unless $mech->success;
+
+I guarantee you this will be the very first thing that I ask if
+you mail me about a problem with Mech.
+
 =head2 Can I do [such-and-such] with WWW::Mechanize?
 
 If it's possible with LWP::UserAgent, then yes.  WWW::Mechanize is
@@ -944,11 +982,11 @@ class is inherited.
 See the docs in LWP::UserAgent on how to use the proxy.  Short
 version:
 
-    $agent->proxy(['http', 'ftp'], 'http://proxy.example.com:8000/');
+    $a->proxy(['http', 'ftp'], 'http://proxy.example.com:8000/');
 
 or get the specs from the environment:
 
-    $agent->env_proxy();
+    $a->env_proxy();
 
     # Environment set like so:
     gopher_proxy=http://proxy.my.place/
