@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.53
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.26 2003/07/20 03:33:01 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.27 2003/07/20 04:01:32 petdance Exp $
 
 =cut
 
@@ -95,6 +95,10 @@ Randal Schwartz's article on scraping Yahoo News for images.  It's already
 out of date: He manually walks the list of links hunting for matches,
 which wouldn't have been necessary if the C<find_link()> method existed
 at press time.
+
+=item * L<http://www.perladvent.org/2002/16th/>
+
+WWW::Mechanize on the Perl Advent Calendar, by Mark Fowler.
 
 =back
 
@@ -1038,6 +1042,12 @@ the links extracted is documented in find_all_links().
 
 =cut
 
+my %urltags = (
+    a => "href",
+    frame => "src",
+    iframe => "src",
+);
+
 sub _extract_links {
     my $self = shift;
 
@@ -1045,15 +1055,16 @@ sub _extract_links {
     
     my $links = ($self->{links} = []);
 
-    while (my $token = $p->get_tag("a", "frame", "iframe")) {
-        my $tag_is_a = ($token->[0] eq 'a');
-        my $url = $tag_is_a ? $token->[1]{href} : $token->[1]{src};
+    while (my $token = $p->get_tag( keys %urltags )) {
+        my $tag = $token->[0];
+        my $url = $token->[1]{$urltags{$tag}};
         next unless defined $url;   # probably just a name link
 
-        my $text = $tag_is_a ? $p->get_trimmed_text("/a") : $token->[1]{name};
-        my $name = $token->[1]{name};
-        push(@$links, [$url, $text, $name]);
+	my $name = $token->[1]{name};
+        my $text = ($tag eq "a") ? $p->get_trimmed_text("/a") : $name;
+        push(@$links, [$url, defined $text ? $text : "", $name]);
     }
+
     if ( defined wantarray ) {
 	my $func = (caller(0))[3];
 	carp "$func does not return a useful value" if defined wantarray;
