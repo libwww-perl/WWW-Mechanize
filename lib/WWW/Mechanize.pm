@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.61
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.64 2003/10/07 04:21:23 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.65 2003/10/07 20:14:18 petdance Exp $
 
 =cut
 
@@ -237,7 +237,7 @@ sub agent_alias {
     if ( defined $known_agents{$alias} ) {
 	return $self->agent( $known_agents{$alias} );
     } else {
-	$self->_carp( qq{Unknown agent alias "$alias"} );
+	$self->warn( qq{Unknown agent alias "$alias"} );
 	return $self->agent();
     }
 }
@@ -358,7 +358,7 @@ sub follow_link {
 
     if ( $parms{n} eq "all" ) {
 	delete $parms{n};
-	$self->_carp( qq{follow_link(n=>"all") is not valid} );
+	$self->warn( qq{follow_link(n=>"all") is not valid} );
     }
 
     my $response;
@@ -388,7 +388,7 @@ sub form_number {
         $self->{form} = $self->{forms}->[$form-1];
         return $self->{form};
     } else {
-	$self->_carp( "There is no form numbered $form" );
+	$self->warn( "There is no form numbered $form" );
         return undef;
     }
 }
@@ -410,11 +410,11 @@ sub form_name {
     my $temp;
     my @matches = grep {defined($temp = $_->attr('name')) and ($temp eq $form) } $self->forms;
     if ( @matches ) {
-	$self->_carp( "There are ", scalar @matches, " forms named $form.  The first one was used." )
+	$self->warn( "There are ", scalar @matches, " forms named $form.  The first one was used." )
 	    if @matches > 1;
         return $self->{form} = $matches[0];
     } else {
-	$self->_carp( qq{ There is no form named "$form"} );
+	$self->warn( qq{ There is no form named "$form"} );
         return undef;
     }
 }
@@ -509,7 +509,7 @@ sub tick {
     } # while
 
     # got self far?  Didn't find anything
-    $self->_carp( qq{No checkbox "$name" for value "$value" in form} );
+    $self->warn( qq{No checkbox "$name" for value "$value" in form} );
 } # tick()
 
 =head2 C<< $a->untick($name, $value) >>
@@ -608,7 +608,7 @@ sub submit_form {
 
     for ( keys %args ) {
 	if ( !/^(form_(number|name)|fields|button|x|y)$/ ) {
-	    $self->_carp( qq{Unknown submit_form parameter "$_"} );
+	    $self->warn( qq{Unknown submit_form parameter "$_"} );
 	}
     }
 
@@ -861,7 +861,7 @@ sub find_link {
 
     for ( keys %parms ) {
 	if ( !/^(n|(text|url)(_regex)?)$/ ) {
-	    $self->_carp( qq{Unknown link-finding parameter "$_"} );
+	    $self->warn( qq{Unknown link-finding parameter "$_"} );
 	}
     }
 
@@ -1080,7 +1080,7 @@ sub follow {
         if ($link <= $#links) {
             $thislink = $links[$link];
         } else {
-	    $self->_carp( "Link number $link is greater than maximum link $#links on this page ($self->{uri})" );
+	    $self->warn( "Link number $link is greater than maximum link $#links on this page ($self->{uri})" );
             return;
         }
     } else {                        # user provided a regexp
@@ -1091,7 +1091,7 @@ sub follow {
             }
         }
         unless ($thislink) {
-	    $self->_carp( "Can't find any link matching $link on this page ($self->{uri})" );
+	    $self->warn( "Can't find any link matching $link on this page ($self->{uri})" );
             return;
         }
     }
@@ -1187,7 +1187,7 @@ sub _extract_links {
     # this version to return something.
     if ( defined wantarray ) {
 	my $func = (caller(0))[3];
-	$self->_carp( "$func does not return a useful value" );
+	$self->warn( "$func does not return a useful value" );
     }
 
     return;
@@ -1242,7 +1242,7 @@ sub _pop_page_stack {
     return 1;
 }
 
-sub _carp {
+sub warn {
     my $self = shift;
 
     if ( !$self->quiet ) {

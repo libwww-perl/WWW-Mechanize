@@ -1,7 +1,9 @@
-# $Id: Changes,v 1.64 2003/10/07 14:52:29 petdance Exp $
+# $Id: Changes,v 1.65 2003/10/07 20:14:18 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 0.62
+	[ENHANCEMENTS]
+	* Renamed the internal _carp() method as warn().
 
 	[DOCUMENTATION]
 	* More FAQs.  Thanks to Gavin Estey.
