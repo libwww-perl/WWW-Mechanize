@@ -1,10 +1,13 @@
-# $Id: Changes,v 1.47 2003/08/08 17:18:38 petdance Exp $
+# $Id: Changes,v 1.48 2003/08/08 20:09:05 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 0.58
 	[FIXES]
 	* The <AREA>-handling in extract_links() was incorrectly
 	  building the text.
+
+	[INTERNALS]
+	* Added more tests for <AREA> tags.
 
 0.57	July 31, 2003  11:21pm
 	[ENHANCEMENTS]
