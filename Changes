@@ -1,5 +1,11 @@
-# $Id: Changes,v 1.14 2003/06/23 19:35:08 petdance Exp $
+# $Id: Changes,v 1.15 2003/06/24 14:50:30 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
+
+0.50	June 24, 2003
+	[ENHANCEMENTS]
+	* Mech now does what most browsers do when they handle a redirect:
+	  It changes the POST to a GET.  This doesn't match the RFC,
+	  but it's what browsers do.  Thanks to Stuart Children.
 
 0.49	June 23, 2003
 	[FIXES]

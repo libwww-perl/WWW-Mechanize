@@ -6,13 +6,13 @@ WWW::Mechanize - automate interaction with websites
 
 =head1 VERSION
 
-Version 0.49
+Version 0.50
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.16 2003/06/24 02:35:22 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.17 2003/06/24 14:50:30 petdance Exp $
 
 =cut
 
-our $VERSION = "0.49";
+our $VERSION = "0.50";
 
 =head1 SYNOPSIS
 
@@ -443,7 +443,7 @@ sub set_fields {
     }
 }
 
-=head2 C<< tick($name, $value [, $set] ) >>
+=head2 C<< $a->tick($name, $value [, $set] ) >>
 
 'Ticks' the first checkbox that has both the name and value assoicated
 with it on the current form.  Dies if there is no named check box for
@@ -480,7 +480,7 @@ sub tick {
     die "No checkbox '$name' for value '$value' in form";
 } # tick()
 
-=head2 C<< untick($name, $value) >>
+=head2 C<< $a->untick($name, $value) >>
 
 Causes the checkbox to be unticked.  Shorthand for
 C<tick($name,$value,undef)>
@@ -993,10 +993,19 @@ sub _pop_page_stack {
 }
 
 
-=head2 C<< redirect_ok() >>
+=head2 C<< $a->redirect_ok() >>
 
-Keep track of the last uri redirected to, and tell our parent that it's
-OK to do the redirect.
+An overloaded version of C<redirect_ok()> in L<LWP::UserAgent>.
+This method is used to determine whether a redirection in the request
+should be followed.
+
+It's also used to keep track of the last URI redirected to. Also
+if the redirection was from a POST, it changes the HTTP method
+to GET. This does not conform with the RFCs, but it is how many
+browser user agent implementations behave. As we are trying to model
+them, we must unfortunately mimic their erroneous reaction. See
+L<http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.3> for
+details on correct behaviour.
 
 =cut
 
@@ -1007,6 +1016,9 @@ sub redirect_ok {
     my $ok = $self->SUPER::redirect_ok( $prospective_request );
     if ( $ok ) {
 	$self->{redirected_uri} = $prospective_request->uri;
+
+	# Mimic erroneous browser behaviour by changing the method.
+	$prospective_request->method("GET") if $prospective_request->method eq "POST";
     }
 
     return $ok;
