@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.73_03
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.116 2004/03/21 05:54:27 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.117 2004/03/23 04:42:48 petdance Exp $
 
 =cut
 
@@ -89,80 +89,6 @@ The CPAN documentation page for Mechanize.
 
 The RT queue for bugs & enhancements in Mechanize.  Click the "Report bug"
 link if your bug isn't already reported.
-
-=back
-
-=head1 OTHER DOCUMENTATION
-
-=head2 I<Spidering Hacks>, by Kevin Hemenway and Tara Calishain
-
-I<Spidering Hacks> from O'Reilly
-(L<http://www.oreilly.com/catalog/spiderhks/>) is a great book for anyone
-wanting to know more about screen-scraping and spidering.
-
-There are six hacks that use Mech or a Mech derivative:
-
-=over 4
-
-=item #21 WWW::Mechanize 101
-
-=item #22 Scraping with WWW::Mechanize
-
-=item #36 Downloading Images from Webshots
-
-=item #44 Archiving Yahoo! Groups Messages with WWW::Yahoo::Groups
-
-=item #64 Super Author Searching
-
-=item #73 Scraping TV Listings
-
-=back
-
-The book was also positively reviewed on Slashdot:
-L<http://books.slashdot.org/article.pl?sid=03/12/11/2126256>
-
-=head2 Online resources
-
-=over 4
-
-=item * WWW::Mechanize Development mailing list
-
-Hosted at Sourceforge, this is where the contributors to Mech
-discuss things.  L<http://sourceforge.net/mail/?group_id=83309>
-
-=item * LWP mailing list
-
-The LWP mailing list is at
-L<http://lists.perl.org/showlist.cgi?name=libwww>, and is more
-user-oriented and well-populated than the WWW::Mechanize Development
-list.  This is a good list for Mech users, since LWP is the basis
-for Mech.
-
-=item * L<WWW::Mechanize::Examples>
-
-A random array of examples submitted by users, included with the
-Mechanize distribution.
-
-=item * L<http://www.perl.com/pub/a/2003/01/22/mechanize.html>
-
-Chris Ball's article about using WWW::Mechanize for scraping TV
-listings.
-
-=item * L<http://www.stonehenge.com/merlyn/LinuxMag/col47.html>
-
-Randal Schwartz's article on scraping Yahoo News for images.  It's
-already out of date: He manually walks the list of links hunting
-for matches, which wouldn't have been necessary if the C<find_link()>
-method existed at press time.
-
-=item * L<http://www.perladvent.org/2002/16th/>
-
-WWW::Mechanize on the Perl Advent Calendar, by Mark Fowler.
-
-=item * L<http://www.linux-magazin.de/Artikel/ausgabe/2004/03/perl/perl.html>
-
-Michael Schilli's article on Mech and L<WWW::Mechanize::Shell> for the
-German magazine I<Linux Magazin>.
 
 =back
 
@@ -1296,13 +1222,13 @@ sub request {
     # add correct Accept-Encoding header to restore compliance with
     # http://www.freesoft.org/CIE/RFC/2068/158.htm
     unless ($request->header('Accept-Encoding')) {
-      my $accept = 'identity';
-      # only allow "identity" for the time being
-      #eval {
-      #  require Compress::Zlib;
-      #  $accept .= ', deflate, gzip';
-      #};
-      $self->add_header( 'Accept-Encoding', $accept);
+        my $accept = 'identity';
+        # only allow "identity" for the time being
+        #eval {
+        #  require Compress::Zlib;
+        #  $accept .= ', deflate, gzip';
+        #};
+        $self->add_header( 'Accept-Encoding', $accept);
     };
 
     my $res = $self->{res} = $self->_make_request( $request, @_ );
@@ -1318,8 +1244,8 @@ sub request {
     # (currently isn't reached because we only allow 'identity')
     my $encoding = $res->header('Content-Encoding') || "";
     if ($encoding =~ /^(?:gzip|deflate)$/) {
-      $self->{content} = Compress::Zlib::memGunzip( $self->{ content });
-      # should I delete the response header?
+        $self->{content} = Compress::Zlib::memGunzip( $self->{content});
+        # should I delete the response header?
     };
 
     if ( $self->{res}->is_success ) {
@@ -1617,11 +1543,79 @@ sub _die {
     &Carp::croak; # pass thru
 }
 
-=head1 See Also
+=head1 OTHER DOCUMENTATION
 
-See also L<WWW::Mechanize::Examples> for sample code.
-L<WWW::Mechanize::FormFiller> and L<WWW::Mechanize::Shell> are add-ons
-that turn Mechanize into more of a scripting tool.
+=head2 I<Spidering Hacks>, by Kevin Hemenway and Tara Calishain
+
+I<Spidering Hacks> from O'Reilly
+(L<http://www.oreilly.com/catalog/spiderhks/>) is a great book for anyone
+wanting to know more about screen-scraping and spidering.
+
+There are six hacks that use Mech or a Mech derivative:
+
+=over 4
+
+=item #21 WWW::Mechanize 101
+
+=item #22 Scraping with WWW::Mechanize
+
+=item #36 Downloading Images from Webshots
+
+=item #44 Archiving Yahoo! Groups Messages with WWW::Yahoo::Groups
+
+=item #64 Super Author Searching
+
+=item #73 Scraping TV Listings
+
+=back
+
+The book was also positively reviewed on Slashdot:
+L<http://books.slashdot.org/article.pl?sid=03/12/11/2126256>
+
+=head2 Online resources
+
+=over 4
+
+=item * WWW::Mechanize Development mailing list
+
+Hosted at Sourceforge, this is where the contributors to Mech
+discuss things.  L<http://sourceforge.net/mail/?group_id=83309>
+
+=item * LWP mailing list
+
+The LWP mailing list is at
+L<http://lists.perl.org/showlist.cgi?name=libwww>, and is more
+user-oriented and well-populated than the WWW::Mechanize Development
+list.  This is a good list for Mech users, since LWP is the basis
+for Mech.
+
+=item * L<WWW::Mechanize::Examples>
+
+A random array of examples submitted by users, included with the
+Mechanize distribution.
+
+=item * L<http://www.perl.com/pub/a/2003/01/22/mechanize.html>
+
+Chris Ball's article about using WWW::Mechanize for scraping TV
+listings.
+
+=item * L<http://www.stonehenge.com/merlyn/LinuxMag/col47.html>
+
+Randal Schwartz's article on scraping Yahoo News for images.  It's
+already out of date: He manually walks the list of links hunting
+for matches, which wouldn't have been necessary if the C<find_link()>
+method existed at press time.
+
+=item * L<http://www.perladvent.org/2002/16th/>
+
+WWW::Mechanize on the Perl Advent Calendar, by Mark Fowler.
+
+=item * L<http://www.linux-magazin.de/Artikel/ausgabe/2004/03/perl/perl.html>
+
+Michael Schilli's article on Mech and L<WWW::Mechanize::Shell> for the
+German magazine I<Linux Magazin>.
+
+=back
 
 =head2 Other modules that use Mechanize
 
@@ -1663,7 +1657,7 @@ for Mechanize.  Please check to see if your bug has already been reported.
 
 =head1 Author
 
-Copyright 2003 Andy Lester <andy@petdance.com>
+Copyright 2004 Andy Lester <andy@petdance.com>
 
 Released under the Artistic License.  Based on Kirrily Robert's excellent
 L<WWW::Automate> package.
