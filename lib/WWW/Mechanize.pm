@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.71_02
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.101 2003/12/22 20:51:44 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.102 2003/12/27 03:49:54 petdance Exp $
 
 =cut
 
@@ -1363,6 +1363,14 @@ sub _pop_page_stack {
     return 1;
 }
 
+=head2 warn( @messages )
+
+Centralized warning method, for diagnostics and non-fatal problems.
+Defaults to calling C<CORE::warn>, but may be overridden by setting
+C<onwarn> in the construcotr.
+
+=cut
+
 sub warn {
     my $self = shift;
 
@@ -1372,6 +1380,13 @@ sub warn {
 
     $handler->(@_);
 }
+
+=head2 die( @messages )
+
+Centralized error method.  Defaults to calling C<CORE::die>, but
+may be overridden by setting C<onerror> in the construcotr.
+
+=cut
 
 sub die {
     my $self = shift;
