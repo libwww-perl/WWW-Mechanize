@@ -1,7 +1,10 @@
-# $Id: Changes,v 1.100 2004/01/05 16:33:13 petdance Exp $
+# $Id: Changes,v 1.101 2004/01/13 04:36:36 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
-0.71_03
+0.72
+	[ENHANCEMENTS]
+	* Added the set_visible() method, thanks to Peter Scott.
+
 	[INTERNALS]
 	* Made the globbing in Makefile.PL a little less command-line
 	  intensive.  Also fixed the missing files in MANIFEST.

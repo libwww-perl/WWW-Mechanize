@@ -6,13 +6,13 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 =head1 VERSION
 
-Version 0.71_02
+Version 0.72
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.102 2003/12/27 03:49:54 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.103 2004/01/13 04:36:36 petdance Exp $
 
 =cut
 
-our $VERSION = "0.71_02";
+our $VERSION = "0.72";
 
 =head1 SYNOPSIS
 
@@ -69,6 +69,7 @@ level wrappers around them.
     $mech->form_name( $name );
     $mech->field( $name, $value );
     $mech->set_fields( %field_values );
+    $mech->set_visible( @criteria );
     $mech->click( $button );
 
 L<WWW::Mechanize> is a proper subclass of L<LWP::UserAgent> and
@@ -571,6 +572,71 @@ sub set_fields {
         }
     } # while
 } # set_fields()
+
+
+=head2 $mech->set_visible( @criteria )
+
+This method sets fields of a form without having to know their
+names.  So if you have a login screen that wants a username and
+password, you do not have to fetch the form and inspect the source
+(or use the F<mech-dump> utility, installed with WWW::Mechanize)
+to see what the field names are; you can just say
+
+    $mech->set_visible( $username, $password ) ;
+
+and the first and second fields will be set accordingly.  The method
+is called set_I<visible> because it acts only on visible fields;
+hidden form inputs are not considered.  The order of the fields is
+the order in which they appear in the HTML source which is nearly
+always the order anyone viewing the page would think they are in,
+but some creative work with tables could change that; caveat user.
+
+Each element in C<@criteria> is either a field value or a field
+specifier.  A field value is a scalar.  A field specifier allows
+you to specify the I<type> of input field you want to set and is
+denoted with an arrayref containing two elements.  So you could
+specify the first radio button with
+
+    $mech->set_visible( [ radio => "KCRW" ] ) ;
+
+Field values and specifiers can be intermixed, hence
+
+    $mech->set_visible( "fred", "secret", [ option => "Checking" ] ) ;
+
+would set the first two fields to "fred" and "secret", and the I<next>
+C<OPTION> menu field to "Checking".
+
+The possible field specifier types are: "text", "password", "hidden",
+"textarea", "file", "image", "submit", "radio", "checkbox" and "option".
+
+=cut
+
+sub set_visible {
+    my $self = shift;
+
+    my $form = $self->current_form;
+    my @inputs = $form->inputs;
+
+    while (my $value = shift) {
+        if ( ref $value eq 'ARRAY' ) {
+           my ( $type, $value ) = @$value;
+           while ( my $input = shift @inputs ) {
+               next if $input->type eq 'hidden';
+               if ( $input->type eq $type ) {
+                   $input->value( $value );
+                   last;
+               }
+           } # while
+        } else {
+           while ( my $input = shift @inputs ) {
+               next if $input->type eq 'hidden';
+               $input->value( $value );
+               last;
+           } # while
+       }
+    } # while
+
+} # set_visible()
 
 =head2 $mech->tick( $name, $value [, $set] ) 
 
