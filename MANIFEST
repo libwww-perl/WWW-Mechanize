@@ -52,6 +52,8 @@ t/referer-server
 t/referer.t
 t/regex-error.t
 t/reload.t
+t/select.html
+t/select.t
 t/submit.t
 t/taint.t
 t/tick.html

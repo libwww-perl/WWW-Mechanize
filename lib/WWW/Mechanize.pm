@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.73_03
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.115 2004/03/21 05:41:59 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.116 2004/03/21 05:54:27 petdance Exp $
 
 =cut
 
@@ -521,7 +521,9 @@ sub form_name {
     }
 }
 
-=head2 $mech->field($name, $value, $number)
+=head2 $mech->field( $name, $value, $number )
+
+=head2 $mech->field( $name, \@values, $number )
 
 Given the name of a field, set its value to the value specified.  This
 applies to the current form (as set by the C<L<form()>> method or defaulting
@@ -540,7 +542,11 @@ sub field {
     if ($number > 1) {
         $form->find_input($name, undef, $number)->value($value);
     } else {
-        $form->value($name => $value);
+	if (ref($value) eq "ARRAY") {
+	    $form->param($name, $value);
+	} else {
+	    $form->value($name => $value);
+	}
     }
 }
 
@@ -775,6 +781,39 @@ sub click_button {
     } # $args{value}
 
     return $self->request( $request );
+}
+
+=head2 $mech->select($name, $value) 
+
+=head2 $mech->select($name, \@values) 
+
+Given the name of a C<select> field, set its value to the value
+specified.  If the field is not E<lt>select multipleE<gt> and the
+C<$value> is an array, only the last value will be set.  This applies
+to the current form (as set by the C<L<form()>> method or defaulting
+to the first form on the page).
+
+=cut
+
+sub select {
+    my ($self, $name, $value) = @_;
+
+    my $form = $self->{form};
+
+    my $input = $form->find_input($name);
+    if (!$input) {
+	$self->warn( qq{ Input "$name" not found } );
+	return;
+    } elsif ($input->type ne 'option') {
+	$self->warn( qq{ Input "$name" is not type "select" } );
+	return;
+    }
+
+    if (ref($value) eq "ARRAY") {
+	$form->param($name, $value);
+    } else {
+	$form->value($name => $value);
+    }
 }
 
 =head2 $mech->submit()
