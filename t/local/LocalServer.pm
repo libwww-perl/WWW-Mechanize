@@ -2,6 +2,7 @@ package LocalServer;
 
 # start a fake webserver, fork, and connect to ourselves
 use strict;
+use Test::More;
 use LWP::Simple;
 use FindBin;
 use File::Spec;
@@ -79,6 +80,8 @@ sub spawn {
   my $lhurl = URI::URL->new( $url );
   $lhurl->host( "localhost" );
   $self->{_server_url} = $lhurl;
+
+  diag "Started local server on $lhurl";
 
   $self;
 };
