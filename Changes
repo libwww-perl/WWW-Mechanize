@@ -1,4 +1,4 @@
-# $Id: Changes,v 1.144 2004/10/01 02:16:10 petdance Exp $
+# $Id: Changes,v 1.145 2004/10/01 13:09:38 markjugg Exp $
 Revision history for Perl extension WWW::Mechanize
 
 1.05_01 Thu Sep 30 21:04:44 CDT 2004
@@ -13,7 +13,7 @@ Revision history for Perl extension WWW::Mechanize
           (RT #3317). Thanks to Mark Stosberg.
 
         * When links are extracted from <area> tags, the ALT attribute will
-          be captured become part of the WWW::Mechanize::Link object.
+          be captured and become part of the WWW::Mechanize::Link object.
           (RT #3317). Patch by Mark Stosberg. 
 
         [INTERNALS]
