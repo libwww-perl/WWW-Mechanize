@@ -21,7 +21,7 @@ $mech->back();
 is( $mech->base, $first_base, "Did the base get set back?" );
 is( $mech->title, $title, "Title set back?" );
 
-$mech->follow( "Jobs" );
+$mech->follow( "Images" );
 ok( $mech->success, 'Followed OK' );
 
 $mech->back();

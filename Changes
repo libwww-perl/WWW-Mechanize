@@ -1,5 +1,9 @@
-# $Id: Changes,v 1.117 2004/03/28 04:39:26 petdance Exp $
+# $Id: Changes,v 1.118 2004/04/05 04:31:07 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
+
+0.75_02
+        [FIXES]
+        * Test files account for new Google layout.
 
 0.75_01 Sat Mar 27 22:49:14 CST 2004
 

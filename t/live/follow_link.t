@@ -12,9 +12,9 @@ my $response = $agent->get( START );
 ok( $response->is_success, 'Got some page' ) or die "Can't even get Google";
 is( $agent->uri, START, 'Got Google' );
 
-$response = $agent->follow_link( text_regex => qr/tools/i, n=>2 );
+$response = $agent->follow_link( text_regex => qr/more/i, n=>1 );
 ok( $response->is_success, 'Got the page' );
-is( $agent->uri, 'http://www.google.com/options/', "Got the correct page" );
+is( $agent->uri, 'http://www.google.com/options/index.html', "Got the correct page" );
 
 SKIP: {
     eval "use Test::Memory::Cycle";
