@@ -1,18 +1,19 @@
 use warnings;
 use strict;
-use Test::More;
+use Test::More tests => 9;
 
-# XXX There's no reason this one couldn't run off the local server.
-plan skip_all => "Skipping live tests" if -f "t/SKIPLIVE";
-plan tests => 9;
+use lib 't/lib';
+use Test::HTTP::LocalServer;
+my $server = Test::HTTP::LocalServer->spawn;
 
-use_ok( 'WWW::Mechanize' );
+BEGIN {
+    use_ok( 'WWW::Mechanize' );
+}
 
 my $t = WWW::Mechanize->new;
-isa_ok( $t, 'WWW::Mechanize' ) or die;
+isa_ok( $t, 'WWW::Mechanize', 'Created object' );
 
-$t->get("http://www.google.com/intl/en/");
-ok( $t->success, "Got Google" );
+ok( $t->get($server->url)->is_success, "Got Google" );
 is(scalar @{$t->{page_stack}}, 0, "Page stack starts empty");
 $t->_push_page_stack();
 is(scalar @{$t->{page_stack}}, 1, "Pushed item onto page stack");

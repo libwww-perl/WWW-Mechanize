@@ -26,9 +26,9 @@ t/lib/Test/HTTP/LocalServer.pm
 t/lib/Test/HTTP/log-server
 t/new-local.t
 t/new.t
-t/page_stack-local.t
 t/page_stack.t
 t/reload-local.t
 t/reload.t
 t/submit-local.t
 t/submit.t
+t/tick.t
