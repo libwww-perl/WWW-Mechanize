@@ -2,15 +2,18 @@ use warnings;
 use strict;
 use Test::More tests => 9;
 
+use lib 't/lib';
+use Test::HTTP::LocalServer;
+my $server = Test::HTTP::LocalServer->spawn;
+
 BEGIN {
     use_ok( 'WWW::Mechanize' );
 }
 
 my $t = WWW::Mechanize->new;
-isa_ok( $t, 'WWW::Mechanize', 'Created object' ) or die;
+isa_ok( $t, 'WWW::Mechanize', 'Created object' );
 
-$t->get("http://www.google.com/intl/en/");
-ok( $t->success, "Got Google" );
+ok( $t->get($server->url)->is_success, "Got Google" );
 is(scalar @{$t->{page_stack}}, 0, "Page stack starts empty");
 $t->_push_page_stack();
 is(scalar @{$t->{page_stack}}, 1, "Pushed item onto page stack");

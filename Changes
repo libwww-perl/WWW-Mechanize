@@ -1,5 +1,16 @@
-# $Id: Changes,v 1.47 2003/06/05 17:01:21 alester Exp $
+# $Id: Changes,v 1.1 2003/06/13 15:46:42 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
+
+0.45	June 11, 2003
+	[ENHANCEMENTS]
+	* Added a convenience method success(), which is just a wrapper
+	  around $agent->res->is_success().
+	* Passes along a Referer: header.  It can still be overridden
+	  with the %Headers hash, though.  Thanks, Corion.
+	* We now have a set of localized tests that run for machines that
+	  aren't connected to the Net.  There's now a t/lib/ directory for
+	  those helper files, and the previous Utils.pm has been dropped.
+	  Again, Corion to the rescue.
 
 0.44	June 5, 2003
 	[ENHANCEMENTS]

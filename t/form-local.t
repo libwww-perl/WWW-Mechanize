@@ -1,21 +1,22 @@
-#!/usr/bin/perl -T
-
 use warnings;
 use strict;
 use Test::More tests => 14;
 
-use constant START => 'http://www.google.com/intl/en/';
+use lib 't/lib';
+use Test::HTTP::LocalServer;
 
 BEGIN {
     use_ok( 'WWW::Mechanize' );
 }
 
+my $server = Test::HTTP::LocalServer->spawn;
+
 my $t = WWW::Mechanize->new();
 isa_ok( $t, 'WWW::Mechanize' ) or die;
 $t->quiet(1);
-$t->get(START);
+$t->get($server->url);
 ok( $t->success, "Got a page" ) or die "Can't even get google";
-is( $t->uri, START, 'Got Google' );
+is( $t->uri, $server->url, 'Got page' );
 
 my $form_number_1 = $t->form_number(1);
 ok( $form_number_1, "Can select the first form");

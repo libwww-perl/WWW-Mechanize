@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.44
 
-    $Header: /home/cvs/www-mechanize/lib/WWW/Mechanize.pm,v 1.82 2003/06/05 17:01:21 alester Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.1 2003/06/13 15:46:42 petdance Exp $
 
 =cut
 
@@ -30,7 +30,7 @@ traversed.
     $agent->get($url);
 
     $agent->follow_link( 'n' => 3 );
-    $agent->follow_link( 'link_regex' => qr/download this/i );
+    $agent->follow_link( 'text_regex' => qr/download this/i );
     $agent->follow_link( 'url' => 'http://host.com/index.html' );
 
     $agent->submit_form(
@@ -200,6 +200,21 @@ sub reload {
     return unless $self->{req};
 
     return $self->request( $self->{req} );
+}
+
+=head2 success()
+
+Returns a boolean telling whether the last request was successful.
+If there hasn't been an operation yet, returns false.
+
+This is a convenience function that wraps C<< $agent->res->is_success >>.
+
+=cut
+
+sub success {
+    my $self = shift;
+
+    return $self->res && $self->res->is_success;
 }
 
 
@@ -882,6 +897,8 @@ Overloaded version of C<request()> in L<LWP::UserAgent>.  Performs
 the actual request.  Normally, if you're using WWW::Mechanize, it'd
 because you don't want to deal with this level of stuff anyway.
 
+Note that C<$request> will be modified.
+
 Returns an L<HTTP::Response> object.
 
 =cut
@@ -890,6 +907,7 @@ sub request {
     my $self = shift;
     my $request = shift;
 
+    $request->header( Referer => $self->{last_uri} ) if $self->{last_uri};
     while ( my($key,$value) = each %WWW::Mechanize::headers ) {
         $request->header( $key => $value );
     }
@@ -902,6 +920,7 @@ sub request {
     $self->{base}    = $self->{res}->base;
     $self->{ct}      = $self->{res}->content_type || "";
     $self->{content} = $self->{res}->content;
+    $self->{last_uri} = $self->{uri};
 
     if ( $self->is_html ) {
         $self->{forms} = [ HTML::Form->parse($self->{content}, $self->{res}->base) ];

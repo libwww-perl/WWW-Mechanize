@@ -1,0 +1,106 @@
+# Thanks to merlyn for nudging me and giving me this snippet!
+use strict;
+use HTTP::Daemon;
+use CGI;
+
+$|++;
+
+my $d = HTTP::Daemon->new or die;
+print $d->url, "\n";
+
+my ($filename,$logfile) = @ARGV[0,1];
+if ($filename) {
+  open DATA, "< $filename"
+    or die "Couldn't read page '$filename' : $!\n";
+};
+open LOG, ">", $logfile
+  or die "Couldn't create logfile '$logfile' : $!\n";
+my $body = join "", <DATA>;
+
+sub debug($) {
+  my $message = $_[0];
+  $message =~ s!\n!\n#SERVER:!g;
+  warn "#SERVER: $message"
+    if $ENV{TEST_HTTP_VERBOSE};
+};
+
+SERVERLOOP: {
+  my $quitserver;
+  while (my $c = $d->accept) {
+    debug "New connection";
+    while (my $r = $c->get_request) {
+      print LOG "Request:\n" . $r->as_string . "\n";
+      debug "Request:\n" . $r->as_string;
+      my $location = ($r->uri->path || "/");
+      my ($link1,$link2) = ('','');
+      if ($location =~ m!^/link/([^/]+)/(.*)$!) {
+        ($link1,$link2) = ($1,$2);
+      };
+      my $res;
+      if ($location =~ m!^/redirect/(.*)$!) {
+        $res = HTTP::Response->new(302);
+				$res->header('location', $d->url . $1);
+      } else {
+        my $q = CGI->new($r->uri->query);
+
+        # Make sticky form fields
+        my ($query,$session,%cat);
+        $query = defined $q->param('query') ? $q->param('query') : "(empty)";
+        $session = defined $q->param('session') ? $q->param('session') : 1;
+        %cat = map { $_ => 1 } (defined $q->param('cat') ? $q->param('cat') : qw( cat_foo cat_bar ));
+        my @categories = map { $cat{$_} ? "checked" : "" } qw( cat_foo cat_bar cat_baz );
+        $res = HTTP::Response->new(200, "OK", undef, sprintf($body,$location,$session,$query,@categories));
+        $res->content_type('text/html');
+        debug "Request " . ($r->uri->path || "/");
+        if ( $location eq '/quit_server') {
+          debug "Quitting";
+          $c->force_last_request;
+          $quitserver = 1;
+          close LOG;
+        };
+      };
+      debug "Response:\n" . $res->as_string;
+      $c->send_response($res);
+      last if $quitserver;
+    }
+    $c->close;
+    undef($c);
+    last SERVERLOOP
+      if $quitserver;
+  }
+};
+END { debug "Server stopped" };
+
+__DATA__
+<html>
+<head>
+<title>WWW::Mechanize::Shell test page</title>
+</head>
+<body>
+<h1>Location: %s</h1>
+<p>
+  <a href="/test">Link /test</a>
+  <a href="/foo">Link /foo</a>
+  <a href="/slash_end">Link /</a>
+  <a href="/slash_front">/Link </a>
+  <a href="/slash_both">/Link in slashes/</a>
+  <a href="/foo1.save_log_server_test.tmp">Link foo1.save_log_server_test.tmp</a>
+  <a href="/foo2.save_log_server_test.tmp">Link foo2.save_log_server_test.tmp</a>
+  <a href="/foo3.save_log_server_test.tmp">Link foo3.save_log_server_test.tmp</a>
+  <table>
+    <tr><th>Col1</th><th>Col2</th><th>Col3</th></tr>
+    <tr><td>A1</td><td>A2</td><td>A3</td></tr>
+    <tr><td>B1</td><td>B2</td><td>B3</td></tr>
+    <tr><td>C1</td><td>C2</td><td>C3</td></tr>
+  </table>
+  <form name='f' action="/formsubmit">
+    <input type="hidden" name="session" value="%s"/>
+    <input type="text" name="query" value="%s"/>
+    <input type="submit" name="submit" value="Go"/>
+    <input type="checkbox" name="cat" value="cat_foo" %s />
+    <input type="checkbox" name="cat" value="cat_bar" %s />
+    <input type="checkbox" name="cat" value="cat_baz" %s />
+  </form>
+</p>
+</body>
+</html>
