@@ -4,7 +4,7 @@ use Test::More;
 use File::Spec;
 
 plan skip_all => "Not installing mech-dump" if -e File::Spec->catfile( qw( t SKIP-MECH-DUMP ) );
-plan tests=>4;
+plan tests=>5;
 
 my $exe = File::Spec->catfile( qw( blib script mech-dump ) );
 if ( $^O eq "VMS" ) {
