@@ -1,0 +1,11 @@
+#!/usr/bin/perl -w
+
+use strict;
+use WWW::Mechanize;
+
+my $url = shift or die "Must specify a URL to check\n";
+
+my $mech = new WWW::Mechanize();
+$mech->get( $url );
+$mech->success or die "Can't fetch $url\n", $mech->res->status_line, "\n";
+
