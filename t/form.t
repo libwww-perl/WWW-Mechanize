@@ -1,6 +1,6 @@
 use warnings;
 use strict;
-use Test::More tests => 15;
+use Test::More tests => 16;
 
 use lib 't/lib';
 use Test::HTTP::LocalServer;
@@ -10,6 +10,7 @@ BEGIN {
 }
 
 my $server = Test::HTTP::LocalServer->spawn;
+isa_ok( $server, 'Test::HTTP::LocalServer' );
 
 my $t = WWW::Mechanize->new();
 isa_ok( $t, 'WWW::Mechanize' ) or die;

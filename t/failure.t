@@ -1,14 +1,17 @@
 use warnings;
 use strict;
-use Test::More tests => 16;
+use Test::More tests => 17;
 
 use lib 't/lib';
 use Test::HTTP::LocalServer;
-my $server = Test::HTTP::LocalServer->spawn;
 
 BEGIN {
     use_ok( 'WWW::Mechanize' );
 }
+
+my $server = Test::HTTP::LocalServer->spawn;
+isa_ok( $server, 'Test::HTTP::LocalServer' );
+
 
 my $a = WWW::Mechanize->new;
 isa_ok( $a, 'WWW::Mechanize', 'Created object' );
