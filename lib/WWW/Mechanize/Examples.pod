@@ -20,6 +20,154 @@ used WWW::Mechanize.
 Note that the examples are in reverse order of my having received them,
 so the freshest examples are always at the top.
 
+=head2 Starbucks Density Calculator, by Nat Torkington
+
+Here's a pair of scripts from Nat Torkington, editor for O'Reilly Media
+and co-author of the I<Perl Cookbook>.
+
+=over 4
+
+Rael [Dornfest] discovered that you can easily find out how many Starbucks
+there are in an area by searching for "Starbucks".  So I wrote a silly
+scraper for some old census data and came up with some Starbucks density
+figures.  There's no meaning to these numbers thanks to errors from using
+old census data coupled with false positives in Yahoo search (e.g.,
+"Dodie Starbuck-Your Style Desgn" in Portland OR).  But it was fun to
+waste a night on.
+
+Here are the top twenty cities in descending order of population,
+with the amount of territory each Starbucks has.  E.g., A New York NY
+Starbucks covers 1.7 square miles of ground.
+
+    New York, NY        1.7
+    Los Angeles, CA     1.2
+    Chicago, IL         1.0
+    Houston, TX         4.6
+    Philadelphia, PA    6.8
+    San Diego, CA       2.7
+    Detroit, MI        19.9
+    Dallas, TX          2.7
+    Phoenix, AZ         4.1
+    San Antonio, TX    12.3
+    San Jose, CA        1.1
+    Baltimore, MD       3.9
+    Indianapolis, IN   12.1
+    San Francisco, CA   0.5
+    Jacksonville, FL   39.9
+    Columbus, OH        7.3
+    Milwaukee, WI       5.1
+    Memphis, TN        15.1
+    Washington, DC      1.4
+    Boston, MA          0.5
+
+=back
+
+C<get_pop_data>
+
+    #!/usr/bin/perl -w
+
+    use WWW::Mechanize;
+    use Storable;
+
+    $url = 'http://www.census.gov/population/www/documentation/twps0027.html';
+    $m = WWW::Mechanize->new();
+    $m->get($url);
+
+    $c = $m->content;
+
+    $c =~ m{<A NAME=.tabA.>(.*?)</TABLE>}s
+      or die "Can't find the population table\n";
+    $t = $1;
+    @outer = $t =~ m{<TR.*?>(.*?)</TR>}gs;
+    shift @outer;
+    foreach $r (@outer) {
+      @bits = $r =~ m{<TD.*?>(.*?)</TD>}gs;
+      for ($x = 0; $x < @bits; $x++) {
+        $b = $bits[$x];
+        @v = split /\s*<BR>\s*/, $b;
+        foreach (@v) { s/^\s+//; s/\s+$// }
+        push @{$data[$x]}, @v;
+      }
+    }
+
+    for ($y = 0; $y < @{$data[0]}; $y++) {
+        $data{$data[1][$y]} = {
+            NAME => $data[1][$y],
+            RANK => $data[0][$y],
+            POP  => comma_free($data[2][$y]),
+            AREA => comma_free($data[3][$y]),
+            DENS => comma_free($data[4][$y]),
+        };
+    }
+
+    store(\%data, "cities.dat");
+
+    sub comma_free {
+      my $n = shift;
+      $n =~ s/,//;
+      return $n;
+    }
+
+
+C<plague_of_coffee>
+
+    #!/usr/bin/perl -w
+
+    use WWW::Mechanize;
+    use strict;
+    use Storable;
+
+    $SIG{__WARN__} = sub {} ;  # ssssssh
+
+    my $Cities = retrieve("cities.dat");
+
+    my $m = WWW::Mechanize->new();
+    $m->get("http://local.yahoo.com/");
+
+    my @cities = sort { $Cities->{$a}{RANK} <=> $Cities->{$b}{RANK} } keys %$Cities;
+    foreach my $c ( @cities ) {
+      my $fields = {
+        'stx' => "starbucks",
+        'csz' => $c,
+      };
+
+      my $r = $m->submit_form(form_number => 2,
+                              fields => $fields);
+      die "Couldn't submit form" unless $r->is_success;
+
+      my $hits = number_of_hits($r);
+      #  my $ppl  = sprintf("%d", 1000 * $Cities->{$c}{POP} / $hits);
+      #  print "$c has $hits Starbucks.  That's one for every $ppl people.\n";
+      my $density = sprintf("%.1f", $Cities->{$c}{AREA} / $hits);
+      print "$c : $density\n";
+    }
+
+    sub number_of_hits {
+      my $r = shift;
+      my $c = $r->content;
+      if ($c =~ m{\d+ out of <b>(\d+)</b> total results for}) {
+        return $1;
+      }
+      if ($c =~ m{Sorry, no .*? found in or near}) {
+        return 0;
+      }
+      if ($c =~ m{Your search matched multiple cities}) {
+        warn "Your search matched multiple cities\n";
+        return 0;
+      }
+      if ($c =~ m{Sorry we couldn.t find that location}) {
+        warn "No cities\n";
+        return 0;
+      }
+      if ($c =~ m{Could not find.*?, showing results for}) {
+        warn "No matches\n";
+        return 0;
+      }
+      die "Unknown response\n$c\n";
+    }
+
+
+
 =head2 pb-upload, by John Beppu
 
 This script takes filenames of images from the command line and
