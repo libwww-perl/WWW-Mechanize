@@ -1,4 +1,4 @@
-# $Id: Changes,v 1.140 2004/09/29 19:07:58 markjugg Exp $
+# $Id: Changes,v 1.141 2004/09/29 19:38:54 markjugg Exp $
 Revision history for Perl extension WWW::Mechanize
 
 1.05_01 XXX
@@ -9,6 +9,10 @@ Revision history for Perl extension WWW::Mechanize
 		  interface. The old one is still supported. Support for including  
 		  an 'alt' attribute was added, which is useful for <area> links.
 		  (RT #3317). Thanks to Mark Stosberg.
+
+		* When links are extracted from <area> tags, the ALT attribute will
+		  be captured become part of the WWW::Mechanize::Link object.
+		  (RT #3317). Patch by Mark Stosberg. 
 
 1.04    Wed Sep 15 23:27:53 CDT 2004
 

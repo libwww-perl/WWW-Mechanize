@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 1.04
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.139 2004/09/16 04:29:40 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.140 2004/09/29 19:38:55 markjugg Exp $
 
 =cut
 
@@ -1551,25 +1551,33 @@ sub _extract_links {
 
     while (my $token = $p->get_tag( keys %urltags )) {
         my $tag = $token->[0];
-        my $url = $token->[1]{$urltags{$tag}};
+		my $attrs = $token->[1];
+        my $url = $attrs->{$urltags{$tag}};
 
         my $text;
         my $name;
+		my $alt;
         if ( $tag eq "a" ) {
             $text = $p->get_trimmed_text("/$tag");
             $text = "" unless defined $text;
 
-            my $onClick = $token->[1]{onclick};
+            my $onClick = $attrs->{onclick};
             if ( $onClick && ($onClick =~ /^window\.open\(\s*'([^']+)'/) ) {
                 $url = $1;
             }
         } # a
-        if ( $tag ne "area" ) {
-            $name = $token->[1]{name};
+
+		# Of the tags we extract from, only 'AREA' has an alt tag
+		if ($tag eq 'area') {
+			$alt = $attrs->{alt};
+		}
+		# The rest should have a 'name' attribute.
+		else  {
+            $name = $attrs->{name};
         }
         if ( $tag eq "meta" ) {
-            my $equiv = $token->[1]{"http-equiv"};
-            my $content = $token->[1]{"content"};
+            my $equiv = $attrs->{"http-equiv"};
+            my $content = $attrs->{"content"};
             next unless $equiv && (lc $equiv eq "refresh") && defined $content;
 
             if ( $content =~ /^\d+\s*;\s*url\s*=\s*(.+)/ ) {
@@ -1580,7 +1588,14 @@ sub _extract_links {
         } # meta
 
         next unless defined $url;   # probably just a name link or <AREA NOHREF...>
-        push( @{$self->{links}}, WWW::Mechanize::Link->new( $url, $text, $name, $tag, $self->base ) );
+        push( @{$self->{links}}, WWW::Mechanize::Link->new({
+				url => $url,
+				text => $text,
+				name => $name,
+				tag => $tag,
+				base => $self->base,
+				alt => $alt,
+			}) );
     } # while
 
     # Old extract_links() returned a value.  Carp if someone expects
