@@ -20,8 +20,8 @@ ok( $mech->success, "Fetched $uri" ) or die "Can't get test page";
 my $x;
 $x = $mech->find_link();
 isa_ok( $x, 'WWW::Mechanize::Link' );
-is( $x->[0], "http://blargle.com/", "First link on the page" );
-is( $x->url, "http://blargle.com/", "First link on the page" );
+is( $x->[0], "http://www.drphil.com/", "First link on the page" );
+is( $x->url, "http://www.drphil.com/", "First link on the page" );
 
 $x = $mech->find_link( text => "CPAN A" );
 isa_ok( $x, 'WWW::Mechanize::Link' );
