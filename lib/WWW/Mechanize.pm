@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.76
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.125 2004/04/10 02:34:17 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.126 2004/04/10 03:42:39 petdance Exp $
 
 =cut
 
@@ -104,8 +104,6 @@ use HTML::TokeParser;
 use URI::URL;
 
 our @ISA = qw( LWP::UserAgent );
-
-our %headers;
 
 =head1 Constructor and startup
 
@@ -1143,22 +1141,68 @@ sub find_all_links {
 
 =head1 Miscellaneous methods
 
-=head2 $mech->add_header(name => $value)
+=head2 $mech->add_header( name => $value [, name => $value... ] )
 
-Sets a header for the WWW::Mechanize agent to use every time it gets
-a webpage.  This is B<NOT> stored in the agent object (because if it
-were, it would disappear if you went back() past where you'd set it)
-but in the hash variable C<%WWW::Mechanize::headers>, which is a hash of
-all headers to be set.  You can manipulate this directly if you want to;
-the add_header() method is just provided as a convenience function for
-the most common case of adding a header.
+Sets HTTP headers for the agent to add or remove from the HTTP request.
+
+    $mech->add_header( Encoding => 'text/klingon' );
+
+If a I<value> is C<undef>, then that header will be removed from any
+future requests.  For example, to never send a Referer header:
+
+    $mech->add_header( Referer => undef );
+
+If you want to delete a header, use C<delete_header>.
+
+Returns the number of name/value pairs added.
+
+B<NOTE>: This method was very different in WWW::Mechanize before 1.00.
+Back then, the headers were stored in a package hash, not as a member of
+the object instance.  Calling C<add_header()> would modify the headers
+for every WWW::Mechanize object, even after your object no longer existed.
 
 =cut
 
 sub add_header {
-    my ($self, $name, $value) = @_;
-    $WWW::Mechanize::headers{$name} = $value;
+    my $self = shift;
+    my $npairs = 0;
+
+    while ( @_ ) {
+        my $key = shift;
+        my $value = shift;
+        ++$npairs;
+
+        $self->{headers}{$key} = $value;
+    }
+
+    return $npairs;
 }
+
+=head2 $mech->delete_header( name [, name ... ] )
+
+Removes HTTP headers from the agent's list of special headers.  For instance, you might need to do something like:
+
+    # Don't send a Referer for this URL
+    $mech->add_header( Referer => undef );
+
+    # Get the URL
+    $mech->get( $url );
+
+    # Back to the default behavior
+    $mech->delete_header( 'Referer' );
+
+=cut
+
+sub delete_header {
+    my $self = shift;
+
+    while ( @_ ) {
+        my $key = shift;
+
+        delete $self->{headers}{$key};
+    }
+}
+
 
 =head2 $mech->quiet(true/false)
 

@@ -1,5 +1,8 @@
-# $Id: Changes,v 1.121 2004/04/08 02:49:39 petdance Exp $
+# $Id: Changes,v 1.122 2004/04/10 03:42:38 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
+
+        [INTERNALS]
+        * Removed the exper
 
 0.76    Wed Apr  7 22:01:43 CDT 2004
 
