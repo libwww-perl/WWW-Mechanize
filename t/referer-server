@@ -1,17 +1,20 @@
 # Thanks to merlyn for nudging me and giving me this snippet!
 
 use HTTP::Daemon;
+use URI::URL;
 
 $|++;
 
 my $d = HTTP::Daemon->new or die;
-print $d->url, "\n";
+my $lhurl = URI::URL->new( $d->url );
+$lhurl->host( "localhost" );
+print $lhurl->as_string, "\n";
 
 $counter = 5;
 while ($counter-- and my $c = $d->accept) {
     while (my $r = $c->get_request) {
-	$c->send_response(HTTP::Response->new(200, "OK", undef,
-                                            "Referer: '" . ($r->headers->referer||"") ."'"));
+        my $ref = $r->headers->referer || "";
+        $c->send_response(HTTP::Response->new(200, "OK", undef, "Referer: '$ref'"));
     }
     $c->close;
     undef($c);
