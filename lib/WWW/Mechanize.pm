@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 1.05_01
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.141 2004/10/01 01:56:35 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.142 2004/10/01 02:16:10 petdance Exp $
 
 =cut
 
@@ -1829,6 +1829,33 @@ Copyright 2004 Andy Lester <andy@petdance.com>
 
 Released under the Artistic License.  Based on Kirrily Robert's excellent
 L<WWW::Automate> package.
+
+=head1 ACKNOWLEDGEMENTS
+
+Thanks to the numerous people who have helped out on WWW::Mechanize in
+one way or another, including
+Kirrily Robert,
+Mike O'Regan,
+Mark Stosberg,
+Uri Guttman,
+Peter Scott,
+Phillipe Bruhat,
+Ian Langworth,
+John Beppu,
+Gavin Estey,
+Jim Brandt,
+Ask Bjoern Hansen,
+Greg Davies,
+Ed Silva,
+Mark-Jason Dominus,
+Autrijus Tang,
+Mark Fowler,
+Stuart Children,
+Max Maischein,
+Meng Wong,
+Prakash Kailasa,
+Abigail,
+and the late great Iain Truskett.
 
 =cut
 
