@@ -6,13 +6,11 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 =head1 VERSION
 
-Version 1.05_02
-
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.156 2004/11/01 01:07:59 markjugg Exp $
+Version 1.05_03
 
 =cut
 
-our $VERSION = "1.05_02";
+our $VERSION = "1.05_03";
 
 =head1 SYNOPSIS
 
@@ -2038,6 +2036,8 @@ Prakash Kailasa,
 Abigail,
 Jan Pazdziora,
 Dominique Quatravaux,
+Scott Lanning,
+Rob Casey,
 and the late great Iain Truskett.
 
 =cut
