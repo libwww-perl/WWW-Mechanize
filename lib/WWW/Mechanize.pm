@@ -686,7 +686,7 @@ sub find_link {
     my $nmatches = 0;
     my @matches;
     for my $link ( @links ) {
-        if ( _match_any_parms($link,\%parms) ) {
+        if ( _match_any_link_parms($link,\%parms) ) {
             if ( $wantall ) {
                 push( @matches, $link );
             } else {
@@ -745,7 +745,7 @@ sub _clean_keys {
 
 # Used by find_links to check for matches
 # The logic is such that ALL parm criteria that are given must match
-sub _match_any_parms {
+sub _match_any_link_parms {
     my $link = shift;
     my $p = shift;
 
