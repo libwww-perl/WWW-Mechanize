@@ -1860,17 +1860,6 @@ sub form {
     return $arg =~ /^\d+$/ ? $self->form_number($arg) : $self->form_name($arg);
 }
 
-=head2 $mech->_parse_html()
-
-An internal method that initializes forms and links given a HTML
-document.  Overriding this in your subclass is B<DEPRECATED>, better
-override L</update_html> instead in your new code.
-
-=cut
-
-sub _parse_html { }
-
-
 =head1 INTERNAL-ONLY METHODS
 
 These methods are only used internally.  You probably don't need to
