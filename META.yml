@@ -1,7 +1,7 @@
 # http://module-build.sourceforge.net/META-spec.html
 #XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
 name:         WWW-Mechanize
-version:      0.62
+version:      0.61
 version_from: lib/WWW/Mechanize.pm
 installdirs:  site
 requires:
@@ -22,4 +22,4 @@ requires:
     URI::URL:                      0
 
 distribution_type: module
-generated_by: ExtUtils::MakeMaker version 6.17
+generated_by: ExtUtils::MakeMaker version 6.16
