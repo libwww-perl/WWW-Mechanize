@@ -1,8 +1,12 @@
 Revision history for Perl extension WWW::Mechanize
 
-1.06	Wed Dec  8 14:58:39 CST 2004
+1.08
+        [ENHANCEMENTS]
+        * Added find_image() and find_all_images().
+
+1.06    Wed Dec  8 14:58:39 CST 2004
         [INTERNALS]
-        * Now uses the C<base> pragma instead of setting C<@ISA>.
+        * Now uses the base pragma instead of setting @ISA.
 
 1.05_04 Fri Nov  5 23:35:38 CST 2004
         [ENHANCEMENTS]

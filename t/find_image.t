@@ -3,7 +3,7 @@
 use warnings;
 use strict;
 
-use Test::More skip_all => 'Code not written yet.  I love test-first programming!';
+use Test::More tests => 14;
 use URI::file;
 
 BEGIN {
@@ -35,3 +35,5 @@ is( $second->url, "bongo.gif" );
 is( $second->alt, undef, "alt" );
 is( $second->height, 142, "height" );
 is( $second->width, 43, "width" );
+
+is_deeply( \@images, [$mech->images] );
