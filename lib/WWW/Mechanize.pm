@@ -1,5 +1,13 @@
 package WWW::Mechanize;
 
+=head1 TODO
+
+XXX Make it easier to save content.
+
+XXX Make a method that finds all the IMG SRC
+
+XXX ALlow saving content to a file
+
 =head1 NAME
 
 WWW::Mechanize - automate interaction with websites
@@ -8,7 +16,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.45
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.3 2003/06/17 04:22:15 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.4 2003/06/19 03:03:41 petdance Exp $
 
 =cut
 
@@ -179,6 +187,8 @@ sub get {
         $self->{uri} = URI->new( $uri );
     }
 
+    # XXX this shouldn't set uri until the request has succeeded.
+
     my $request = HTTP::Request->new( GET => $self->{uri} );
 
     return $self->request( $request ); 
@@ -268,9 +278,13 @@ sub follow_link {
 
 =head2 C<< $a->follow($string|$num) >>
 
-Follow a link.  If you provide a string, the first link whose text 
-matches that string will be followed.  If you provide a number, it will 
-be the I<$num>th link on the page.  Note that the links are 0-based.
+(Note that C<follow()> is deprecated in favor of Cfollow_link()>,
+which provides more flexibility.)
+
+Follow a link.  If you provide a string, the first link whose text
+matches that string will be followed.  If you provide a number, it
+will be the I<$num>th link on the page.  Note that the links are
+0-based.
 
 Returns true if the link was found on the page or undef otherwise.
 
