@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.54
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.34 2003/07/22 04:22:00 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.35 2003/07/22 05:09:14 petdance Exp $
 
 =cut
 
@@ -275,11 +275,10 @@ sub follow_link {
     }
 
     my $response;
-    my $link_ref = $self->find_link(%parms);
-    if ( $link_ref ) {
-	my $link = $link_ref->[0];     # we just want the URL, not the text
+    my $link = $self->find_link(%parms);
+    if ( $link ) {
 	$self->_push_page_stack();
-	$response = $self->get( $link );
+	$response = $self->get( $link->url );
     }
 
     return $response;
