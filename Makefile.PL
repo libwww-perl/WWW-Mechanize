@@ -28,9 +28,7 @@ EOT
 } # failed connect
 
 my $tests = 't/*.t';
-if ( $skiplive ) {
-    $tests .= ' t/live/*.t';
-}
+$tests .= ' t/live/*.t' unless $skiplive;
 
 no strict;
 my $parms = {

@@ -18,7 +18,6 @@ t/field.t
 t/find_link.html
 t/find_link.t
 t/follow.t
-t/follow_link.t
 t/form.t
 t/get.t
 t/google.html
@@ -27,6 +26,7 @@ t/lib/Test/HTTP/log-server
 t/live/back.t
 t/live/click.t
 t/live/follow.t
+t/live/follow_link.t
 t/live/form.t
 t/live/get.t:
 t/live/reload.t
