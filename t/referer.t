@@ -2,7 +2,7 @@
 use strict;
 use FindBin;
 
-BEGIN { delete $ENV{ qw( http_proxy HTTP_PROXY ) }; }
+BEGIN { delete @ENV{ qw( http_proxy HTTP_PROXY ) }; }
 
 use Test::More tests => 18;
 use_ok( 'WWW::Mechanize' );

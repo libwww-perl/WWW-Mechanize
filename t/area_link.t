@@ -5,7 +5,7 @@ use strict;
 use Test::More tests => 9;
 use URI::file;
 
-BEGIN { delete $ENV{ qw( http_proxy HTTP_PROXY ) }; }
+BEGIN { delete @ENV{ qw( http_proxy HTTP_PROXY ) }; }
 BEGIN {
     use_ok( 'WWW::Mechanize' );
 }

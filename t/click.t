@@ -4,7 +4,7 @@ use lib 't/lib';
 use Test::HTTP::LocalServer;
 use Test::More tests => 10;
 
-BEGIN { delete $ENV{ qw( http_proxy HTTP_PROXY ) }; }
+BEGIN { delete @ENV{ qw( http_proxy HTTP_PROXY ) }; }
 BEGIN {
     use_ok( 'WWW::Mechanize' );
 }
