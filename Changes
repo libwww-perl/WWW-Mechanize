@@ -1,9 +1,15 @@
-# $Id: Changes,v 1.104 2004/02/28 03:21:12 petdance Exp $
+# $Id: Changes,v 1.105 2004/02/28 05:27:10 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 0.73_01
         [ENHANCEMENTS]
         * URLs in META REFRESH tags are now treated as links.
+
+        [FIXES]
+        * The http_proxy and HTTP_PROXY environment variables get
+          deleted during the tests that access the dummy local server.
+          This should let your tests pass, and clear up a lot of RT
+          tickets.
 
 0.72    Mon Jan 26 21:07:20 CST 2004
         [ENHANCEMENTS]

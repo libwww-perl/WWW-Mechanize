@@ -2,6 +2,8 @@
 use strict;
 use FindBin;
 
+BEGIN { delete $ENV{ qw( http_proxy HTTP_PROXY ) }; }
+
 use Test::More tests => 18;
 use_ok( 'WWW::Mechanize' );
 
@@ -18,9 +20,9 @@ SKIP: {
     # Now start a fake webserver, fork, and connect to ourselves
     my $command = qq'"$^X" $FindBin::Bin/referer-server';
     if ($^O eq 'VMS') {
-	$command = qq'mcr $^X t/referer-server';
+        $command = qq'mcr $^X t/referer-server';
     }
-    
+
     open SERVER, "$command |" or die "Couldn't spawn fake server: $!";
     sleep 1; # give the child some time
     my $url = <SERVER>;
@@ -35,7 +37,7 @@ SKIP: {
     is($agent->status, 200, "Got second page") or diag $agent->res->message;
     is($agent->content, "Referer: '$url'", "Referer got sent for absolute url");
     is( ref $agent->uri, "", "URI shouldn't be an object #2" );
-    
+
     $agent->get( '.' );
     is($agent->status, 200, "Got third page") or diag $agent->res->message;
     is($agent->content, "Referer: '$url'", "Referer got sent for relative url");
@@ -46,7 +48,7 @@ SKIP: {
     is($agent->status, 200, "Got fourth page") or diag $agent->res->message;
     is($agent->content, "Referer: ''", "Referer can be set to empty again");
     is( ref $agent->uri, "", "URI shouldn't be an object #4" );
-    
+
     my $ref = "This is not the referer you are looking for *jedi gesture*";
     $WWW::Mechanize::headers{Referer} = $ref;
     $agent->get( $url );
