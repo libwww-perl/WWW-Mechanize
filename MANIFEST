@@ -8,8 +8,11 @@ lib/WWW/Mechanize/Examples.pod
 lib/WWW/Mechanize/Link.pm
 script/mech-dump
 t/00.load.t
+t/98.rules.t
 t/99.pod.t
 t/add_header.t
+t/area_link.html
+t/area_link.t
 t/carp.t
 t/click.t
 t/failure.t
@@ -23,6 +26,7 @@ t/get.t
 t/google.html
 t/lib/Test/HTTP/LocalServer.pm
 t/lib/Test/HTTP/log-server
+t/link.t
 t/live/back.t
 t/live/click.t
 t/live/follow.t
@@ -34,6 +38,8 @@ t/live/submit.t
 t/mech-dump.t
 t/new.t
 t/page_stack.t
+t/referer-server
+t/referer.t
 t/reload.t
 t/submit.t
 t/tick.html
