@@ -6,8 +6,11 @@ lib/WWW/Mechanize.pm
 t/00.load.t
 t/add_header.t
 t/click.t
+t/field.html
+t/field.t
 t/follow.t
 t/form.t
 t/get.t
 t/new.t
 t/page_stack.t
+t/submit.t

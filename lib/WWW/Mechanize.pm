@@ -6,6 +6,8 @@ WWW::Mechanize - automate interaction with websites
 
 =head1 SYNOPSIS
 
+This module is intended to help you automate interaction with a website.
+
     use WWW::Mechanize;
     my $agent = WWW::Mechanize->new();
 
@@ -25,14 +27,6 @@ WWW::Mechanize - automate interaction with websites
     use Test::More;
     like( $agent->{content}, qr/$expected/, "Got expected content" );
 
-=head1 DESCRIPTION
-
-This module is intended to help you automate interaction with a website.
-It bears a not-very-remarkable outwards resemblance to L<WWW::Chat>, on which
-it is based.  The main difference between this module and WWW::Chat is
-that WWW::Chat requires a pre-processing stage before you can run your
-script, whereas WWW::Mechanize does not.
-
 =cut
 
 use strict;
@@ -49,13 +43,13 @@ our @ISA = qw( LWP::UserAgent );
 
 =head1 VERSION
 
-Version 0.37
+Version 0.38
 
-    $Header: /home/cvs/www-mechanize/lib/WWW/Mechanize.pm,v 1.39 2003/03/04 21:04:11 alester Exp $
+    $Header: /home/cvs/www-mechanize/lib/WWW/Mechanize.pm,v 1.44 2003/03/25 05:47:37 alester Exp $
 
 =cut
 
-our $VERSION = "0.37";
+our $VERSION = "0.38";
 
 our %headers;
 
@@ -158,7 +152,8 @@ Returns the content for the response
 
 =head2 $agent->forms()
 
-Returns an array of C<HTML::Form> objects for the forms found.
+Returns a reference to an array of C<HTML::Form> objects for the forms
+found.
 
 =head2 $agent->current_form()
 
@@ -346,7 +341,7 @@ sub field {
 
     my $form = $self->{form};
     if ($number > 1) {
-	$form->find_input($name, $number)->value($value);
+	$form->find_input($name, undef, $number)->value($value);
     } else {
         $form->value($name => $value);
     }
@@ -377,13 +372,18 @@ sub click {
 
 =head2 $agent->submit()
 
-Shortcut for $a->click("submit")
+Submits the page.  Note that this is no longer a synonym for
+C<<$a->click("submit")>>.
 
 =cut
 
 sub submit {
-    my ($self) = shift;
-    return $self->click("submit");
+    my $self = shift;
+
+    $self->_push_page_stack();
+    $self->{uri} = $self->{form}->uri;
+    $self->{req} = $self->{form}->make_request;
+    return $self->_do_request();
 }
 
 =head2 $agent->back();

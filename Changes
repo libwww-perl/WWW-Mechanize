@@ -1,5 +1,22 @@
-# $Id: Changes,v 1.21 2003/03/04 21:04:11 alester Exp $
+# $Id: Changes,v 1.24 2003/03/25 05:45:02 alester Exp $
 Revision history for Perl extension WWW::Mechanize
+
+0.38	March 24, 2003	
+	[DEPRECATIONS]
+	* The %WWW::Mechanize::Headers hash is officially deprecated.
+	  It will be removed pretty soon.  I'm not sure what the
+	  replacement will be, but it won't be a package-level hash.
+
+	[ENHANCEMENTS]
+	* The submit() method is no longer an alias for click("submit"),
+	  because some forms don't have a button called "submit".
+	  In fact, some may not have any buttons at all if they're
+	  JavaScript-controlled.
+	  
+	[FIXES]
+	* RT #2056: $agent->field() wasn't returning proper input field,
+	  because of an incorrect call to the underlying HTML::Form.
+	  Thanks to Prakash Kailasa.
 
 0.37	March 4, 2003
 	[ENHANCEMENTS]
