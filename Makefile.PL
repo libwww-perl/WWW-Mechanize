@@ -13,8 +13,10 @@ WriteMakefile(
                         HTML::Form	    => 0.03,
                         HTML::TokeParser    => 2.20,
                         Test::More	    => 0.34,
+			URI::URL	    => 0,
 			URI::file	    => 0,
 			HTTP::Daemon	    => 0,
 			HTTP::Status	    => 0,
+			Carp		    => 0,
 			},
 );

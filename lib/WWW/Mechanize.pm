@@ -6,29 +6,89 @@ WWW::Mechanize - automate interaction with websites
 
 =head1 SYNOPSIS
 
-This module is intended to help you automate interaction with a website.
+WWW::Mechanize is intended to help you automate interaction with
+a website. It supports performing a sequence of page fetches
+including following links and submitting forms. Each fetched page
+is parsed and its links and forms are extracted. A link or a form
+can be selected, form fields can be filled and the next page can
+be fetched. A history of fetched pages is also stored and can be
+traversed.
 
     use WWW::Mechanize;
     my $agent = WWW::Mechanize->new();
 
     $agent->get($url);
 
-    $agent->follow($link);
+    $agent->follow_link( 'n' => 3 );
+    $agent->follow_link( 'link_regex' => qr/download this/i );
+    $agent->follow_link( 'url' => 'http://host.com/index.html' );
 
-    $agent->form_number($number);
-    $agent->form_name($name);
-    $agent->field($name, $value);
-    $agent->click($button);
+    $agent->submit_form(
+	'form_number' => 3,
+	'fields'      => {
+			    'user_name'  => 'yourname',
+			    'password'   => 'dummy'
+			}
+    );
+
+    $agent->submit_form(
+	'form_name' => 'search',
+	'fields'    => {
+			'query'  => 'pot of gold',
+			},
+	'button'    => 'Search Now'
+    );
+
+
+WWW::Mechanize is well suited for use in testing web applications.
+If you use one of the Test::* modules, you can check the fetched
+content and use that as input to a test call.
+
+    use Test::More;
+    like( $agent->content(), qr/$expected/, "Got expected content" );
+
+Each page fetch stores its URL in a history stack which you can
+traverse.
 
     $agent->back();
 
+If you want finer control over over your page fetching, you can use
+these methods. C< follow_link > and C< submit_form > are just high
+level wrappers around them.
+
+    $agent->follow($link);
+    $agent->find_link(n => $number);
+    $agent->form_number($number);
+    $agent->form_name($name);
+    $agent->field($name, $value);
+    $agent->set_fields( %field_values );
+    $agent->click($button);
+
+WWW::Mechanize is a subclass of LWP::UserAgent and you can also use
+any of its methods.
+
     $agent->add_header($name => $value);
 
-    use Test::More;
-    like( $agent->{content}, qr/$expected/, "Got expected content" );
+=head1 OTHER DOCUMENTATION
 
-See also L<WWW::Mechanize::Examples> for numerous examples of
-WWW::Mechanize in action.
+=over 4
+
+=item * L<WWW::Mechanize::Examples>
+
+A random array of examples submitted by users.
+
+=item * L<http://www.perl.com/pub/a/2003/01/22/mechanize.html>
+
+Chris Ball's article about using WWW::Mechanize for scraping TV listings.
+
+=item * L<http://www.stonehenge.com/merlyn/LinuxMag/col47.html>
+
+Randal Schwartz's article on scraping Yahoo News for images.  It's already
+out of date: He manually walks the list of links hunting for matches,
+which wouldn't have been necessary if the C<find_link()> method existed
+at press time.
+
+=back
 
 =cut
 
@@ -46,13 +106,13 @@ our @ISA = qw( LWP::UserAgent );
 
 =head1 VERSION
 
-Version 0.40
+Version 0.41
 
-    $Header: /home/cvs/www-mechanize/lib/WWW/Mechanize.pm,v 1.64 2003/04/20 02:45:06 alester Exp $
+    $Header: /home/cvs/www-mechanize/lib/WWW/Mechanize.pm,v 1.75 2003/05/23 04:23:34 alester Exp $
 
 =cut
 
-our $VERSION = "0.40";
+our $VERSION = "0.41";
 
 our %headers;
 
@@ -211,7 +271,7 @@ HTML::HeadParser.  Returns undef if the content is not HTML.
 
 sub title {
     my $self = shift;
-    return undef unless $self->is_html;
+    return unless $self->is_html;
 
     require HTML::HeadParser;
     my $p = HTML::HeadParser->new;
@@ -225,7 +285,7 @@ sub title {
 
 Follow a link.  If you provide a string, the first link whose text 
 matches that string will be followed.  If you provide a number, it will 
-be the nth link on the page.
+be the I<$num>th link on the page.  Note that the links are 0-based.
 
 Returns true if the link was found on the page or undef otherwise.
 
@@ -241,7 +301,7 @@ sub follow {
         } else {
             warn "Link number $link is greater than maximum link $#links ",
                  "on this page ($self->{uri})\n" unless $self->quiet;
-            return undef;
+            return;
         }
     } else {                        # user provided a regexp
         LINK: foreach my $l (@links) {
@@ -253,7 +313,7 @@ sub follow {
         unless ($thislink) {
             warn "Can't find any link matching $link on this page ",
                  "($self->{uri})\n" unless $self->quiet;
-            return undef;
+            return;
         }
     }
 
@@ -268,8 +328,18 @@ sub follow {
 
 =head2 C<< $agent->find_link() >>
 
-This method finds a link in the current page. You can select which
-link to follow by passing in one of these key/value pairs:
+This method finds a link in the currently fetched page. It returns
+a reference to a two element array which has the link URL and link
+text, respectively. If it fails to find a link it returns undef.
+You can take the URL part and pass it to the C<get> method. The
+C<follow_link> method is recommended as it calls this method and
+also does the C<get> for you.
+
+Note that C<< <FRAME SRC="..." >> tags are parsed out of the the
+HTML and treated as links so this method works with them.
+
+You can select which link to find by passing in one of these
+key/value pairs:
 
 =over 4
 
@@ -278,7 +348,7 @@ link to follow by passing in one of these key/value pairs:
 Matches the text of the link against I<string>, which must be an
 exact match.
 
-To match text that says "download", use
+To select a link with text that is exactly "download", use
 
     $agent->find_link( text => "download" );
 
@@ -286,32 +356,35 @@ To match text that says "download", use
 
 Matches the text of the link against I<regex>.
 
-To match text that has "download" anywhere in it, regardless of
-case, use
+To select a link with text that has "download" anywhere in it,
+regardless of case, use
 
-    $agent->find_link( text => qr/download/ );
+    $agent->find_link( text_regex => qr/download/i );
 
 =item url => string
 
-Matches the text of the link against I<string>, which must be an
+Matches the URL of the link against I<string>, which must be an
 exact match.  This is similar to the C<text> parm.
 
 =item url_regex => regex
 
 Matches the URL of the link against I<regex>.  This is similar to
-the C<url_regex> parm.
+the C<text_regex> parm.
 
 =item n => number
 
-Matches against the I<n>th link.  If C<text> or C<uri> is specified,
-then C<n> acts as a modifier for that.  For example, 
-C<< text => "download", n => 3 >> finds the 3rd link of "download".
+Matches against the I<n>th link.  
+
+The C<n> parms can be combined with the C<text*> or C<url*> parms
+as a numeric modifier.  For example, 
+C<< text => "download", n => 3 >> finds the 3rd link which has the
+exact text "download".
 
 =back
 
-If C<n> is not specified, it defaults to 1.  Therefore, if you
-don't specify any parms, it defaults to the first link found on
-the page.
+If C<n> is not specified, it defaults to 1.  Therefore, if you don't
+specify any parms, this method defaults to finding the first link on the
+page.
 
 =cut
 
@@ -321,7 +394,7 @@ sub find_link {
 
     my @links = @{$self->{links}};
 
-    return undef unless @links ;
+    return unless @links ;
 
     my $match;
     my $arg;
@@ -350,7 +423,7 @@ sub find_link {
 	}
     } # for @links
 
-    return undef;
+    return;
 } # find_link
 
 =head2 C<< $agent->follow_link() >>
@@ -358,7 +431,7 @@ sub find_link {
 Follows a specified link on the page.  You specify the match to be
 found using the same parms that C<find_link()> uses.
 
-Here's some examples:
+Here some examples:
 
 =over 4
 
@@ -527,7 +600,7 @@ sub form_number {
     }
 }
 
-=head2 C<< $agent->form_name($number) >>
+=head2 C<< $agent->form_name($name) >>
 
 Selects a form by name.  If there is more than one form on the page with
 that name, then the first one is used, and a warning is generated.
@@ -816,12 +889,37 @@ sub _do_request {
     return $self->{res};
 }
 
-=head1 MORE DOCUMENTATION
+=head1 FAQ
 
-Randal Schwartz has written a column on WWW::Mechanize, available at
-L<http://www.stonehenge.com/merlyn/LinuxMag/col47.html>.
+=head2 Can I do [such-and-such] with WWW::Mechanize?
 
-L<WWW::Mechanize::Examples> has many examples of WWW::Mechanize in action.
+If it's possible with LWP::UserAgent, then yes.  WWW::Mechanize is
+a subclass of L<LWP::UserAgent>, so all the wondrous magic of that
+class is inherited.
+
+=head2 How do I use WWW::Mechanize through a proxy server?
+
+See the docs in LWP::UserAgent on how to use the proxy.  Short
+version:
+
+    $agent->proxy(['http', 'ftp'], 'http://proxy.example.com:8000/');
+
+or get the specs from the environment:
+
+    $agent->env_proxy();
+
+    # Environment set like so:
+    gopher_proxy=http://proxy.my.place/
+    wais_proxy=http://proxy.my.place/
+    no_proxy="localhost,my.domain"
+    export gopher_proxy wais_proxy no_proxy
+
+
+=head1 SEE ALSO
+
+See also L<WWW::Mechanize::Examples> for sample code.
+L<WWW::Mechanize::FormFiller> and L<WWW::Mechanize::Shell> are add-ons
+that turn Mechanize into more of a scripting tool.
 
 =head1 REQUESTS & BUGS
 

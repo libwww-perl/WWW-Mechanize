@@ -1,5 +1,15 @@
-# $Id: Changes,v 1.33 2003/04/20 02:51:58 alester Exp $
+# $Id: Changes,v 1.38 2003/05/23 04:23:34 alester Exp $
 Revision history for Perl extension WWW::Mechanize
+
+0.41	May 22, 2003	
+	[ENHANCEMENTS]
+	* There are no enhancements in functionality.
+	* Testing suite getting more network-independent.
+
+	[DOCUMENTATION]
+	* Started a FAQ section.
+	* New SYNOPSIS section.  Thanks to Uri Guttmann.
+	* Documentation fixes.  Thanks to Mark Stosberg, Mike Fragassi.
 
 0.40	April 18, 2003
 	[ENHANCEMENTS]
