@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-use Test::More tests => 25;
+use Test::More tests => 26;
 
 BEGIN {
     use_ok( 'WWW::Mechanize' );
@@ -16,7 +16,10 @@ is( ref $agent->uri, "", "URI should be a string, not an object" );
 ok( $agent->is_html, "Seems to be HTML" );
 is( $agent->title, "Google", "Title matches" );
 
-ok( $agent->get( '/services/' )->is_success, 'Got the services page' );
+my $services = $agent->find_link( url_regex => qr[/services/] );
+isa_ok( $services, 'WWW::Mechanize::Link' );
+
+ok( $agent->get( $services )->is_success, 'Got the services page' );
 is( $agent->uri, 'http://www.google.com/services/', "Got relative OK" );
 ok( $agent->is_html );
 is( $agent->title, "Google Business Solutions", "Got the right page" );

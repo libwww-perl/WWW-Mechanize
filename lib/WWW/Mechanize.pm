@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 1.03_02
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.135 2004/09/16 02:42:22 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.136 2004/09/16 03:22:25 petdance Exp $
 
 =cut
 
@@ -284,10 +284,11 @@ sub known_agent_aliases {
 
 =head1 Page-fetching methods
 
-=head2 $mech->get($url)
+=head2 $mech->get( $url )
 
 Given a URL/URI, fetches it.  Returns an L<HTTP::Response> object.
-I<$url> can be a well-formed URL string, or a L<URI> object.
+I<$url> can be a well-formed URL string, a L<URI> object, or a
+L<WWW::Mechanize::Link> object.
 
 The results are stored internally in the agent object, but you don't
 know that.  Just use the accessors listed below.  Poking at the internals
@@ -306,6 +307,8 @@ appropriately.
 sub get {
     my $self = shift;
     my $uri = shift;
+
+    $uri = $uri->url if ref($uri) eq 'WWW::Mechanize::Link';
 
     $uri = $self->base
             ? URI->new_abs( $uri, $self->base )
