@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.61
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.63 2003/10/06 23:37:39 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.64 2003/10/07 04:21:23 petdance Exp $
 
 =cut
 
@@ -26,7 +26,7 @@ a history of the URLs you've visited, which can be queried and revisited.
     use WWW::Mechanize;
     my $a = WWW::Mechanize->new();
 
-    $a->get($url);
+    $a->get( $url );
 
     $a->follow_link( n => 3 );
     $a->follow_link( text_regex => qr/download this/i );
@@ -63,13 +63,13 @@ If you want finer control over over your page fetching, you can use
 these methods. C<follow_link> and C<submit_form> are just high
 level wrappers around them.
 
-    $a->follow($link);
-    $a->find_link(n => $number);
-    $a->form_number($number);
-    $a->form_name($name);
-    $a->field($name, $value);
+    $a->follow( $link );
+    $a->find_link( n => $number );
+    $a->form_number( $number );
+    $a->form_name( $name );
+    $a->field( $name, $value );
     $a->set_fields( %field_values );
-    $a->click($button);
+    $a->click( $button );
 
 L<WWW::Mechanize> is a proper subclass of L<LWP::UserAgent> and
 you can also use any of L<LWP::UserAgent>'s methods.
