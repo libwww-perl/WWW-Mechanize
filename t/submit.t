@@ -1,10 +1,11 @@
 use warnings;
 use strict;
-use Test::More tests => 8;
+use Test::More;
 
-BEGIN {
-    use_ok( 'WWW::Mechanize' );
-}
+plan skip_all => "Skipping live tests" if -f "t/SKIPLIVE";
+plan tests => 8;
+
+use_ok( 'WWW::Mechanize' );
 
 my $t = WWW::Mechanize->new();
 isa_ok( $t, 'WWW::Mechanize', 'Created the object' ) or die;

@@ -1,13 +1,14 @@
 use warnings;
 use strict;
-use Test::More tests => 26;
+use Test::More;
 
-BEGIN {
-    use_ok( 'WWW::Mechanize' );
-}
+plan skip_all => "Skipping live tests" if -f "t/SKIPLIVE";
+plan tests => 26;
+
+use_ok( 'WWW::Mechanize' );
 
 my $agent = WWW::Mechanize->new;
-isa_ok( $agent, 'WWW::Mechanize', 'Created object' );
+isa_ok( $agent, 'WWW::Mechanize' );
 
 ok($agent->get("http://www.google.com/intl/en/")->is_success, "Get google webpage");
 isa_ok($agent->uri, "URI", "Set uri");

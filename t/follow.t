@@ -1,18 +1,19 @@
 use warnings;
 use strict;
-use Test::More tests => 14;
+use Test::More;
 use constant START => 'http://www.google.com/intl/en/';
 
-BEGIN {
-    use_ok( 'WWW::Mechanize' );
-}
+plan skip_all => "Skipping live tests" if -f "t/SKIPLIVE";
+plan tests=>14;
+
+use_ok( 'WWW::Mechanize' );
 
 my $agent = WWW::Mechanize->new;
 isa_ok( $agent, 'WWW::Mechanize', 'Created object' );
 $agent->quiet(1);
 
 $agent->get( START );
-ok( $agent->success, 'Got some page' );
+ok( $agent->success, 'Got some page' ) or die "Can't even get Google";
 is( $agent->uri, START, 'Got Google' );
 
 ok(! $agent->follow(99999), "Can't follow too-high-numbered link");

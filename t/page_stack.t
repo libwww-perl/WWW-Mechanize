@@ -1,13 +1,15 @@
 use warnings;
 use strict;
-use Test::More tests => 9;
+use Test::More;
 
-BEGIN {
-    use_ok( 'WWW::Mechanize' );
-}
+# XXX There's no reason this one couldn't run off the local server.
+plan skip_all => "Skipping live tests" if -f "t/SKIPLIVE";
+plan tests => 9;
+
+use_ok( 'WWW::Mechanize' );
 
 my $t = WWW::Mechanize->new;
-isa_ok( $t, 'WWW::Mechanize', 'Created object' ) or die;
+isa_ok( $t, 'WWW::Mechanize' ) or die;
 
 $t->get("http://www.google.com/intl/en/");
 ok( $t->success, "Got Google" );

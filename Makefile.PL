@@ -1,6 +1,38 @@
-use ExtUtils::MakeMaker;
+use ExtUtils::MakeMaker qw( WriteMakefile prompt );
+use strict;
 
+# Much logic stolen fromm libwww-perl's Makefile.PL
+my $skiplive = 0;
 
+require IO::Socket;
+my $s = IO::Socket::INET->new(PeerAddr => "www.google.com:80",
+			      Timeout  => 10,
+			     );
+if ($s) {
+    close($s);
+    $skiplive = 0;
+} else {
+    print <<EOT;
+
+It seems that you are not directly connected to the Internet.  Many of 
+the WWW::Mechanize tests interact with websites such as Google.
+
+EOT
+
+    if ( prompt("Do you want to skip these tests?", "y") =~ /^y/i ) {
+	$skiplive = 1;
+    }
+} # failed connect
+
+my $filename = "t/SKIPLIVE";
+if ( $skiplive ) {
+    open( F, ">$filename" ) or die "Can't create $filename";
+    close F;
+} else {
+    unlink $filename;
+}
+
+no strict;
 WriteMakefile(
     'NAME'	    => 'WWW::Mechanize',
     'VERSION_FROM'  => 'lib/WWW/Mechanize.pm', # finds $VERSION

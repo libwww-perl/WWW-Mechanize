@@ -2,13 +2,14 @@
 
 use warnings;
 use strict;
-use Test::More tests => 14;
+use Test::More;
+
+plan skip_all => "Skipping live tests" if -f "t/SKIPLIVE";
+plan tests => 15;
 
 use constant START => 'http://www.google.com/intl/en/';
 
-BEGIN {
-    use_ok( 'WWW::Mechanize' );
-}
+use_ok( 'WWW::Mechanize' );
 
 my $t = WWW::Mechanize->new();
 isa_ok( $t, 'WWW::Mechanize' ) or die;
@@ -16,6 +17,7 @@ $t->quiet(1);
 $t->get(START);
 ok( $t->success, "Got a page" ) or die "Can't even get google";
 is( $t->uri, START, 'Got Google' );
+like( $t->title, qr/Google/ );
 
 my $form_number_1 = $t->form_number(1);
 ok( $form_number_1, "Can select the first form");

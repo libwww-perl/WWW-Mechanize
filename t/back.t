@@ -1,13 +1,16 @@
 use strict;
-use Test::More tests=>16;
+use Test::More;
+
+plan skip_all => "Skipping live tests" if -f "t/SKIPLIVE";
+plan tests=>16;
 
 use_ok( 'WWW::Mechanize' );
 
 my $a = WWW::Mechanize->new();
-isa_ok( $a, "WWW::Mechanize" ) or die;
+isa_ok( $a, "WWW::Mechanize" );
 
 $a->get( "http://www.google.com/intl/en/" );
-is( $a->status, 200, 'Fetched OK' );
+is( $a->status, 200, 'Fetched OK' ) or die "Can't even get Google";
 
 my $first_base = $a->base;
 my $title = $a->title;
