@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.54
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.33 2003/07/20 21:50:30 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.34 2003/07/22 04:22:00 petdance Exp $
 
 =cut
 
@@ -1049,6 +1049,8 @@ my %urltags = (
 );
 
 sub _extract_links {
+    require WWW::Mechanize::Link;
+
     my $self = shift;
 
     my $p = HTML::TokeParser->new(\$self->{content});
@@ -1062,7 +1064,7 @@ sub _extract_links {
 
         my $text = $p->get_trimmed_text("/$tag");
 	$text = "" unless defined $text;
-        push(@$links, [ $url, $text, $token->[1]{name} ]);
+        push(@$links, WWW::Mechanize::Link->new( $url, $text, $token->[1]{name} ) );
     }
 
     if ( defined wantarray ) {

@@ -3,6 +3,7 @@ Makefile.PL
 MANIFEST
 etc/www-mechanize-logo.png
 lib/WWW/Mechanize.pm
+lib/WWW/Mechanize/Link.pm
 lib/WWW/Mechanize/Examples.pod
 script/mech-forms
 t/00.load.t
