@@ -20,6 +20,37 @@ used WWW::Mechanize.
 Note that the examples are in reverse order of my having received them,
 so the freshest examples are always at the top.
 
+=head2 ccdl, by Andy Lester
+
+Steve McConnell, author of the landmark I<Code Complete> has put
+up the chapters for the 2nd edition in PDF format on his website.
+I needed to download them to take to Kinko's to have printed.  This
+little script did it for me.
+
+
+    #!/usr/bin/perl -w
+
+    use strict;
+    use WWW::Mechanize;
+
+    my $start = "http://www.stevemcconnell.com/cc2/cc.htm";
+
+    my $mech = WWW::Mechanize->new( autocheck => 1 );
+    $mech->get( $start );
+
+    my @links = $mech->find_all_links( url_regex => qr/\d+.+\.pdf$/ );
+
+    for my $link ( @links ) {
+        my $url = $link->url_abs;
+        my $filename = $url;
+        $filename =~ s[^.+/][];
+
+        print "Fetching $url";
+        $mech->get( $url, ':content_file' => $filename );
+
+        print "   ", -s $filename, " bytes\n";
+    }
+
 =head2 quotes.pl, by Andy Lester
 
 This was a script that was going to get a hack in I<Spidering Hacks>,
