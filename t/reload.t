@@ -1,6 +1,6 @@
 use warnings;
 use strict;
-use Test::More tests => 14;
+use Test::More tests => 15;
 
 use lib 't/lib';
 use Test::HTTP::LocalServer;
@@ -14,6 +14,11 @@ isa_ok( $server, 'Test::HTTP::LocalServer' );
 
 my $agent = WWW::Mechanize->new;
 isa_ok( $agent, 'WWW::Mechanize', 'Created object' );
+
+NO_GET: {
+    my $r = $agent->reload;
+    ok( !defined($r), "Initial reload should fail" );
+}
 
 FIRST_GET: {
     my $r = $agent->get($server->url);

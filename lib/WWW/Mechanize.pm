@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 0.63
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.75 2003/10/13 16:47:14 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.76 2003/10/14 03:21:01 petdance Exp $
 
 =cut
 
@@ -359,10 +359,11 @@ sub get {
 
 =head2 C<< $a->reload() >>
 
-Acts like the reload button in a browser: Reperforms the current request.
+Acts like the reload button in a browser: Reperforms the current
+request.
 
-Returns undef if there's no current request, or the L<HTTP::Response>
-object from the reload.
+Returns the L<HTTP::Response> object from the reload, or C<undef>
+if there's no current request.
 
 =cut
 
