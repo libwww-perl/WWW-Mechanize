@@ -29,8 +29,8 @@ EOT
     }
 } # failed connect
 
-my @tests = File::Spec->catfile( 't', '*.t' );
-push( @tests, File::Spec->catfile( 't', 'live', '*.t' ) ) unless $skiplive;
+my @tests = glob File::Spec->catfile( 't', '*.t' );
+push( @tests, glob File::Spec->catfile( 't', 'live', '*.t' ) ) unless $skiplive;
 
 my $parms = {
     'NAME'	    => 'WWW::Mechanize',

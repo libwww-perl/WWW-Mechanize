@@ -1,4 +1,4 @@
-# $Id: Changes,v 1.91 2003/12/20 04:27:52 petdance Exp $
+# $Id: Changes,v 1.92 2003/12/20 11:06:43 corion Exp $
 Revision history for Perl extension WWW::Mechanize
 
 
@@ -12,6 +12,8 @@ Revision history for Perl extension WWW::Mechanize
 
 	[INTERNALS]
 	* Heavy use of the new Test::Memory::Cycle module.
+	* Fixed Makefile.PL so that the tests are selected under Win32
+	* Changed t/mech-dump.t so that the test succeeds under Win32
 
 
 0.70	Sun Nov 30 23:45:27 CST 2003
@@ -63,8 +65,8 @@ Revision history for Perl extension WWW::Mechanize
 	* Many new tests, based on the excellent coverage reporting
 	  created by Paul Johnson's Devel::Cover module.
 
-	* The start of JavaScript support, sort of! 
-	
+	* The start of JavaScript support, sort of!
+
 	  If you have an <A> tag that does an onClick that opens a
 	  window, Mech will find the URL from that and make that
 	  be the link for the tag.  This is for things like Movable
@@ -117,7 +119,7 @@ Revision history for Perl extension WWW::Mechanize
 0.61	October 6, 2003  6:30pm
 	No new functionality here.  It's mostly to get the new tests
 	into the pipeline so the CPAN testers can run 'em.
-	
+
 	[FIXES]
 	* Missing dependency on File::Temp.  Thanks, Ask.
 
@@ -283,7 +285,7 @@ Revision history for Perl extension WWW::Mechanize
 	* Added a sample CPAN search from Ed Silva.
 	* Added link to the Perl Advent Calendar.
 
-	
+
 0.53	July 16, 2003
 	This version ONLY fixes some test-file problems.  There are no
 	functionality enhancements or bug fixes in WWW::Mechanize itself.
@@ -379,7 +381,7 @@ Revision history for Perl extension WWW::Mechanize
 	  browser clone, and browsers follow the redirects after a POST,
 	  I've changed this behavior.  If this causes bummers, let me
 	  know and maybe I'll throw in a switch.
-	  
+
 	[DOCUMENTATION]
 	* The package now includes the WWW::Mechanize logo in the etc/
 	  directory.  I have no idea what I'll do with it, but thanks
@@ -402,7 +404,7 @@ Revision history for Perl extension WWW::Mechanize
 	* Now explicitly requires HTML::HeadParser.
 	* Doesn't load Carp unless it's actually needed.
 
-0.41	May 22, 2003	
+0.41	May 22, 2003
 	[ENHANCEMENTS]
 	* There are no enhancements in functionality.
 	* Testing suite getting more network-independent.
@@ -426,13 +428,13 @@ Revision history for Perl extension WWW::Mechanize
 0.39	April 1, 2003
 	[ENHANCEMENTS]
 	* No functional enhancements.  Everything is docs.
-	
+
 	* Added a new example from Dan Rinzel, for posting to Movable Type
 
 	* Started playing with having the test suite not have to have
 	  live net access.
 
-0.38	March 24, 2003	
+0.38	March 24, 2003
 	[DEPRECATIONS]
 	* The %WWW::Mechanize::Headers hash is officially deprecated.
 	  It will be removed pretty soon.  I'm not sure what the
@@ -443,7 +445,7 @@ Revision history for Perl extension WWW::Mechanize
 	  because some forms don't have a button called "submit".
 	  In fact, some may not have any buttons at all if they're
 	  JavaScript-controlled.
-	  
+
 	[FIXES]
 	* RT #2056: $agent->field() wasn't returning proper input field,
 	  because of an incorrect call to the underlying HTML::Form.
@@ -501,16 +503,16 @@ Revision history for Perl extension WWW::Mechanize
 	[ENHANCEMENTS]
 	* get() now returns the HTTP::Response object.
 	* Prepended push_page_stack(), pop_page_stack() and
-	  do_request() with underscores, to emphasize that they 
+	  do_request() with underscores, to emphasize that they
 	  are for internal use only.
 
 0.30	September 10, 2002
 	[ENHANCEMENTS]
 	* Fixed the stack popping problem.
-	
+
 	[FIXES]
 	* Put all the inline tests into t/*.t
-	
+
 	* get() doesn't work w/relative URLs
 	http://rt.cpan.org/NoAuth/Bug.html?id=1492
 
