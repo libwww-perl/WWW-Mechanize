@@ -14,7 +14,6 @@ lib/WWW/Mechanize/FAQ.pod
 lib/WWW/Mechanize/Link.pm
 
 t/00.load.t
-t/98.rules.t
 t/add_header.t
 t/aliases.t
 t/area_link.html
