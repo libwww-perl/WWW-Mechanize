@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.54
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.32 2003/07/20 05:47:51 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.33 2003/07/20 21:50:30 petdance Exp $
 
 =cut
 
@@ -175,6 +175,14 @@ Given a URL/URI, fetches it.  Returns an C<HTTP::Response> object.
 The results are stored internally in the agent object, but you don't
 know that.  Just use the accessors listed below.  Poking at the internals
 is deprecated and subject to change in the future.
+
+C<get()> is a well-behaved overloaded version of the method in
+C<LWP::UserAgent>.  This lets you do things like
+
+    $mech->get( $url, ":content_file"=>$tempfile );
+
+and you can rest assured that the parms will get filtered down
+appropriately.
 
 =cut
 
