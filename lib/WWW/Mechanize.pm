@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 1.03_02
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.137 2004/09/16 03:45:59 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.138 2004/09/16 04:20:07 petdance Exp $
 
 =cut
 
@@ -167,6 +167,12 @@ installed, or C<CORE::die> if not.
 Don't complain on warnings.  Setting C<< quiet => 1 >> is the same as
 calling C<< $agent->quiet(1) >>.  Default is off.
 
+=item * C<< stack_depth => $value >>
+
+Sets the depth of the page stack that keeps tracks of all the downloaded
+pages. Default is 0 (infinite). If the stack is eating up your memory,
+then set it to 1.
+
 =back
 
 =cut
@@ -184,6 +190,7 @@ sub new {
         onwarn      => \&WWW::Mechanize::_warn,
         onerror     => \&WWW::Mechanize::_die,
         quiet       => 0,
+        stack_depth => 0,
         headers     => {},
     );
 
@@ -1256,6 +1263,20 @@ sub quiet {
     return $self->{quiet};
 }
 
+=head2 $mech->stack_depth($value)
+
+Get or set the page stack depth. Older pages are discarded first.
+
+A value of 0 means "keep all the pages".
+
+=cut
+
+sub stack_depth {
+    my $self = shift;
+    $self->{stack_depth} = shift if @_;
+    return $self->{stack_depth};
+}
+
 =head1 Overridden L<LWP::UserAgent> methods
 
 =head2 $mech->redirect_ok()
@@ -1594,7 +1615,11 @@ sub _push_page_stack {
         $self->{page_stack} = [];
 
         push( @$save_stack, $self->clone );
-
+        if ( $self->stack_depth > 0 ) {
+            while ( @$save_stack > $self->stack_depth ) {
+                shift @$save_stack;
+            }
+        } # if stack_depth > 0
         $self->{page_stack} = $save_stack;
     }
 
