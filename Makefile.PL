@@ -1,4 +1,5 @@
 use ExtUtils::MakeMaker qw( WriteMakefile prompt );
+use ExtUtils::Command qw( touch rm_f );
 use strict;
 
 use constant FLAG_SKIPMECHFORMS => "t/SKIP-MECH-FORMS";
@@ -30,35 +31,35 @@ EOT
 my $tests = 't/*.t';
 $tests .= ' t/live/*.t' unless $skiplive;
 
-no strict;
 my $parms = {
     'NAME'	    => 'WWW::Mechanize',
     'VERSION_FROM'  => 'lib/WWW/Mechanize.pm', # finds $VERSION
     'ABSTRACT_FROM' => 'lib/WWW/Mechanize.pm', # retrieve abstract from module
     'AUTHOR'	    => 'Andy Lester <andy@petdance.com>',
     'PREREQ_PM'	    => { # e.g., Module::Name => 1.1
-			FindBin		    => 0,
-			HTML::HeadParser    => 0,
-			HTTP::Daemon	    => 0,
-			HTTP::Status	    => 0,
-			LWP		    => 5.69,
-			LWP::UserAgent	    => 2.003,
-			URI::URL	    => 0,
-			URI::file	    => 0,
-                        HTML::Form	    => 1.00,
-                        HTML::TokeParser    => 2.20,
-                        HTTP::Request	    => 1.30,
-                        Test::More	    => 0.34,
+			'FindBin'    	    => 0,
+			'HTML::HeadParser'  => 0,
+			'HTTP::Daemon'	    => 0,
+			'HTTP::Status'	    => 0,
+			'LWP'		    => 5.69,
+			'LWP::UserAgent'    => 2.003,
+			'URI::URL'	    => 0,
+			'URI::file'	    => 0,
+                        'HTML::Form'	    => 1.00,
+                        'HTML::TokeParser'  => 2.20,
+                        'HTTP::Request'	    => 1.30,
+                        'Test::More'	    => 0.34,
 			},
-    'test' => { TESTS => 't/*.t t/live/*.t' },
+    'test' => { TESTS => $tests },
 };
 
-my $skipforms = "t/SKIP-MECH-FORMS";
 if ( prompt( "Do you want to install the mech-forms utility?", "y" ) =~ /^y/i ) {
     $parms->{EXE_FILES} = [ 'script/mech-forms' ];
-    unlink( FLAG_SKIPMECHFORMS );
+    local @ARGV = FLAG_SKIPMECHFORMS;
+    rm_f();
 } else {
-    touch( FLAG_SKIPMECHFORMS );
+    local @ARGV = FLAG_SKIPMECHFORMS;
+    touch();
 }
 
 
@@ -84,11 +85,3 @@ EOT
 }
 
 WriteMakefile( %$parms );
-
-sub touch {
-    my $filename = shift;
-
-    local *FH;
-    open( FH, ">$filename" ) or die "Can't create $filename";
-    close FH;
-}
