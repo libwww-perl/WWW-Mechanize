@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.46
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.8 2003/06/21 17:05:53 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.9 2003/06/22 03:18:15 petdance Exp $
 
 =cut
 
@@ -706,7 +706,7 @@ sub title {
     return $p->header('Title');
 }
 
-=head2 Content-handling methods
+=head1 Content-handling methods
 
 =head2 C<< $a->extract_links() >>
 
@@ -805,14 +805,16 @@ exact match.  This is similar to the C<text> parm.
 Matches the URL of the link against I<regex>.  This is similar to
 the C<text_regex> parm.
 
-=item * n => number
+=item * n => I<number or "all">
 
-Matches against the I<n>th link.  
+Matches against the I<n>th link.  If I<n> is the string "all", then
+all links matching the criteria are returned.
 
 The C<n> parms can be combined with the C<text*> or C<url*> parms
 as a numeric modifier.  For example, 
 C<< text => "download", n => 3 >> finds the 3rd link which has the
-exact text "download".
+exact text "download", and
+C<< text => "download", n => "all" >> finds all download links.
 
 =back
 
@@ -830,8 +832,17 @@ sub find_link {
 
     return unless @links ;
 
+    my @matches;
     my $match;
     my $arg;
+    my $wantall = ( $parms{n} eq "all" );
+
+    if ( !$self->quiet ) {
+	for ( keys %parms ) {
+	    warn qq{Unknown link-finding parameter "$_"\n}
+		unless /^(n|(text|url)(_regex)?)$/;
+	}
+    }
 
     if ( defined ($arg = $parms{url}) ) {
 	$match = sub { $_[0]->[0] eq $arg };
@@ -852,11 +863,12 @@ sub find_link {
     my $nmatches = 0;
     for my $link ( @links ) {
 	if ( $match->($link) ) {
-	    $nmatches++;
-	    return $link if $nmatches >= $parms{n};
+	    push( @matches, $link );
+	    return $link if !$wantall && (scalar @matches >= $parms{n});
 	}
     } # for @links
 
+    return @matches if $wantall;
     return;
 } # find_link
 

@@ -1,7 +1,13 @@
-# $Id: Changes,v 1.8 2003/06/21 17:11:07 petdance Exp $
+# $Id: Changes,v 1.9 2003/06/22 03:18:15 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 0.47
+	[ENHANCEMENTS]
+	* find_link() now lets you pass n=>"all" to get back a list
+	  of all links that match the other criteria.
+	* find_link() and follow_link() now complain if you pass
+	  invalid parms to them.
+
 	[FIXES]
 	* Tracks URI history properly after redirects.
 

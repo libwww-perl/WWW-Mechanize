@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-use Test::More tests => 14;
+use Test::More tests => 15;
 use URI::file;
 
 BEGIN {
@@ -14,20 +14,20 @@ isa_ok( $t, 'WWW::Mechanize' );
 
 my $uri = URI::file->new_abs( "t/find_link.html" );
 
-my $response = $t->get( $uri );
-ok( $response->is_success, "Fetched $uri" ) or die "Can't get test page";
+$t->get( $uri );
+ok( $t->success, "Fetched $uri" ) or die "Can't get test page";
 
 my $x;
 $x = $t->find_link();
 is( $x->[0], "http://cnn.com/", "First link on the page" );
 
-$x = $t->find_link( text => "CPAN" );
+$x = $t->find_link( text => "CPAN A" );
 is( $x->[0], "http://a.cpan.org/", "First CPAN link" );
 
 $x = $t->find_link( url => "CPAN" );
 ok( !defined $x, "No url matching CPAN" );
 
-$x = $t->find_link( text => "CPAN", n=>3 );
+$x = $t->find_link( text_regex => "CPAN", n=>3 );
 is( $x->[0], "http://c.cpan.org/", "3rd CPAN text" );
 
 $x = $t->find_link( text => "CPAN", n=>34 );
@@ -51,3 +51,11 @@ ok( !defined $x, "Not a second b.cpan.org" );
 $x = $t->find_link( url_regex => qr/[b-d]\.cpan\.org/, n=>2 );
 is( $x->[0], "http://c.cpan.org/", "Got c.cpan.org" );
 
+my @wanted_links= (
+   [ "http://a.cpan.org/", "CPAN A", undef ], 
+   [ "http://b.cpan.org/", "CPAN B", undef ], 
+   [ "http://c.cpan.org/", "CPAN C", "bongo" ], 
+   [ "http://d.cpan.org/", "CPAN D", undef ], 
+);
+my @links = $t->find_link( text_regex => qr/CPAN/, n=>"all" );
+ok( eq_array( \@links, \@wanted_links ), "Correct links came back" );
