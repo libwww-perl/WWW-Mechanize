@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.53
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.29 2003/07/20 04:36:36 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.30 2003/07/20 05:23:01 petdance Exp $
 
 =cut
 
@@ -739,7 +739,7 @@ also does the C<get> for you.
 Note that C<< <FRAME SRC="..." >> tags are parsed out of the the
 HTML and treated as links so this method works with them.
 
-You can select which link to find by passing in one of these
+You can select which link to find by passing in one or more of these
 key/value pairs:
 
 =over 4
@@ -787,6 +787,12 @@ If C<n> is not specified, it defaults to 1.  Therefore, if you don't
 specify any parms, this method defaults to finding the first link on the
 page.
 
+Note that you can specify multiple text or URL parameters, which
+will be ANDed together.  For example, to find the first link with
+text of "News" and with "cnn.com" in the URL, use:
+
+    $a->find_link( text => "News", url_regex => qr/cnn\.com/ );
+
 =head2 C<< $a->find_link() >>: link format
 
 The return value is a reference to an array containing
@@ -829,20 +835,28 @@ sub find_link {
 	}
     }
 
+    my @conditions;
     if ( defined ($arg = $parms{url}) ) {
-	$match = sub { $_[0]->[0] eq $arg };
+	push @conditions, q/ $_[0]->[0] eq $parms{url} /;
+    }
 
-    } elsif ( defined ($arg = $parms{url_regex}) ) {
-	$match = sub { $_[0]->[0] =~ $arg }
+    if ( defined ($arg = $parms{url_regex}) ) {
+	push @conditions, q/ $_[0]->[0] =~ $parms{url_regex} /;
+    }
 
-    } elsif ( defined ($arg = $parms{text}) ) {
-	$match = sub { $_[0]->[1] eq $arg };
+    if ( defined ($arg = $parms{text}) ) {
+	push @conditions, q/ $_[0]->[1] eq $parms{text} /;
+    }
 
-    } elsif ( defined ($arg = $parms{text_regex} )) {
-	$match = sub { $_[0]->[1] =~ $arg }
+    if ( defined ($arg = $parms{text_regex} )) {
+	push @conditions, q/ $_[0]->[1] =~ $parms{text_regex} /;
+    }
 
+    if ( @conditions ) {
+	my $conditions = join( " and ", @conditions );
+	$match = eval "sub { $conditions }";
     } else {
-	$match = sub { 1 };
+	$match = sub{1};
     }
 
     my $nmatches = 0;

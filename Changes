@@ -1,4 +1,4 @@
-# $Id: Changes,v 1.30 2003/07/20 04:36:36 petdance Exp $
+# $Id: Changes,v 1.31 2003/07/20 05:26:08 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
 0.54
@@ -7,6 +7,17 @@ Revision history for Perl extension WWW::Mechanize
 	  Also, see the note about #2811 below.
 
 	[ENHANCEMENTS]
+	* find_all_links() and find_link() can specify multiple
+	  text or url parameters, which will be anded together.
+	  Before, there was a pecking order in which parm took
+	  precedence, and any extras were ignored.  To find the
+	  first link with text of "news" and with "cnn.com" in the
+	  URL, use:
+
+	    $a->find_link( text => "news", url_regex => qr/cnn\.com/ );
+
+	  Thanks to Greg Davies for the idea. (RT #2973)
+
 	* extract_links() is now an internal-only method, named
 	  _extract_links().  If you're using it, don't.  Use
 	  find_all_links() instead, which is more flexible.
