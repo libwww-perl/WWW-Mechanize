@@ -2,6 +2,7 @@ Changes
 Makefile.PL
 MANIFEST
 README
+etc/www-mechanize-logo.png
 lib/WWW/Mechanize.pm
 lib/WWW/Mechanize/Examples.pod
 t/00.load.t

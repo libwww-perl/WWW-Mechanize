@@ -6,13 +6,13 @@ WWW::Mechanize - automate interaction with websites
 
 =head1 VERSION
 
-Version 0.43
+Version 0.44
 
-    $Header: /home/cvs/www-mechanize/lib/WWW/Mechanize.pm,v 1.81 2003/05/29 14:20:58 alester Exp $
+    $Header: /home/cvs/www-mechanize/lib/WWW/Mechanize.pm,v 1.82 2003/06/05 17:01:21 alester Exp $
 
 =cut
 
-our $VERSION = "0.43";
+our $VERSION = "0.44";
 
 =head1 SYNOPSIS
 
@@ -155,6 +155,7 @@ sub new {
     $self->{page_stack} = [];
     $self->{quiet} = 0;
     $self->env_proxy();
+    push( @{$self->requests_redirectable}, 'POST' );
 
     return bless $self, $class;
 }

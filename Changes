@@ -1,5 +1,19 @@
-# $Id: Changes,v 1.45 2003/05/29 14:25:52 alester Exp $
+# $Id: Changes,v 1.47 2003/06/05 17:01:21 alester Exp $
 Revision history for Perl extension WWW::Mechanize
+
+0.44	June 5, 2003
+	[ENHANCEMENTS]
+	* Now follows redirects after a POST.  By default, LWP::UserAgent
+	  does NOT follow redirects after a POST.  This matches the
+	  official RFC.  However, since WWW::Mechanize is meant to be a
+	  browser clone, and browsers follow the redirects after a POST,
+	  I've changed this behavior.  If this causes bummers, let me
+	  know and maybe I'll throw in a switch.
+	  
+	[DOCUMENTATION]
+	* The package now includes the WWW::Mechanize logo in the etc/
+	  directory.  I have no idea what I'll do with it, but thanks
+	  to Mengwong for making it!
 
 0.43	May 29, 2003
 	[ENHANCEMENTS]
