@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-use Test::More tests => 7;
+use Test::More tests => 9;
 use URI::file;
 
 BEGIN {
@@ -39,5 +39,14 @@ push my @singlereturn, pop(@send);
 cmp_ok( @return, 'eq', @singlereturn, "value is " . pop(@send));
 
 # push a single value into a single select
-$mech->select("singlelist","aaa");
+my $rv = $mech->select("singlelist","aaa");
 is( $form->param("singlelist"), "aaa", "value is 'aaa'");
+
+is($rv,1,'return 1 after successful select'); 
+
+###
+
+$rv = $mech->select('missing_list',1);
+is($rv,undef,'return undef after failed select'); 
+
+

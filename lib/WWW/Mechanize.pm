@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 Version 1.05_02
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.147 2004/10/19 03:55:41 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.148 2004/10/20 01:54:28 markjugg Exp $
 
 =cut
 
@@ -490,6 +490,44 @@ sub field {
     }
 }
 
+=head2 $mech->select($name, $value) 
+
+=head2 $mech->select($name, \@values) 
+
+Given the name of a C<select> field, set its value to the value
+specified.  If the field is not E<lt>select multipleE<gt> and the
+C<$value> is an array, only the last value will be set.  This applies
+to the current form (as set by the C<L<form()>> method or defaulting
+to the first form on the page).
+
+Returns 1 on successfully setting the value. On failure, returns
+undef and calls C<$self->warn()> with an error message.  
+
+=cut
+
+sub select {
+    my ($self, $name, $value) = @_;
+
+    my $form = $self->{form};
+
+    my $input = $form->find_input($name);
+    if (!$input) {
+        $self->warn( qq{ Input "$name" not found } );
+        return;
+    } elsif ($input->type ne 'option') {
+        $self->warn( qq{ Input "$name" is not type "select" } );
+        return;
+    }
+
+    if (ref($value) eq "ARRAY") {
+        $form->param($name, $value);
+		return 1;
+    } else {
+        $form->value($name => $value);
+		return 1;
+    }
+}
+
 =head2 $mech->set_fields( $name => $value ... )
 
 This method sets multiple fields of a form. It takes a list of field
@@ -523,36 +561,6 @@ sub set_fields {
         }
     } # while
 } # set_fields()
-
-
-=head2 C<< $mech->value( $name, $number ) >>
-
-Given the name of a field, return its value. This applies to the current
-form (as set by the C<form()> method or defaulting to the first form on
-the page).
-
-The option I<$number> parameter is used to distinguish between two fields
-with the same name.  The fields are numbered from 1.
-
-If the field is of type file (file upload field), the value is always
-cleared to prevent remote sites from downloading your local files.
-To upload a file, specify its file name explicitly.
-
-=cut
-
-sub value {
-    my $self = shift;
-    my $name = shift;
-    my $number = shift || 1;
-
-    my $form = $self->{form};
-    if ( $number > 1 ) {
-        return $form->find_input( $name, undef, $number )->value();
-    } else {
-        return $form->value( $name );
-    }
-} # value
-
 
 =head2 $mech->set_visible( @criteria )
 
@@ -665,6 +673,34 @@ sub untick {
     shift->tick(shift,shift,undef);
 }
 
+=head2 C<< $mech->value( $name, $number ) >>
+
+Given the name of a field, return its value. This applies to the current
+form (as set by the C<form()> method or defaulting to the first form on
+the page).
+
+The option I<$number> parameter is used to distinguish between two fields
+with the same name.  The fields are numbered from 1.
+
+If the field is of type file (file upload field), the value is always
+cleared to prevent remote sites from downloading your local files.
+To upload a file, specify its file name explicitly.
+
+=cut
+
+sub value {
+    my $self = shift;
+    my $name = shift;
+    my $number = shift || 1;
+
+    my $form = $self->{form};
+    if ( $number > 1 ) {
+        return $form->find_input( $name, undef, $number )->value();
+    } else {
+        return $form->value( $name );
+    }
+} # value
+
 =head1 FORM SUBMISSION METHODS
 
 =head2 $mech->click( $button [, $x, $y] )
@@ -750,39 +786,6 @@ sub click_button {
     } # $args{value}
 
     return $self->request( $request );
-}
-
-=head2 $mech->select($name, $value) 
-
-=head2 $mech->select($name, \@values) 
-
-Given the name of a C<select> field, set its value to the value
-specified.  If the field is not E<lt>select multipleE<gt> and the
-C<$value> is an array, only the last value will be set.  This applies
-to the current form (as set by the C<L<form()>> method or defaulting
-to the first form on the page).
-
-=cut
-
-sub select {
-    my ($self, $name, $value) = @_;
-
-    my $form = $self->{form};
-
-    my $input = $form->find_input($name);
-    if (!$input) {
-        $self->warn( qq{ Input "$name" not found } );
-        return;
-    } elsif ($input->type ne 'option') {
-        $self->warn( qq{ Input "$name" is not type "select" } );
-        return;
-    }
-
-    if (ref($value) eq "ARRAY") {
-        $form->param($name, $value);
-    } else {
-        $form->value($name => $value);
-    }
 }
 
 =head2 $mech->submit()
