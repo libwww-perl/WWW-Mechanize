@@ -1,5 +1,9 @@
-# $Id: Changes,v 1.3 2003/06/17 04:22:14 petdance Exp $
+# $Id: Changes,v 1.4 2003/06/17 22:11:42 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
+
+0.46
+	[ENHANCEMENTS]
+	* Oh yes, I forgot to mention: We're on Sourceforge now.
 
 0.45	June 11, 2003
 	[ENHANCEMENTS]
