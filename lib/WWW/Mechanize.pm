@@ -6,11 +6,11 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 =head1 VERSION
 
-Version 1.10
+Version 1.11_01
 
 =cut
 
-our $VERSION = "1.10";
+our $VERSION = "1.11_01";
 
 =head1 SYNOPSIS
 
@@ -2227,6 +2227,10 @@ Here are modules that use or subclass Mechanize.  Let me know of any others:
 =item * L<HTTP::Recorder>
 
 Acts as a proxy for web interaction, and then generates WWW::Mechanize scripts.
+
+=item * L<Win32::IE::Mechanize>
+
+Just like Mech, but using Microsoft Internet Explorer to do the work.
 
 =item * L<WWW::Bugzilla>
 
