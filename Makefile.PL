@@ -27,6 +27,16 @@ EOT
     }
 } # failed connect
 
+eval { require IO::Socket::SSL };
+if ( $@ ) {
+    print <<EOT;
+
+It looks like you don't have IO::Socket::SSL installed.  You will
+not be able to process https:// URLs correctly.
+
+EOT
+}
+
 if ( $skiplive ) {
     touch( FLAG_SKIPLIVE );
 } else {

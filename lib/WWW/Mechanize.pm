@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.53
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.27 2003/07/20 04:01:32 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.28 2003/07/20 04:10:33 petdance Exp $
 
 =cut
 
@@ -1121,6 +1121,10 @@ sub _pop_page_stack {
 
 
 =head1 FAQ
+
+=head2 Why don't https:// URLs work?
+
+You probably don't have L<IO::Socket::SSL> installed.
 
 =head2 I tried to [such-and-such] and I got this weird error.
 
