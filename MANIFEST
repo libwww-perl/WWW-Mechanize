@@ -37,3 +37,4 @@ t/submit-local.t
 t/submit.t
 t/tick.html
 t/tick.t
+META.yml                                Module meta-data (added by MakeMaker)
