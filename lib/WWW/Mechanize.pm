@@ -4,6 +4,16 @@ package WWW::Mechanize;
 
 WWW::Mechanize - automate interaction with websites
 
+=head1 VERSION
+
+Version 0.42
+
+    $Header: /home/cvs/www-mechanize/lib/WWW/Mechanize.pm,v 1.79 2003/05/27 03:40:31 alester Exp $
+
+=cut
+
+our $VERSION = "0.42";
+
 =head1 SYNOPSIS
 
 WWW::Mechanize is intended to help you automate interaction with
@@ -99,20 +109,9 @@ use HTTP::Request;
 use LWP::UserAgent;
 use HTML::Form;
 use HTML::TokeParser;
-use Carp;
 use URI::URL;
 
 our @ISA = qw( LWP::UserAgent );
-
-=head1 VERSION
-
-Version 0.41
-
-    $Header: /home/cvs/www-mechanize/lib/WWW/Mechanize.pm,v 1.75 2003/05/23 04:23:34 alester Exp $
-
-=cut
-
-our $VERSION = "0.41";
 
 our %headers;
 
@@ -180,18 +179,14 @@ sub get {
         $self->{uri} = URI->new( $uri );
     }
 
-    $self->{req} = HTTP::Request->new( GET => $self->{uri} );
+    my $request = HTTP::Request->new( GET => $self->{uri} );
 
-    return $self->_do_request(); 
+    return $self->send_request( $request ); 
 }
 
 =head2 C<< $agent->uri() >>
 
 Returns the current URI.
-
-=head2 C<< $agent->req() >>
-
-Returns the current request as an C<HTTP::Request> object.
 
 =head2 C<< $agent->res() >>
 
@@ -240,7 +235,6 @@ HTTP headers.
 =cut
 
 sub uri {           my $self = shift; return $self->{uri}; }
-sub req {           my $self = shift; return $self->{req}; }
 sub res {           my $self = shift; return $self->{res}; }
 sub status {        my $self = shift; return $self->{status}; }
 sub ct {            my $self = shift; return $self->{ct}; }
@@ -343,7 +337,7 @@ key/value pairs:
 
 =over 4
 
-=item text => string
+=item * text => string
 
 Matches the text of the link against I<string>, which must be an
 exact match.
@@ -352,7 +346,7 @@ To select a link with text that is exactly "download", use
 
     $agent->find_link( text => "download" );
 
-=item text_regex => regex
+=item * text_regex => regex
 
 Matches the text of the link against I<regex>.
 
@@ -361,17 +355,17 @@ regardless of case, use
 
     $agent->find_link( text_regex => qr/download/i );
 
-=item url => string
+=item * url => string
 
 Matches the URL of the link against I<string>, which must be an
 exact match.  This is similar to the C<text> parm.
 
-=item url_regex => regex
+=item * url_regex => regex
 
 Matches the URL of the link against I<regex>.  This is similar to
 the C<text_regex> parm.
 
-=item n => number
+=item * n => number
 
 Matches against the I<n>th link.  
 
@@ -582,10 +576,10 @@ sub form {
 
 =head2 C<< $agent->form_number($number) >>
 
-Selects the Nth form on the page as the target for subsequent calls to
-field() and click().  Emits a warning and returns false if there is no
-such form.  Forms are indexed from 1, that is to say, the first form is
-number 1 (not zero).
+Selects the I<number>th form on the page as the target for subsequent
+calls to field() and click().  Emits a warning and returns false if there
+is no such form.  Forms are indexed from 1, so the first form is number 1,
+not zero.
 
 =cut
 
@@ -595,7 +589,10 @@ sub form_number {
         $self->{form} = $self->{forms}->[$form-1];
         return 1;
     } else {
-        carp "There is no form number $form" unless $self->quiet;
+	unless ( $self->{quiet} ) {
+	    require Carp;
+	    Carp::carp "There is no form named $form";
+	}
         return 0;
     }
 }
@@ -620,7 +617,10 @@ sub form_name {
             if @matches > 1 && !$self->{quiet};
         return 1;
     } else {
-        carp "There is no form named $form" unless $self->{quiet};
+	unless ( $self->{quiet} ) {
+	    require Carp;
+	    Carp::carp "There is no form named $form";
+	}
         return 0;
     }
 }
@@ -700,8 +700,8 @@ sub click {
     for ($x, $y) { $_ = 1 unless defined; }
     $self->_push_page_stack();
     $self->{uri} = $self->{form}->uri;
-    $self->{req} = $self->{form}->click($button, $x, $y);
-    return $self->_do_request();
+    my $request = $self->{form}->click($button, $x, $y);
+    return $self->send_request( $request );
 }
 
 =head2 C<< $agent->submit() >>
@@ -719,8 +719,8 @@ sub submit {
 
     $self->_push_page_stack();
     $self->{uri} = $self->{form}->uri;
-    $self->{req} = $self->{form}->make_request;
-    return $self->_do_request();
+    my $request = $self->{form}->make_request;
+    return $self->send_request( $request );
 }
 
 =head2 C<< $agent->back() >>
@@ -758,8 +758,8 @@ sub add_header {
 Extracts HREF links from the content of a webpage.
 
 The return value is a reference to an array containing
-an array reference for every C<< <A> >> and C<< <FRAME> >>
-tag in C<< $self->{content} >>.  
+an array reference for every C<< <A> >>, C<< <FRAME> >>
+or C<< <IFRAME> >> tag in C<< $self->{content} >>.  
 
 The array elements for the C<< <A> >> tag are: 
 
@@ -773,7 +773,8 @@ The array elements for the C<< <A> >> tag are:
 
 =back
 
-The array elements for the C<< <FRAME> >> tag are:
+The array elements for the C<< <FRAME> >> and 
+C<< <IFRAME> >> tags are:
 
 =over 4
 
@@ -792,7 +793,7 @@ sub extract_links {
     my $p = HTML::TokeParser->new(\$self->{content});
     my @links;
 
-    while (my $token = $p->get_tag("a", "frame")) {
+    while (my $token = $p->get_tag("a", "frame", "iframe")) {
         my $tag_is_a = ($token->[0] eq 'a');
         my $url = $tag_is_a ? $token->[1]{href} : $token->[1]{src};
         next unless defined $url;   # probably just a name link
@@ -856,22 +857,25 @@ sub _pop_page_stack {
 }
 
 
-=head2 _do_request()
+=head2 send_request( $request [, $arg [, $size]])
 
-Performs a request on the $self->{req} request object, and sets
-a bunch of attributes on $self.
+Overloaded version of C<send_request()> in L<LWP::UserAgent>.  Performs
+the actual request.  Normally, if you're using WWW::Mechanize, it'd
+because you don't want to deal with this level of stuff anyway.
 
 Returns an L<HTTP::Response> object.
 
 =cut
 
-sub _do_request {
+sub send_request {
     my $self = shift;
+    my $request = shift;
 
     while ( my($key,$value) = each %WWW::Mechanize::headers ) {
-        $self->{req}->header( $key => $value );
+        $request->header( $key => $value );
     }
-    $self->{res}     = $self->request($self->{req});
+    $self->{req} = $request;
+    $self->{res} = $self->SUPER::send_request( $request, @_ );
 
     # These internal hash elements should be dropped in favor of
     # the accessors soon. -- 1/19/03
@@ -888,6 +892,7 @@ sub _do_request {
 
     return $self->{res};
 }
+
 
 =head1 FAQ
 

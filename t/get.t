@@ -1,6 +1,6 @@
 use warnings;
 use strict;
-use Test::More tests => 27;
+use Test::More tests => 26;
 
 BEGIN {
     use_ok( 'WWW::Mechanize' );
@@ -11,7 +11,6 @@ isa_ok( $agent, 'WWW::Mechanize', 'Created object' );
 
 ok($agent->get("http://www.google.com/intl/en/")->is_success, "Get google webpage");
 isa_ok($agent->uri, "URI", "Set uri");
-isa_ok($agent->req, 'HTTP::Request', "req should be a HTTP::Request");
 ok( $agent->is_html );
 is( $agent->title, "Google" );
 

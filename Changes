@@ -1,5 +1,16 @@
-# $Id: Changes,v 1.38 2003/05/23 04:23:34 alester Exp $
+# $Id: Changes,v 1.43 2003/05/27 03:41:01 alester Exp $
 Revision history for Perl extension WWW::Mechanize
+
+0.42	May 26, 2003
+	[ENHANCEMENTS]
+	* Renamed _do_request() to send_request(), so it's now a
+	  proper overload of LWP::UserAgent.  Thanks to Philippe Bruhat.
+	  Recorded in RT ticket #1708.
+	* Removed the req() method, and tests that used it.
+	* extract_links() now checks for <IFRAME> tags along with the
+	  existing <A> and <FRAME>.
+	* Now explicitly requires HTML::HeadParser.
+	* Doesn't load Carp unless it's actually needed.
 
 0.41	May 22, 2003	
 	[ENHANCEMENTS]
