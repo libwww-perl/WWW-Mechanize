@@ -1,7 +1,12 @@
-# $Id: Changes,v 1.74 2003/10/14 03:21:01 petdance Exp $
+# $Id: Changes,v 1.75 2003/10/18 02:38:26 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
 
-0.64
+0.90	
+	* Big jump in requirements, using Gisle's new HTML::Form stuff.
+
+	[FIXES]
+	* Fixed the t/mech-dump.t failure.
+
 	[ENHANCEMENTS]
 	* Many new tests, based on the excellent coverage reporting
 	  created by Paul Johnson's Devel::Cover module.
