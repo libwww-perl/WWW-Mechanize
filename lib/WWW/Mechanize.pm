@@ -8,7 +8,7 @@ WWW::Mechanize - automate interaction with websites
 
 Version 0.49
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.15 2003/06/23 19:47:41 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.16 2003/06/24 02:35:22 petdance Exp $
 
 =cut
 
@@ -1141,7 +1141,7 @@ This makes it much easier for me to track things.
 
 =head1 AUTHOR
 
-Copyright 2002 Andy Lester <andy@petdance.com>
+Copyright 2003 Andy Lester <andy@petdance.com>
 
 Released under the Artistic License.  Based on Kirrily Robert's excellent
 L<WWW::Automate> package.
