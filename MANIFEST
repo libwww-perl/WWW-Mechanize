@@ -1,5 +1,6 @@
 Changes
 Makefile.PL
+MANIFEST
 etc/www-mechanize-logo.png
 lib/WWW/Mechanize.pm
 lib/WWW/Mechanize/Examples.pod
