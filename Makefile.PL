@@ -60,7 +60,7 @@ my $parms = {
 };
 
 if ( prompt( "Do you want to install the mech-dump utility?", "y" ) =~ /^y/i ) {
-    $parms->{EXE_FILES} = [ 'script/mech-dump' ];
+    $parms->{EXE_FILES} = [ 'bin/mech-dump' ];
     $parms->{PREREQ_PM}->{'Getopt::Long'} = 0;
     $parms->{PREREQ_PM}->{'Pod::Usage'} = 0;
 
