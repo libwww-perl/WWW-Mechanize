@@ -6,13 +6,13 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 =head1 VERSION
 
-Version 1.05_01
+Version 1.05_02
 
-    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.142 2004/10/01 02:16:10 petdance Exp $
+    $Header: /cvsroot/www-mechanize/www-mechanize/lib/WWW/Mechanize.pm,v 1.143 2004/10/02 21:56:45 petdance Exp $
 
 =cut
 
-our $VERSION = "1.05_01";
+our $VERSION = "1.05_02";
 
 =head1 SYNOPSIS
 
@@ -355,7 +355,7 @@ sub back {
     $self->_pop_page_stack;
 }
 
-=head1 Link-following methods
+=head1 LINK-FOLLOWING METHODS
 
 =head2 $mech->follow_link(...)
 
@@ -1275,6 +1275,22 @@ sub stack_depth {
     my $self = shift;
     $self->{stack_depth} = shift if @_;
     return $self->{stack_depth};
+}
+
+=head2 $mech->save_content( $filename )
+
+Dumps the contents of C<< $mech->content >> into I<$filename>.
+I<$filename> will be overwritten.
+
+=cut
+
+sub save_content {
+    my $self = shift;
+    my $filename = shift;
+
+    open( my $fh, ">", $filename ) or $self->die( "Unable to create $filename: $!" );
+    print $fh $self->content;
+    close $fh;
 }
 
 =head1 OVERRIDDEN L<LWP::UserAgent> METHODS

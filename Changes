@@ -1,5 +1,10 @@
-# $Id: Changes,v 1.145 2004/10/01 13:09:38 markjugg Exp $
+# $Id: Changes,v 1.146 2004/10/02 21:56:45 petdance Exp $
 Revision history for Perl extension WWW::Mechanize
+
+1.05_02	Sat Oct  2 16:55:59 CDT 2004
+	[ENHANCEMENTS]
+	* Added the $mech->save_content( $filename ) function, so you
+	  can dump stuff to files easily.
 
 1.05_01 Thu Sep 30 21:04:44 CDT 2004
 
