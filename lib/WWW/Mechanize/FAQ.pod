@@ -42,7 +42,7 @@ Use the mech-dump utility, optionaly installed with Mechanize.
     my $agent = WWW::Mechanize->new();
     my @args = (
         Authorization => "Basic " .
-        MIME::Base64::encode( USER . ':' . PASS)
+            MIME::Base64::encode( USER . ':' . PASS )
     );
 
     $agent->credentials( ADDRESS, REALM, USER, PASS );
