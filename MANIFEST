@@ -31,7 +31,7 @@ t/live/form.t
 t/live/get.t
 t/live/reload.t
 t/live/submit.t
-t/mech-forms.t
+t/mech-dump.t
 t/new.t
 t/page_stack.t
 t/reload.t

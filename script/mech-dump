@@ -1,16 +1,42 @@
 #!/usr/bin/perl -w
 
+=head1 NAME
+
+mech-dump - Dumps information about a web page
+
+=cut
+
 use strict;
 use WWW::Mechanize;
 use Getopt::Long;
+use Pod::Usage;
 
 my @actions;
 
 GetOptions( 
-    'links' =>	    sub { push( @actions, \&dump_links ); },
-    'images' =>	    sub { push( @actions, \&dump_images ); },
-    'forms' =>	    sub { push( @actions, \&dump_forms ); },
-) or die "Bad parms, man, bad parms!";
+    forms =>    sub { push( @actions, \&dump_forms ); },
+    links =>    sub { push( @actions, \&dump_links ); },
+    images =>	sub { push( @actions, \&dump_images ); },
+    all =>	sub { push( @actions, \&dump_forms, \&dump_links, \&dump_images ); },
+    help =>	sub { pod2usage(1); },
+) or pod2usage(2); 
+
+=head1 SYNOPSIS
+
+mech-dump [options] [file|url]
+
+Options:
+
+    --forms	    Dump table of forms
+    --links	    Dump table of links
+    --images	    Dump table of images
+    --all	    Dump all three of the above, in that order
+    --help	    Show this message
+
+The order of the options specified is relevant.  Repeated options
+get repeated dumps.
+
+=cut
 
 my $uri = shift or die "Must specify a URL or file to check\n";
 if ( -e $uri ) {
@@ -30,19 +56,18 @@ for my $action ( @actions ) {
 sub dump_links {
     my $mech = shift;
 
-    print "Dumping links (but this isn't written yet)\n";
+    warn "Dumping links (but this isn't written yet)\n";
 }
 
 sub dump_images {
     my $mech = shift;
 
-    print "Dumping images (but this isn't written yet)\n";
+    warn "Dumping images (but this isn't written yet)\n";
 }
 
 sub dump_forms {
     my $mech = shift;
 
-    print "Dumping forms\n";
     for my $form ( $mech->forms() ) {
 	print $form->dump;
 	print "\n";
