@@ -982,7 +982,7 @@ sub form_number {
     }
     else {
         $self->warn( "There is no form numbered $form" );
-        return undef;
+        return;
     }
 }
 
@@ -1481,10 +1481,10 @@ sub submit_form {
     }
 
     if ( my $form_number = $args{'form_number'} ) {
-        $self->form_number( $form_number ) ;
+        $self->form_number( $form_number ) or die;
     }
     elsif ( my $form_name = $args{'form_name'} ) {
-        $self->form_name( $form_name ) ;
+        $self->form_name( $form_name ) or die;
     }
 
     if ( my $fields = $args{'fields'} ) {
