@@ -1,7 +1,6 @@
 Changes
 Makefile.PL
 MANIFEST
-META.yml
 
 bin/mech-dump
 
