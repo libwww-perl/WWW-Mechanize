@@ -199,7 +199,8 @@ sub new {
     while ( my($key,$value) = each %passed_parms ) {
         if ( exists $mech_parms{$key} ) {
             $mech_parms{$key} = $value;
-        } else {
+        }
+        else {
             $parent_parms{$key} = $value;
         }
     }
@@ -272,7 +273,8 @@ sub agent_alias {
 
     if ( defined $known_agents{$alias} ) {
         return $self->agent( $known_agents{$alias} );
-    } else {
+    }
+    else {
         $self->warn( qq{Unknown agent alias "$alias"} );
         return $self->agent();
     }
@@ -494,13 +496,16 @@ sub content {
                 $tree->eof();
                 $tree->elementify(); # just for safety
                 $content = $tree->as_text();
-            } else {
+            }
+            else {
                 $self->die( qq{Unknown format parameter "$arg"} );
             };
-        } elsif ($cmd eq 'base_href') {
+        }
+        elsif ($cmd eq 'base_href') {
             $arg ||= $self->base;
             $content=~s/<head>/<head>\n<base href="$arg">/;
-        } else {
+        }
+        else {
             $self->die( qq{Unknown named argument "$cmd"} );
         }
     }
@@ -689,7 +694,8 @@ sub find_link {
         if ( _match_any_link_parms($link,\%parms) ) {
             if ( $wantall ) {
                 push( @matches, $link );
-            } else {
+            }
+            else {
                 ++$nmatches;
                 return $link if $nmatches >= $parms{n};
             }
@@ -752,7 +758,8 @@ sub _clean_keys {
                 delete $parms->{$key};
                 next;
             }
-        } else {
+        }
+        else {
             if ( $val_regex ) {
                 $self->warn( qq{$val passed as '$key' is a regex} );
                 delete $parms->{$key};
@@ -883,7 +890,8 @@ sub find_image {
         if ( _match_any_image_parms($image,\%parms) ) {
             if ( $wantall ) {
                 push( @matches, $image );
-            } else {
+            }
+            else {
                 ++$nmatches;
                 return $image if $nmatches >= $parms{n};
             }
@@ -971,7 +979,8 @@ sub form_number {
     if ($self->{forms}->[$form-1]) {
         $self->{form} = $self->{forms}->[$form-1];
         return $self->{form};
-    } else {
+    }
+    else {
         $self->warn( "There is no form numbered $form" );
         return undef;
     }
@@ -997,7 +1006,8 @@ sub form_name {
         $self->warn( "There are ", scalar @matches, " forms named $form.  The first one was used." )
             if @matches > 1;
         return $self->{form} = $matches[0];
-    } else {
+    }
+    else {
         $self->warn( qq{ There is no form named "$form"} );
         return undef;
     }
@@ -1024,10 +1034,12 @@ sub field {
     my $form = $self->{form};
     if ($number > 1) {
         $form->find_input($name, undef, $number)->value($value);
-    } else {
+    }
+    else {
         if ( ref($value) eq "ARRAY" ) {
             $form->param($name, $value);
-        } else {
+        }
+        else {
             $form->value($name => $value);
         }
     }
@@ -1082,7 +1094,8 @@ sub select {
             # (see INPUTS section of `perldoc HTML::Form`)
             if (@inputs == 1) {
                 @values = $inputs[0]->possible_values();
-            } else {
+            }
+            else {
                 foreach my $input (@inputs) {
                     my @possible = $input->possible_values();
                     push @values, pop @possible;
@@ -1099,13 +1112,16 @@ sub select {
                     }
                     push @$value, $values[$_ - 1];  # might be undef
                 }
-            } elsif (!ref($n) && $n =~ /^\d+$/) {
+            }
+            elsif (!ref($n) && $n =~ /^\d+$/) {
                 $value = $values[$n - 1];           # might be undef
-            } else {
+            }
+            else {
                 $self->warn('"n" value is not a positive integer or an array ref');
                 return;
             }
-        } else {
+        }
+        else {
             $self->warn('Hash value is invalid');
             return;
         }
@@ -1148,7 +1164,8 @@ sub set_fields {
         if ( ref $value eq 'ARRAY' ) {
             $form->find_input( $field, undef,
                          $value->[1])->value($value->[0] );
-        } else {
+        }
+        else {
             $form->value($field => $value);
         }
     } # while
@@ -1209,7 +1226,8 @@ sub set_visible {
                     last;
                 }
             } # while
-        } else {
+        }
+        else {
             while ( my $input = shift @inputs ) {
                 next if $input->type eq 'hidden';
                 $input->value( $value );
@@ -1292,7 +1310,8 @@ sub value {
     my $form = $self->{form};
     if ( $number > 1 ) {
         return $form->find_input( $name, undef, $number )->value();
-    } else {
+    }
+    else {
         return $form->value( $name );
     }
 } # value
@@ -1373,12 +1392,15 @@ sub click_button {
     my $request;
     if ( $args{name} ) {
         $request = $form->click( $args{name}, $args{x}, $args{y} );
-    } elsif ( $args{number} ) {
+    }
+    elsif ( $args{number} ) {
         my $input = $form->find_input( undef, 'submit', $args{number} );
         $request = $input->click( $form, $args{x}, $args{y} );
-    } elsif ( $args{input} ) {
+    }
+    elsif ( $args{input} ) {
         $request = $args{input}->click( $form, $args{x}, $args{y} );
-    } elsif ( $args{value} ) {
+    }
+    elsif ( $args{value} ) {
         my $i = 1;
         while ( my $input = $form->find_input(undef, 'submit', $i) ) {
             if ( $args{value} && ($args{value} eq $input->value) ) {
@@ -1474,7 +1496,8 @@ sub submit_form {
     my $response;
     if ( $args{button} ) {
         $response = $self->click( $args{button}, $args{x} || 0, $args{y} || 0 );
-    } else {
+    }
+    else {
         $response = $self->submit();
     }
 
@@ -1729,11 +1752,13 @@ sub follow {
     if ( $link =~ /^\d+$/ ) { # is a number?
         if ($link <= $#links) {
             $thislink = $links[$link];
-        } else {
+        }
+        else {
             $self->warn( "Link number $link is greater than maximum link $#links on this page ($self->{uri})" );
             return;
         }
-    } else {                        # user provided a regexp
+    }
+    else {                        # user provided a regexp
         LINK: foreach my $l (@links) {
             if ( defined($l->[1]) && $l->[1] =~ /$link/) {
                 $thislink = $l;     # grab first match
@@ -1800,7 +1825,8 @@ sub _update_page {
     if ( $res->is_success ) {
         $self->{uri} = $self->{redirected_uri};
         $self->{last_uri} = $self->{uri};
-    } else {
+    }
+    else {
         if ( $self->{autocheck} ) {
             $self->die( "Error ", $request->method, "ing ", $request->uri, ": ", $res->message );
         }
@@ -1809,7 +1835,8 @@ sub _update_page {
     $self->_reset_page;
     if ($self->is_html) {
         $self->update_html($res->content);
-    } else {
+    }
+    else {
         $self->{content} = $res->content;
     }
 
@@ -1842,7 +1869,8 @@ sub _modify_request {
     while ( my($key,$value) = each %{$self->{headers}} ) {
         if ( defined $value ) {
             $req->header( $key => $value );
-        } else {
+        }
+        else {
             $req->remove_header( $key );
         }
     }
@@ -1990,7 +2018,8 @@ sub _link_from_token {
 
         if ( $content =~ /^\d+\s*;\s*url\s*=\s*(\S+)/i ) {
             $url = $1;
-        } else {
+        }
+        else {
             undef $url;
         }
     } # meta
