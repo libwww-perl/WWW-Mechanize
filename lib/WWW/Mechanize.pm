@@ -100,6 +100,7 @@ use LWP::UserAgent 2.003;
 use HTML::Form 1.00;
 use HTML::TokeParser;
 use URI::URL;
+use UNIVERSAL qw( isa );
 
 use base 'LWP::UserAgent';
 
@@ -1465,7 +1466,7 @@ sub submit_form {
     }
 
     if ( my $fields = $args{'fields'} ) {
-        if ( ref $fields eq 'HASH' ) {
+        if ( isa( $fields, 'HASH' ) ) {
             $self->set_fields( %{$fields} ) ;
         } # TODO: What if it's not a hash?  We just ignore it silently?
     }
