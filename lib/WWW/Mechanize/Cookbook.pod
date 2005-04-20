@@ -2,7 +2,7 @@
 
 WWW::Mechanize::Cookbook - Recipes for using WWW::Mechanize
 
-=head1 Introduction
+=head1 INTRODUCTION
 
 First, please note that many of these are possible just using
 L<LWP::UserAgent>.  Since C<WWW::Mechanize> is a subclass of
@@ -10,7 +10,7 @@ L<LWP::UserAgent>, whatever works on C<LWP::UserAgent> should work
 on C<WWW::Mechanize>.  See the L<lwpcook> man page included with
 the L<libwww-perl> distribution.
 
-=head1 Basics
+=head1 BASICS
 
 =head2 Create a mech
 
@@ -73,7 +73,7 @@ name. With L<HTTP::Request> you just add the header to the request. In
 WWW::Mechanize, you can use the C<add_header()> method. The HTTP
 specification (RFC 2616) explains the format of the Authorization header.
 
-=head1 Links
+=head1 LINKS
 
 =head2 Find all image links
 
@@ -89,8 +89,15 @@ Find all links that have the word "download" in them.
     my @links = $mech->find_all_links(
         tag => "a", text_regex => qr/\bdownload\b/i );
 
-=head1 Author
+=head1 APPLICATIONS
 
-Copyright 2004 Andy Lester C<< <andy@petdance.com> >>
+=head2 Check all pages on a web site
+
+Use Abe Timmerman's L<WWW::CheckSite>
+L<http://search.cpan.org/dist/WWW-CheckSite/>
+
+=head1 AUTHOR
+
+Copyright 2005 Andy Lester C<< <andy@petdance.com> >>
 
 =cut
