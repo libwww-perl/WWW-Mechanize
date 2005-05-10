@@ -125,7 +125,108 @@ check that Mech succeeded, or all bets are off.
     die "Foo link failed: ", $mech->response->status_line
         unless $mech->success;
 
-=head1 Author
+=head2 How do I figure out why C<< $mech->get($url) >> doesn't work?
+
+There are many reasons why a C<< get() >> can fail. The server can take
+you to someplace you didn't expect. It can generate redirects which are
+not properly handled. You can get time-outs. Servers are down more often
+than you think! etc, etc, etc. A couple of places to start:
+
+=over 4
+
+=item 1 Check $mech->status() after each call
+
+=item 2 Check the URL with C<< $mech->uri() >> to see where you ended up
+
+=item 3 Try debugging with C<< LWP::Debug >>.
+
+=back
+
+If things are really strange, turn on debugging with
+C<< use LWP::Debug qw(+); >>
+Just put this in the main program. This causes LWP to print out a trace
+of the HTTP traffic between client and server and can be used to figure
+out what is happening at the protocol level.
+
+It is also useful to set many traps to verify that processing is
+proceeding as expected. A Mech program should always have an "I didn't
+expect to get here" or "I don't recognize the page that I am processing"
+case and bail out.
+
+Since errors can be transient, by the time you notice that the error
+has occurred, it might not be possible to reproduce it manually. So
+for automated processing it is useful to email yourself the following
+information:
+
+=over 4
+
+=item * where processing is taking place
+
+=item * An Error Message
+
+=item * $mech->uri
+
+=item * $mech->content
+
+=back
+
+You can also save the content of the page with C<< $mech->save_content( 'filename.html' ); >>
+
+=head2 I submitted a form, but the server ignored everything!  I got an empty form back!
+
+The post is handled by application software. It is common for PHP
+programmers to use the same file both to display a form and to process
+the arguments returned. So the first task of the application programmer
+is to decide whether there are arguments to processes. The program can
+check whether a particular parameter has been set, whether a hidden
+parameter has been set, or whether the submit button has been clicked.
+(There are probably other ways that I haven't thought of).
+
+In any case, if your form is not setting the parameter (e.g. the submit
+button) which the web application is keying on (and as an outsider there
+is no way to know what it is keying on), it will not notice that the form
+has been submitted. Try using C<< $mech->click() >> instead of
+C<< $mech->submit() >> or vice-versa.
+
+=head2 I've logged in to the server, but I get 500 errors when I try to get to protected content.
+
+Some web sites use distributed databases for their processing. It
+can take a few seconds for the login/session information to percolate
+through to all the servers. For human users with their slow reaction
+times, this is not a problem, but a Perl script can outrun the server.
+So try adding a sleep(5) between logging in and actually doing anything
+(the optimal delay must be determined experimentally).
+
+=head2 This page uses JavaScript functions in links instead of URLs.  What can I do?
+
+Since Javascript is completely visible to the client, it cannot be used
+to prevent a scraper from following links. But it can make life difficult,
+and until someone writes a Javascript interpreter for Perl or a Mechanize
+clone to control Firefox, there will be no general solution.  But if
+you want to scrape specific pages, then a solution is always possible.
+
+One typical use of Javascript is to perform argument checking before
+posting to the server. The URL you want is probably just buried in the
+Javascript function. Do a regular expression match on
+C<< $mech->content() >>
+to find the link that you want and C<< $mech->get >> it directly (this
+assumes that you know what your are looking for in advance).
+
+In more difficult cases, the Javascript is used for URL mangling to
+satisfy the needs of some middleware. In this case you need to figure
+out what the Javascript is doing (why are these URLs always really
+long?). There is probably some function with one or more arguments which
+calculates the new URL. Step one: using your favorite browser, get the
+before and after URLs and save them to files. Edit each file, converting
+the the argument separators ('?', '&' or ';') into newlines. Now it is
+easy to use diff or comm to find out what Javascript did to the URL.
+Step 2 - find the function call which created the URL - you will need
+to parse and interpret its argument list. Using the Javascript Debugger
+Extension for Firefox may help with the analysis. At this point, it is
+fairly trivial to write your own function which emulates the Javascript
+for the pages you want to process.
+
+=head1 AUTHOR
 
 Copyright 2005 Andy Lester C<< <andy@petdance.com> >>
 
