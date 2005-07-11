@@ -75,6 +75,9 @@ you can also use any of L<LWP::UserAgent>'s methods.
 
     $mech->add_header($name => $value);
 
+Please note that Mech does NOT support JavaScript.  Please check the
+FAQ in WWW::Mechanize::FAQ for more.
+
 =head1 IMPORTANT LINKS
 
 =over 4

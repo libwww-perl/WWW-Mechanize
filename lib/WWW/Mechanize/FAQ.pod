@@ -2,6 +2,84 @@
 
 WWW::Mechanize::FAQ - Frequently Asked Questions about WWW::Mechanize
 
+=head1 JavaScript
+
+=head2 I have this web page that has JavaScript on it, and my Mech program doesn't work.
+
+That's because WWW::Mechanize doesn't operate on the JavaScript.  It only
+understands the HTML parts of the page.
+
+=head2 I thought Mech was supposed to work like a web browser.
+
+It does pretty much, but it doesn't support JavaScript.
+
+I added some basic attempts at picking up URLs in C<window.open()>
+calls and return them in C<< $mech->links >>.  They work sometimes.
+Beyond that, there's no support for JavaScript.
+
+=head2 Are you going to add JavaScript support?
+
+I will if anyone sends me the code to do it.  I'm not going to write a
+JavaScript processor myself.
+
+=head2 Wouldn't that be a great thing to have in WWW::Mechanize?
+
+Yes.
+
+=head2 Would it be hard to do?
+
+Hard enough that I don't want to deal with it myself.  Plus, I don't
+use JavaScript myself, so I don't have an itch to scratch.
+
+=head2 Is anyone working on it?
+
+I've heard noises from people every so often over the past couple of
+years, but nothing you'd pin your hopes on.
+
+=head2 It would really help me with a project I'm working on.
+
+I'm sure it would.
+
+=head2 Do you know when it might get added?
+
+I have no idea if or when such a thing will ever get done.  I can
+guarantee that as soon as there's anything close to JavaScript support
+I will let everyone know.
+
+=head2 Maybe I'll ask around and see if anyone else knows of a solution.
+
+If you must, but I doubt that anyone's written JavaScript support for
+Mechanize and neglected to tell me about it.
+
+=head2 So what can I do?
+
+Since Javascript is completely visible to the client, it cannot be used
+to prevent a scraper from following links. But it can make life difficult,
+and until someone writes a Javascript interpreter for Perl or a Mechanize
+clone to control Firefox, there will be no general solution.  But if
+you want to scrape specific pages, then a solution is always possible.
+
+One typical use of Javascript is to perform argument checking before
+posting to the server. The URL you want is probably just buried in the
+Javascript function. Do a regular expression match on
+C<< $mech->content() >>
+to find the link that you want and C<< $mech->get >> it directly (this
+assumes that you know what your are looking for in advance).
+
+In more difficult cases, the Javascript is used for URL mangling to
+satisfy the needs of some middleware. In this case you need to figure
+out what the Javascript is doing (why are these URLs always really
+long?). There is probably some function with one or more arguments which
+calculates the new URL. Step one: using your favorite browser, get the
+before and after URLs and save them to files. Edit each file, converting
+the the argument separators ('?', '&' or ';') into newlines. Now it is
+easy to use diff or comm to find out what Javascript did to the URL.
+Step 2 - find the function call which created the URL - you will need
+to parse and interpret its argument list. Using the Javascript Debugger
+Extension for Firefox may help with the analysis. At this point, it is
+fairly trivial to write your own function which emulates the Javascript
+for the pages you want to process.
+
 =head1 How do I do X?
 
 =head2 Can I do [such-and-such] with WWW::Mechanize?
@@ -235,35 +313,6 @@ through to all the servers. For human users with their slow reaction
 times, this is not a problem, but a Perl script can outrun the server.
 So try adding a sleep(5) between logging in and actually doing anything
 (the optimal delay must be determined experimentally).
-
-=head2 This page uses JavaScript functions in links instead of URLs.  What can I do?
-
-Since Javascript is completely visible to the client, it cannot be used
-to prevent a scraper from following links. But it can make life difficult,
-and until someone writes a Javascript interpreter for Perl or a Mechanize
-clone to control Firefox, there will be no general solution.  But if
-you want to scrape specific pages, then a solution is always possible.
-
-One typical use of Javascript is to perform argument checking before
-posting to the server. The URL you want is probably just buried in the
-Javascript function. Do a regular expression match on
-C<< $mech->content() >>
-to find the link that you want and C<< $mech->get >> it directly (this
-assumes that you know what your are looking for in advance).
-
-In more difficult cases, the Javascript is used for URL mangling to
-satisfy the needs of some middleware. In this case you need to figure
-out what the Javascript is doing (why are these URLs always really
-long?). There is probably some function with one or more arguments which
-calculates the new URL. Step one: using your favorite browser, get the
-before and after URLs and save them to files. Edit each file, converting
-the the argument separators ('?', '&' or ';') into newlines. Now it is
-easy to use diff or comm to find out what Javascript did to the URL.
-Step 2 - find the function call which created the URL - you will need
-to parse and interpret its argument list. Using the Javascript Debugger
-Extension for Firefox may help with the analysis. At this point, it is
-fairly trivial to write your own function which emulates the Javascript
-for the pages you want to process.
 
 =head1 AUTHOR
 
