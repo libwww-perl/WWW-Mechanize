@@ -35,7 +35,7 @@ $mech->submit_form(
     fields => { 'q' => "perl" },
 );
 ok( $mech->success, "Searched for Perl" );
-like( $mech->title, qr/^Google Search: perl/, "Right page title" );
+like( $mech->title, qr/perl - Google Search/, "Right page title" );
 is( scalar @{$mech->{page_stack}}, 1, "POST is in the stack" );
 
 $mech->head( "http://www.google.com/" );
