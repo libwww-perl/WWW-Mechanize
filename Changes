@@ -4,6 +4,9 @@ NEXT
         [DOCUMENTATION]
         * Added lots of new FAQs.  Thanks to Peter Stevens.
 
+        [INTERNALS]
+        * Now requires Test::LongString.  That's not too odious.
+
 1.13_01 Tue Apr 12 14:11:18 CDT 2005
         [ENHANCEMENTS]
         * Now dies if you call submit_form() with a non-existsing
