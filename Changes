@@ -1,11 +1,14 @@
 Revision history for Perl extension WWW::Mechanize
 
-NEXT
+1.14    Tue Aug 30 17:17:40 CDT 2005
         [DOCUMENTATION]
         * Added lots of new FAQs.  Thanks to Peter Stevens.
 
         [INTERNALS]
         * Now requires Test::LongString.  That's not too odious.
+
+        [FIXES]
+        * Tests now pass with the shuffling around that Google did.
 
 1.13_01 Tue Apr 12 14:11:18 CDT 2005
         [ENHANCEMENTS]
