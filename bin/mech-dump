@@ -85,3 +85,12 @@ sub dump_forms {
     }
 }
 
+=head1 TODO
+
+=over 4
+
+=item * Options for C<--user>, C<--pass> and C<--proxy>.
+
+=back
+
+=cut

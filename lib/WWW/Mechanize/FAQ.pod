@@ -117,6 +117,8 @@ Use the mech-dump utility, optionaly installed with Mechanize.
 
 =head2 How do I get Mech to handle authentication?
 
+    use MIME::Base64;
+
     my $agent = WWW::Mechanize->new();
     my @args = (
         Authorization => "Basic " .
