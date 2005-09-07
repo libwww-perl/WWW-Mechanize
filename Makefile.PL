@@ -58,6 +58,7 @@ my $parms = {
         'FindBin'           => 0,
         'HTML::Form'        => 1.038,
         'HTML::HeadParser'  => 0,
+        'HTML::Parser'      => 3.33,
         'HTML::TokeParser'  => 2.28,
         'HTTP::Daemon'      => 0,
         'HTTP::Request'     => 1.30,
@@ -98,7 +99,7 @@ EOT
 }
 
 my @missing;
-my @nice = qw( Test::Pod Test::Memory::Cycle Test::Warn );
+my @nice = qw( Test::Pod Test::Memory::Cycle Test::Warn Test::Taint );
 for my $nice ( @nice ) {
     eval "require $nice";
     push( @missing, $nice ) if $@;
