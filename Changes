@@ -1,11 +1,11 @@
 Revision history for Perl extension WWW::Mechanize
 
-1.15_01
+1.16    Fri Oct 28 17:34:20 CDT 2005
         [ENHANCEMENTS]
-        * Images and links are extracted from the HTML only when they're
-          actually needed.  This will be a speedup for pages where you're
-          only following links, and no longer parse the image links from
-          the page for nothing.
+        * Sped up Mech significantly (~20% in some cases).  Images and
+          links are extracted from the HTML, and objects are created,
+          only when they're actually needed.  This will be a speedup for
+          pages where you're only following links, or vice versa.
 
         [THINGS THAT MAY BREAK YOUR CODE]
         * If you've been relying on the $mech->{images} and $mech->{links}
