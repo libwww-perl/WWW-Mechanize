@@ -6,7 +6,9 @@ use Test::More tests=>11;
 
 use constant START => 'http://www.google.com/intl/en/';
 
-use_ok( 'WWW::Mechanize' );
+BEGIN {
+    use_ok( 'WWW::Mechanize' );
+}
 
 my $agent = WWW::Mechanize->new;
 isa_ok( $agent, 'WWW::Mechanize', 'Created object' );

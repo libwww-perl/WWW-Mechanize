@@ -4,7 +4,9 @@ use warnings;
 use strict;
 use Test::More tests=>8;
 
-use_ok( 'WWW::Mechanize' );
+BEGIN {
+    use_ok( 'WWW::Mechanize' );
+}
 
 my $mech = WWW::Mechanize->new();
 isa_ok( $mech, 'WWW::Mechanize' );
