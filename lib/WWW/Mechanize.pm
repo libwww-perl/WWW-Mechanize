@@ -6,11 +6,11 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 =head1 VERSION
 
-Version 1.14
+Version 1.15_01
 
 =cut
 
-our $VERSION = "1.14";
+our $VERSION = "1.15_01";
 
 =head1 SYNOPSIS
 
@@ -810,6 +810,9 @@ images.  In scalar context, returns an array reference of all images.
 
 sub images {
     my $self = shift ;
+
+    $self->_extract_images() unless $self->{_extracted_images};
+
     return @{$self->{images}} if wantarray;
     return $self->{images};
 }
@@ -1724,7 +1727,7 @@ sub update_html {
     }
     $self->{form}  = $self->{forms}->[0];
     $self->_extract_links();
-    $self->_extract_images();
+    $self->{_extracted_images} = 0;
 
     return;
 }
@@ -1957,6 +1960,8 @@ sub _extract_images {
         my $image = $self->_image_from_token( $token, $parser );
         push( @{$self->{images}}, $image ) if $image;
     } # while
+
+    $self->{_extracted_images} = 1;
 
     return;
 }
