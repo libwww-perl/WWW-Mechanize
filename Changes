@@ -25,7 +25,7 @@ Revision history for Perl extension WWW::Mechanize
 
 1.13_01 Tue Apr 12 14:11:18 CDT 2005
         [ENHANCEMENTS]
-        * Now dies if you call submit_form() with a non-existsing
+        * Now dies if you call submit_form() with a non-existing
           form_number or form_name.  Before, it would just warn.
 
         [DOCUMENTATION]
