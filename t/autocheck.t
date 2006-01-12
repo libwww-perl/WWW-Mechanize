@@ -4,7 +4,7 @@ use warnings;
 use strict;
 use Test::More;
 
-use constant NONEXISTENT => "http://sdflkjsdflkjs34.xx-nonexistent";
+use constant NONEXISTENT => "http://blahblablah.xx-nonexistent.";
 
 BEGIN {
     eval "use Test::Exception";

@@ -16,7 +16,7 @@ ok( $mech->success, 'Fetched OK' ) or die "Can't even get Google";
 my $first_base = $mech->base;
 my $title = $mech->title;
 
-$mech->follow_link( n=>2 );
+$mech->follow_link( n=>2, url_regex => qr(http://) );
 ok( $mech->success, 'Followed OK' );
 
 $mech->back();

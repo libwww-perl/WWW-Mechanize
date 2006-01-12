@@ -1,5 +1,10 @@
 Revision history for Perl extension WWW::Mechanize
 
+NEXT
+        [FIXES]
+        * Adjustments to the test files so that DNS servers won't go
+          running looking for subdomains.  Thanks to Pete Krawczyk.
+
 1.16    Fri Oct 28 17:34:20 CDT 2005
         [ENHANCEMENTS]
         * Sped up Mech significantly (~20% in some cases).  Images and

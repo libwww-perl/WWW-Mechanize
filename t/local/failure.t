@@ -34,7 +34,7 @@ GOOD_PAGE: {
 }
 
 BAD_PAGE: {
-    my $badurl = "http://sdlfkjsdlfjks.blofgorongotron.xx-only-testing";
+    my $badurl = "http://blahblahblah.xx-only-testing.";
     $mech->get( $badurl );
 
     ok( !$mech->success, 'Failed the fetch' );
