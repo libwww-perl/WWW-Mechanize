@@ -2,8 +2,15 @@ Revision history for Perl extension WWW::Mechanize
 
 NEXT
         [FIXES]
-        * Adjustments to the test files so that DNS servers won't go
-          running looking for subdomains.  Thanks to Pete Krawczyk.
+        * Fixed some failures in tests.  Non-existent URLs now have a
+          "." postpended to them, so if someone's got a search domain
+          with a wildcard (i.e. ignore.us) it'll ignore that.  Also,
+          Google's second link is now a https:// link, which some Mechs
+          can't handle.  Added a 'url_regex' which now makes it look at
+          the second non-https link.  Thanks to Pete Krawczyk.
+
+        * Makefile.PL lied when it referred to the --skiplive switch,
+          which is really the --nolive switch.
 
 1.16    Fri Oct 28 17:34:20 CDT 2005
         [ENHANCEMENTS]
