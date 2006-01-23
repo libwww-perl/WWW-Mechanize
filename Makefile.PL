@@ -73,7 +73,7 @@ my $parms = {
         'URI::file'         => 0,
     },
     test            => { TESTS => join( " ", @tests ) },
-    clean           => { FILES => join( " ", FLAG_SKIPMECHDUMP, 'WWW-Mechanize-0*' ) },
+    clean           => { FILES => join( " ", FLAG_SKIPMECHDUMP, 'WWW-Mechanize-*' ) },
 };
 
 if ( prompt( "Do you want to install the mech-dump utility?", "y" ) =~ /^y/i ) {
