@@ -1,5 +1,10 @@
 Revision history for Perl extension WWW::Mechanize
 
+NEXT
+        [TESTS]
+        * The tests that do tests against Google are now optional.
+
+
 1.17_01 Thu Jan 12 14:50:07 CST 2006
         [FIXES]
         * Fixed some failures in tests.  Non-existent URLs now have a

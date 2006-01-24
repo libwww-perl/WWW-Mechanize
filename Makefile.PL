@@ -11,36 +11,7 @@ my $skiplive = grep /--nolive/i, @ARGV;
 my $skiplocal = grep /--nolocal/i, @ARGV;
 
 if ( !$skiplive ) {
-    require IO::Socket;
-    my $s = IO::Socket::INET->new(
-        PeerAddr => "www.google.com:80",
-        Timeout  => 10,
-    );
-    if ($s) {
-        close($s);
-        $skiplive = 0;
-
-        print <<EOT;
-
-Part of WWW::Mechanize's test suite is run live tests against Google.
-Since it looks like you're connected to the Internet, these test will
-be enabled.  If you want to disable these tests, re-run Makefile.PL with
-the --nolive switch.
-
-EOT
-    } else {
-        print <<EOT;
-
-    It seems that you are not directly connected to the Internet.  Some
-    of the WWW::Mechanize tests interact with websites such as Google,
-    in addition to its own internal tests.
-
-EOT
-
-        if ( prompt("Do you want to skip these tests?", "y") =~ /^y/i ) {
-            $skiplive = 1;
-        }
-    } # failed connect
+    $skiplive = get_skiplive();
 }
 
 my @tests = glob File::Spec->catfile( 't', '*.t' );
@@ -83,7 +54,8 @@ if ( prompt( "Do you want to install the mech-dump utility?", "y" ) =~ /^y/i ) {
 
     local @ARGV = FLAG_SKIPMECHDUMP;
     rm_f();
-} else {
+}
+else {
     local @ARGV = FLAG_SKIPMECHDUMP;
     touch();
 }
@@ -118,3 +90,46 @@ EOT
 }
 
 WriteMakefile( %$parms );
+
+
+sub get_skiplive {
+    require IO::Socket;
+    my $s = IO::Socket::INET->new(
+        PeerAddr => "www.google.com:80",
+        Timeout  => 10,
+    );
+    if ($s) {
+        close($s);
+
+        print <<EOT;
+
+Part of WWW::Mechanize's test suite is run live tests against Google.
+These tests are a good way to make sure that Mechanize is ready to run
+in your environment, but they can also cause warnings if test sites have
+changed since the last update of Mechanize.  Skipping them won't hurt,
+but it might ignore problems.
+
+EOT
+    }
+    else {
+        print <<EOT;
+
+It seems that you are not directly connected to the Internet.  Some
+of the WWW::Mechanize tests interact with websites such as Google,
+in addition to its own internal tests.
+
+EOT
+
+    } # failed connect
+    my $dolive = (prompt("Do you want to enable these tests?", "n") =~ /^n/i);
+
+    print <<EOT;
+
+Note that you can also skip tests with the --nolive switch when you
+run Makefile.PL.
+
+EOT
+
+    return $dolive;
+}
+

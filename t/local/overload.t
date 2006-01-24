@@ -65,7 +65,7 @@ local *Carp::carp = sub {$carpmsg = shift};
 my $mech = WWW::Mechanize->new();
 isa_ok( $mech, 'WWW::Mechanize' );
 
-$mech->get ($server->url);
+$mech->get( $server->url );
 like($carpmsg, qr/bad.*select/i, "Standard mech chokes on bogus HTML");
 
 # If at first you don't succeed, try with a shorter bungee...
@@ -77,7 +77,7 @@ my $response = $mech->get( $server->url );
 isa_ok( $response, 'HTTP::Response', 'Response I got back' );
 ok( $response->is_success, 'Got URL' ) or die "Can't even fetch local url";
 ok( $mech->is_html, "Local page is HTML" );
-ok(! $carpmsg, "No warnings this time");
+ok( !$carpmsg, "No warnings this time" );
 
 my @forms = $mech->forms;
 is( scalar @forms, 1, "One form" );
