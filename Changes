@@ -2,7 +2,7 @@ Revision history for Perl extension WWW::Mechanize
 
 NEXT
         [TESTS]
-        * Makefile.PL now takes three new parms:
+        * Makefile.PL now takes four new parms:
             * --live/nolive turns on/off the live tests
             * --local/nolocal turns on/off the local tests
             * --mech-dump/nomech-dump installs/doesn't the mech-dump program
