@@ -2,21 +2,34 @@ require 5.6.1;
 use ExtUtils::MakeMaker qw( WriteMakefile prompt );
 use ExtUtils::Command qw( touch rm_f );
 use File::Spec;
+use Getopt::Long;
 use strict;
 
 use constant FLAG_SKIPMECHDUMP => File::Spec->catfile( "t", "SKIP-MECH-DUMP" );
 
-# Much logic stolen fromm libwww-perl's Makefile.PL
-my $skiplive = grep /--nolive/i, @ARGV;
-my $skiplocal = grep /--nolocal/i, @ARGV;
 
-if ( !$skiplive ) {
-    $skiplive = get_skiplive();
+GetOptions(
+    'live!'         => \my $live,
+    'local!'        => \my $local,
+    'mech-dump!'    => \my $mechdump,
+    'all'           => \my $all,
+);
+
+if ( $all ) {
+    $live = $local = $mechdump = 1;
+}
+else {
+    if ( not defined $live ) {
+        $live = get_live();
+    }
+    if ( not defined $local ) {
+        $local = 1;
+    }
 }
 
 my @tests = glob File::Spec->catfile( 't', '*.t' );
-push( @tests, glob File::Spec->catfile( 't', 'local', '*.t' ) ) unless $skiplocal;
-push( @tests, glob File::Spec->catfile( 't', 'live', '*.t' ) ) unless $skiplive;
+push( @tests, glob File::Spec->catfile( 't', 'local', '*.t' ) ) if $local;
+push( @tests, glob File::Spec->catfile( 't', 'live', '*.t' ) ) if $live;
 
 my $parms = {
     'NAME'          => 'WWW::Mechanize',
@@ -47,7 +60,17 @@ my $parms = {
     clean           => { FILES => join( " ", FLAG_SKIPMECHDUMP, 'WWW-Mechanize-*' ) },
 };
 
-if ( prompt( "Do you want to install the mech-dump utility?", "y" ) =~ /^y/i ) {
+if ( not defined $mechdump ) {
+    $mechdump = (prompt( "Do you want to install the mech-dump utility?", "y" ) =~ /^y/i );
+    print <<EOT;
+
+Note that you can skip this question with --mech-dump or --nomech-dump on the
+command line when you run Makefile.PL.
+
+EOT
+}
+
+if ( $mechdump ) {
     $parms->{EXE_FILES} = [ 'bin/mech-dump' ];
     $parms->{PREREQ_PM}->{'Getopt::Long'} = 0;
     $parms->{PREREQ_PM}->{'Pod::Usage'} = 0;
@@ -92,7 +115,7 @@ EOT
 WriteMakefile( %$parms );
 
 
-sub get_skiplive {
+sub get_live {
     require IO::Socket;
     my $s = IO::Socket::INET->new(
         PeerAddr => "www.google.com:80",
@@ -114,19 +137,20 @@ EOT
     else {
         print <<EOT;
 
-It seems that you are not directly connected to the Internet.  Some
-of the WWW::Mechanize tests interact with websites such as Google,
-in addition to its own internal tests.
+It seems that you are not directly connected to the Internet.  Some of the
+WWW::Mechanize tests interact with websites such as Google, in addition
+to its own internal tests.  If you are not connected to the Internet,
+these tests will probably fail.
 
 EOT
 
     } # failed connect
-    my $dolive = (prompt("Do you want to enable these tests?", "n") =~ /^n/i);
+    my $dolive = (prompt("Do you want to enable these live tests?", "n") =~ /^n/i);
 
     print <<EOT;
 
-Note that you can also skip tests with the --nolive switch when you
-run Makefile.PL.
+Note that you can skip this question with --live or --nolive on the
+command line when you run Makefile.PL.
 
 EOT
 

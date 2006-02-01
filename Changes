@@ -2,8 +2,11 @@ Revision history for Perl extension WWW::Mechanize
 
 NEXT
         [TESTS]
-        * The tests that do tests against Google are now optional.
-
+        * Makefile.PL now takes three new parms:
+            * --live/nolive turns on/off the live tests
+            * --local/nolocal turns on/off the local tests
+            * --mech-dump/nomech-dump installs/doesn't the mech-dump program
+            * --all turns on all tests and installs mech-dump
 
 1.17_01 Thu Jan 12 14:50:07 CST 2006
         [FIXES]
