@@ -1,3 +1,5 @@
+#!/usr/bin/perl -w
+
 use warnings;
 use strict;
 use lib 't/local';
@@ -50,8 +52,8 @@ do {
         my $self = shift;
         my $html = shift;
 
-        $html =~ s[Broken][Fixed]isg;
-        $html =~ s[</option>.{0,3}</td>][</option></select></td>]isg;
+        $html =~ s[Broken][Fixed]isg or die "Couldn't replace";
+        $html =~ s[</option>.{0,3}</td>][</option></select></td>]isg or die "Couldn't replace";
 
         $self->WWW::Mechanize::update_html( $html );
     }
