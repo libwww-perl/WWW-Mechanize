@@ -1,12 +1,8 @@
 require 5.6.1;
 use ExtUtils::MakeMaker qw( WriteMakefile prompt );
-use ExtUtils::Command qw( touch rm_f );
 use File::Spec;
 use Getopt::Long;
 use strict;
-
-use constant FLAG_SKIPMECHDUMP => File::Spec->catfile( "t", "SKIP-MECH-DUMP" );
-
 
 GetOptions(
     'live!'         => \my $live,
@@ -28,8 +24,9 @@ else {
 }
 
 my @tests = glob File::Spec->catfile( 't', '*.t' );
-push( @tests, glob File::Spec->catfile( 't', 'local', '*.t' ) ) if $local;
 push( @tests, glob File::Spec->catfile( 't', 'live', '*.t' ) ) if $live;
+push( @tests, glob File::Spec->catfile( 't', 'local', '*.t' ) ) if $local;
+push( @tests, glob File::Spec->catfile( 't', 'mech-dump', '*.t' ) ) if $mechdump;
 
 my $parms = {
     'NAME'          => 'WWW::Mechanize',
@@ -57,7 +54,7 @@ my $parms = {
         'URI::file'         => 0,
     },
     test            => { TESTS => join( " ", @tests ) },
-    clean           => { FILES => join( " ", FLAG_SKIPMECHDUMP, 'WWW-Mechanize-*' ) },
+    clean           => { FILES => 'WWW-Mechanize-*' },
 };
 
 if ( not defined $mechdump ) {
@@ -74,23 +71,18 @@ if ( $mechdump ) {
     $parms->{EXE_FILES} = [ 'bin/mech-dump' ];
     $parms->{PREREQ_PM}->{'Getopt::Long'} = 0;
     $parms->{PREREQ_PM}->{'Pod::Usage'} = 0;
-
-    local @ARGV = FLAG_SKIPMECHDUMP;
-    rm_f();
-}
-else {
-    local @ARGV = FLAG_SKIPMECHDUMP;
-    touch();
 }
 
 eval { require LWP; };
-if ($@ or ! LWP::Protocol::implementor('https') ) {
-    print <<EOT;
+if (!$@) {
+    if ( ! LWP::Protocol::implementor('https') ) {
+        print <<EOT;
 
 It looks like you don't have SSL capability (like IO::Socket::SSL) installed. 
 You will not be able to process https:// URLs correctly.
 
 EOT
+    }
 }
 
 my @missing;
@@ -145,7 +137,7 @@ these tests will probably fail.
 EOT
 
     } # failed connect
-    my $dolive = (prompt("Do you want to enable these live tests?", "n") =~ /^n/i);
+    my $dolive = (prompt("Do you want to enable these live tests?", "n") =~ /^y/i);
 
     print <<EOT;
 

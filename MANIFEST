@@ -37,7 +37,6 @@ t/image-parse.t
 t/link-base.t
 t/link-relative.t
 t/link.t
-t/mech-dump.t
 t/new.t
 t/pod-coverage.t
 t/pod.t
@@ -76,3 +75,5 @@ t/local/referer-server
 t/local/referer.t
 t/local/reload.t
 t/local/submit.t
+
+t/mech-dump/mech-dump.t
