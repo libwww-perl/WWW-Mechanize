@@ -1,5 +1,10 @@
 Revision history for Perl extension WWW::Mechanize
 
+NEXT
+
+        [DOCUMENTATION]
+        * Fixed a misleading parm in the constructor.
+
 1.18    Thu Feb  2 00:11:26 CST 2006
         [TESTS]
         * Makefile.PL now takes four new parms:

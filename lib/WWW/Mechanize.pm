@@ -143,7 +143,7 @@ Checks each request made to see if it was successful.  This saves you
 the trouble of manually checking yourself.  Any errors found are errors,
 not warnings.  Default is off.
 
-=item * C<< onwarn => \&func() >>
+=item * C<< onwarn => \&func >>
 
 Reference to a C<warn>-compatible function, such as C<< L<Carp>::carp >>,
 that is called when a warning needs to be shown.
@@ -154,7 +154,7 @@ it's probably better to use the C<quiet> method to control that behavior.
 If this value is not passed, Mech uses C<Carp::carp> if L<Carp> is
 installed, or C<CORE::warn> if not.
 
-=item * C<< onerror => \&func() >>
+=item * C<< onerror => \&func >>
 
 Reference to a C<die>-compatible function, such as C<< L<Carp>::croak >>,
 that is called when there's a fatal error.
