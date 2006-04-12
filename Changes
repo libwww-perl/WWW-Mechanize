@@ -1,6 +1,8 @@
 Revision history for Perl extension WWW::Mechanize
 
 NEXT
+        [INTERNALS]
+        * Various little cleanup things from Perl::Critic.
 
         [DOCUMENTATION]
         * Fixed a misleading parm in the constructor.

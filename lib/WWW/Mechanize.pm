@@ -725,16 +725,16 @@ sub _match_any_link_parms {
     # No conditions, anything matches
     return 1 unless keys %$p;
 
-    return if defined $p->{url}           and !($link->url eq $p->{url} );
-    return if defined $p->{url_regex}     and !($link->url =~ $p->{url_regex} );
-    return if defined $p->{url_abs}       and !($link->url_abs eq $p->{url_abs} );
-    return if defined $p->{url_abs_regex} and !($link->url_abs =~ $p->{url_abs_regex} );
-    return if defined $p->{text}          and !(defined($link->text) and $link->text eq $p->{text} );
-    return if defined $p->{text_regex}    and !(defined($link->text) and $link->text =~ $p->{text_regex} );
-    return if defined $p->{name}          and !(defined($link->name) and $link->name eq $p->{name} );
-    return if defined $p->{name_regex}    and !(defined($link->name) and $link->name =~ $p->{name_regex} );
-    return if defined $p->{tag}           and !($link->tag and $link->tag eq $p->{tag} );
-    return if defined $p->{tag_regex}     and !($link->tag and $link->tag =~ $p->{tag_regex} );
+    return if defined $p->{url}           && !($link->url eq $p->{url} );
+    return if defined $p->{url_regex}     && !($link->url =~ $p->{url_regex} );
+    return if defined $p->{url_abs}       && !($link->url_abs eq $p->{url_abs} );
+    return if defined $p->{url_abs_regex} && !($link->url_abs =~ $p->{url_abs_regex} );
+    return if defined $p->{text}          && !(defined($link->text) && $link->text eq $p->{text} );
+    return if defined $p->{text_regex}    && !(defined($link->text) && $link->text =~ $p->{text_regex} );
+    return if defined $p->{name}          && !(defined($link->name) && $link->name eq $p->{name} );
+    return if defined $p->{name_regex}    && !(defined($link->name) && $link->name =~ $p->{name_regex} );
+    return if defined $p->{tag}           && !($link->tag && $link->tag eq $p->{tag} );
+    return if defined $p->{tag_regex}     && !($link->tag && $link->tag =~ $p->{tag_regex} );
 
     # Success: everything that was defined passed.
     return 1;
@@ -924,14 +924,14 @@ sub _match_any_image_parms {
     # No conditions, anything matches
     return 1 unless keys %$p;
 
-    return if defined $p->{url}           and !($image->url eq $p->{url} );
-    return if defined $p->{url_regex}     and !($image->url =~ $p->{url_regex} );
-    return if defined $p->{url_abs}       and !($image->url_abs eq $p->{url_abs} );
-    return if defined $p->{url_abs_regex} and !($image->url_abs =~ $p->{url_abs_regex} );
-    return if defined $p->{alt}           and !(defined($image->alt) and $image->alt eq $p->{alt} );
-    return if defined $p->{alt_regex}     and !(defined($image->alt) and $image->alt =~ $p->{alt_regex} );
-    return if defined $p->{tag}           and !($image->tag and $image->tag eq $p->{tag} );
-    return if defined $p->{tag_regex}     and !($image->tag and $image->tag =~ $p->{tag_regex} );
+    return if defined $p->{url}           && !($image->url eq $p->{url} );
+    return if defined $p->{url_regex}     && !($image->url =~ $p->{url_regex} );
+    return if defined $p->{url_abs}       && !($image->url_abs eq $p->{url_abs} );
+    return if defined $p->{url_abs_regex} && !($image->url_abs =~ $p->{url_abs_regex} );
+    return if defined $p->{alt}           && !(defined($image->alt) && $image->alt eq $p->{alt} );
+    return if defined $p->{alt_regex}     && !(defined($image->alt) && $image->alt =~ $p->{alt_regex} );
+    return if defined $p->{tag}           && !($image->tag && $image->tag eq $p->{tag} );
+    return if defined $p->{tag_regex}     && !($image->tag && $image->tag =~ $p->{tag_regex} );
 
     # Success: everything that was defined passed.
     return 1;
@@ -2159,6 +2159,8 @@ sub _die {
     &Carp::croak; # pass thru
 }
 
+1; # End of module
+
 __END__
 
 =head1 WWW::MECHANIZE'S SUBVERSION REPOSITORY
@@ -2360,5 +2362,3 @@ free software; you can redistribute it and/or modify it under the same
 terms as Perl itself.
 
 =cut
-
-1;
