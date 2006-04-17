@@ -2,6 +2,7 @@ package WWW::Mechanize::Image;
 # vi:et:sw=4 ts=4
 
 use strict;
+use warnings;
 
 =head1 NAME
 

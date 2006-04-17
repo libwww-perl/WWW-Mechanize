@@ -2,6 +2,7 @@ package WWW::Mechanize::Link;
 # vi:et:sw=4 ts=4
 
 use strict;
+use warnings;
 
 =head1 NAME
 
