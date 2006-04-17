@@ -10,6 +10,7 @@ BEGIN {
     use_ok( 'WWW::Mechanize' );
 }
 
+our $server;
 my $agent = WWW::Mechanize->new();
 isa_ok( $agent, "WWW::Mechanize" );
 
@@ -26,9 +27,9 @@ SKIP: {
         $command = qq'mcr $^X t/referer-server';
     }
 
-    open SERVER, "$command |" or die "Couldn't spawn fake server: $!";
+    open $server, "$command |" or die "Couldn't spawn fake server: $!";
     sleep 1; # give the child some time
-    my $url = <SERVER>;
+    my $url = <$server>;
     chomp $url;
 
     $agent->get( $url );
@@ -68,5 +69,5 @@ SKIP: {
 }
 
 END {
-    close SERVER;
+    close $server if $server;
 };

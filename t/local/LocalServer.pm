@@ -42,8 +42,8 @@ sub spawn {
   my $self = { %args };
   bless $self,$class;
 
-  local $ENV{TEST_HTTP_VERBOSE} = 1
-    if (delete $args{debug});
+  local $ENV{TEST_HTTP_VERBOSE};
+  $ENV{TEST_HTTP_VERBOSE} = 1 if delete $args{debug};
 
   $self->{delete} = [];
   if (my $html = delete $args{html}) {

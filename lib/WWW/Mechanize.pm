@@ -1018,7 +1018,7 @@ sub form_name {
     }
     else {
         $self->warn( qq{ There is no form named "$form"} );
-        return undef;
+        return;
     }
 }
 

@@ -7,7 +7,7 @@ use URI::file;
 BEGIN { delete @ENV{ qw( http_proxy HTTP_PROXY PATH IFS CDPATH ENV BASH_ENV) }; }
 
 BEGIN {
-    eval "use Test::Warn";
+    eval  { use Test::Warn };
     plan skip_all => "Test::Warn required to test $0" if $@;
     plan tests => 19;
 }

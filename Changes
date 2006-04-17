@@ -7,6 +7,9 @@ NEXT
         [DOCUMENTATION]
         * Fixed a misleading parm in the constructor.
 
+        [INTERNALS]
+        * Made lots of little cleanups based on Perl::Critic
+
 1.18    Thu Feb  2 00:11:26 CST 2006
         [TESTS]
         * Makefile.PL now takes four new parms:
