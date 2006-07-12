@@ -424,7 +424,10 @@ HTTP headers.
 
 =cut
 
-sub uri {           my $self = shift; return $self->{uri}; }
+sub uri {      
+    my $self = shift; 
+    return $self->response->request->uri->as_string; 
+}
 sub res {           my $self = shift; return $self->{res}; }
 sub response {      my $self = shift; return $self->{res}; }
 sub status {        my $self = shift; return $self->{status}; }
