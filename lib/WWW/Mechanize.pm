@@ -1631,6 +1631,21 @@ sub save_content {
 
 =head1 OVERRIDDEN LWP::UserAgent METHODS
 
+=head2 $mech->clone()
+
+Clone the mech object. We override here to be sure 
+the cookie jar gets copied over
+
+=cut 
+
+sub clone {
+    my $self = shift;
+    my $clone =  $self->SUPER::clone();
+    $clone->{cookie_jar} = $self->cookie_jar;
+    return $clone;
+}
+
+
 =head2 $mech->redirect_ok()
 
 An overloaded version of C<redirect_ok()> in L<LWP::UserAgent>.
@@ -2081,8 +2096,6 @@ sub _push_page_stack {
         $self->{page_stack} = [];
 
         my $clone = $self->clone;
-        # Huh, LWP::UserAgent->clone() ditches cookie_jar? Copy it over now.
-        $clone->{cookie_jar} = $self->cookie_jar;
         push( @$save_stack, $clone );
 
         if ( $self->stack_depth > 0 ) {

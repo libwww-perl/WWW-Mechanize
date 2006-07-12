@@ -1,6 +1,12 @@
 Revision history for Perl extension WWW::Mechanize
 
 NEXT
+        [BUG FIXES] 
+        * The behavior of clone() now copies over the cookie jar,
+          which is probably what you expected it did in the first place.  This
+          fixes bug RT##13541 filed against Test::WWW::Mechanize, which was using
+          clone() internally. (Mark Stosberg)
+
         [DOCUMENTATION]
         * Fixed a misleading parm in the constructor.
 
