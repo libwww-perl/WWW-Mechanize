@@ -4,7 +4,7 @@ use FindBin;
 
 BEGIN { delete @ENV{ qw( http_proxy HTTP_PROXY ) }; }
 
-use Test::More tests => 18;
+use Test::More tests => 13;
 
 BEGIN {
     use_ok( 'WWW::Mechanize' );
@@ -35,30 +35,25 @@ SKIP: {
     $agent->get( $url );
     is($agent->status, 200, "Got first page") or diag $agent->res->message;
     is($agent->content, "Referer: ''", "First page gets sent with empty referrer");
-    is( ref $agent->uri, "", "URI shouldn't be an object #1" );
 
     $agent->get( $url );
     is($agent->status, 200, "Got second page") or diag $agent->res->message;
     is($agent->content, "Referer: '$url'", "Referer got sent for absolute url");
-    is( ref $agent->uri, "", "URI shouldn't be an object #2" );
 
     $agent->get( '.' );
     is($agent->status, 200, "Got third page") or diag $agent->res->message;
     is($agent->content, "Referer: '$url'", "Referer got sent for relative url");
-    is( ref $agent->uri, "", "URI shouldn't be an object #3" );
 
     $agent->add_header( Referer => 'x' );
     $agent->get( $url );
     is($agent->status, 200, "Got fourth page") or diag $agent->res->message;
     is($agent->content, "Referer: 'x'", "Referer can be set to empty again");
-    is( ref $agent->uri, "", "URI shouldn't be an object #4" );
 
     my $ref = "This is not the referer you are looking for *jedi gesture*";
     $agent->add_header( Referer => $ref );
     $agent->get( $url );
     is($agent->status, 200, "Got fourth page") or diag $agent->res->message;
     is($agent->content, "Referer: '$ref'", "Custom referer can be set");
-    is( ref $agent->uri, "", "URI shouldn't be an object #5" );
 };
 
 SKIP: {

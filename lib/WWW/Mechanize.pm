@@ -379,7 +379,8 @@ sub success {
 
 =head2 $mech->uri()
 
-Returns the current URI.
+Returns the current URI as a L<URI> object. This object stringifies
+to the URI itself.
 
 =head2 $mech->response() / $mech->res()
 
@@ -426,7 +427,7 @@ HTTP headers.
 
 sub uri {      
     my $self = shift; 
-    return $self->response->request->uri->as_string; 
+    return $self->response->request->uri;
 }
 sub res {           my $self = shift; return $self->{res}; }
 sub response {      my $self = shift; return $self->{res}; }
@@ -963,7 +964,7 @@ sub find_all_images {
 
 =head2 $mech->forms
 
-Lists all the forms on the current page.  Each form is an HTML::Form
+Lists all the forms on the current page.  Each form is an L<HTML::Form>
 object.  In list context, returns a list of all forms.  In scalar
 context, returns an array reference of all forms.
 
@@ -1781,7 +1782,7 @@ sub follow {
             $thislink = $links[$link];
         }
         else {
-            $self->warn( "Link number $link is greater than maximum link $#links on this page ($self->{uri})" );
+            $self->warn( "Link number $link is greater than maximum link $#links on this page (".$self->uri.")" );
             return;
         }
     }
@@ -1839,12 +1840,10 @@ sub _update_page {
     my ($self, $request, $res) = @_;
 
     $self->{req} = $request;
-    $self->{redirected_uri} = $request->uri->as_string;
+    $self->{redirected_uri} = $request->uri;
 
     $self->{res} = $res;
 
-    # These internal hash elements should be dropped in favor of
-    # the accessors soon. -- 1/19/03
     $self->{status}  = $res->code;
     $self->{base}    = $res->base;
     $self->{ct}      = $res->content_type || "";

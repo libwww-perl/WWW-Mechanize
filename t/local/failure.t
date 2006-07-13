@@ -1,6 +1,6 @@
 use warnings;
 use strict;
-use Test::More tests => 17;
+use Test::More tests => 16;
 
 use lib 't/local';
 use LocalServer;
@@ -22,7 +22,6 @@ GOOD_PAGE: {
     isa_ok( $response, 'HTTP::Response' );
     ok( $response->is_success, "Success" );
     ok( $mech->success, "Get webpage" );
-    is( ref $mech->uri, "", "URI should be a plain scalar, not an object");
     ok( $mech->is_html, "It's HTML" );
     is( $mech->title, "WWW::Mechanize::Shell test page", "Correct title" );
 

@@ -4,8 +4,13 @@ NEXT
         [BUG FIXES] 
         * The behavior of clone() now copies over the cookie jar,
           which is probably what you expected it did in the first place.  This
-          fixes bug RT##13541 filed against Test::WWW::Mechanize, which was using
+          fixes bug RT#13541 filed against Test::WWW::Mechanize, which was using
           clone() internally. (Mark Stosberg)
+
+        * The correct URL is returned after redirecting. This a regression from 1.04
+          and was reported as RT#9059, RT#12882, and RT#12786.  The documentation 
+          about this has also been clarified that we return A URI object, but that
+          it stringifies to the URI itself. 
 
         [DOCUMENTATION]
         * Fixed a misleading parm in the constructor.

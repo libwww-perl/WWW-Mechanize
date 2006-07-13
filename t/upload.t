@@ -1,7 +1,7 @@
 #!perl -T
 
 use strict;
-use Test::More tests => 6;
+use Test::More tests => 5;
 use URI::file;
 
 BEGIN { delete @ENV{ qw( http_proxy HTTP_PROXY PATH IFS CDPATH ENV BASH_ENV) }; }
@@ -12,7 +12,6 @@ isa_ok( $mech, "WWW::Mechanize" );
 
 my $uri = URI::file->new_abs( "t/upload.html" )->as_string;
 $mech->get( $uri );
-is( ref $mech->uri, "", "URI shouldn't be an object" );
 ok( $mech->success, $uri );
 
 my $form = $mech->form_number(1);

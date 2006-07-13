@@ -1,6 +1,6 @@
 use warnings;
 use strict;
-use Test::More tests => 16;
+use Test::More tests => 15;
 
 use lib 't/local';
 use LocalServer;
@@ -18,7 +18,6 @@ isa_ok( $mech, 'WWW::Mechanize' ) or die;
 $mech->quiet(1);
 $mech->get($server->url);
 ok( $mech->success, "Got a page" ) or die "Can't even get google";
-is( ref $mech->uri, "", "URI shouldn't be an object" );
 is( $mech->uri, $server->url, 'Got page' );
 
 my $form_number_1 = $mech->form_number(1);
