@@ -1255,7 +1255,7 @@ sub set_visible {
 
 =head2 $mech->tick( $name, $value [, $set] )
 
-'Ticks' the first checkbox that has both the name and value assoicated
+'Ticks' the first checkbox that has both the name and value associated
 with it on the current form.  Dies if there is no named check box for
 that value.  Passing in a false value as the third optional argument
 will cause the checkbox to be unticked.
