@@ -653,7 +653,7 @@ more than one tag, as in:
     $mech->find_link( tag_regex => qr/^(a|frame)$/ );
 
 The tags and attributes looked at are defined below, at
-L<$mech->find_link() : link format>.
+L<$mech-E<gt>find_link() : link format>.
 
 =back
 
