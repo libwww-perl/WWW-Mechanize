@@ -1229,6 +1229,7 @@ sub set_visible {
 
     my $num_set = 0;
     for my $value ( @_ ) {
+        # Handle type/value pairs an arrayref
         if ( ref $value eq 'ARRAY' ) {
             my ( $type, $value ) = @$value;
             while ( my $input = shift @inputs ) {
@@ -1240,6 +1241,7 @@ sub set_visible {
                 }
             } # while
         }
+        # by default, it's a value
         else {
             while ( my $input = shift @inputs ) {
                 next if $input->type eq 'hidden';
