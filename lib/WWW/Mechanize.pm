@@ -1072,7 +1072,7 @@ The numbering starts at 1.  This applies to the current form (as set by the
 C<L<form()>> method or defaulting to the first form on the page).
 
 Returns 1 on successfully setting the value. On failure, returns
-undef and calls C<$self->warn()> with an error message.
+undef and calls C<$self-E<gt>warn()> with an error message.
 
 =cut
 
