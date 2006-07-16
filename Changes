@@ -14,6 +14,7 @@ NEXT
 
         [DOCUMENTATION]
         * Fixed a misleading parm in the constructor.
+        * Document the return value of set_visible (RT#6071, MJD, Mark Stosberg)
 
         [INTERNALS]
         * Made lots of little cleanups based on Perl::Critic

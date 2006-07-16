@@ -1219,6 +1219,8 @@ C<OPTION> menu field to "Checking".
 The possible field specifier types are: "text", "password", "hidden",
 "textarea", "file", "image", "submit", "radio", "checkbox" and "option".
 
+C<set_visible> returns the number of values set. 
+
 =cut
 
 sub set_visible {
