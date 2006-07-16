@@ -981,9 +981,14 @@ sub forms {
 
 Selects the I<number>th form on the page as the target for subsequent
 calls to C<L<field()>> and C<L<click()>>.  Also returns the form that was
-selected.  Emits a warning and returns undef if there is no such
-form.  Forms are indexed from 1, so the first form is number 1,
-not zero.
+selected.  
+
+If it is found, the form is returned as an L<HTML::Form> object and set internally  
+for later used with Mech's form methods such as C<L<field()>> and C<L<click()>>.
+
+Emits a warning and returns undef if no form is found. 
+
+The first form is number 1, not zero.
 
 =cut
 
@@ -995,7 +1000,7 @@ sub form_number {
     }
     else {
         $self->warn( "There is no form numbered $form" );
-        return;
+        return undef;
     }
 }
 
@@ -1003,8 +1008,12 @@ sub form_number {
 
 Selects a form by name.  If there is more than one form on the page
 with that name, then the first one is used, and a warning is
-generated.  Also returns the form itself, or undef if it's not
-found.
+generated.  
+
+If it is found, the form is returned as an L<HTML::Form> object and set internally  
+for later used with Mech's form methods such as C<L<field()>> and C<L<click()>>.
+
+Returns undef if no form is found. 
 
 Note that this functionality requires libwww-perl 5.69 or higher.
 
@@ -1022,7 +1031,7 @@ sub form_name {
     }
     else {
         $self->warn( qq{ There is no form named "$form"} );
-        return;
+        return undef;
     }
 }
 
