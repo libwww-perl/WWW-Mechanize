@@ -994,6 +994,8 @@ The first form is number 1, not zero.
 
 sub form_number {
     my ($self, $form) = @_;
+    # XXX Should we die if no $form is defined? Same question for form_name()
+
     if ($self->{forms}->[$form-1]) {
         $self->{form} = $self->{forms}->[$form-1];
         return $self->{form};
@@ -1031,6 +1033,46 @@ sub form_name {
     }
     else {
         $self->warn( qq{ There is no form named "$form"} );
+        return undef;
+    }
+}
+
+=head2 $mech->form_with_fields(@fields)
+
+Selects a form by passing in a list of field names it must contain.  If there
+is more than one form on the page with that matches, then the first one is used,
+and a warning is generated.  
+
+If it is found, the form is returned as an L<HTML::Form> object and set internally  
+for later used with Mech's form methods such as C<L<field()>> and C<L<click()>>.
+
+Returns undef if no form is found. 
+
+Note that this functionality requires libwww-perl 5.69 or higher.
+
+=cut
+
+sub form_with_fields {
+    my ($self, @fields) = @_;
+    die "no fields provided" unless scalar @fields;
+
+    my @matches;
+    FORMS: for my $form (@{ $self->forms }) {
+        my @fields_in_form = $form->param();
+        for my $field (@fields) {
+            next FORMS unless grep { m/^$field$/ } @fields_in_form;
+        }
+        push @matches, $form;
+    }
+
+    if ( @matches ) {
+        if (@matches > 1) {
+            $self->warn( "There are ", scalar @matches, " forms with the named fields.  The first one was used." )
+        }
+        return $self->{form} = $matches[0];
+    }
+    else {
+        $self->warn( qq{There is no form with the requested fields} );
         return undef;
     }
 }
@@ -1466,6 +1508,12 @@ are a list of key/value pairs, all of which are optional.
 
 =over 4
 
+=item * form_with_fields => 1
+
+Selects the first form that contains all fields mentioned in C<fields>.
+This is the easiest form selector to use because you don't need to know
+the form number or name. Of course, you must submit some C<fields>, too. 
+
 =item * form_number => n
 
 Selects the I<n>th form (calls C<L<form_number()>>).  If this parm is not
@@ -1501,23 +1549,37 @@ sub submit_form {
     my( $self, %args ) = @_ ;
 
     for ( keys %args ) {
-        if ( !/^(form_(number|name)|fields|button|x|y)$/ ) {
+        if ( !/^(form_(number|name|with_fields)|fields|button|x|y)$/ ) {
             $self->warn( qq{Unknown submit_form parameter "$_"} );
         }
     }
 
-    if ( my $form_number = $args{'form_number'} ) {
+    my $fields;
+    if ($args{'fields'}) {
+        if (isa($args{'fields'},'HASH')) { 
+            $fields = $args{'fields'};
+        }
+        else {
+            die "fields arg to submit_form must be a hashref";
+        }
+    }
+
+    if ($args{'form_with_fields'}) {
+        $fields || die "must submit some 'fields' with form_with_fields";
+        $self->form_with_fields(keys %$fields) or die;
+    }
+    elsif ( my $form_number = $args{'form_number'} ) {
         $self->form_number( $form_number ) or die;
     }
     elsif ( my $form_name = $args{'form_name'} ) {
         $self->form_name( $form_name ) or die;
     }
-
-    if ( my $fields = $args{'fields'} ) {
-        if ( isa( $fields, 'HASH' ) ) {
-            $self->set_fields( %{$fields} ) ;
-        } # TODO: What if it's not a hash?  We just ignore it silently?
+    else {
+        # No form selector was used. 
+        # Maybe a form was set separately, or we'll default to the first form.
     }
+
+    $self->set_fields( %$fields ) if $fields;
 
     my $response;
     if ( $args{button} ) {
