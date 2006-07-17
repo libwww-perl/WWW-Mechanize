@@ -4,12 +4,12 @@ NEXT
         [ENHANCEMENTS]
         * Add new Do-What-I-Mean submit_form() option. 
             $mech->submit_form(
-                form_with_fields => 1 
-                fields => \%data 
+                with_fields => \%data 
             );
-         That expresses that you want to select the first form contains
-         all fields in \%data. See the docs for form_with_fields() and
-         submit_form() for details. (Mark Stosberg, inspired by RT#6100)
+         That expresses that you want to select the first form contains all
+         fields in \%data, and then submit the data to that form. See the docs
+         for form_with_fields() and submit_form() for details. 
+         (Mark Stosberg, inspired by RT#6100)
 
         [BUG FIXES] 
         * The behavior of clone() now copies over the cookie jar,

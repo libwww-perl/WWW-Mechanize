@@ -37,10 +37,9 @@ ok( $mech->success, "Fetched $uri" ) or die "Can't get test page";
 {
     $mech->get($uri);
     eval { $mech->submit_form( 
-            form_with_fields => 1, 
-            fields           => { '1b' => '', '2a' => '' },
+            with_fields => { '1b' => '', '2a' => '' },
         ); };
-    is($@,'', " submit_form( form_with_fields => 1 ) " );
+    is($@,'', " submit_form( with_fields => \%data ) " );
 }
 
 

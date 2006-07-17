@@ -1508,11 +1508,15 @@ are a list of key/value pairs, all of which are optional.
 
 =over 4
 
-=item * form_with_fields => 1
+=item * with_fields => \%fields
 
-Selects the first form that contains all fields mentioned in C<fields>.
-This is the easiest form selector to use because you don't need to know
-the form number or name. Of course, you must submit some C<fields>, too. 
+Probably all you need for the common case. It combines a smart form selector
+and data setting in one operation. It selects the first form that contains all
+fields mentioned in C<\%fields>.  This is nice because you don't need to know
+the name or number of the form to do this. 
+(calls C<L<form_with_fields> and C<L<set_fields()>>).
+
+If you choose this, the form_number, form_name and fields options will be ignored.
 
 =item * form_number => n
 
@@ -1523,9 +1527,9 @@ specified, the currently-selected form is used.
 
 Selects the form named I<name> (calls C<L<form_name()>>)
 
-=item * fields => fields
+=item * fields => \%fields
 
-Sets the field values from the I<fields> hashref (calls C<L<set_fields()>>)
+Sets the field values from the I<fields> hashref (calls C<L<set_fields()>>).
 
 =item * button => button
 
@@ -1549,23 +1553,27 @@ sub submit_form {
     my( $self, %args ) = @_ ;
 
     for ( keys %args ) {
-        if ( !/^(form_(number|name|with_fields)|fields|button|x|y)$/ ) {
+        if ( !/^(form_(number|name|fields)|(with_)?fields|button|x|y)$/ ) {
+            # XXX Why not die here?  
             $self->warn( qq{Unknown submit_form parameter "$_"} );
         }
     }
 
     my $fields;
-    if ($args{'fields'}) {
-        if (isa($args{'fields'},'HASH')) { 
-            $fields = $args{'fields'};
-        }
-        else {
-            die "fields arg to submit_form must be a hashref";
+    for (qw/with_fields fields/) {
+        if ($args{$_}) {
+            if (isa($args{$_},'HASH')) { 
+                $fields = $args{$_};
+            }
+            else {
+                die "$_ arg to submit_form must be a hashref";
+            }
+            last;
         }
     }
 
-    if ($args{'form_with_fields'}) {
-        $fields || die "must submit some 'fields' with form_with_fields";
+    if ($args{'with_fields'}) {
+        $fields || die "must submit some 'fields' with with_fields";
         $self->form_with_fields(keys %$fields) or die;
     }
     elsif ( my $form_number = $args{'form_number'} ) {
