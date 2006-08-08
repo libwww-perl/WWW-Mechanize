@@ -1514,7 +1514,7 @@ Probably all you need for the common case. It combines a smart form selector
 and data setting in one operation. It selects the first form that contains all
 fields mentioned in C<\%fields>.  This is nice because you don't need to know
 the name or number of the form to do this. 
-(calls C<L<form_with_fields> and C<L<set_fields()>>).
+(calls C<L<form_with_fields>> and C<L<set_fields()>>).
 
 If you choose this, the form_number, form_name and fields options will be ignored.
 
