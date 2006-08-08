@@ -1,6 +1,7 @@
 Revision history for Perl extension WWW::Mechanize
 
-NEXT
+1.19_01 Mon Aug  7 21:01:39 EDT 2006
+
         [ENHANCEMENTS]
         * Add new Do-What-I-Mean submit_form() option. 
             $mech->submit_form(
