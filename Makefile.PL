@@ -3,6 +3,7 @@ use ExtUtils::MakeMaker qw( WriteMakefile prompt );
 use File::Spec;
 use Getopt::Long;
 use strict;
+use warnings;
 
 GetOptions(
     'live!'         => \my $live,
