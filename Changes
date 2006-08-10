@@ -1,5 +1,9 @@
 Revision history for Perl extension WWW::Mechanize
 
+    [INTERNALS]
+    * test suite no longer fails when Test::Warn is missing. 
+      (CPAN testers, Mark Stosberg)
+
 1.19_02 Mon Aug  7 23:57:56 CDT 2006
 
         [ENHANCEMENTS]
