@@ -43,9 +43,10 @@ memory issues on large files.
 
 =head2 Fetch a page with credentials
 
-Mech's C<credentials()> method comes straight from L<LWP::UserAgent>, since
-WWW::Mechanize is a subclass. It takes four arguments: the base, realm,
-user, and password.
+Mech's C<credentials()> method comes in two flavors.  The first one is
+identical to that of L<LWP::UserAgent>, since WWW::Mechanize is a
+subclass. It takes four arguments: the base, realm, user, and
+password.
 
     my $url= 'http://10.11.12.13/password.html';
     my $mech = WWW::Mechanize->new( autocheck => 1 );
@@ -57,14 +58,35 @@ user, and password.
     $mech->get( $url );
     print $mech->content();
 
-"Normal" browsers do this in two steps: they try to fetch the resource
-and get a 401 response that contains the challenge (which has the realm
-information). They ask the user for the name and password, which they
-then use to request the resource again. They save that information for
-future accesses to the same realm. The realm helps the user agent keep
-things straight on the user side, and the server doesn't really care
-about it otherwise. Sometimes you'll need to pull the auth method from
-the challenge, but usually it's just "Basic".
+The second form takes just the username and password. They will be
+passed to all sites and all realms requesting authentication (this is
+done by specializing the L<LWP::UserAgent> C<get_basic_credentials()>
+method). 
+
+  my $url = 'http://10.11.12.13/password.html';
+    my $mech = WWW::Mechanize->new( autocheck => 1 );
+    $mech->credentials( 'admin' => 'password' );
+    $mech->get( $url );
+    print $mech->content();
+
+If you intend to visit multiple sites requiring authentication then
+call C<credentials> again with the new username and password before
+accessing each new site (unless you use the same username and password
+there as before).  This simplified form of C<credentials> will work in
+every case except when you are accessing a dynamically determined site
+that could be any of a number of sites requiring different
+credentials.
+
+"Normal" browsers authenticate in two steps: they try to fetch the
+resource and get a 401 response that contains the challenge (which has
+the realm information). They ask the user for the name and password,
+which they then use to request the resource again. They save that
+information for future accesses to the same realm. The realm helps the
+user agent keep things straight on the user side, and the server
+doesn't really care about it otherwise. Sometimes you'll need to pull
+the auth method from the challenge, but usually it's just "Basic".
+The Mech browser works the same way, by looking for a 401 before
+deciding whether it has credentials it can send back for another try.
 
 If you want to do it in one step (so you don't get the 401 at all),
 you stick the "Authorization" header in the initial request. It

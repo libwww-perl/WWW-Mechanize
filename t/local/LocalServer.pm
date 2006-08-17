@@ -115,6 +115,20 @@ sub url {
   return $url->as_string;
 };
 
+=head2 C<< $server->creds_required >>
+
+This returns a URL for a page that requires HTTP Basic-Auth.  The
+content returned is invariant and irrelevant; this method is for
+testing credential-passing code.  The username is 'luser' and the
+password is 'fnord'.  When these credentials are passed, the returned
+status will be 200, otherwise it will be 401.
+
+=cut
+
+sub creds_required {
+  return $_[0]->{_server_url} . "creds_required";
+}
+
 =head2 C<< $server->stop >>
 
 This stops the server process by requesting a special

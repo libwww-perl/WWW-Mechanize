@@ -6,11 +6,11 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 =head1 VERSION
 
-Version 1.19_02
+Version 1.19_03
 
 =cut
 
-our $VERSION = "1.19_02";
+our $VERSION = "1.19_03";
 
 =head1 SYNOPSIS
 
@@ -1836,6 +1836,42 @@ sub update_html {
 
     return;
 }
+
+=head2 $mech->credentials($username, $password)
+
+Overloaded only for this two-argument form, which specifies the
+credentials to be used for HTTP-Basic authentication for all sites and
+realms until further notice.  The four-argument form will be performed
+by L<LWP::UserAgent> as usual.  This form works by overriding
+C<LWP::UserAgent::get_basic_credentials> to return the given username
+and password in all cases.
+
+=cut
+
+{
+    my $saved_method;
+
+    sub credentials
+    {
+        my $self = shift;
+       no warnings 'redefine';
+
+       if (@_ == 4) {
+           $saved_method
+                and *LWP::UserAgent::get_basic_credentials = $saved_method;
+           return $self->SUPER::credentials(@_);
+       }
+
+       @_ == 2
+            or $self->die( "Invalid # of args for overridden credentials()" );
+
+       my ($username, $password) = @_;
+       $saved_method ||= \&LWP::UserAgent::get_basic_credentials;
+       *LWP::UserAgent::get_basic_credentials
+            = sub { return $username, $password };
+    }
+}
+
 
 =head1 DEPRECATED METHODS
 
