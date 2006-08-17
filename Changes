@@ -4,14 +4,12 @@ Revision history for Perl extension WWW::Mechanize
     * test suite no longer fails when Test::Warn is missing. 
       (CPAN testers, Mark Stosberg)
 
-1.19_03 Mon Aug 14 19:14:23 PDT 2006
-
-        [ENHANCEMENTS]
-        * Added new two-argument form of credentials() method.
-            $mech->credentials($username, $password);
-          That provides simpler visiting of password-protected
-          resources in the vast majority of cases and still
-          allows the other cases to be supported. (Peter Scott)
+    [ENHANCEMENTS]
+    * Added new two-argument form of credentials() method.
+      $mech->credentials($username, $password);
+      That provides simpler visiting of password-protected
+      resources in the vast majority of cases and still
+      allows the other cases to be supported. (Peter Scott)
 
 1.19_02 Mon Aug  7 23:57:56 CDT 2006
 

@@ -1839,12 +1839,10 @@ sub update_html {
 
 =head2 $mech->credentials($username, $password)
 
-Overloaded only for this two-argument form, which specifies the
-credentials to be used for HTTP-Basic authentication for all sites and
-realms until further notice.  The four-argument form will be performed
-by L<LWP::UserAgent> as usual.  This form works by overriding
-C<LWP::UserAgent::get_basic_credentials> to return the given username
-and password in all cases.
+Provide credentials to be used for HTTP Basic authentication for all sites and
+realms until further notice.  
+
+The four argument form described in L<LWP::UserAgent> is still supported.  
 
 =cut
 
