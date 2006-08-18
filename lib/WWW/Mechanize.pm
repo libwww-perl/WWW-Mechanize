@@ -1969,7 +1969,8 @@ sub _update_page {
         $self->{uri} = $self->{redirected_uri};
         $self->{last_uri} = $self->{uri};
     }
-    else {
+
+    if ( $res->is_error ) {
         if ( $self->{autocheck} ) {
             $self->die( "Error ", $request->method, "ing ", $request->uri, ": ", $res->message );
         }
