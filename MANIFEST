@@ -51,15 +51,6 @@ t/upload.t
 t/warnings.t
 t/warn.t
 
-t/live/back.t
-t/live/click.t
-t/live/follow.t
-t/live/follow_link.t
-t/live/form.t
-t/live/get.t
-t/live/reload.t
-t/live/submit.t
-
 t/local/LocalServer.pm
 t/local/back.t
 t/local/click.t
