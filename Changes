@@ -3,6 +3,9 @@ Revision history for Perl extension WWW::Mechanize
     [INTERNALS]
     * test suite no longer fails when Test::Warn is missing. 
       (CPAN testers, Mark Stosberg)
+    * Removed all the testing against live sites. The networking
+      code is not actually in Mech anway, and they were prone to
+      breaking, as the live sites changed. (Mark Stosberg)
 
     [ENHANCEMENTS]
     * Added new two-argument form of credentials() method.
