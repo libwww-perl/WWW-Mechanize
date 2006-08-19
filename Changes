@@ -1,22 +1,24 @@
 Revision history for Perl extension WWW::Mechanize
 
-    [ENHANCEMENTS]
-    * Added new two-argument form of credentials() method.
-      $mech->credentials($username, $password);
-      That provides simpler visiting of password-protected
-      resources in the vast majority of cases and still
-      allows the other cases to be supported. (Peter Scott)
-        
-    [BUG FIXES]
-    * autocheck no longer is triggered when informational
-      responses are returned. (Mark Stosberg)
+1.20
+        [ENHANCEMENTS]
+        * Added new two-argument form of credentials() method.
+          $mech->credentials($username, $password);
+          That provides simpler visiting of password-protected
+          resources in the vast majority of cases and still
+          allows the other cases to be supported. (Peter Scott)
 
-    [INTERNALS]
-    * test suite no longer fails when Test::Warn is missing. 
-      (CPAN testers, Mark Stosberg)
-    * Removed all the testing against live sites. The networking
-      code is not actually in Mech anway, and they were prone to
-      breaking, as the live sites changed. (Mark Stosberg)
+        [BUG FIXES]
+        * autocheck no longer is triggered when informational
+          responses are returned. (Mark Stosberg)
+
+        [INTERNALS]
+        * test suite no longer fails when Test::Warn is missing. 
+          (CPAN testers, Mark Stosberg)
+        * Removed all the testing against live sites. The networking
+          code is not actually in Mech anway, and they were prone to
+          breaking, as the live sites changed. (Mark Stosberg)
+
 
 1.19_02 Mon Aug  7 23:57:56 CDT 2006
 
@@ -32,7 +34,7 @@ Revision history for Perl extension WWW::Mechanize
 
         [BUG FIXES]
         * The behavior of clone() now copies over the cookie jar, which
-        is probably what you expected it did in the first place.
+          is probably what you expected it did in the first place.
           This fixes bug RT#13541 filed against Test::WWW::Mechanize,
           which was using clone() internally. (Mark Stosberg)
 
