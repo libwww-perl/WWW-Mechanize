@@ -1,6 +1,7 @@
 package LocalServer;
 
 # start a fake webserver, fork, and connect to ourselves
+use warnings;
 use strict;
 use Test::More;
 use LWP::Simple;
@@ -78,7 +79,7 @@ sub spawn {
   $self->{_fh} = $server;
 
   my $lhurl = URI::URL->new( $url );
-  $lhurl->host( "localhost" );
+  $lhurl->host( 'localhost' );
   $self->{_server_url} = $lhurl;
 
   diag "Started $lhurl";
@@ -95,7 +96,7 @@ if you need to compare results from two runs.
 =cut
 
 sub port {
-  carp __PACKAGE__ . "::port called without a server" unless $_[0]->{_server_url};
+  carp __PACKAGE__ . '::port called without a server' unless $_[0]->{_server_url};
   $_[0]->{_server_url}->port
 };
 
@@ -126,7 +127,7 @@ status will be 200, otherwise it will be 401.
 =cut
 
 sub creds_required {
-  return $_[0]->{_server_url} . "creds_required";
+  return $_[0]->{_server_url} . 'creds_required';
 }
 
 =head2 C<< $server->stop >>
@@ -137,7 +138,7 @@ url.
 =cut
 
 sub stop {
-  get( $_[0]->{_server_url} . "quit_server" );
+  get( $_[0]->{_server_url} . 'quit_server' );
   undef $_[0]->{_server_url}
 };
 
@@ -155,7 +156,7 @@ sub get_output {
   $self->stop;
   local $/;
   local *LOG;
-  open LOG, "<", $self->{logfile}
+  open LOG, '<', $self->{logfile}
     or die "Couldn't retrieve logfile";
   join "", <LOG>;
 }
