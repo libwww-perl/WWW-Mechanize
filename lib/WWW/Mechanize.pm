@@ -107,6 +107,11 @@ use UNIVERSAL qw( isa );
 
 use base 'LWP::UserAgent';
 
+our $HAS_ZLIB;
+BEGIN {
+    $HAS_ZLIB = eval "use Compress::Zlib (); 1;";
+}
+
 =head1 CONSTRUCTOR AND STARTUP
 
 =head2 new()
@@ -325,6 +330,8 @@ sub get {
             ? URI->new_abs( $uri, $self->base )
             : URI->new( $uri );
 
+    # It appears we are returning a super-class method,
+    # but it in turn calls the request() method here in Mechanize
     return $self->SUPER::get( $uri->as_string, @_ );
 }
 
@@ -1977,11 +1984,17 @@ sub _update_page {
     }
 
     $self->_reset_page;
+
+    # Try to decode the content. Undef will be returned if there's nothing to decompress.
+    # See docs in HTTP::Message for details. Do we need to expose the options there? 
+    my $content = $res->decoded_content; 
+       $content = $res->content if (not defined $content);  
+
     if ($self->is_html) {
-        $self->update_html($res->content);
+        $self->update_html($content);
     }
     else {
-        $self->{content} = $res->content;
+        $self->{content} = $content;
     }
 
     return $res;
@@ -1990,7 +2003,11 @@ sub _update_page {
 
 =head2 $mech->_modify_request( $req )
 
-Modifies the request according to all the internal header mangling.
+Modifies a L<HTTP::Request> before the request is sent out,
+for both GET and POST requests.
+
+We add a C<Referer> header, as well as header to note that we can accept gzip
+encoded content, if L<Compress::Gzip> is installed.
 
 =cut
 
@@ -2000,9 +2017,15 @@ sub _modify_request {
 
     # add correct Accept-Encoding header to restore compliance with
     # http://www.freesoft.org/CIE/RFC/2068/158.htm
-    unless ( $req->header( 'Accept-Encoding' ) ) {
-        # Only allow "identity" for the time being
-        $req->header( 'Accept-Encoding', 'identity' );
+    # http://use.perl.org/~rhesa/journal/25952
+    if (not $req->header( 'Accept-Encoding' ) ) {
+        if ($HAS_ZLIB) {
+            $req->header('Accept-Encoding', 'gzip');
+        }
+        # This means: "please! unencoded content only!"
+        else { 
+            $req->header( 'Accept-Encoding', 'identity' );
+        }
     }
 
     my $last = $self->{last_uri};
