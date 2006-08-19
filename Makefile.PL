@@ -102,5 +102,19 @@ EOT
 
 WriteMakefile( %$parms );
 
+sub MY::postamble {
+    return <<'MAKE_FRAG';
+.PHONY: tags critic
 
+tags:
+	ctags -f tags --recurse --totals \
+		--exclude=blib \
+		--exclude=.svn \
+		--exclude='*~' \
+		--languages=Perl --langmap=Perl:+.t \
 
+critic:
+	perlcritic -1 .
+
+MAKE_FRAG
+}

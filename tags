@@ -1,0 +1,111 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.6	//
+DESTROY	t/local/LocalServer.pm	/^sub DESTROY {$/;"	s
+LocalServer	t/local/LocalServer.pm	/^package LocalServer;$/;"	p
+MY	Makefile.PL	/^sub MY::postamble {$/;"	s
+NONEXISTENT	t/autocheck.t	/^use constant NONEXISTENT => "http:\/\/blahblablah.xx-nonexistent.";$/;"	c
+URI	lib/WWW/Mechanize/Image.pm	/^sub URI {$/;"	s
+URI	lib/WWW/Mechanize/Link.pm	/^sub URI {$/;"	s
+WWW::Mechanize	lib/WWW/Mechanize.pm	/^package WWW::Mechanize;$/;"	p
+WWW::Mechanize::Image	lib/WWW/Mechanize/Image.pm	/^package WWW::Mechanize::Image;$/;"	p
+WWW::Mechanize::Link	lib/WWW/Mechanize/Link.pm	/^package WWW::Mechanize::Link;$/;"	p
+_clean_keys	lib/WWW/Mechanize.pm	/^sub _clean_keys {$/;"	s
+_die	lib/WWW/Mechanize.pm	/^sub _die {$/;"	s
+_extract_images	lib/WWW/Mechanize.pm	/^sub _extract_images {$/;"	s
+_extract_links	lib/WWW/Mechanize.pm	/^sub _extract_links {$/;"	s
+_image_from_token	lib/WWW/Mechanize.pm	/^sub _image_from_token {$/;"	s
+_link_from_token	lib/WWW/Mechanize.pm	/^sub _link_from_token {$/;"	s
+_make_request	lib/WWW/Mechanize.pm	/^sub _make_request {$/;"	s
+_match_any_image_parms	lib/WWW/Mechanize.pm	/^sub _match_any_image_parms {$/;"	s
+_match_any_link_parms	lib/WWW/Mechanize.pm	/^sub _match_any_link_parms {$/;"	s
+_modify_request	lib/WWW/Mechanize.pm	/^sub _modify_request {$/;"	s
+_pop_page_stack	lib/WWW/Mechanize.pm	/^sub _pop_page_stack {$/;"	s
+_push_page_stack	lib/WWW/Mechanize.pm	/^sub _push_page_stack {$/;"	s
+_reset_page	lib/WWW/Mechanize.pm	/^sub _reset_page {$/;"	s
+_update_page	lib/WWW/Mechanize.pm	/^sub _update_page {$/;"	s
+_warn	lib/WWW/Mechanize.pm	/^sub _warn {$/;"	s
+add_header	lib/WWW/Mechanize.pm	/^sub add_header {$/;"	s
+agent_alias	lib/WWW/Mechanize.pm	/^sub agent_alias {$/;"	s
+alt	lib/WWW/Mechanize/Image.pm	/^sub alt     { return ($_[0])->{alt}; }$/;"	s
+attrs	lib/WWW/Mechanize/Link.pm	/^sub attrs { return ($_[0])->[5]; }$/;"	s
+back	lib/WWW/Mechanize.pm	/^sub back {$/;"	s
+base	lib/WWW/Mechanize.pm	/^sub base {          my $self = shift; return $self->{base}; }$/;"	s
+base	lib/WWW/Mechanize/Image.pm	/^sub base    { return ($_[0])->{base}; }$/;"	s
+base	lib/WWW/Mechanize/Link.pm	/^sub base  { return ($_[0])->[4]; }$/;"	s
+click	lib/WWW/Mechanize.pm	/^sub click {$/;"	s
+click_button	lib/WWW/Mechanize.pm	/^sub click_button {$/;"	s
+clone	lib/WWW/Mechanize.pm	/^sub clone {$/;"	s
+content	lib/WWW/Mechanize.pm	/^sub content {$/;"	s
+credentials	lib/WWW/Mechanize.pm	/^    sub credentials$/;"	s
+creds_required	t/local/LocalServer.pm	/^sub creds_required {$/;"	s
+ct	lib/WWW/Mechanize.pm	/^sub ct {            my $self = shift; return $self->{ct}; }$/;"	s
+current_form	lib/WWW/Mechanize.pm	/^sub current_form {  my $self = shift; return $self->{form}; }$/;"	s
+delete_header	lib/WWW/Mechanize.pm	/^sub delete_header {$/;"	s
+die	lib/WWW/Mechanize.pm	/^sub die {$/;"	s
+dump_forms	bin/mech-dump	/^sub dump_forms {$/;"	s
+dump_images	bin/mech-dump	/^sub dump_images {$/;"	s
+dump_links	bin/mech-dump	/^sub dump_links {$/;"	s
+field	lib/WWW/Mechanize.pm	/^sub field {$/;"	s
+find_all_images	lib/WWW/Mechanize.pm	/^sub find_all_images {$/;"	s
+find_all_links	lib/WWW/Mechanize.pm	/^sub find_all_links {$/;"	s
+find_image	lib/WWW/Mechanize.pm	/^sub find_image {$/;"	s
+find_link	lib/WWW/Mechanize.pm	/^sub find_link {$/;"	s
+follow	lib/WWW/Mechanize.pm	/^sub follow {$/;"	s
+follow_link	lib/WWW/Mechanize.pm	/^sub follow_link {$/;"	s
+form	lib/WWW/Mechanize.pm	/^sub form {$/;"	s
+form_name	lib/WWW/Mechanize.pm	/^sub form_name {$/;"	s
+form_number	lib/WWW/Mechanize.pm	/^sub form_number {$/;"	s
+form_with_fields	lib/WWW/Mechanize.pm	/^sub form_with_fields {$/;"	s
+forms	lib/WWW/Mechanize.pm	/^sub forms {$/;"	s
+get	lib/WWW/Mechanize.pm	/^sub get {$/;"	s
+get_output	t/local/LocalServer.pm	/^sub get_output {$/;"	s
+height	lib/WWW/Mechanize/Image.pm	/^sub height  { return ($_[0])->{height}; }$/;"	s
+images	lib/WWW/Mechanize.pm	/^sub images {$/;"	s
+is_html	lib/WWW/Mechanize.pm	/^sub is_html {       my $self = shift; return defined $self->{ct} && ($self->{ct} eq "text\/html"); }$/;"	s
+known_agent_aliases	lib/WWW/Mechanize.pm	/^sub known_agent_aliases {$/;"	s
+links	lib/WWW/Mechanize.pm	/^sub links {$/;"	s
+name	lib/WWW/Mechanize/Image.pm	/^sub name    { return ($_[0])->{name}; }$/;"	s
+name	lib/WWW/Mechanize/Link.pm	/^sub name  { return ($_[0])->[2]; }$/;"	s
+new	lib/WWW/Mechanize.pm	/^sub new {$/;"	s
+new	lib/WWW/Mechanize/Image.pm	/^sub new {$/;"	s
+new	lib/WWW/Mechanize/Link.pm	/^sub new {$/;"	s
+ok_click_success	t/local/click_button.t	/^sub ok_click_success {$/;"	s
+port	t/local/LocalServer.pm	/^sub port {$/;"	s
+quiet	lib/WWW/Mechanize.pm	/^sub quiet {$/;"	s
+redirect_ok	lib/WWW/Mechanize.pm	/^sub redirect_ok {$/;"	s
+reload	lib/WWW/Mechanize.pm	/^sub reload {$/;"	s
+request	lib/WWW/Mechanize.pm	/^sub request {$/;"	s
+res	lib/WWW/Mechanize.pm	/^sub res {           my $self = shift; return $self->{res}; }$/;"	s
+response	lib/WWW/Mechanize.pm	/^sub response {      my $self = shift; return $self->{res}; }$/;"	s
+save_content	lib/WWW/Mechanize.pm	/^sub save_content {$/;"	s
+select	lib/WWW/Mechanize.pm	/^sub select {$/;"	s
+set_fields	lib/WWW/Mechanize.pm	/^sub set_fields {$/;"	s
+set_visible	lib/WWW/Mechanize.pm	/^sub set_visible {$/;"	s
+spawn	t/local/LocalServer.pm	/^sub spawn {$/;"	s
+stack_depth	lib/WWW/Mechanize.pm	/^sub stack_depth {$/;"	s
+status	lib/WWW/Mechanize.pm	/^sub status {        my $self = shift; return $self->{status}; }$/;"	s
+stop	t/local/LocalServer.pm	/^sub stop {$/;"	s
+submit	lib/WWW/Mechanize.pm	/^sub submit {$/;"	s
+submit_form	lib/WWW/Mechanize.pm	/^sub submit_form {$/;"	s
+success	lib/WWW/Mechanize.pm	/^sub success {$/;"	s
+tag	lib/WWW/Mechanize/Image.pm	/^sub tag     { return ($_[0])->{tag}; }$/;"	s
+tag	lib/WWW/Mechanize/Link.pm	/^sub tag   { return ($_[0])->[3]; }$/;"	s
+text	lib/WWW/Mechanize/Link.pm	/^sub text  { return ($_[0])->[1]; }$/;"	s
+tick	lib/WWW/Mechanize.pm	/^sub tick {$/;"	s
+title	lib/WWW/Mechanize.pm	/^sub title {$/;"	s
+untick	lib/WWW/Mechanize.pm	/^sub untick {$/;"	s
+update_html	lib/WWW/Mechanize.pm	/^sub update_html {$/;"	s
+update_html	t/local/overload.t	/^    sub update_html {$/;"	s
+uri	lib/WWW/Mechanize.pm	/^sub uri {      $/;"	s
+url	lib/WWW/Mechanize/Image.pm	/^sub url     { return ($_[0])->{url}; }$/;"	s
+url	lib/WWW/Mechanize/Link.pm	/^sub url   { return ($_[0])->[0]; }$/;"	s
+url	t/local/LocalServer.pm	/^sub url {$/;"	s
+url_abs	lib/WWW/Mechanize/Image.pm	/^sub url_abs {$/;"	s
+url_abs	lib/WWW/Mechanize/Link.pm	/^sub url_abs {$/;"	s
+value	lib/WWW/Mechanize.pm	/^sub value {$/;"	s
+warn	lib/WWW/Mechanize.pm	/^sub warn {$/;"	s
+width	lib/WWW/Mechanize/Image.pm	/^sub width   { return ($_[0])->{width}; }$/;"	s
