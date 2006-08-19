@@ -1,9 +1,11 @@
+package main;
+
 require 5.6.1;
+use strict;
+use warnings;
 use ExtUtils::MakeMaker qw( WriteMakefile prompt );
 use File::Spec;
 use Getopt::Long;
-use strict;
-use warnings;
 
 GetOptions(
     'local!'        => \my $local,
@@ -118,3 +120,5 @@ critic:
 
 MAKE_FRAG
 }
+
+1;

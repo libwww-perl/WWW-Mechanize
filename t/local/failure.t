@@ -1,3 +1,5 @@
+#!perl
+
 use warnings;
 use strict;
 use Test::More tests => 16;
@@ -20,15 +22,15 @@ isa_ok( $mech, 'WWW::Mechanize', 'Created object' );
 GOOD_PAGE: {
     my $response = $mech->get($server->url);
     isa_ok( $response, 'HTTP::Response' );
-    ok( $response->is_success, "Success" );
-    ok( $mech->success, "Get webpage" );
-    ok( $mech->is_html, "It's HTML" );
-    is( $mech->title, "WWW::Mechanize::Shell test page", "Correct title" );
+    ok( $response->is_success, 'Success' );
+    ok( $mech->success, 'Get webpage' );
+    ok( $mech->is_html, 'It\'s HTML' );
+    is( $mech->title, 'WWW::Mechanize::Shell test page', 'Correct title' );
 
     my @links = $mech->links;
-    is( scalar @links, 10, "10 links, please" );
+    is( scalar @links, 10, '10 links, please' );
     my @forms = $mech->forms;
-    is( scalar @forms, 1, "One form" );
+    is( scalar @forms, 1, 'One form' );
     isa_ok( $forms[0], 'HTML::Form' );
 }
 

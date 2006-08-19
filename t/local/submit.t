@@ -1,3 +1,5 @@
+#!perl -w
+
 use warnings;
 use strict;
 use lib 't/local';
