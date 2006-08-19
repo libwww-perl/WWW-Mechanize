@@ -20,5 +20,5 @@ UNKNOWN_ALIAS: {
 
     warning_is {
         $m->agent_alias( 'Blongo' );
-    } 'Unknown agent alias 'Blongo'', 'Unknown aliases squawk appropriately';
+    } 'Unknown agent alias "Blongo"', 'Unknown aliases squawk appropriately';
 }

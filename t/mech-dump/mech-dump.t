@@ -21,11 +21,11 @@ if ( $^O eq "VMS" ) {
 
 # Simply use a file: uri instead of the filename to make this test
 # more independent of what URI::* thinks.
-my $data = 'file:t/google.html';
+my $source = 'file:t/google.html';
 
 my $perl;
 $perl = $1 if $^X =~ /^(.+)$/;
-my $command = "$perl -Mblib $exe --forms $data";
+my $command = "$perl -Mblib $exe --forms $source";
 
 my $actual = `$command`;
 

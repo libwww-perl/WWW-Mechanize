@@ -49,12 +49,12 @@ my $parms = {
         'URI::URL'          => 0,
         'URI::file'         => 0,
     },
-    test            => { TESTS => join( " ", @tests ) },
+    test            => { TESTS => join( ' ', @tests ) },
     clean           => { FILES => 'WWW-Mechanize-*' },
 };
 
 if ( not defined $mechdump ) {
-    $mechdump = (prompt( "Do you want to install the mech-dump utility?", "y" ) =~ /^y/i );
+    $mechdump = (prompt( 'Do you want to install the mech-dump utility?', 'y' ) =~ /^y/i );
     print <<EOT;
 
 Note that you can skip this question with --mech-dump or --nomech-dump on the

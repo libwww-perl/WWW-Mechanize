@@ -4,11 +4,11 @@ use strict;
 use Test::More tests=>1;
 use HTML::Form;
 
-my $base = "http://localhost/";
+my $base = 'http://localhost/';
 my $content = do { local $/ = undef; <DATA> };
 
 my $forms = [ HTML::Form->parse( $content, $base ) ];
-is( scalar @$forms, 1, "Find one form, please" );
+is( scalar @$forms, 1, 'Find one form, please' );
 
 __DATA__
 <html>

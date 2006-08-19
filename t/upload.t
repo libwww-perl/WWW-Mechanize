@@ -1,6 +1,7 @@
 #!perl -Tw
 
 use strict;
+use warnings;
 use Test::More tests => 5;
 use URI::file;
 
@@ -8,9 +9,9 @@ BEGIN { delete @ENV{ qw( http_proxy HTTP_PROXY PATH IFS CDPATH ENV BASH_ENV) }; 
 use_ok( 'WWW::Mechanize' );
 
 my $mech = WWW::Mechanize->new( cookie_jar => undef );
-isa_ok( $mech, "WWW::Mechanize" );
+isa_ok( $mech, 'WWW::Mechanize' );
 
-my $uri = URI::file->new_abs( "t/upload.html" )->as_string;
+my $uri = URI::file->new_abs( 't/upload.html' )->as_string;
 $mech->get( $uri );
 ok( $mech->success, $uri );
 

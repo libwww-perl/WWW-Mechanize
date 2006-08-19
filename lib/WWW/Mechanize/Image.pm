@@ -41,8 +41,6 @@ sub new {
     }
 
     return bless $self, $class;
-
-    return $self;
 }
 
 =head1 Accessors
