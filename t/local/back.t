@@ -1,5 +1,6 @@
 #!perl
 
+use warnings;
 use strict;
 use Test::More tests => 38;
 use lib 't/local';
@@ -24,7 +25,7 @@ BEGIN {
 }
 
 my $mech = WWW::Mechanize->new(cookie_jar => {});
-isa_ok( $mech, "WWW::Mechanize" );
+isa_ok( $mech, 'WWW::Mechanize' );
 ok(defined($mech->cookie_jar()),
    'this $mech starts with a cookie jar');
 
@@ -45,7 +46,7 @@ my $html = <<'HTML';
 HTML
 
 my $server = LocalServer->spawn( html => $html );
-isa_ok( $server, "LocalServer" );
+isa_ok( $server, 'LocalServer' );
 
 $mech->get($server->url);
 ok( $mech->success, 'Fetched OK' );
@@ -57,33 +58,33 @@ $mech->follow_link( n=>2 );
 ok( $mech->success, 'Followed OK' );
 
 $mech->back();
-is( $mech->base, $first_base, "Did the base get set back?" );
-is( $mech->title, $title, "Title set back?" );
+is( $mech->base, $first_base, 'Did the base get set back?' );
+is( $mech->title, $title, 'Title set back?' );
 
-$mech->follow( "Images" );
+$mech->follow( 'Images' );
 ok( $mech->success, 'Followed OK' );
 
 $mech->back();
-is( $mech->base, $first_base, "Did the base get set back?" );
-is( $mech->title, $title, "Title set back?" );
+is( $mech->base, $first_base, 'Did the base get set back?' );
+is( $mech->title, $title, 'Title set back?' );
 
-is( scalar @{$mech->{page_stack}}, 0, "Pre-search check" );
+is( scalar @{$mech->{page_stack}}, 0, 'Pre-search check' );
 $mech->submit_form(
-    fields => { 'q' => "perl" },
+    fields => { 'q' => 'perl' },
 );
-ok( $mech->success, "Searched for Perl" );
-like( $mech->title, qr/search.cgi/, "Right page title" );
-is( scalar @{$mech->{page_stack}}, 1, "POST is in the stack" );
+ok( $mech->success, 'Searched for Perl' );
+like( $mech->title, qr/search.cgi/, 'Right page title' );
+is( scalar @{$mech->{page_stack}}, 1, 'POST is in the stack' );
 
 $mech->head( $server->url );
-ok( $mech->success, "HEAD succeeded" );
-is( scalar @{$mech->{page_stack}}, 1, "HEAD is not in the stack" );
+ok( $mech->success, 'HEAD succeeded' );
+is( scalar @{$mech->{page_stack}}, 1, 'HEAD is not in the stack' );
 
 $mech->back();
-ok( $mech->success, "Back" );
-is( $mech->base, $first_base, "Did the base get set back?" );
-is( $mech->title, $title, "Title set back?" );
-is( scalar @{$mech->{page_stack}}, 0, "Post-search check" );
+ok( $mech->success, 'Back' );
+is( $mech->base, $first_base, 'Did the base get set back?' );
+is( $mech->title, $title, 'Title set back?' );
+is( scalar @{$mech->{page_stack}}, 0, 'Post-search check' );
 
 =head2 Back and misc. internal fields
 
@@ -95,10 +96,10 @@ browser does not cause it to go away).
 
 =cut
 
-$mech->follow( "Images" );
+$mech->follow( 'Images' );
 $mech->reload();
 $mech->back();
-is($mech->title, $title, "reload() does not push page to stack" );
+is($mech->title, $title, 'reload() does not push page to stack' );
 
 ok(defined($mech->cookie_jar()),
    '$mech still has a cookie jar after a number of back()');
@@ -106,14 +107,14 @@ ok(defined($mech->cookie_jar()),
 # Now some other weird stuff. Start with a fresh history by recreating
 # $mech.
 SKIP: {
-    eval "use Test::Memory::Cycle";
-    skip "Test::Memory::Cycle not installed", 1 if $@;
+    eval 'use Test::Memory::Cycle';
+    skip 'Test::Memory::Cycle not installed', 1 if $@;
 
-    memory_cycle_ok( $mech, "No memory cycles found" );
+    memory_cycle_ok( $mech, 'No memory cycles found' );
 }
 
 $mech = WWW::Mechanize->new();
-isa_ok( $mech, "WWW::Mechanize" );
+isa_ok( $mech, 'WWW::Mechanize' );
 $mech->get( $server->url );
 ok( $mech->success, 'Got root URL' );
 
@@ -123,12 +124,12 @@ my @links = qw(
     modules/
 );
 
-is( scalar @{$mech->{page_stack}}, 0, "Pre-404 check" );
+is( scalar @{$mech->{page_stack}}, 0, 'Pre-404 check' );
 
 my $server404 = HTTP::Daemon->new or die;
 my $server404url = $server404->url;
 
-die "Cannot fork" if (! defined (my $pid404 = fork()));
+die 'Cannot fork' if (! defined (my $pid404 = fork()));
 END {
     local $?;
     kill KILL => $pid404; # Extreme prejudice intended, because we do not
@@ -145,13 +146,13 @@ if (! $pid404) { # Fake HTTP server code: a true 404-compliant server!
 }
 
 $mech->get($server404url);
-is( $mech->status, 404 , "404 check");
+is( $mech->status, 404 , '404 check');
 
-is( scalar @{$mech->{page_stack}}, 1, "Even 404s get on the stack" );
+is( scalar @{$mech->{page_stack}}, 1, 'Even 404s get on the stack' );
 
 $mech->back();
-is( $mech->uri, $server->url, "Back from the 404" );
-is( scalar @{$mech->{page_stack}}, 0, "Post-404 check" );
+is( $mech->uri, $server->url, 'Back from the 404' );
+is( scalar @{$mech->{page_stack}}, 0, 'Post-404 check' );
 
 for my $link ( @links ) {
     $mech->get( $link );
@@ -163,10 +164,10 @@ for my $link ( @links ) {
 }
 
 SKIP: {
-    eval "use Test::Memory::Cycle";
-    skip "Test::Memory::Cycle not installed", 1 if $@;
+    eval 'use Test::Memory::Cycle';
+    skip 'Test::Memory::Cycle not installed', 1 if $@;
 
-    memory_cycle_ok( $mech, "No memory cycles found" );
+    memory_cycle_ok( $mech, 'No memory cycles found' );
 }
 
 
