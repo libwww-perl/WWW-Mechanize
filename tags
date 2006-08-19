@@ -68,6 +68,7 @@ images	lib/WWW/Mechanize.pm	/^sub images {$/;"	s
 is_html	lib/WWW/Mechanize.pm	/^sub is_html {       my $self = shift; return defined $self->{ct} && ($self->{ct} eq "text\/html"); }$/;"	s
 known_agent_aliases	lib/WWW/Mechanize.pm	/^sub known_agent_aliases {$/;"	s
 links	lib/WWW/Mechanize.pm	/^sub links {$/;"	s
+main	Makefile.PL	/^package main;$/;"	p
 name	lib/WWW/Mechanize/Image.pm	/^sub name    { return ($_[0])->{name}; }$/;"	s
 name	lib/WWW/Mechanize/Link.pm	/^sub name  { return ($_[0])->[2]; }$/;"	s
 new	lib/WWW/Mechanize.pm	/^sub new {$/;"	s
