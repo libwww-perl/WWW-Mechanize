@@ -29,13 +29,13 @@ $response = $mech->submit;
 isa_ok( $response, 'HTTP::Response', 'Got back a response' );
 ok( $response->is_success, "Can click 'submit' ('submit' button)");
 
-like($mech->content, qr/\bfoo\b/i, "Found 'Foo'");
+like($mech->content, qr/\bfoo\b/i, 'Found "Foo"');
 
-is( $mech->value('upload'), '', "Hopefully no upload happens");
+is( $mech->value('upload'), '', 'No upload happens' );
 
 SKIP: {
-    eval "use Test::Memory::Cycle";
-    skip "Test::Memory::Cycle not installed", 1 if $@;
+    eval 'use Test::Memory::Cycle';
+    skip 'Test::Memory::Cycle not installed', 1 if $@;
 
-    memory_cycle_ok( $mech, "Mech: no cycles" );
+    memory_cycle_ok( $mech, 'Mech: no cycles' );
 }
