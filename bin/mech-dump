@@ -6,6 +6,7 @@ mech-dump - Dumps information about a web page
 
 =cut
 
+use warnings;
 use strict;
 use WWW::Mechanize;
 use Getopt::Long;
@@ -53,7 +54,7 @@ if ( -e $uri ) {
 my $mech = WWW::Mechanize->new( cookie_jar => undef );
 my $response = $mech->get( $uri );
 $response->is_success or die "Can't fetch $uri\n", $response->status_line, "\n";
-$mech->is_html or die "$uri returns type \"", $mech->ct, "\", not \"text/html\"\n";
+$mech->is_html or die qq{$uri returns type "}, $mech->ct, qq{", not "text/html"\n};
 
 for my $action ( @actions ) {
     $action->( $mech );
@@ -65,6 +66,7 @@ sub dump_links {
         my $url = $absolute ? $link->url_abs : $link->url;
         print "$url\n";
     }
+    return;
 }
 
 sub dump_images {
@@ -74,6 +76,7 @@ sub dump_images {
         my $url = $absolute ? $image->url_abs : $image->url;
         print "$url\n";
     }
+    return;
 }
 
 sub dump_forms {
@@ -83,6 +86,7 @@ sub dump_forms {
         print $form->dump;
         print "\n";
     }
+    return;
 }
 
 =head1 TODO
