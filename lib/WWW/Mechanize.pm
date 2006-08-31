@@ -2358,11 +2358,6 @@ L<http://books.slashdot.org/article.pl?sid=03/12/11/2126256>
 
 =over 4
 
-=item * WWW::Mechanize Development mailing list
-
-Hosted at Sourceforge, this is where the contributors to Mech
-discuss things.  L<http://sourceforge.net/mail/?group_id=83309>
-
 =item * LWP mailing list
 
 The LWP mailing list is at
@@ -2370,6 +2365,11 @@ L<http://lists.perl.org/showlist.cgi?name=libwww>, and is more
 user-oriented and well-populated than the WWW::Mechanize Development
 list.  This is a good list for Mech users, since LWP is the basis
 for Mech.
+
+=item * WWW::Mechanize Development mailing list
+
+Hosted at Sourceforge, this is where the contributors to Mech
+discuss things.  L<http://sourceforge.net/mail/?group_id=83309>
 
 =item * L<WWW::Mechanize::Examples>
 
@@ -2381,6 +2381,10 @@ Mechanize distribution.
 =head1 ARTICLES ABOUT WWW::MECHANIZE
 
 =over 4
+
+=item * L<http://www-128.ibm.com/developerworks/linux/library/wa-perlsecure.html>
+
+IBM article "Secure Web site access with Perl"
 
 =item * L<http://www.oreilly.com/catalog/googlehks2/chapter/hack84.pdf>
 
