@@ -1,13 +1,17 @@
 Revision history for Perl extension WWW::Mechanize
 
-        [ENHANCEMENTS]
-        * If Compress::Gzip is installed, gzipped content is now
-          accepted and transparently decoded. No additional syntax needed!
-          This should save time and bandwidth in a number of cases.
-          (Mark Stosberg)
+1.21_01 Mon Sep 18 17:18:43 CDT 2006
 
-        * Added a put() method.  It also calls a subfunction called
-          _SUPER_put that will be removed once LWP::UserAgent supports put().
+[ENHANCEMENTS]
+* If Compress::Gzip is installed, gzipped content is now
+    accepted and transparently decoded. No additional syntax needed!
+    This should save time and bandwidth in a number of cases.
+    (Mark Stosberg)
+
+* Added a put() method.  It also calls a subfunction called
+    _SUPER_put that will be removed once LWP::UserAgent supports put().
+
+
 
 1.20   Sat Aug 19 09:09:08 EDT 2006
 
