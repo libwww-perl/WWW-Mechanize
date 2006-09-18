@@ -300,10 +300,10 @@ sub known_agent_aliases {
 
 =head1 PAGE-FETCHING METHODS
 
-=head2 $mech->get( $url )
+=head2 $mech->get( $uri )
 
 Given a URL/URI, fetches it.  Returns an L<HTTP::Response> object.
-I<$url> can be a well-formed URL string, a L<URI> object, or a
+I<$uri> can be a well-formed URL string, a L<URI> object, or a
 L<WWW::Mechanize::Link> object.
 
 The results are stored internally in the agent object, but you don't
@@ -313,7 +313,7 @@ is deprecated and subject to change in the future.
 C<get()> is a well-behaved overloaded version of the method in
 L<LWP::UserAgent>.  This lets you do things like
 
-    $mech->get( $url, ":content_file"=>$tempfile );
+    $mech->get( $uri, ":content_file"=>$tempfile );
 
 and you can rest assured that the parms will get filtered down
 appropriately.
@@ -333,6 +333,38 @@ sub get {
     # It appears we are returning a super-class method,
     # but it in turn calls the request() method here in Mechanize
     return $self->SUPER::get( $uri->as_string, @_ );
+}
+
+=head2 $mech->put( $uri, 'content' => $content )
+
+PUTs I<$content> to $uri.  Returns an L<HTTP::Response> object.
+I<$uri> can be a well-formed URI string, a L<URI> object, or a
+L<WWW::Mechanize::Link> object.
+
+=cut
+
+sub put {
+    my $self = shift;
+    my $uri = shift;
+
+    $uri = $uri->url if ref($uri) eq 'WWW::Mechanize::Link';
+
+    $uri = $self->base
+            ? URI->new_abs( $uri, $self->base )
+            : URI->new( $uri );
+
+    # It appears we are returning a super-class method,
+    # but it in turn calls the request() method here in Mechanize
+    return $self->_SUPER_put( $uri->as_string, @_ );
+}
+
+
+# Added until LWP::UserAgent has it.
+sub _SUPER_put {
+    require HTTP::Request::Common;
+    my($self, @parameters) = @_;
+    my @suff = $self->_process_colonic_headers(\@parameters,1);
+    return $self->request( HTTP::Request::Common::PUT( @parameters ), @suff );
 }
 
 =head2 $mech->reload()
