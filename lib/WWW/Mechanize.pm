@@ -2305,7 +2305,7 @@ sub _pop_page_stack {
 
 Centralized warning method, for diagnostics and non-fatal problems.
 Defaults to calling C<CORE::warn>, but may be overridden by setting
-C<onwarn> in the construcotr.
+C<onwarn> in the constructor.
 
 =cut
 
