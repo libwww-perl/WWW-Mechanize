@@ -1,9 +1,13 @@
 Revision history for Perl extension WWW::Mechanize
 
+[BUG FIXES]
+* The docs previously refered to Compress::Gzip, when Compress::Zlib was
+  correct.
+
 1.21_01 Mon Sep 18 17:18:43 CDT 2006
 
 [ENHANCEMENTS]
-* If Compress::Gzip is installed, gzipped content is now
+* If Compress::Zlib is installed, gzipped content is now
     accepted and transparently decoded. No additional syntax needed!
     This should save time and bandwidth in a number of cases.
     (Mark Stosberg)

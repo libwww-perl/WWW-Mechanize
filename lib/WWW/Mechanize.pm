@@ -2039,7 +2039,7 @@ Modifies a L<HTTP::Request> before the request is sent out,
 for both GET and POST requests.
 
 We add a C<Referer> header, as well as header to note that we can accept gzip
-encoded content, if L<Compress::Gzip> is installed.
+encoded content, if L<Compress::Zlib> is installed.
 
 =cut
 
