@@ -1,18 +1,29 @@
 Revision history for Perl extension WWW::Mechanize
 
-[BUG FIXES]
-* The docs previously refered to Compress::Gzip, when Compress::Zlib was
-  correct.
+1.21_02
+
+[ENHANCEMENTS THAT MAY BREAK YOUR CODE]
+
+*   The $mech->stack_depth() setting had no way to say "don't cache any
+    pages at all".  How silly!
+
+    Now, if you set $mech->stack_depth(0), no history of pages will be kept.
+    In the past, it would mean "Keep all pages."  This means that if you want
+    to set it to keep all pages, set it to some ridiculously large number.
+
+[DOCUMENTATION]
+*   The docs previously refered to Compress::Gzip instead of Compress::Zlib.
+
 
 1.21_01 Mon Sep 18 17:18:43 CDT 2006
 
 [ENHANCEMENTS]
-* If Compress::Zlib is installed, gzipped content is now
+*   If Compress::Zlib is installed, gzipped content is now
     accepted and transparently decoded. No additional syntax needed!
     This should save time and bandwidth in a number of cases.
     (Mark Stosberg)
 
-* Added a put() method.  It also calls a subfunction called
+*   Added a put() method.  It also calls a subfunction called
     _SUPER_put that will be removed once LWP::UserAgent supports put().
 
 

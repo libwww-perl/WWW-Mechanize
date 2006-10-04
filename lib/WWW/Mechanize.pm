@@ -197,7 +197,7 @@ sub new {
         onwarn      => \&WWW::Mechanize::_warn,
         onerror     => \&WWW::Mechanize::_die,
         quiet       => 0,
-        stack_depth => 0,
+        stack_depth => 867_5309,    # Arbitrarily humungous stack
         headers     => {},
     );
 
@@ -1722,11 +1722,13 @@ sub quiet {
     return $self->{quiet};
 }
 
-=head2 $mech->stack_depth($value)
+=head2 $mech->stack_depth( $max_depth )
 
-Get or set the page stack depth. Older pages are discarded first.
+Get or set the page stack depth. Use this if you're doing a lot of page
+scraping and running out of memory.
 
-A value of 0 means "keep all the pages".
+A value of 0 means "no history at all."  By default, the max stack depth
+is humongously large, effectively keeping all history.
 
 =cut
 
@@ -1747,7 +1749,7 @@ sub save_content {
     my $self = shift;
     my $filename = shift;
 
-    open( my $fh, ">", $filename ) or $self->die( "Unable to create $filename: $!" );
+    open( my $fh, '>', $filename ) or $self->die( "Unable to create $filename: $!" );
     print $fh $self->content;
     close $fh;
 }
@@ -2117,11 +2119,11 @@ property with L<WWW::Mechanize::Link> objects.
 =cut
 
 my %link_tags = (
-    a => "href",
-    area => "href",
-    frame => "src",
-    iframe => "src",
-    meta => "content",
+    a => 'href',
+    area => 'href',
+    frame => 'src',
+    iframe => 'src',
+    meta => 'content',
 );
 
 sub _extract_links {
@@ -2144,8 +2146,8 @@ sub _extract_links {
 
 
 my %image_tags = (
-    img => "src",
-    input => "src",
+    img => 'src',
+    input => 'src',
 );
 
 sub _extract_images {
@@ -2174,9 +2176,9 @@ sub _image_from_token {
     my $tag = $token->[0];
     my $attrs = $token->[1];
 
-    if ( $tag eq "input" ) {
+    if ( $tag eq 'input' ) {
         my $type = $attrs->{type} or return;
-        return unless $type eq "image";
+        return unless $type eq 'image';
     }
 
     require WWW::Mechanize::Image;
@@ -2203,9 +2205,9 @@ sub _link_from_token {
 
     my $text;
     my $name;
-    if ( $tag eq "a" ) {
+    if ( $tag eq 'a' ) {
         $text = $parser->get_trimmed_text("/$tag");
-        $text = "" unless defined $text;
+        $text = '' unless defined $text;
 
         my $onClick = $attrs->{onclick};
         if ( $onClick && ($onClick =~ /^window\.open\(\s*'([^']+)'/) ) {
@@ -2219,10 +2221,10 @@ sub _link_from_token {
 
     $name = $attrs->{name};
 
-    if ( $tag eq "meta" ) {
-        my $equiv = $attrs->{"http-equiv"};
-        my $content = $attrs->{"content"};
-        return unless $equiv && (lc $equiv eq "refresh") && defined $content;
+    if ( $tag eq 'meta' ) {
+        my $equiv = $attrs->{'http-equiv'};
+        my $content = $attrs->{'content'};
+        return unless $equiv && (lc $equiv eq 'refresh') && defined $content;
 
         if ( $content =~ /^\d+\s*;\s*url\s*=\s*(\S+)/i ) {
             $url = $1;
@@ -2263,18 +2265,16 @@ sub _push_page_stack {
     my $self = shift;
 
     # Don't push anything if it's a virgin object
-    if ( $self->{res} ) {
+    if ( $self->{res} && $self->stack_depth ) {
         my $save_stack = $self->{page_stack};
         $self->{page_stack} = [];
 
         my $clone = $self->clone;
         push( @$save_stack, $clone );
 
-        if ( $self->stack_depth > 0 ) {
-            while ( @$save_stack > $self->stack_depth ) {
-                shift @$save_stack;
-            }
-        } # if stack_depth > 0
+        while ( @$save_stack > $self->stack_depth ) {
+            shift @$save_stack;
+        }
         $self->{page_stack} = $save_stack;
     }
 
@@ -2284,7 +2284,7 @@ sub _push_page_stack {
 sub _pop_page_stack {
     my $self = shift;
 
-    if (@{$self->{page_stack}}) {
+    if ( $self->{page_stack} && @{$self->{page_stack}} ) {
         my $popped = pop @{$self->{page_stack}};
 
         # eliminate everything in self
