@@ -6,11 +6,11 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 =head1 VERSION
 
-Version 1.21_02
+Version 1.21_03
 
 =cut
 
-our $VERSION = '1.21_02';
+our $VERSION = '1.21_03';
 
 =head1 SYNOPSIS
 
@@ -101,7 +101,6 @@ use HTTP::Request 1.30;
 use LWP::UserAgent 2.003;
 use HTML::Form 1.00;
 use HTML::TokeParser;
-use URI::URL;
 
 use base 'LWP::UserAgent';
 

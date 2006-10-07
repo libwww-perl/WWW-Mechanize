@@ -1,6 +1,6 @@
 Revision history for Perl extension WWW::Mechanize
 
-1.21_03
+1.21_03     Sat Oct  7 01:21:46 CDT 2006
 
 [THINGS THAT MAY BREAK YOUR CODE]
 *   The methods $mech->form() and $mech->follow() have been removed.
@@ -14,7 +14,7 @@ Revision history for Perl extension WWW::Mechanize
 *   No longer uses UNIVERSAL.
 
 
-1.21_02 Wed Oct  4 13:14:30 CDT 2006
+1.21_02     Wed Oct  4 13:14:30 CDT 2006
 
 [ENHANCEMENTS THAT MAY BREAK YOUR CODE]
 
