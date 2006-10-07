@@ -1,5 +1,4 @@
 package WWW::Mechanize::Link;
-# vi:et:sw=4 ts=4
 
 use strict;
 use warnings;
@@ -37,30 +36,18 @@ Creates and returns a new C<WWW::Mechanize::Link> object.
 sub new {
     my $class = shift;
 
-    # new style API
-    my %p;
-    my ($url,$text,$name,$tag,$base,$attrs);
-
-    if ( ref $_[0] eq 'HASH' ) {
-        %p =  %{ $_[0] }; 
-        $url  = $p{url};
-        $text = $p{text};
-        $name = $p{name};
-        $tag  = $p{tag};
-        $base = $p{base};
-        $attrs = $p{attrs};
-    }
-    else {
-        ($url,$text,$name,$tag,$base,$attrs) = @_; 
-    }
+    my $self;
 
     # The order of the first four must stay as they are for
     # compatibility with older code.
-    my $self = [$url,$text,$name,$tag,$base,$attrs];
+    if ( ref $_[0] eq 'HASH' ) {
+        $self = [ @{$_[0]}{ qw( url text name tag base attrs ) } ];
+    }
+    else {
+        $self = [ @_ ];
+    }
 
-    bless $self, $class;
-
-    return $self;
+    return bless $self, $class;
 }
 
 =head1 Accessors
@@ -127,10 +114,12 @@ sub url_abs {
 
 =head1 COPYRIGHT
 
-Copyright (c) 2004 Andy Lester. All rights reserved. This program is
+Copyright (c) 2004-2006 Andy Lester. All rights reserved. This program is
 free software; you can redistribute it and/or modify it under the same
 terms as Perl itself.
 
 =cut
+
+# vi:et:sw=4 ts=4
 
 1;
