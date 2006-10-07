@@ -619,18 +619,14 @@ sub follow_link {
     my $self = shift;
     my %parms = ( n=>1, @_ );
 
-    if ( $parms{n} eq "all" ) {
+    if ( $parms{n} eq 'all' ) {
         delete $parms{n};
         $self->warn( qq{follow_link(n=>"all") is not valid} );
     }
 
-    my $response;
     my $link = $self->find_link(%parms);
-    if ( $link ) {
-        $response = $self->get( $link->url );
-    }
-
-    return $response;
+    return $self->get( $link->url ) if $link;
+    return;
 }
 
 =head2 $mech->find_link()
