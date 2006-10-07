@@ -7,7 +7,7 @@ use URI::file;
 BEGIN { delete @ENV{ qw( http_proxy HTTP_PROXY PATH IFS CDPATH ENV BASH_ENV) }; }
 
 BEGIN {
-    eval  "use Test::Warn;";
+    eval 'use Test::Warn;';
     plan skip_all => "Test::Warn required to test $0" if $@;
     plan tests => 19;
 }
@@ -19,15 +19,15 @@ BEGIN {
 my $mech = WWW::Mechanize->new( cookie_jar => undef );
 isa_ok( $mech, 'WWW::Mechanize' );
 
-my $uri = URI::file->new_abs( "t/find_link.html" )->as_string;
+my $uri = URI::file->new_abs( 't/find_link.html' )->as_string;
 
 $mech->get( $uri );
-ok( $mech->success, "Fetched $uri" ) or die "Can't get test page";
+ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
 
 REGEX_USAGE: {
     for my $tname (qw( TEXT NAME URL TAG )) {
         warning_like(
-            sub { $mech->find_link( $tname => "expect error" ) },
+            sub { $mech->find_link( $tname => 'expect error' ) },
             qr/Unknown link-finding parameter/, "detected usage error: $tname => 'string'"
         );
     }
@@ -37,7 +37,7 @@ REGEX_STRING: {
     for my $tn (qw( text name url tag )) {
         my $tname = $tn.'_regex';
         warning_like(
-            sub { $mech->find_link( $tname => "expect error" ) },
+            sub { $mech->find_link( $tname => 'expect error' ) },
             qr/passed as $tname is not a regex/, "detected usage error: $tname => 'string'"
         );
     }

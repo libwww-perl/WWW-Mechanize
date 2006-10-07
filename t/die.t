@@ -5,8 +5,8 @@ use strict;
 use Test::More;
 
 BEGIN {
-    eval "use Test::Exception";
-    plan skip_all => "Test::Exception required to test die" if $@;
+    eval 'use Test::Exception';
+    plan skip_all => 'Test::Exception required to test die' if $@;
     plan tests => 5;
 }
 
@@ -20,8 +20,8 @@ CHECK_DEATH: {
     isa_ok( $m, 'WWW::Mechanize' );
 
     dies_ok {
-        $m->die( "OH NO!  ERROR!" );
-    } "Expecting to die";
+        $m->die( 'OH NO!  ERROR!' );
+    } 'Expecting to die';
 }
 
 CHECK_LIVING: {
@@ -29,6 +29,6 @@ CHECK_LIVING: {
     isa_ok( $m, 'WWW::Mechanize' );
 
     lives_ok {
-        $m->die( "OH NO!  ERROR!" );
-    } "Expecting to die";
+        $m->die( 'OH NO!  ERROR!' );
+    } 'Expecting to die';
 }

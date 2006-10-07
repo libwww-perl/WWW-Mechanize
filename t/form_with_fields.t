@@ -11,24 +11,24 @@ BEGIN {
 }
 
 my $mech = WWW::Mechanize->new( cookie_jar => undef );
-my $uri = URI::file->new_abs( "t/form_with_fields.html" )->as_string;
+my $uri = URI::file->new_abs( 't/form_with_fields.html' )->as_string;
 
 $mech->get( $uri );
-ok( $mech->success, "Fetched $uri" ) or die "Can't get test page";
+ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
 
 { 
-    my $test = "dies with no input";
+    my $test = 'dies with no input';
     eval{  my $form = $mech->form_with_fields(); };
     ok($@,$test);
 }
 
-{ 
+{
     my $form = $mech->form_with_fields(qw/1b/);
     isa_ok( $form, 'HTML::Form' );
     is($form->attr('name'), '1st_form'); 
 }
 
-{ 
+{
     my $form = $mech->form_with_fields('1b', '2a');
     isa_ok( $form, 'HTML::Form' );
     is($form->attr('name'), '2nd_form'); 
@@ -39,7 +39,7 @@ ok( $mech->success, "Fetched $uri" ) or die "Can't get test page";
     eval { $mech->submit_form( 
             with_fields => { '1b' => '', '2a' => '' },
         ); };
-    is($@,'', " submit_form( with_fields => \%data ) " );
+    is($@,'', ' submit_form( with_fields => %data ) ' );
 }
 
 
