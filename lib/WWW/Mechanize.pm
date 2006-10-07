@@ -724,7 +724,7 @@ sub find_link {
     my $self = shift;
     my %parms = ( n=>1, @_ );
 
-    my $wantall = ( $parms{n} eq "all" );
+    my $wantall = ( $parms{n} eq 'all' );
 
     $self->_clean_keys( \%parms, qr/^(n|(text|url|url_abs|name|tag)(_regex)?)$/ );
 
@@ -792,7 +792,7 @@ sub _clean_keys {
         }
 
         my $key_regex = ( $key =~ /_regex$/ );
-        my $val_regex = ( ref($val) eq "Regexp" );
+        my $val_regex = ( ref($val) eq 'Regexp' );
 
         if ( $key_regex ) {
             if ( !$val_regex ) {
