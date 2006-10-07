@@ -109,7 +109,7 @@ use base 'LWP::UserAgent';
 
 our $HAS_ZLIB;
 BEGIN {
-    $HAS_ZLIB = eval "use Compress::Zlib (); 1;";
+    $HAS_ZLIB = eval 'use Compress::Zlib (); 1;';
 }
 
 =head1 CONSTRUCTOR AND STARTUP
@@ -1495,7 +1495,10 @@ sub click_button {
         }
     }
 
-    for ($args{x}, $args{y}) { $_ = 1 unless defined; }
+    for ($args{x}, $args{y}) {
+        $_ = 1 unless defined;
+    }
+
     my $form = $self->{form};
     my $request;
     if ( $args{name} ) {
