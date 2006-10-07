@@ -6,6 +6,10 @@ Revision history for Perl extension WWW::Mechanize
 *   The methods $mech->form() and $mech->follow() have been removed.
     They've been deprecated since 1.10, which was released in Feb 2005.
 
+[ENHANCEMENTS]
+*   I'm trying to nail down what seems to be a memory leak on long-running
+    Mech programs.  I'm stringifying URI::URL objects wherever I can.
+
 
 1.21_02 Wed Oct  4 13:14:30 CDT 2006
 

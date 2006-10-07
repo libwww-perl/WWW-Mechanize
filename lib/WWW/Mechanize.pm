@@ -1922,7 +1922,7 @@ sub _update_page {
     my ($self, $request, $res) = @_;
 
     $self->{req} = $request;
-    $self->{redirected_uri} = $request->uri;
+    $self->{redirected_uri} = $request->uri->as_string;
 
     $self->{res} = $res;
 
