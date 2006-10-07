@@ -1977,13 +1977,8 @@ sub _modify_request {
     # http://www.freesoft.org/CIE/RFC/2068/158.htm
     # http://use.perl.org/~rhesa/journal/25952
     if (not $req->header( 'Accept-Encoding' ) ) {
-        if ($HAS_ZLIB) {
-            $req->header('Accept-Encoding', 'gzip');
-        }
-        # This means: "please! unencoded content only!"
-        else { 
-            $req->header( 'Accept-Encoding', 'identity' );
-        }
+        # "identity" means "please! unencoded content only!"
+        $req->header( 'Accept-Encoding', $HAS_ZLIB ? 'gzip' : 'identity' );
     }
 
     my $last = $self->{last_uri};
