@@ -10,6 +10,9 @@ Revision history for Perl extension WWW::Mechanize
 *   I'm trying to nail down what seems to be a memory leak on long-running
     Mech programs.  I'm stringifying URI::URL objects wherever I can.
 
+[INTERNALS]
+*   No longer uses UNIVERSAL.
+
 
 1.21_02 Wed Oct  4 13:14:30 CDT 2006
 
