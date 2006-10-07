@@ -1,5 +1,12 @@
 Revision history for Perl extension WWW::Mechanize
 
+1.21_03
+
+[THINGS THAT MAY BREAK YOUR CODE]
+*   The methods $mech->form() and $mech->follow() have been removed.
+    They've been deprecated since 1.10, which was released in Feb 2005.
+
+
 1.21_02 Wed Oct  4 13:14:30 CDT 2006
 
 [ENHANCEMENTS THAT MAY BREAK YOUR CODE]

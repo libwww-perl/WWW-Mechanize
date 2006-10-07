@@ -61,7 +61,6 @@ If you want finer control over over your page fetching, you can use
 these methods. C<follow_link> and C<submit_form> are just high
 level wrappers around them.
 
-    $mech->follow( $link );
     $mech->find_link( n => $number );
     $mech->form_number( $number );
     $mech->form_name( $name );
@@ -449,7 +448,7 @@ objects.
 =head2 $mech->current_form()
 
 Returns the current form as an L<HTML::Form> object.  I'd call this
-C<form()> except that C<L<form()>> already exists and sets the current_form.
+C<form()> except that C<L<form()>> used to exist to set the current_form.
 
 =head2 $mech->links()
 
@@ -609,9 +608,6 @@ or
 Returns the result of the GET method (an HTTP::Response object) if
 a link was found. If the page has no links, or the specified link
 couldn't be found, returns undef.
-
-This method is meant to replace C<< $mech->follow() >> which should
-not be used in future development.
 
 =cut
 
@@ -1119,7 +1115,7 @@ sub form_with_fields {
 =head2 $mech->field( $name, \@values, $number )
 
 Given the name of a field, set its value to the value specified.  This
-applies to the current form (as set by the C<L<form()>> method or defaulting
+applies to the current form (as set by the L<form_name()> or L<form_number()> method or defaulting
 to the first form on the page).
 
 The optional I<$number> parameter is used to distinguish between two fields
@@ -1155,8 +1151,7 @@ C<$value> is an array, only the B<first> value will be set.  [Note:
 the documentation previously claimed that only the last value would
 be set, but this was incorrect.]  Passing C<$value> as a hash with
 an C<n> key selects an item by number (e.g. C<{n => 3> or C<{n => [2,4]}>).
-The numbering starts at 1.  This applies to the current form (as set by the
-C<L<form()>> method or defaulting to the first form on the page).
+The numbering starts at 1.  This applies to the current form.
 
 Returns 1 on successfully setting the value. On failure, returns
 undef and calls C<< $self>warn() >> with an error message.
@@ -1249,8 +1244,7 @@ which has the field value and its number as the 2 elements.
 
 The fields are numbered from 1.
 
-This applies to the current form (as set by the C<L<form()>> method or
-defaulting to the first form on the page).
+This applies to the current form.
 
 =cut
 
@@ -1394,8 +1388,7 @@ sub untick {
 =head2 $mech->value( $name, $number )
 
 Given the name of a field, return its value. This applies to the current
-form (as set by the C<form()> method or defaulting to the first form on
-the page).
+form.
 
 The option I<$number> parameter is used to distinguish between two fields
 with the same name.  The fields are numbered from 1.
@@ -1911,75 +1904,6 @@ The four argument form described in L<LWP::UserAgent> is still supported.
     }
 }
 
-
-=head1 DEPRECATED METHODS
-
-This methods have been replaced by more flexible and precise methods.
-Please use them instead.
-
-=head2 $mech->follow($string|$num)
-
-B<DEPRECATED> in favor of C<L<follow_link()>>, which provides more
-flexibility.
-
-Follow a link.  If you provide a string, the first link whose text
-matches that string will be followed.  If you provide a number, it
-will be the I<$num>th link on the page.  Note that the links are
-0-based.
-
-Returns true if the link was found on the page or undef otherwise.
-
-=cut
-
-sub follow {
-    my ($self, $link) = @_;
-    my @links = $self->links;
-    my $thislink;
-    if ( $link =~ /^\d+$/ ) { # is a number?
-        if ($link <= $#links) {
-            $thislink = $links[$link];
-        }
-        else {
-            $self->warn( "Link number $link is greater than maximum link $#links on this page (".$self->uri.")" );
-            return;
-        }
-    }
-    else {                        # user provided a regexp
-        LINK: foreach my $l (@links) {
-            if ( defined($l->[1]) && $l->[1] =~ /$link/) {
-                $thislink = $l;     # grab first match
-                last LINK;
-            }
-        }
-        unless ($thislink) {
-            $self->warn( "Can't find any link matching $link on this page ($self->{uri})" );
-            return;
-        }
-    }
-
-    $thislink = $thislink->[0];     # we just want the URL, not the text
-
-    $self->get( $thislink );
-
-    return 1;
-}
-
-=head2 $mech->form($number|$name)
-
-B<DEPRECATED> in favor of C<L<form_name()>> or C<L<form_number()>>.
-
-Selects a form by number or name, depending on if it gets passed an
-all-numeric string or not.  This means that if you have a form name
-that's all digits, this method will not do the right thing.
-
-=cut
-
-sub form {
-    my $self = shift;
-    my $arg = shift;
-
-    return $arg =~ /^\d+$/ ? $self->form_number($arg) : $self->form_name($arg);
-}
 
 =head1 INTERNAL-ONLY METHODS
 

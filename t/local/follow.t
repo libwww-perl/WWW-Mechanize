@@ -23,28 +23,25 @@ $agent->get( $server->url );
 ok( $agent->success, 'Got some page' );
 is( $agent->uri, $server->url, 'Got local server page' );
 
-ok(! $agent->follow(99999), "Can't follow too-high-numbered link");
+ok(! $agent->follow_link( n => 99999), "Can't follow too-high-numbered link");
 
-ok($agent->follow(1), "Can follow first link");
+ok($agent->follow_link( n => 1 ), "Can follow first link");
 isnt( $agent->uri, $server->url, 'Need to be on a separate page' );
 
 ok($agent->back(), "Can go back");
 is( $agent->uri, $server->url, 'Back at the first page' );
 
-ok(! $agent->follow(qr/asdfghjksdfghj/), "Can't follow unlikely named link");
+ok(! $agent->follow_link( text_regex => qr/asdfghjksdfghj/ ), "Can't follow unlikely named link");
 
-#juse Data::Dumper;
-#warn Dumper ('test',$agent->content);
-
-ok($agent->follow('Link /foo'), 'Can follow obvious named link');
+ok($agent->follow_link( text => 'Link /foo' ), 'Can follow obvious named link');
 isnt( $agent->uri, $server->url, 'Need to be on a separate page' );
 
 ok($agent->back(), 'Can still go back');
-ok($agent->follow('Löschen'), 'Can follow link with o-umlaut');
+ok($agent->follow_link( text_regex=>qr/Löschen/ ), 'Can follow link with o-umlaut');
 isnt( $agent->uri, $server->url, 'Need to be on a separate page' );
 
 ok($agent->back(), 'Can still go back');
-ok($agent->follow('Stösberg'), "Can follow link with o-umlaut, when it's encoded in the HTML, but not in 'follow'");
+ok($agent->follow_link( text_regex=>qr/Stösberg/ ), "Can follow link with o-umlaut, when it's encoded in the HTML, but not in 'follow'");
 isnt( $agent->uri, $server->url, 'Need to be on a separate page' );
 
 ok($agent->back(), 'Can still go back');

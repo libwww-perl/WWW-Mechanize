@@ -442,12 +442,12 @@ with a results page.
 
     # okay, fill in the box with the name of the
     # module we want to look up
-    $browser->form(1);
+    $browser->form_number(1);
     $browser->field("query", $module_name);
     $browser->click();
 
     # click on the link that matches the module name
-    $browser->follow($module_name);
+    $browser->follow_link( text_regex => $module_name );
 
     my $url = $browser->uri;
 
@@ -504,7 +504,7 @@ with a results page.
     $mech->field('password','obscur3d');
     $mech->submit(); # to get login cookie
     $mech->get(qq|$start?__mode=view&_type=entry&blog_id=1|);
-    $mech->form('entry_form');
+    $mech->form_name('entry_form');
     $mech->field('title',$entry->{title});
     $mech->field('category_id',1); # adjust as needed
     $mech->field('text',$entry->{btext});
@@ -524,7 +524,7 @@ with a results page.
 	my $js = $1;
 	$js =~ /\'([^']+)\'/;
 	$results = $mech->get($start.$1);
-	$mech->form('entry_form');
+	$mech->form_name('entry_form');
 	$mech->field('created_on_manual',$entry->{date});
 	$mech->submit();
     }
@@ -549,7 +549,7 @@ all the pictures.
     for my $top_link_num (0..$#top_links) {
 	next unless $top_links[$top_link_num][0] =~ /^http:/; 
 	 
-	$m->follow($top_link_num) or die "can't follow $top_link_num";
+	$m->follow_link( n=>$top_link_num ) or die "can't follow $top_link_num";
 	 
 	print $m->uri, "\n";
 	for my $image (grep m{^http://store4}, map $_->[0], @{$m->links}) { 
