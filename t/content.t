@@ -36,7 +36,7 @@ HTML
 my $mech = WWW::Mechanize->new();
 # Well actually there is no base (and therefore it does not belong to us
 # :-), so let's kludge a bit.
-$mech->{base} = "http://example.com/";
+$mech->{base} = 'http://example.com/';
 $mech->update_html($html);
 
 =head2 $mech->content(format => "text")
@@ -44,10 +44,10 @@ $mech->update_html($html);
 =cut
 
 SKIP: {
-    eval "use HTML::TreeBuilder";
-    skip "HTML::TreeBuilder not installed", 2 if $@;
+    eval 'use HTML::TreeBuilder';
+    skip 'HTML::TreeBuilder not installed', 2 if $@;
 
-    my $text = $mech->content(format => "text");
+    my $text = $mech->content(format => 'text');
     like( $text, qr/Fine/);
     unlike( $text, qr/html/i);
 }
@@ -58,7 +58,7 @@ SKIP: {
 
 =cut
 
-my $content = $mech->content(base_href => "foo");
+my $content = $mech->content(base_href => 'foo');
 like($content, qr/base href="foo"/);
 
 

@@ -4,11 +4,11 @@ use warnings;
 use strict;
 use Test::More;
 
-use constant NONEXISTENT => "http://blahblablah.xx-nonexistent.";
+use constant NONEXISTENT => 'http://blahblablah.xx-nonexistent.';
 
 BEGIN {
-    eval "use Test::Exception";
-    plan skip_all => "Test::Exception required to test autocheck" if $@;
+    eval 'use Test::Exception';
+    plan skip_all => 'Test::Exception required to test autocheck' if $@;
     plan tests => 5;
 }
 
@@ -22,7 +22,7 @@ AUTOCHECK_OFF: {
     isa_ok( $mech, 'WWW::Mechanize' );
 
     $mech->get( NONEXISTENT );
-    ok( !$mech->success, "Didn't fetch, but didn't die, either" );
+    ok( !$mech->success, q{Didn't fetch, but didn't die, either} );
 }
 
 AUTOCHECK_ON: {
@@ -31,5 +31,5 @@ AUTOCHECK_ON: {
 
     dies_ok {
         $mech->get( NONEXISTENT );
-    } "Mech would die 4 u";
+    } 'Mech would die 4 u';
 }

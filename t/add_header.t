@@ -11,13 +11,13 @@ BEGIN {
 }
 
 my $agent = WWW::Mechanize->new;
-isa_ok( $agent, "WWW::Mechanize", "Created agent" );
+isa_ok( $agent, 'WWW::Mechanize', 'Created agent' );
 
 $agent->add_header( Referer => 'x' );
 my $req = GET( 'http://www.google.com/' );
 $req = $agent->_modify_request( $req );
-like( $req->as_string, qr/Referer/, "Referer's in there" );
+like( $req->as_string, qr/Referer/, q{Referer's in there} );
 
 $agent->add_header( Referer => undef );
 $req = $agent->_modify_request( $req );
-unlike( $req->as_string, qr/Referer/, "Referer's not there" );
+unlike( $req->as_string, qr/Referer/, q{Referer's not there} );
