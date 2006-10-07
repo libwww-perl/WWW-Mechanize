@@ -379,7 +379,7 @@ sub reload {
 
     return unless my $req = $self->{req};
 
-    $self->_update_page( $req, $self->_make_request( $req, @_ ) );
+    return $self->_update_page( $req, $self->_make_request( $req, @_ ) );
 }
 
 =head2 $mech->back()
@@ -472,7 +472,7 @@ sub status {        my $self = shift; return $self->{status}; }
 sub ct {            my $self = shift; return $self->{ct}; }
 sub base {          my $self = shift; return $self->{base}; }
 sub current_form {  my $self = shift; return $self->{form}; }
-sub is_html {       my $self = shift; return defined $self->{ct} && ($self->{ct} eq "text/html"); }
+sub is_html {       my $self = shift; return defined $self->{ct} && ($self->{ct} eq 'text/html'); }
 
 =head2 $mech->title()
 
@@ -921,7 +921,7 @@ sub find_image {
     my $self = shift;
     my %parms = ( n=>1, @_ );
 
-    my $wantall = ( $parms{n} eq "all" );
+    my $wantall = ( $parms{n} eq 'all' );
 
     $self->_clean_keys( \%parms, qr/^(n|(alt|url|url_abs|tag)(_regex)?)$/ );
 
@@ -1056,9 +1056,9 @@ sub form_name {
 
     my $temp;
     my @matches = grep {defined($temp = $_->attr('name')) and ($temp eq $form) } $self->forms;
-    if ( @matches ) {
-        $self->warn( "There are ", scalar @matches, " forms named $form.  The first one was used." )
-            if @matches > 1;
+    if ( my $nmatches = @matches ) {
+        $self->warn( "There are $nmatches forms named $form.  The first one was used." )
+            if $nmatches > 1;
         return $self->{form} = $matches[0];
     }
     else {
@@ -1071,12 +1071,12 @@ sub form_name {
 
 Selects a form by passing in a list of field names it must contain.  If there
 is more than one form on the page with that matches, then the first one is used,
-and a warning is generated.  
+and a warning is generated.
 
-If it is found, the form is returned as an L<HTML::Form> object and set internally  
+If it is found, the form is returned as an L<HTML::Form> object and set internally
 for later used with Mech's form methods such as C<L<field()>> and C<L<click()>>.
 
-Returns undef if no form is found. 
+Returns undef if no form is found.
 
 Note that this functionality requires libwww-perl 5.69 or higher.
 
@@ -1084,21 +1084,20 @@ Note that this functionality requires libwww-perl 5.69 or higher.
 
 sub form_with_fields {
     my ($self, @fields) = @_;
-    die "no fields provided" unless scalar @fields;
+    die 'no fields provided' unless scalar @fields;
 
     my @matches;
     FORMS: for my $form (@{ $self->forms }) {
         my @fields_in_form = $form->param();
         for my $field (@fields) {
-            next FORMS unless grep { m/^$field$/ } @fields_in_form;
+            next FORMS unless grep { $_ eq $field } @fields_in_form;
         }
         push @matches, $form;
     }
 
-    if ( @matches ) {
-        if (@matches > 1) {
-            $self->warn( "There are ", scalar @matches, " forms with the named fields.  The first one was used." )
-        }
+    if ( my $nmatches = @matches ) {
+        $self->warn( "There are $nmatches forms with the named fields.  The first one was used." )
+            if $nmatches > 1;
         return $self->{form} = $matches[0];
     }
     else {
@@ -1130,7 +1129,7 @@ sub field {
         $form->find_input($name, undef, $number)->value($value);
     }
     else {
-        if ( ref($value) eq "ARRAY" ) {
+        if ( ref($value) eq 'ARRAY' ) {
             $form->param($name, $value);
         }
         else {
@@ -1174,7 +1173,7 @@ sub select {
 
     # For $mech->select($name, {n => 3}) or $mech->select($name, {n => [2,4]}),
     # transform the 'n' number(s) into value(s) and put it in $value.
-    if (ref($value) eq "HASH") {
+    if (ref($value) eq 'HASH') {
         for (keys %$value) {
             $self->warn(qq{Unknown select value parameter "$_"})
               unless $_ eq 'n';
@@ -1220,7 +1219,7 @@ sub select {
         }
     }
 
-    if (ref($value) eq "ARRAY") {
+    if (ref($value) eq 'ARRAY') {
         $form->param($name, $value);
         return 1;
     }
@@ -1250,7 +1249,7 @@ sub set_fields {
     my $self = shift;
     my %fields = @_;
 
-    my $form = $self->current_form or $self->die( "No form defined" );
+    my $form = $self->current_form or $self->die( 'No form defined' );
 
     while ( my ( $field, $value ) = each %fields ) {
         if ( ref $value eq 'ARRAY' ) {
@@ -1353,7 +1352,7 @@ sub tick {
 
     # loop though all the inputs
     my $index = 0;
-    while ( my $input = $self->current_form->find_input( $name, "checkbox", $index ) ) {
+    while ( my $input = $self->current_form->find_input( $name, 'checkbox', $index ) ) {
         # Can't guarantee that the first element will be undef and the second
         # element will be the right name
         foreach my $val ($input->possible_values()) {
@@ -1603,7 +1602,7 @@ sub submit_form {
     }
 
     if ($args{'with_fields'}) {
-        $fields || die "must submit some 'fields' with with_fields";
+        $fields || die q{must submit some 'fields' with with_fields};
         $self->form_with_fields(keys %$fields) or die;
     }
     elsif ( my $form_number = $args{'form_number'} ) {
@@ -1802,7 +1801,7 @@ sub request {
 
     $request = $self->_modify_request( $request );
 
-    if ( $request->method eq "GET" || $request->method eq "POST" ) {
+    if ( $request->method eq 'GET' || $request->method eq 'POST' ) {
         $self->_push_page_stack();
     }
 
@@ -1874,30 +1873,29 @@ sub update_html {
 Provide credentials to be used for HTTP Basic authentication for all sites and
 realms until further notice.  
 
-The four argument form described in L<LWP::UserAgent> is still supported.  
+The four argument form described in L<LWP::UserAgent> is still supported.
 
 =cut
 
 {
     my $saved_method;
 
-    sub credentials
-    {
+    sub credentials {
         my $self = shift;
-       no warnings 'redefine';
+        no warnings 'redefine';
 
-       if (@_ == 4) {
-           $saved_method
+        if (@_ == 4) {
+            $saved_method
                 and *LWP::UserAgent::get_basic_credentials = $saved_method;
-           return $self->SUPER::credentials(@_);
-       }
+            return $self->SUPER::credentials(@_);
+        }
 
-       @_ == 2
-            or $self->die( "Invalid # of args for overridden credentials()" );
+        @_ == 2
+            or $self->die( 'Invalid # of args for overridden credentials()' );
 
-       my ($username, $password) = @_;
-       $saved_method ||= \&LWP::UserAgent::get_basic_credentials;
-       *LWP::UserAgent::get_basic_credentials
+        my ($username, $password) = @_;
+        $saved_method ||= \&LWP::UserAgent::get_basic_credentials;
+        *LWP::UserAgent::get_basic_credentials
             = sub { return $username, $password };
     }
 }
@@ -1926,7 +1924,7 @@ sub _update_page {
 
     $self->{status}  = $res->code;
     $self->{base}    = $res->base;
-    $self->{ct}      = $res->content_type || "";
+    $self->{ct}      = $res->content_type || '';
 
     if ( $res->is_success ) {
         $self->{uri} = $self->{redirected_uri};
@@ -1935,7 +1933,7 @@ sub _update_page {
 
     if ( $res->is_error ) {
         if ( $self->{autocheck} ) {
-            $self->die( "Error ", $request->method, "ing ", $request->uri, ": ", $res->message );
+            $self->die( 'Error ', $request->method, 'ing ', $request->uri, ': ', $res->message );
         }
     }
 
@@ -1943,8 +1941,8 @@ sub _update_page {
 
     # Try to decode the content. Undef will be returned if there's nothing to decompress.
     # See docs in HTTP::Message for details. Do we need to expose the options there? 
-    my $content = $res->decoded_content; 
-       $content = $res->content if (not defined $content);  
+    my $content = $res->decoded_content;
+       $content = $res->content if (not defined $content);
 
     if ($self->is_html) {
         $self->update_html($content);
