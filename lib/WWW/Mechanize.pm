@@ -464,10 +464,11 @@ HTTP headers.
 
 =cut
 
-sub uri {      
-    my $self = shift; 
+sub uri {
+    my $self = shift;
     return $self->response->request->uri;
 }
+
 sub res {           my $self = shift; return $self->{res}; }
 sub response {      my $self = shift; return $self->{res}; }
 sub status {        my $self = shift; return $self->{status}; }
