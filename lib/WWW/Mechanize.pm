@@ -529,34 +529,31 @@ but will likely be backwards-compatible when it does.
 sub content {
     my $self = shift;
     my $content = $self->{content};
-    return $content unless $self->is_html;
 
-    my %parms = @_;
-
-    if ( exists $parms{base_href} ) {
-        my $arg = delete $parms{base_href};
-        $arg ||= $self->base;
-        $content=~s/<head>/<head>\n<base href="$arg">/;
-    }
-
-    if ( my $arg = delete $parms{format} ) {
-        if ($arg eq 'text') {
-            require HTML::TreeBuilder;
-            my $tree = HTML::TreeBuilder->new();
-            $tree->parse($content);
-            $tree->eof();
-            $tree->elementify(); # just for safety
-            $content = $tree->as_text();
-            $tree->delete;
+    if ( $self->is_html ) {
+        my %parms = @_;
+        if ( exists $parms{base_href} ) {
+            my $arg = (delete $parms{base_href}) || $self->base;
+            $content=~s/<head>/<head>\n<base href="$arg">/;
         }
-        else {
-            $self->die( qq{Unknown format parameter "$arg"} );
+        if ( my $arg = delete $parms{format} ) {
+            if ($arg eq 'text') {
+                require HTML::TreeBuilder;
+                my $tree = HTML::TreeBuilder->new();
+                $tree->parse($content);
+                $tree->eof();
+                $tree->elementify(); # just for safety
+                $content = $tree->as_text();
+                $tree->delete;
+            }
+            else {
+                $self->die( qq{Unknown "format" parameter "$arg"} );
+            }
         }
-    }
-
-    for my $cmd ( sort keys %parms ) {
-        $self->die( qq{Unknown named argument "$cmd"} );
-    }
+        for my $cmd ( sort keys %parms ) {
+            $self->die( qq{Unknown named argument "$cmd"} );
+        }
+    } # is HTML
 
     return $content;
 }
@@ -1221,7 +1218,7 @@ sub select {
             $self->warn('Hash value is invalid');
             return;
         }
-    }
+    } # hashref
 
     if (ref($value) eq 'ARRAY') {
         $form->param($name, $value);
