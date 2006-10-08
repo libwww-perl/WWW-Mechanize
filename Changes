@@ -1,6 +1,6 @@
 Revision history for Perl extension WWW::Mechanize
 
-NEXT
+1.21_04     Sat Oct  7 21:35:42 CDT 2006
 
 [FIXES]
 *   $mech->content( type => 'text' ) was not freeing memory.  Thanks to
