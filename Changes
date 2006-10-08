@@ -3,7 +3,8 @@ Revision history for Perl extension WWW::Mechanize
 NEXT
 
 [FIXES]
-*   $mech->content( type => 'text' ) was not freeing memory.
+*   $mech->content( type => 'text' ) was not freeing memory.  Thanks to
+    Cat Okita for finding it.
 
 [INTERNALS]
 *   Made the order of parms to $mech->content() not relevant.
