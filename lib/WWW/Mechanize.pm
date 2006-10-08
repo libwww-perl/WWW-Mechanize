@@ -547,6 +547,7 @@ sub content {
             $tree->eof();
             $tree->elementify(); # just for safety
             $content = $tree->as_text();
+            $tree->delete;
         }
         else {
             $self->die( qq{Unknown format parameter "$arg"} );
