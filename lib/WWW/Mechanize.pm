@@ -531,27 +531,30 @@ sub content {
     my $content = $self->{content};
     return $content unless $self->is_html;
 
-    while ( my ($cmd, $arg) = splice(@_, 0, 2) ) {
-        if ($cmd eq 'format') {
-            if ($arg eq 'text') {
-                require HTML::TreeBuilder;
-                my $tree = HTML::TreeBuilder->new();
-                $tree->parse($content);
-                $tree->eof();
-                $tree->elementify(); # just for safety
-                $content = $tree->as_text();
-            }
-            else {
-                $self->die( qq{Unknown format parameter "$arg"} );
-            };
-        }
-        elsif ($cmd eq 'base_href') {
-            $arg ||= $self->base;
-            $content=~s/<head>/<head>\n<base href="$arg">/;
+    my %parms = @_;
+
+    if ( exists $parms{base_href} ) {
+        my $arg = delete $parms{base_href};
+        $arg ||= $self->base;
+        $content=~s/<head>/<head>\n<base href="$arg">/;
+    }
+
+    if ( my $arg = delete $parms{format} ) {
+        if ($arg eq 'text') {
+            require HTML::TreeBuilder;
+            my $tree = HTML::TreeBuilder->new();
+            $tree->parse($content);
+            $tree->eof();
+            $tree->elementify(); # just for safety
+            $content = $tree->as_text();
         }
         else {
-            $self->die( qq{Unknown named argument "$cmd"} );
+            $self->die( qq{Unknown format parameter "$arg"} );
         }
+    }
+
+    for my $cmd ( sort keys %parms ) {
+        $self->die( qq{Unknown named argument "$cmd"} );
     }
 
     return $content;

@@ -1,5 +1,11 @@
 Revision history for Perl extension WWW::Mechanize
 
+NEXT
+
+[INTERNALS]
+*   Made the order of parms to $mech->content() not relevant.
+
+
 1.21_03     Sat Oct  7 01:21:46 CDT 2006
 
 [THINGS THAT MAY BREAK YOUR CODE]
