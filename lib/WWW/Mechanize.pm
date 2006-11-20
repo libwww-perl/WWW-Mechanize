@@ -1538,7 +1538,7 @@ are a list of key/value pairs, all of which are optional.
 
 =over 4
 
-=item * with_fields => \%fields
+=item * fields => \%fields
 
 Probably all you need for the common case. It combines a smart form selector
 and data setting in one operation. It selects the first form that contains all
