@@ -34,7 +34,7 @@ Submit
 --xYzZY--
 EOT
 
-is( $reqstring, $wanted, "Proper posting" );
+is( $reqstring, $wanted, 'Proper posting' );
 
 $mech->field('upload', 'MANIFEST');
 $reqstring = $form->click->as_string;

@@ -11,11 +11,11 @@ BEGIN {
     delete @ENV{ qw( IFS CDPATH ENV BASH_ENV PATH ) };
 }
 
-plan skip_all => "Not installing mech-dump" if -e File::Spec->catfile( qw( t SKIP-MECH-DUMP ) );
+plan skip_all => 'Not installing mech-dump' if -e File::Spec->catfile( qw( t SKIP-MECH-DUMP ) );
 plan tests => 4;
 
 my $exe = File::Spec->catfile( qw( blib script mech-dump ) );
-if ( $^O eq "VMS" ) {
+if ( $^O eq 'VMS' ) {
     $exe = qq[mcr $^X "-mblib" $exe];
 }
 
@@ -56,10 +56,10 @@ my @expected = split /\s*\n/, $expected;
 # First line is platform-dependent, so handle it accordingly.
 shift @expected;
 my $first = shift @actual;
-like( $first, qr/^GET file:.*\/target-page \[bob-the-form\]/, "First line matches" );
+like( $first, qr/^GET file:.*\/target-page \[bob-the-form\]/, 'First line matches' );
 
-cmp_ok( @expected, ">", 0, "Still some expected" );
-cmp_ok( @actual, ">", 0, "Still some actual" );
+cmp_ok( @expected, '>', 0, 'Still some expected' );
+cmp_ok( @actual, '>', 0, 'Still some actual' );
 
-is_deeply( \@actual, \@expected, "Rest of the lines match" );
+is_deeply( \@actual, \@expected, 'Rest of the lines match' );
 

@@ -85,6 +85,10 @@ FAQ in WWW::Mechanize::FAQ for more.
 
 The CPAN documentation page for Mechanize.
 
+=item * L<http://search.cpan.org/dist/WWW-Mechanize/lib/WWW/Mechanize/FAQ.pod>
+
+Frequently asked questions.  Make sure you read here FIRST.
+
 =item * L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=WWW-Mechanize>
 
 The RT queue for bugs & enhancements in Mechanize.  Click the "Report bug"
