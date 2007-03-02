@@ -115,7 +115,7 @@ tags:
 		--languages=Perl --langmap=Perl:+.t \
 
 critic:
-	perlcritic -1 .
+	perlcritic -1 -q -profile perlcriticrc bin/ lib/ t/
 
 MAKE_FRAG
 }

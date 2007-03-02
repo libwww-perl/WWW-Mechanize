@@ -26,13 +26,13 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
 {
     my $form = $mech->form_with_fields(qw/1b/);
     isa_ok( $form, 'HTML::Form' );
-    is($form->attr('name'), '1st_form'); 
+    is($form->attr('name'), '1st_form', 'first form matches');
 }
 
 {
     my $form = $mech->form_with_fields('1b', 'opt[2]');
     isa_ok( $form, 'HTML::Form' );
-    is($form->attr('name'), '2nd_form'); 
+    is($form->attr('name'), '2nd_form', 'second form matches');
 }
 
 {

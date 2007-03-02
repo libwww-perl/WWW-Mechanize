@@ -1,0 +1,27 @@
+[-CodeLayout::ProhibitParensWithBuiltins]
+[CodeLayout::ProhibitHardTabs]
+allow_leading_tabs = 0
+ 
+[-CodeLayout::RequireTidyCode]
+
+[-ControlStructures::ProhibitPostfixControls]
+
+[-Documentation::RequirePodAtEnd]
+[-Documentation::RequirePodSections]
+
+[-Editor::RequireEmacsFileVariables]
+[-ErrorHandling::RequireCarping]
+
+[-InputOutput::ProhibitInteractiveTest]
+[-InputOutput::ProhibitBacktickOperators]
+
+[-Miscellanea::RequireRcsKeywords]
+
+[-Modules::RequireVersionVar]
+
+[-RegularExpressions::RequireExtendedFormatting]
+[-RegularExpressions::RequireLineBoundaryMatching]
+
+[-ValuesAndExpressions::ProhibitEmptyQuotes]
+
+[-Variables::ProhibitPunctuationVars]

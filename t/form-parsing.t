@@ -9,7 +9,7 @@ my $base = 'http://localhost/';
 my $content = do { local $/ = undef; <DATA> };
 
 my $forms = [ HTML::Form->parse( $content, $base ) ];
-is( scalar @$forms, 1, 'Find one form, please' );
+is( scalar @{$forms}, 1, 'Find one form, please' );
 
 __DATA__
 <html>
