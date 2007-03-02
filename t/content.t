@@ -48,8 +48,8 @@ SKIP: {
     skip 'HTML::TreeBuilder not installed', 2 if $@;
 
     my $text = $mech->content(format => 'text');
-    like( $text, qr/Fine/);
-    unlike( $text, qr/html/i);
+    like( $text, qr/Fine/, 'Found Fine' );
+    unlike( $text, qr/html/i, 'Could not find "html"' );
 }
 
 =head2 $mech->content(base_href => undef)
@@ -59,9 +59,9 @@ SKIP: {
 =cut
 
 my $content = $mech->content(base_href => 'foo');
-like($content, qr/base href="foo"/);
+like($content, qr/base href="foo"/, 'Found the base href');
 
 
 $content = $mech->content(base_href => undef);
-like($content, qr[base href="http://example.com/"]);
+like($content, qr[base href="http://example.com/"], 'Found the new base href');
 

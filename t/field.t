@@ -19,12 +19,12 @@ my $response = $mech->get( $uri );
 ok( $response->is_success, "Fetched $uri" );
 
 $mech->field( 'dingo', 'Modified!' );
-is( $mech->value( 'dingo' ), 'Modified!' );
+is( $mech->value( 'dingo' ), 'Modified!', 'dingo got changed' );
 
 $mech->set_visible('bingo', 'bango');
-is( $mech->value( 'dingo' ), 'bingo' );
-is( $mech->value( 'bongo' ), 'bango' );
+is( $mech->value( 'dingo' ), 'bingo', 'dingo changed' );
+is( $mech->value( 'bongo' ), 'bango', 'bongo changed' );
 
 $mech->set_visible( [ radio => 'wongo!' ], 'boingo' );
-is( $mech->value( 'wango' ), 'wongo!' );
-is( $mech->value( 'dingo', 2 ), 'boingo' );
+is( $mech->value( 'wango' ), 'wongo!', 'wango changed' );
+is( $mech->value( 'dingo', 2 ), 'boingo', 'dingo changed' );

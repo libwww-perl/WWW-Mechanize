@@ -16,11 +16,10 @@ isa_ok( $mech, 'WWW::Mechanize' );
 my $uri = URI::file->new_abs( 't/frames.html' )->as_string;
 
 $mech->get( $uri );
-ok( $mech->success, "Fetched $uri" ) or die "Can't get test page";
+ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
 
-my $x;
-$x = $mech->find_link();
-isa_ok( $x, 'WWW::Mechanize::Link' );
+my $link = $mech->find_link();
+isa_ok( $link, 'WWW::Mechanize::Link' );
 
 my @links = $mech->find_all_links();
 is( scalar @links, 2, 'Only two links' );

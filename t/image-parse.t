@@ -24,13 +24,13 @@ is( scalar @images, 3, 'Only two images' );
 
 my $first = $images[0];
 is( $first->tag, 'img', 'img tag' );
-is( $first->url, 'wango.jpg' );
-is( $first->alt, 'The world of the wango' );
+is( $first->url, 'wango.jpg', 'URL matches' );
+is( $first->alt, 'The world of the wango', 'alt matches' );
 
 my $second = $images[1];
 is( $second->tag, 'input', 'input tag' );
-is( $second->url, 'bongo.gif' );
-is( $second->alt, undef, 'alt' );
+is( $second->url, 'bongo.gif', 'URL matches' );
+is( $second->alt, undef, 'alt matches' );
 is( $second->height, 142, 'height' );
 is( $second->width, 43, 'width' );
 
