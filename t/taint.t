@@ -3,8 +3,8 @@
 use warnings;
 use strict;
 use Test::More;
-eval "use Test::Taint";
-plan skip_all => "Test::Taint required for checking taintedness" if $@;
+eval 'use Test::Taint';
+plan skip_all => 'Test::Taint required for checking taintedness' if $@;
 plan tests=>5;
 
 BEGIN { delete @ENV{ qw( http_proxy HTTP_PROXY ) }; }
@@ -19,12 +19,12 @@ $mech->get( 'file:t/google.html' );
 
 # Make sure taint checking is on correctly
 my @keys = keys %ENV;
-tainted_ok( $ENV{ $keys[0] }, "ENV taints OK" );
+tainted_ok( $ENV{ $keys[0] }, 'ENV taints OK' );
 
-is( $mech->title, "Google", "Correct title" );
-untainted_ok( $mech->title, "Title should not be tainted" );
+is( $mech->title, 'Google', 'Correct title' );
+untainted_ok( $mech->title, 'Title should not be tainted' );
 
 TODO: {
     local $TODO = q{I don't know why this is magically no longer tainted.};
-    tainted_ok( $mech->content, "But content should" );
+    tainted_ok( $mech->content, 'But content should' );
 }

@@ -13,7 +13,7 @@ BEGIN {
 my $mech = WWW::Mechanize->new( cookie_jar => undef );
 isa_ok( $mech, 'WWW::Mechanize' );
 
-my $uri = URI::file->new_abs( "t/select.html" )->as_string;
+my $uri = URI::file->new_abs( 't/select.html' )->as_string;
 my $response = $mech->get( $uri );
 ok( $response->is_success, "Fetched $uri" );
 
@@ -26,50 +26,50 @@ $sendsingle = 'aaa';
 %sendsingle = (n => 1);
 %sendmulti = (n => [2, 3]);
 
-ok($mech->form_number(1), "set form to number 1");
+ok($mech->form_number(1), 'set form to number 1');
 $form = $mech->current_form();
 
 
 # Multi-select
 
 # pass multiple values to a multi select
-$mech->select("multilist", \@sendmulti);
-@return = $form->param("multilist");
-is_deeply(\@return, \@sendmulti, "multi->multi value is " . join(' ', @return));
+$mech->select('multilist', \@sendmulti);
+@return = $form->param('multilist');
+is_deeply(\@return, \@sendmulti, 'multi->multi value is ' . join(' ', @return));
 
-$mech->select("multilist", \%sendmulti);
-@return = $form->param("multilist");
-is_deeply(\@return, \@sendmulti, "multi->multi value is " . join(' ', @return));
+$mech->select('multilist', \%sendmulti);
+@return = $form->param('multilist');
+is_deeply(\@return, \@sendmulti, 'multi->multi value is ' . join(' ', @return));
 
 # pass a single value to a multi select
-$mech->select("multilist", $sendsingle);
-$return = $form->param("multilist");
+$mech->select('multilist', $sendsingle);
+$return = $form->param('multilist');
 is($return, $sendsingle, "single->multi value is '$return'");
 
-$mech->select("multilist", \%sendsingle);
-$return = $form->param("multilist");
+$mech->select('multilist', \%sendsingle);
+$return = $form->param('multilist');
 is($return, $sendsingle, "single->multi value is '$return'");
 
 
 # Single select
 
 # pass multiple values to a single select (only the _first_ should be set)
-$mech->select("singlelist", \@sendmulti);
-@return = $form->param("singlelist");
-is_deeply(\@return, \@singlereturn, "multi->single value is " . join(' ', @return));
+$mech->select('singlelist', \@sendmulti);
+@return = $form->param('singlelist');
+is_deeply(\@return, \@singlereturn, 'multi->single value is ' . join(' ', @return));
 
-$mech->select("singlelist", \%sendmulti);
-@return = $form->param("singlelist");
-is_deeply(\@return, \@singlereturn, "multi->single value is " . join(' ', @return));
+$mech->select('singlelist', \%sendmulti);
+@return = $form->param('singlelist');
+is_deeply(\@return, \@singlereturn, 'multi->single value is ' . join(' ', @return));
 
 
 # pass a single value to a single select
-$rv = $mech->select("singlelist", $sendsingle);
-$return = $form->param("singlelist");
+$rv = $mech->select('singlelist', $sendsingle);
+$return = $form->param('singlelist');
 is($return, $sendsingle, "single->single value is '$return'");
 
-$rv = $mech->select("singlelist", \%sendsingle);
-$return = $form->param("singlelist");
+$rv = $mech->select('singlelist', \%sendsingle);
+$return = $form->param('singlelist');
 is($return, $sendsingle, "single->single value is '$return'");
 
 # test return value from $mech->select
