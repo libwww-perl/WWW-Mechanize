@@ -620,7 +620,7 @@ sub follow_link {
 
     if ( $parms{n} eq 'all' ) {
         delete $parms{n};
-        $self->warn( qq{follow_link(n=>"all") is not valid} );
+        $self->warn( q{follow_link(n=>"all") is not valid} );
     }
 
     my $link = $self->find_link(%parms);
@@ -1608,7 +1608,7 @@ sub submit_form {
 
     if ($args{'with_fields'}) {
         $fields || die q{must submit some 'fields' with with_fields};
-        $self->form_with_fields(keys %$fields) or die;
+        $self->form_with_fields(keys %{$fields}) or die;
     }
     elsif ( my $form_number = $args{'form_number'} ) {
         $self->form_number( $form_number ) or die;
@@ -1621,7 +1621,7 @@ sub submit_form {
         # Maybe a form was set separately, or we'll default to the first form.
     }
 
-    $self->set_fields( %$fields ) if $fields;
+    $self->set_fields( %{$fields} ) if $fields;
 
     my $response;
     if ( $args{button} ) {
@@ -1745,7 +1745,7 @@ sub save_content {
     my $filename = shift;
 
     open( my $fh, '>', $filename ) or $self->die( "Unable to create $filename: $!" );
-    print $fh $self->content;
+    print {$fh} $self->content;
     close $fh;
 }
 
@@ -1887,7 +1887,7 @@ The four argument form described in L<LWP::UserAgent> is still supported.
 
     sub credentials {
         my $self = shift;
-        no warnings 'redefine';
+        no warnings 'redefine'; ## no critic
 
         if (@_ == 4) {
             $saved_method
@@ -2190,10 +2190,10 @@ sub _push_page_stack {
         $self->{page_stack} = [];
 
         my $clone = $self->clone;
-        push( @$save_stack, $clone );
+        push( @{$save_stack}, $clone );
 
-        while ( @$save_stack > $self->stack_depth ) {
-            shift @$save_stack;
+        while ( @{$save_stack} > $self->stack_depth ) {
+            shift @{$save_stack};
         }
         $self->{page_stack} = $save_stack;
     }
@@ -2208,12 +2208,12 @@ sub _pop_page_stack {
         my $popped = pop @{$self->{page_stack}};
 
         # eliminate everything in self
-        foreach my $key ( keys %$self ) {
+        foreach my $key ( keys %{$self} ) {
             delete $self->{ $key }              unless $key eq 'page_stack';
         }
 
         # make self just like the popped object
-        foreach my $key ( keys %$popped ) {
+        foreach my $key ( keys %{$popped} ) {
             $self->{ $key } = $popped->{ $key } unless $key eq 'page_stack';
         }
     }
@@ -2236,7 +2236,7 @@ sub warn {
 
     return if $self->quiet;
 
-    $handler->(@_);
+    return $handler->(@_);
 }
 
 =head2 die( @messages )
@@ -2251,20 +2251,20 @@ sub die {
 
     return unless my $handler = $self->{onerror};
 
-    $handler->(@_);
+    return $handler->(@_);
 }
 
 
 # NOT an object method!
 sub _warn {
     require Carp;
-    &Carp::carp; # pass thru
+    &Carp::carp; ## no critic
 }
 
 # NOT an object method!
 sub _die {
     require Carp;
-    &Carp::croak; # pass thru
+    &Carp::croak; ## no critic
 }
 
 1; # End of module

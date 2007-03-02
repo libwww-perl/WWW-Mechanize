@@ -9,8 +9,8 @@ BEGIN {
 }
 
 my @aliases = WWW::Mechanize::known_agent_aliases();
-is( scalar @aliases, 6 );
+is( scalar @aliases, 6, 'All aliases accounted for' );
 
 for my $alias ( @aliases ) {
-    like( $alias, qr/^(Mac|Windows|Linux) /, "We only know Mac, Windows or Linux" );
+    like( $alias, qr/^(Mac|Windows|Linux) /, 'We only know Mac, Windows or Linux' );
 }
