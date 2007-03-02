@@ -1,9 +1,11 @@
 Revision history for Perl extension WWW::Mechanize
 
-1.22        Thu Mar  1 22:53:23 CST 2007
+1.22        Fri Mar  2 00:05:57 CST 2007
 
 [INTERNALS]
 Added new tests.
+
+Added Perl::Critic changes and a perlcriticrc file.
 
 
 1.21_04     Sat Oct  7 21:35:42 CDT 2006
