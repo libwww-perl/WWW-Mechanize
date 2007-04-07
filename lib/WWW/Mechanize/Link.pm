@@ -102,7 +102,7 @@ sub URI {
 
 =head2 $link->url_abs()
 
-Returns the URL as an absolute URL string.
+Returns a URI::URL object for the absolute form of the string.
 
 =cut
 
@@ -114,7 +114,7 @@ sub url_abs {
 
 =head1 COPYRIGHT
 
-Copyright (c) 2004-2006 Andy Lester. All rights reserved. This program is
+Copyright (c) 2004-2007 Andy Lester. All rights reserved. This program is
 free software; you can redistribute it and/or modify it under the same
 terms as Perl itself.
 
