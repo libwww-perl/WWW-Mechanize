@@ -1,7 +1,12 @@
-Revision history for Perl extension WWW::Mechanize
+Revision history for WWW::Mechanize
+
+NEXT
+========================================
+[INTERNALS
+
 
 1.22        Fri Mar  2 00:05:57 CST 2007
-
+========================================
 [INTERNALS]
 Added new tests.
 
@@ -9,7 +14,7 @@ Added Perl::Critic changes and a perlcriticrc file.
 
 
 1.21_04     Sat Oct  7 21:35:42 CDT 2006
-
+========================================
 [FIXES]
 *   $mech->content( type => 'text' ) was not freeing memory.  Thanks to
     Cat Okita for finding it.
@@ -19,7 +24,7 @@ Added Perl::Critic changes and a perlcriticrc file.
 
 
 1.21_03     Sat Oct  7 01:21:46 CDT 2006
-
+========================================
 [THINGS THAT MAY BREAK YOUR CODE]
 *   The methods $mech->form() and $mech->follow() have been removed.
     They've been deprecated since 1.10, which was released in Feb 2005.
@@ -33,7 +38,7 @@ Added Perl::Critic changes and a perlcriticrc file.
 
 
 1.21_02     Wed Oct  4 13:14:30 CDT 2006
-
+========================================
 [ENHANCEMENTS THAT MAY BREAK YOUR CODE]
 
 *   The $mech->stack_depth() setting had no way to say "don't cache any
@@ -48,7 +53,7 @@ Added Perl::Critic changes and a perlcriticrc file.
 
 
 1.21_01 Mon Sep 18 17:18:43 CDT 2006
-
+========================================
 [ENHANCEMENTS]
 *   If Compress::Zlib is installed, gzipped content is now
     accepted and transparently decoded. No additional syntax needed!
