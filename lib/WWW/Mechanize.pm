@@ -2435,6 +2435,7 @@ for Mechanize.  Please check to see if your bug has already been reported.
 Thanks to the numerous people who have helped out on WWW::Mechanize in
 one way or another, including
 Kirrily Robert for the orignal C<WWW::Automate>,
+Kevin Falcone,
 Mike O'Regan,
 Mark Stosberg,
 Uri Guttman,
