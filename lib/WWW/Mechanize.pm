@@ -1547,7 +1547,7 @@ are a list of key/value pairs, all of which are optional.
 Probably all you need for the common case. It combines a smart form selector
 and data setting in one operation. It selects the first form that contains all
 fields mentioned in C<\%fields>.  This is nice because you don't need to know
-the name or number of the form to do this. 
+the name or number of the form to do this.
 (calls C<L<form_with_fields>> and C<L<set_fields()>>).
 
 If you choose this, the form_number, form_name and fields options will be ignored.
@@ -1560,10 +1560,6 @@ specified, the currently-selected form is used.
 =item * form_name => name
 
 Selects the form named I<name> (calls C<L<form_name()>>)
-
-=item * fields => \%fields
-
-Sets the field values from the I<fields> hashref (calls C<L<set_fields()>>).
 
 =item * button => button
 
@@ -2435,6 +2431,8 @@ for Mechanize.  Please check to see if your bug has already been reported.
 Thanks to the numerous people who have helped out on WWW::Mechanize in
 one way or another, including
 Kirrily Robert for the orignal C<WWW::Automate>,
+
+David Steinbrunner,
 Kevin Falcone,
 Mike O'Regan,
 Mark Stosberg,
