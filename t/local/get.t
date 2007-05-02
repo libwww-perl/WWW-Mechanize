@@ -24,11 +24,11 @@ isa_ok( $agent, 'WWW::Mechanize', 'Created object' );
 my $response = $agent->get($server->url);
 isa_ok( $response, 'HTTP::Response' );
 isa_ok( $agent->response, 'HTTP::Response' );
-ok( $response->is_success );
+ok( $response->is_success, 'Page read OK' );
 ok( $agent->success, "Get webpage" );
 is( $agent->ct, "text/html", "Got the content-type..." );
 ok( $agent->is_html, "... and the is_html wrapper" );
-is( $agent->title, "WWW::Mechanize::Shell test page" );
+is( $agent->title, 'WWW::Mechanize::Shell test page', 'Titles match' );
 
 $agent->get( '/foo/' );
 ok( $agent->success, 'Got the /foo' );
@@ -50,7 +50,7 @@ is( $agent->title, 'WWW::Mechanize::Shell test page', 'Title matches' );
 like( $agent->content, qr/WWW::Mechanize::Shell test page/, 'Got the right page' );
 
 $agent->get( './refinesearch.html' );
-ok( $agent->success, 'Got the 'refine search' page' );
+ok( $agent->success, 'Got the "refine search" page' );
 is( $agent->uri, sprintf('%sbar/refinesearch.html',$server->url), 'Got relative OK' );
 ok( $agent->is_html, 'is HTML' );
 is( $agent->title, 'WWW::Mechanize::Shell test page', 'Title matches' );
@@ -61,7 +61,7 @@ my $tempfile = './temp';
 unlink $tempfile;
 ok( !-e $tempfile, 'tempfile not there right now' );
 $agent->get( './refinesearch.html', ':content_file'=>$tempfile );
-ok( -e $tempfile );
+ok( -e $tempfile, 'File exists' );
 is( -s $tempfile, $rslength, 'Did all the bytes get saved?' );
 unlink $tempfile;
 
