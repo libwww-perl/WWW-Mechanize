@@ -23,4 +23,4 @@ ok( $agent->success, 'Got some page' );
 
 # \321\202 is \x{442}
 $agent->field("ValueOf'CF.{\321\202}'", "\321\201");
-is($agent->value("ValueOf'CF.{\321\202}'"), "\321\201", "set utf value");
+is($agent->value("ValueOf'CF.{\321\202}'"), "\321\201", 'set utf value');
