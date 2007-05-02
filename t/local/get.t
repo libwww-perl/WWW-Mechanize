@@ -32,37 +32,37 @@ is( $agent->title, "WWW::Mechanize::Shell test page" );
 
 $agent->get( '/foo/' );
 ok( $agent->success, 'Got the /foo' );
-is( $agent->uri, sprintf('%sfoo/',$server->url), "Got relative OK" );
-ok( $agent->is_html,"Got HTML back" );
-is( $agent->title, "WWW::Mechanize::Shell test page", "Got the right page" );
+is( $agent->uri, sprintf('%sfoo/',$server->url), 'Got relative OK' );
+ok( $agent->is_html,'Got HTML back' );
+is( $agent->title, 'WWW::Mechanize::Shell test page', 'Got the right page' );
 
 $agent->get( '../bar/' );
 ok( $agent->success, 'Got the /bar page' );
-is( $agent->uri, sprintf('%sbar/',$server->url), "Got relative OK" );
+is( $agent->uri, sprintf('%sbar/',$server->url), 'Got relative OK' );
 ok( $agent->is_html );
-is( $agent->title, "WWW::Mechanize::Shell test page", "Got the right page" );
+is( $agent->title, 'WWW::Mechanize::Shell test page', 'Got the right page' );
 
 $agent->get( 'basics.html' );
 ok( $agent->success, 'Got the basics page' );
-is( $agent->uri, sprintf('%sbar/basics.html',$server->url), "Got relative OK" );
+is( $agent->uri, sprintf('%sbar/basics.html',$server->url), 'Got relative OK' );
 ok( $agent->is_html );
-is( $agent->title, "WWW::Mechanize::Shell test page" );
-like( $agent->content, qr/WWW::Mechanize::Shell test page/, "Got the right page" );
+is( $agent->title, 'WWW::Mechanize::Shell test page' );
+like( $agent->content, qr/WWW::Mechanize::Shell test page/, 'Got the right page' );
 
 $agent->get( './refinesearch.html' );
-ok( $agent->success, 'Got the "refine search" page' );
-is( $agent->uri, sprintf('%sbar/refinesearch.html',$server->url), "Got relative OK" );
+ok( $agent->success, 'Got the 'refine search' page' );
+is( $agent->uri, sprintf('%sbar/refinesearch.html',$server->url), 'Got relative OK' );
 ok( $agent->is_html );
-is( $agent->title, "WWW::Mechanize::Shell test page" );
-like( $agent->content, qr/WWW::Mechanize::Shell test page/, "Got the right page" );
+is( $agent->title, 'WWW::Mechanize::Shell test page' );
+like( $agent->content, qr/WWW::Mechanize::Shell test page/, 'Got the right page' );
 my $rslength = length $agent->content;
 
-my $tempfile = "./temp";
+my $tempfile = './temp';
 unlink $tempfile;
-ok( !-e $tempfile, "tempfile isn't there right now" );
-$agent->get( './refinesearch.html', ":content_file"=>$tempfile );
+ok( !-e $tempfile, 'tempfile not there right now' );
+$agent->get( './refinesearch.html', ':content_file'=>$tempfile );
 ok( -e $tempfile );
-is( -s $tempfile, $rslength, "Did all the bytes get saved?" );
+is( -s $tempfile, $rslength, 'Did all the bytes get saved?' );
 unlink $tempfile;
 
 SKIP: {

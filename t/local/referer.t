@@ -36,26 +36,26 @@ SKIP: {
 
     $agent->get( $url );
     is($agent->status, 200, 'Got first page') or diag $agent->res->message;
-    is($agent->content, "Referer: ''", "First page gets sent with empty referrer");
+    is($agent->content, q{Referer: ''}, 'First page gets sent with empty referrer');
 
     $agent->get( $url );
     is($agent->status, 200, 'Got second page') or diag $agent->res->message;
-    is($agent->content, "Referer: '$url'", "Referer got sent for absolute url");
+    is($agent->content, "Referer: '$url'", 'Referer got sent for absolute url');
 
     $agent->get( '.' );
     is($agent->status, 200, 'Got third page') or diag $agent->res->message;
-    is($agent->content, "Referer: '$url'", "Referer got sent for relative url");
+    is($agent->content, "Referer: '$url'", 'Referer got sent for relative url');
 
     $agent->add_header( Referer => 'x' );
     $agent->get( $url );
     is($agent->status, 200, 'Got fourth page') or diag $agent->res->message;
-    is($agent->content, "Referer: 'x'", "Referer can be set to empty again");
+    is($agent->content, "Referer: 'x'", 'Referer can be set to empty again');
 
     my $ref = 'This is not the referer you are looking for *jedi gesture*';
     $agent->add_header( Referer => $ref );
     $agent->get( $url );
     is($agent->status, 200, 'Got fourth page') or diag $agent->res->message;
-    is($agent->content, "Referer: '$ref'", "Custom referer can be set");
+    is($agent->content, "Referer: '$ref'", 'Custom referer can be set');
 };
 
 SKIP: {
