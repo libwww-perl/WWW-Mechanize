@@ -39,21 +39,21 @@ is( $agent->title, 'WWW::Mechanize::Shell test page', 'Got the right page' );
 $agent->get( '../bar/' );
 ok( $agent->success, 'Got the /bar page' );
 is( $agent->uri, sprintf('%sbar/',$server->url), 'Got relative OK' );
-ok( $agent->is_html );
+ok( $agent->is_html, 'is HTML' );
 is( $agent->title, 'WWW::Mechanize::Shell test page', 'Got the right page' );
 
 $agent->get( 'basics.html' );
 ok( $agent->success, 'Got the basics page' );
 is( $agent->uri, sprintf('%sbar/basics.html',$server->url), 'Got relative OK' );
-ok( $agent->is_html );
-is( $agent->title, 'WWW::Mechanize::Shell test page' );
+ok( $agent->is_html, 'is HTML' );
+is( $agent->title, 'WWW::Mechanize::Shell test page', 'Title matches' );
 like( $agent->content, qr/WWW::Mechanize::Shell test page/, 'Got the right page' );
 
 $agent->get( './refinesearch.html' );
 ok( $agent->success, 'Got the 'refine search' page' );
 is( $agent->uri, sprintf('%sbar/refinesearch.html',$server->url), 'Got relative OK' );
-ok( $agent->is_html );
-is( $agent->title, 'WWW::Mechanize::Shell test page' );
+ok( $agent->is_html, 'is HTML' );
+is( $agent->title, 'WWW::Mechanize::Shell test page', 'Title matches' );
 like( $agent->content, qr/WWW::Mechanize::Shell test page/, 'Got the right page' );
 my $rslength = length $agent->content;
 
@@ -66,7 +66,7 @@ is( -s $tempfile, $rslength, 'Did all the bytes get saved?' );
 unlink $tempfile;
 
 SKIP: {
-    skip "Test::Memory::Cycle not installed", 1 unless $canTMC;
+    skip 'Test::Memory::Cycle not installed', 1 unless $canTMC;
 
-    memory_cycle_ok( $agent, "Mech: no cycles" );
+    memory_cycle_ok( $agent, 'Mech: no cycles' );
 }

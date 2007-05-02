@@ -21,7 +21,7 @@ my $response = $mech->get( $server->url );
 isa_ok( $response, 'HTTP::Response', 'Got back a response' ) or die;
 is( $mech->uri, $server->url, "Got the correct page" );
 ok( $response->is_success, 'Got local page' ) or die 'cannot even fetch local page';
-ok( $mech->is_html );
+ok( $mech->is_html, 'is HTML' );
 
 is( $mech->value('upload'), '', 'Hopefully no upload happens');
 

@@ -49,7 +49,7 @@ SKIP: {
     $agent->add_header( Referer => 'x' );
     $agent->get( $url );
     is($agent->status, 200, 'Got fourth page') or diag $agent->res->message;
-    is($agent->content, "Referer: 'x'", 'Referer can be set to empty again');
+    is($agent->content, q{Referer: 'x'}, 'Referer can be set to empty again');
 
     my $ref = 'This is not the referer you are looking for *jedi gesture*';
     $agent->add_header( Referer => $ref );
