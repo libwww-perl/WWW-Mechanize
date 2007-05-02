@@ -1693,6 +1693,8 @@ sub delete_header {
 
         delete $self->{headers}{$key};
     }
+
+    return;
 }
 
 
@@ -2255,13 +2257,13 @@ sub die {
 # NOT an object method!
 sub _warn {
     require Carp;
-    &Carp::carp; ## no critic
+    return &Carp::carp; ## no critic
 }
 
 # NOT an object method!
 sub _die {
     require Carp;
-    &Carp::croak; ## no critic
+    return &Carp::croak; ## no critic
 }
 
 1; # End of module

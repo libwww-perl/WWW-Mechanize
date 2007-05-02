@@ -158,7 +158,7 @@ sub get_output {
   local *LOG;
   open LOG, '<', $self->{logfile}
     or die "Couldn't retrieve logfile";
-  join "", <LOG>;
+  return join "", <LOG>;
 }
 
 sub DESTROY {
