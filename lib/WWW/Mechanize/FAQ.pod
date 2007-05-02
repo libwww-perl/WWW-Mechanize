@@ -2,6 +2,19 @@
 
 WWW::Mechanize::FAQ - Frequently Asked Questions about WWW::Mechanize
 
+=head1 How to get help with WWW::Mechanize
+
+If your question isn't answered here in the FAQ, please turn to the
+communities at:
+
+=over
+
+=item * L<http://perlmonks.org>
+
+=item * The libwww-perl mailing list at L<http://lists.perl.org>
+
+=back
+
 =head1 JavaScript
 
 =head2 I have this web page that has JavaScript on it, and my Mech program doesn't work.

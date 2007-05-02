@@ -2303,7 +2303,7 @@ There are six hacks that use Mech or a Mech derivative:
 The book was also positively reviewed on Slashdot:
 L<http://books.slashdot.org/article.pl?sid=03/12/11/2126256>
 
-=head1 ONLINE RESOURCES
+=head1 ONLINE RESOURCES AND SUPPORT
 
 =over 4
 
@@ -2315,10 +2315,10 @@ user-oriented and well-populated than the WWW::Mechanize Development
 list.  This is a good list for Mech users, since LWP is the basis
 for Mech.
 
-=item * WWW::Mechanize Development mailing list
+=item * Perlmonks
 
-Hosted at Sourceforge, this is where the contributors to Mech
-discuss things.  L<http://sourceforge.net/mail/?group_id=83309>
+L<http://perlmonks.org> is an excellent community of support, and
+many questions about Mech have already been answered there.
 
 =item * L<WWW::Mechanize::Examples>
 
@@ -2426,6 +2426,9 @@ track things.
 
 L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=WWW-Mechanize> is the RT queue
 for Mechanize.  Please check to see if your bug has already been reported.
+
+Please note that this is NOT for support requests.  Please be sure
+to read the FAQ if you have support requests.
 
 =head1 ACKNOWLEDGEMENTS
 
