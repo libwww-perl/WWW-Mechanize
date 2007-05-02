@@ -15,7 +15,7 @@ use Pod::Usage;
 my @actions;
 my $absolute;
 
-GetOptions( 
+GetOptions(
     forms =>    sub { push( @actions, \&dump_forms ); },
     links =>    sub { push( @actions, \&dump_links ); },
     images =>   sub { push( @actions, \&dump_images ); },
