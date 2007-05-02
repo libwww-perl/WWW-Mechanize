@@ -5,6 +5,7 @@ NEXT
 [FIXES]
 
 *   RT #26593: Improved handling of charsets.  Thanks Kevin Falcone.
+*   RT #24354: find_link now handles http-equivs with quoted URLs.
 
 
 1.22        Fri Mar  2 00:05:57 CST 2007

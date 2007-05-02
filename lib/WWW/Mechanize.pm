@@ -2147,6 +2147,7 @@ sub _link_from_token {
 
         if ( $content =~ /^\d+\s*;\s*url\s*=\s*(\S+)/i ) {
             $url = $1;
+            $url =~ s/^"(.+)"$/$1/ or $url =~ s/^'(.+)'$/$1/;
         }
         else {
             undef $url;
