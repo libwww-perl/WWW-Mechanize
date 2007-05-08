@@ -191,7 +191,26 @@ I<submit_form()>, and I<request()> methods.
         print $key, " : ", $response->header( $key ), "\n";
     }
 
-=head1 Why doesn't this work?
+=head1 Why doesn't this work: Debugging your Mechanize program
+
+=head2 My Mech program doesn't work, but it works in the browser.
+
+Mechanize acts like a browser, but apparently something you're doing
+is not matching the browser's behavior.  Maybe it's expecting a
+certain web client, or maybe you've not handling a field properly.
+For some reason, your Mech problem isn't doing exactly what the
+browser is doing, and when you find that, you'll have the answer.
+
+=head2 My Mech program gets these 500 errors.
+
+A 500 error from the web server says that the program on the server
+side died.  Probably the web server program was expecting certain
+inputs that you didn't supply, and instead of handling it nicely,
+the program died.
+
+Whatever the cause of the 500 error, if it works in the browser,
+but not in your Mech program, you're not acting like the browser.
+See the previous question.
 
 =head2 Why doesn't my program handle this form correctly?
 
@@ -291,7 +310,7 @@ than you think! etc, etc, etc. A couple of places to start:
 
 =over 4
 
-=item 1 Check $mech->status() after each call
+=item 1 Check C<< $mech->status() >> after each call
 
 =item 2 Check the URL with C<< $mech->uri() >> to see where you ended up
 
