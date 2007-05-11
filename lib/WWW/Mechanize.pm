@@ -173,7 +173,7 @@ installed, or C<CORE::die> if not.
 =item * C<< quiet => [0|1] >>
 
 Don't complain on warnings.  Setting C<< quiet => 1 >> is the same as
-calling C<< $agent->quiet(1) >>.  Default is off.
+calling C<< $mech->quiet(1) >>.  Default is off.
 
 =item * C<< stack_depth => $value >>
 
