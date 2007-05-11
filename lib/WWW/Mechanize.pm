@@ -2014,16 +2014,11 @@ sub _update_page {
 
     $self->_reset_page;
 
-    # Try to decode the content. Undef will be returned if there's nothing to decompress.
-    # See docs in HTTP::Message for details. Do we need to expose the options there? 
-    my $content = $res->decoded_content;
-       $content = $res->content if (not defined $content);
-
     if ($self->is_html) {
-        $self->update_html($content);
+        $self->update_html($res->content);
     }
     else {
-        $self->{content} = $content;
+        $self->{content} = $res->content;
     }
 
     return $res;

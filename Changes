@@ -6,6 +6,7 @@ NEXT
 
 *   RT #26593: Improved handling of charsets.  Thanks Kevin Falcone.
 *   RT #24354: find_link now handles http-equivs with quoted URLs.
+*   Reverses the change in 1.21_01 where it decodes the content.
 
 [ENHANCEMENTS]
 *   Added find_all_inputs() and find_all_submits() methods.  Thanks,
