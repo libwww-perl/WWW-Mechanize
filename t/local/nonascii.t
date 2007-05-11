@@ -2,7 +2,9 @@
 
 use warnings;
 use strict;
-use Test::More skip_all => "I'm not savvy enough with the UTF-8 to fix this failing test.  Patches welcome.";
+BEGIN {
+    use Test::More skip_all => "I'm not savvy enough with the UTF-8 to fix this failing test.  Patches welcome.";
+}
 use Test::More tests => 5;
 use lib 't/local';
 use LocalServer;
