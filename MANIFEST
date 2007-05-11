@@ -44,6 +44,7 @@ t/new.t
 t/pod-coverage.t
 t/pod.t
 t/regex-error.t
+t/save_content.t
 t/select.html
 t/select.t
 t/taint.t

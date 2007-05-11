@@ -1806,7 +1806,7 @@ sub stack_depth {
 =head2 $mech->save_content( $filename )
 
 Dumps the contents of C<< $mech->content >> into I<$filename>.
-I<$filename> will be overwritten.
+I<$filename> will be overwritten.  Dies if there are any errors.
 
 =cut
 
@@ -1815,8 +1815,8 @@ sub save_content {
     my $filename = shift;
 
     open( my $fh, '>', $filename ) or $self->die( "Unable to create $filename: $!" );
-    print {$fh} $self->content;
-    close $fh;
+    print {$fh} $self->content or $self->die( "Unable to write to $filename: $!" );
+    close $fh or $self->die( "Unable to close $filename: $!" );
 }
 
 =head1 OVERRIDDEN LWP::UserAgent METHODS
