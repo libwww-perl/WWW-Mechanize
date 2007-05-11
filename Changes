@@ -1,9 +1,10 @@
 Revision history for WWW::Mechanize
 
-NEXT
+1.24        Fri May 11 15:57:56 CDT 2007
 ========================================
 [FIXES]
 
+*   Fixed failures in "make test" with some versions of HTTP::Server::Simple
 *   RT #26593: Improved handling of charsets.  Thanks Kevin Falcone.
 *   RT #24354: find_link now handles http-equivs with quoted URLs.
 *   Reverses the change in 1.21_01 where it decodes the content.
