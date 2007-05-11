@@ -3,7 +3,7 @@
 use warnings;
 use strict;
 
-use Test::More tests => 7;
+use Test::More tests => 9;
 use URI::file;
 
 BEGIN {
@@ -34,4 +34,13 @@ SECOND_FORM: {
 
     my @submits = $mech->find_all_submits();
     is( scalar @submits, 1, 'Exactly one submit' );
+}
+
+THIRD_FORM: {
+    $mech->form_number(3);
+    my @inputs = $mech->find_all_inputs();
+    is( scalar @inputs, 5, 'Exactly five inputs' );
+
+    my @relatives = $mech->find_all_inputs( name => qr/^Your/ );
+    is( scalar @relatives, 4, 'Found four relatives' );
 }
