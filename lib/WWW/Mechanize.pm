@@ -866,14 +866,11 @@ sub find_all_inputs {
 
     my $form = $self->current_form() or return;
 
-    my @inputs = $form->inputs();
-    return @inputs if !%criteria;
-
     my @found;
-    foreach my $input ( @inputs ) { # check every pattern for a match on the current hash
+    foreach my $input ( $form->inputs ) { # check every pattern for a match on the current hash
         my $matched = 1;
         foreach my $criterion ( sort keys %criteria ) { # Sort so we're deterministic
-            if ( not defined $input->{$criterion} || ( $input->{$criterion} !~ $criteria{$criterion} ) ) {
+            if ( ( not defined $input->{$criterion} ) || ( $input->{$criterion} !~ $criteria{$criterion} ) ) {
                 $matched = 0;
                 last;
             }
@@ -894,7 +891,7 @@ ignoring other types of input controls like text and checkboxes.
 sub find_all_submits {
     my $self = shift;
 
-    return $self->grep_inputs( @_, type => qr/^(submit|image)$/ );
+    return $self->find_all_inputs( @_, type => qr/^(submit|image)$/ );
 }
 
 
