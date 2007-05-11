@@ -10,6 +10,8 @@ NEXT
 [ENHANCEMENTS]
 *   Added find_all_inputs() and find_all_submits() methods.  Thanks,
     Mike O'Regan.
+*   Test::LongString is no longer needed, so has been removed as a
+    requirement.
 
 
 1.22        Fri Mar  2 00:05:57 CST 2007
