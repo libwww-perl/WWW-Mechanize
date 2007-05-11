@@ -627,7 +627,7 @@ sub follow_link {
     return;
 }
 
-=head2 $mech->find_link()
+=head2 $mech->find_link( ... )
 
 Finds a link in the currently fetched page. It returns a
 L<WWW::Mechanize::Link> object which describes the link.  (You'll
@@ -836,6 +836,65 @@ page.
 sub find_all_links {
     my $self = shift;
     return $self->find_link( @_, n=>'all' );
+}
+
+=head2 find_all_inputs( ... criteria ... )
+
+find_all_inputs() returns an array of all the input controls in the
+current form whose properties match all of the regexes passed in.
+The controls returned are all descended from HTML::Form::Input.
+
+If no criteria are passed, all inputs will be returned.
+
+If there is no current page, there is no form on the current
+page, or there are no submit controls in the current form
+then the return will be an empty array.
+
+    # get all text controls whose names begin with "customer"
+    my @customer_text_inputs =
+        $mech->grep_inputs( {
+            type => qr/^(text|textarea)$/,
+            name => qr/^customer/
+        }
+    );
+
+=cut
+
+sub find_all_inputs {
+    my $self = shift;
+    my %criteria = @_;
+
+    my $form = $self->current_form() or return;
+
+    my @inputs = $form->inputs();
+    return @inputs if !%criteria;
+
+    my @found;
+    foreach my $input ( @inputs ) { # check every pattern for a match on the current hash
+        my $matched = 1;
+        foreach my $criterion ( sort keys %criteria ) { # Sort so we're deterministic
+            if ( not defined $input->{$criterion} || ( $input->{$criterion} !~ $criteria{$criterion} ) ) {
+                $matched = 0;
+                last;
+            }
+        }
+        push @found, $input if $matched;
+    }
+    return @found;
+}
+
+=head2 $mech->find_all_submits( ... criteria ... )
+
+C<find_all_submits()> does the same thing as C<find_all_inputs()>
+except that it only returns controls that are submit controls,
+ignoring other types of input controls like text and checkboxes.
+
+=cut
+
+sub find_all_submits {
+    my $self = shift;
+
+    return $self->grep_inputs( @_, type => qr/^(submit|image)$/ );
 }
 
 

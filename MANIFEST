@@ -24,6 +24,8 @@ t/clone.t
 t/die.t
 t/field.html
 t/field.t
+t/find_inputs.html
+t/find_inputs.t
 t/find_link.html
 t/find_link.t
 t/find_image.t
