@@ -850,11 +850,21 @@ If there is no current page, there is no form on the current
 page, or there are no submit controls in the current form
 then the return will be an empty array.
 
-    # get all text controls whose names begin with "customer"
+You may use a regex or a literal string:
+
+    # get all textarea controls whose names begin with "customer"
     my @customer_text_inputs =
-        $mech->grep_inputs( {
-            type => qr/^(text|textarea)$/,
-            name => qr/^customer/
+        $mech->find_all_inputs( {
+            type       => 'textarea',
+            name_regex => qr/^customer/,
+        }
+    );
+
+    # get all text or textarea controls called "customer"
+    my @customer_text_inputs =
+        $mech->find_all_inputs( {
+            type_regex => qr/^(text|textarea)$/,
+            name       => 'customer',
         }
     );
 
@@ -870,10 +880,15 @@ sub find_all_inputs {
     foreach my $input ( $form->inputs ) { # check every pattern for a match on the current hash
         my $matched = 1;
         foreach my $criterion ( sort keys %criteria ) { # Sort so we're deterministic
-            if ( ( not defined $input->{$criterion} ) || ( $input->{$criterion} !~ $criteria{$criterion} ) ) {
-                $matched = 0;
-                last;
-            }
+            my $field = $criterion;
+            my $is_regex = ( $field =~ s/(?:_regex)$// );
+            my $what = $input->{$field};
+            $matched = defined($what) && (
+                $is_regex
+                    ? ( $what =~ $criteria{$criterion} )
+                    : ( $what eq $criteria{$criterion} )
+                );
+            last if !$matched;
         }
         push @found, $input if $matched;
     }
@@ -891,7 +906,7 @@ ignoring other types of input controls like text and checkboxes.
 sub find_all_submits {
     my $self = shift;
 
-    return $self->find_all_inputs( @_, type => qr/^(submit|image)$/ );
+    return $self->find_all_inputs( @_, type_regex => qr/^(submit|image)$/ );
 }
 
 
