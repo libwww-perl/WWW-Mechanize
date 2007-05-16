@@ -3,18 +3,18 @@ package main;
 require 5.6.1;
 use strict;
 use warnings;
-use ExtUtils::MakeMaker qw( WriteMakefile prompt );
+use ExtUtils::MakeMaker qw( WriteMakefile );
 use File::Spec;
 use Getopt::Long;
 
 GetOptions(
     'local!'        => \my $local,
-    'mech-dump!'    => \my $mechdump,
     'all'           => \my $all,
+    'mech-dump!'    => sub { print "mech-dump is always installed now.  This option is deprecated.\n" },
 );
 
 if ( $all ) {
-    $local = $mechdump = 1;
+    $local = 1;
 }
 else {
     if ( not defined $local ) {
@@ -24,17 +24,19 @@ else {
 
 my @tests = glob File::Spec->catfile( 't', '*.t' );
 push( @tests, glob File::Spec->catfile( 't', 'local', '*.t' ) ) if $local;
-push( @tests, glob File::Spec->catfile( 't', 'mech-dump', '*.t' ) ) if $mechdump;
+push( @tests, glob File::Spec->catfile( 't', 'mech-dump', '*.t' ) );
 
 my $parms = {
     NAME            => 'WWW::Mechanize',
     VERSION_FROM    => 'lib/WWW/Mechanize.pm', # finds $VERSION
     ABSTRACT_FROM   => 'lib/WWW/Mechanize.pm', # retrieve abstract from module
     AUTHOR          => 'Andy Lester <andy@petdance.com>',
+    EXE_FILES       => [ 'bin/mech-dump' ],
     PREREQ_PM       => {
         'Carp'              => 0,
         'File::Temp'        => 0,
         'FindBin'           => 0,
+        'Getopt::Long'      => 0,
         'HTML::Form'        => 1.038,
         'HTML::HeadParser'  => 0,
         'HTML::Parser'      => 3.33,
@@ -44,6 +46,7 @@ my $parms = {
         'HTTP::Status'      => 0,
         'LWP'               => 5.802,
         'LWP::UserAgent'    => 2.024,
+        'Pod::Usage'        => 0,
         'Test::More'        => 0.34,
         'URI'               => 1.25,
         'URI::URL'          => 0,
@@ -52,22 +55,6 @@ my $parms = {
     test            => { TESTS => join( ' ', @tests ) },
     clean           => { FILES => 'WWW-Mechanize-*' },
 };
-
-if ( not defined $mechdump ) {
-    $mechdump = (prompt( 'Do you want to install the mech-dump utility?', 'y' ) =~ /^y/i );
-    print <<EOT;
-
-Note that you can skip this question with --mech-dump or --nomech-dump on the
-command line when you run Makefile.PL.
-
-EOT
-}
-
-if ( $mechdump ) {
-    $parms->{EXE_FILES} = [ 'bin/mech-dump' ];
-    $parms->{PREREQ_PM}->{'Getopt::Long'} = 0;
-    $parms->{PREREQ_PM}->{'Pod::Usage'} = 0;
-}
 
 eval { require LWP; };
 if (!$@) {

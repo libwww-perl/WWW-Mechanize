@@ -11,6 +11,10 @@ Revision history for WWW::Mechanize
 *   mech-dump can now pass --agent and --agent-alias flags so you can
     fetch from sites like Wikipedia that block LWP user agents.
 
+[INSTALLATION]
+*   The mech-dump program is now always installed.  It no longer is
+    presented as an option.
+
 
 1.24        Fri May 11 15:57:56 CDT 2007
 ========================================
