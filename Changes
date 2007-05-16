@@ -1,7 +1,22 @@
 Revision history for WWW::Mechanize
 
+1.26
+
+[FIXES]
+*   Re-reversed the content decoding.  This is critical for reading from
+    sites with gzip on the fly, like Wikipedia.
+
+[ENHANCEMENTS]
+*   mech-dump can now pass --agent and --agent-alias flags so you can
+    fetch from sites like Wikipedia that block LWP user agents.
+
+
 1.24        Fri May 11 15:57:56 CDT 2007
 ========================================
+
+NOTE: Version 1.24 will NOT automatically decode gzipped content for
+you any more.  Consider it a "do not use" release.
+
 [FIXES]
 
 *   Fixed failures in "make test" with some versions of HTTP::Server::Simple

@@ -2014,11 +2014,16 @@ sub _update_page {
 
     $self->_reset_page;
 
+    # Try to decode the content. Undef will be returned if there's nothing to decompress.
+    # See docs in HTTP::Message for details. Do we need to expose the options there? 
+    my $content = $res->decoded_content;
+       $content = $res->content if (not defined $content);
+
     if ($self->is_html) {
-        $self->update_html($res->content);
+        $self->update_html($content);
     }
     else {
-        $self->{content} = $res->content;
+        $self->{content} = $content;
     }
 
     return $res;
@@ -2504,7 +2509,7 @@ to read the FAQ if you have support requests.
 Thanks to the numerous people who have helped out on WWW::Mechanize in
 one way or another, including
 Kirrily Robert for the orignal C<WWW::Automate>,
-
+Rafael Kitover,
 David Steinbrunner,
 Kevin Falcone,
 Mike O'Regan,
