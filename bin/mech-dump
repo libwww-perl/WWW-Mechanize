@@ -15,13 +15,18 @@ use Pod::Usage;
 my @actions;
 my $absolute;
 
+my $agent;
+my $agent_alias;
+
 GetOptions(
-    forms =>    sub { push( @actions, \&dump_forms ); },
-    links =>    sub { push( @actions, \&dump_links ); },
-    images =>   sub { push( @actions, \&dump_images ); },
-    all =>      sub { push( @actions, \&dump_forms, \&dump_links, \&dump_images ); },
-    absolute => \$absolute,
-    help =>     sub { pod2usage(1); },
+    forms           => sub { push( @actions, \&dump_forms ); },
+    links           => sub { push( @actions, \&dump_links ); },
+    images          => sub { push( @actions, \&dump_images ); },
+    all             => sub { push( @actions, \&dump_forms, \&dump_links, \&dump_images ); },
+    absolute        => \$absolute,
+    'agent=s'       => \$agent,
+    'agent-alias=s' => \$agent_alias,
+    help            => sub { pod2usage(1); },
 ) or pod2usage(2);
 
 =head1 SYNOPSIS
@@ -34,6 +39,17 @@ Options:
     --links         Dump table of links
     --images        Dump table of images
     --all           Dump all three of the above, in that order
+
+    --agent=agent   Specify the UserAgent to pass
+    --agent-alias=alias
+                    Specify the alias for the UserAgent to pass.
+                    Pick one of:
+                        * Windows IE 6
+                        * Windows Mozilla
+                        * Mac Safari
+                        * Mac Mozilla
+                        * Linux Mozilla
+                        * Linux Konqueror
 
     --absolute      Show URLs as absolute, even if relative in the page
     --help          Show this message
@@ -52,6 +68,13 @@ if ( -e $uri ) {
 @actions = (\&dump_forms) unless @actions;
 
 my $mech = WWW::Mechanize->new( cookie_jar => undef );
+if ( defined $agent ) {
+    $mech->agent( $agent );
+}
+elsif ( defined $agent_alias ) {
+    $mech->agent_alias( $agent_alias );
+}
+
 my $response = $mech->get( $uri );
 $response->is_success or die "Can't fetch $uri\n", $response->status_line, "\n";
 $mech->is_html or die qq{$uri returns type "}, $mech->ct, qq{", not "text/html"\n};
