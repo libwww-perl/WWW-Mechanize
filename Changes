@@ -5,6 +5,7 @@ Revision history for WWW::Mechanize
 [FIXES]
 *   Re-reversed the content decoding.  This is critical for reading from
     sites with gzip on the fly, like Wikipedia.
+*   Content is now properly tainted.
 
 [ENHANCEMENTS]
 *   mech-dump can now pass --agent and --agent-alias flags so you can
