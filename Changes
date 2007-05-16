@@ -1,7 +1,15 @@
 Revision history for WWW::Mechanize
 
-1.26
 
+1.27_01     Wed May 16 14:21:29 CDT 2007
+========================================
+[DOCUMENTATION]
+*   Fixed the docs for $mech->submit_form()'s with_fields arg.
+    Thanks, Peteris Krumins.
+
+
+1.26        Wed May 16 14:21:29 CDT 2007
+========================================
 [FIXES]
 *   Re-reversed the content decoding.  This is critical for reading from
     sites with gzip on the fly, like Wikipedia.
@@ -18,7 +26,6 @@ Revision history for WWW::Mechanize
 
 1.24        Fri May 11 15:57:56 CDT 2007
 ========================================
-
 NOTE: Version 1.24 will NOT automatically decode gzipped content for
 you any more.  Consider it a "do not use" release.
 

@@ -6,11 +6,11 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 =head1 VERSION
 
-Version 1.26
+Version 1.27_01
 
 =cut
 
-our $VERSION = '1.26';
+our $VERSION = '1.27_01';
 
 =head1 SYNOPSIS
 
@@ -1615,10 +1615,15 @@ are a list of key/value pairs, all of which are optional.
 
 =item * fields => \%fields
 
+Specifies the fields to be filled in the current form.
+
+=item * with_fields => \%fields
+
 Probably all you need for the common case. It combines a smart form selector
 and data setting in one operation. It selects the first form that contains all
 fields mentioned in C<\%fields>.  This is nice because you don't need to know
 the name or number of the form to do this.
+
 (calls C<L<form_with_fields>> and C<L<set_fields()>>).
 
 If you choose this, the form_number, form_name and fields options will be ignored.
@@ -2524,6 +2529,7 @@ to read the FAQ if you have support requests.
 Thanks to the numerous people who have helped out on WWW::Mechanize in
 one way or another, including
 Kirrily Robert for the orignal C<WWW::Automate>,
+Peteris Krumins,
 Rafael Kitover,
 David Steinbrunner,
 Kevin Falcone,
