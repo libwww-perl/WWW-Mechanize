@@ -59,7 +59,7 @@ get repeated dumps.
 
 =cut
 
-my $uri = shift or die "Must specify a URL or file to check\n";
+my $uri = shift or die "Must specify a URL or file to check.  See --help for details.\n";
 if ( -e $uri ) {
     require URI::file;
     $uri = URI::file->new_abs( $uri )->as_string;
