@@ -1,5 +1,11 @@
 Revision history for WWW::Mechanize
 
+NEXT (1.30?)
+
+[FIXES]
+*   Overhauled how tainting was done.  Stole code directly from
+    Test::Taint.
+
 
 1.27_01     Wed May 16 14:21:29 CDT 2007
 ========================================
