@@ -2021,10 +2021,10 @@ sub _update_page {
 
     # Try to decode the content. Undef will be returned if there's nothing to decompress.
     # See docs in HTTP::Message for details. Do we need to expose the options there? 
-    my $content = $res->decoded_content;
+    # use charset => 'none' because while we want LWP to handle Content-Encoding for 
+    # the auto-gzipping with Compress::Zlib we don't want it messing with charset
+    my $content = $res->decoded_content( charset => 'none' );
     $content = $res->content if (not defined $content);
-
-    #my $content = $res->content;
 
     $content .= _taintedness();
 
