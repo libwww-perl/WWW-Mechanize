@@ -2,9 +2,9 @@
 
 use warnings;
 use strict;
-use Test::More tests => 5;
 
-use constant START => 'http://en.wikipedia.org/';
+use constant LANGUAGES => qw( en it ja es nl pl );
+use Test::More tests => 3 + (2 * scalar LANGUAGES);
 
 BEGIN {
     use_ok( 'WWW::Mechanize' );
@@ -14,11 +14,15 @@ my $mech = WWW::Mechanize->new;
 isa_ok( $mech, 'WWW::Mechanize', 'Created object' );
 $mech->agent_alias( 'Windows IE 6' ); # Wikipedia 403s out obvious bots
 
-$mech->get( START );
+for my $lang ( LANGUAGES ) {
+    my $start = "http://$lang.wikipedia.org/";
 
-ok( $mech->success, 'Got a page' );
-my @links = $mech->links();
-cmp_ok( scalar @links, '>', 50, 'There are well over 50 links on the front page' );
+    $mech->get( $start );
+
+    ok( $mech->success, "Got $start" );
+    my @links = $mech->links();
+    cmp_ok( scalar @links, '>', 50, "Over 50 links on $start" );
+}
 
 SKIP: {
     eval "use Test::Memory::Cycle";
