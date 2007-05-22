@@ -55,6 +55,8 @@ t/upload.t
 t/warnings.t
 t/warn.t
 
+t/live/wikipedia.t
+
 t/local/LocalServer.pm
 t/local/back.t
 t/local/click.t

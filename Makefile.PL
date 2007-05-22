@@ -7,23 +7,18 @@ use ExtUtils::MakeMaker qw( WriteMakefile );
 use File::Spec;
 use Getopt::Long;
 
+my $live = 1;
+my $local = 1;
 GetOptions(
-    'local!'        => \my $local,
-    'all'           => \my $all,
+    'live!'         => \$live,
+    'local!'        => \$local,
+    'all'           => sub { print "All tests are on by default.  This option is deprecated.\n" },
     'mech-dump!'    => sub { print "mech-dump is always installed now.  This option is deprecated.\n" },
 );
 
-if ( $all ) {
-    $local = 1;
-}
-else {
-    if ( not defined $local ) {
-        $local = 1;
-    }
-}
-
 my @tests = glob File::Spec->catfile( 't', '*.t' );
 push( @tests, glob File::Spec->catfile( 't', 'local', '*.t' ) ) if $local;
+push( @tests, glob File::Spec->catfile( 't', 'live', '*.t' ) ) if $live;
 push( @tests, glob File::Spec->catfile( 't', 'mech-dump', '*.t' ) );
 
 my $parms = {

@@ -2024,6 +2024,8 @@ sub _update_page {
     my $content = $res->decoded_content;
     $content = $res->content if (not defined $content);
 
+    #my $content = $res->content;
+
     $content .= _taintedness();
 
     if ($self->is_html) {
