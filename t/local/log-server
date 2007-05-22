@@ -1,3 +1,4 @@
+# vi: ft=perl
 # Thanks to merlyn for nudging me and giving me this snippet!
 use strict;
 use HTTP::Daemon;
