@@ -1,15 +1,15 @@
 Revision history for WWW::Mechanize
 
-NEXT (1.30?)
+1.29_01     Tue May 22 14:02:55 CDT 2007
+========================================
+Kevin Falcone and I ask for your assistance in figuring out how to
+handle the warnings thrown by the tests, other than hiding them.
 
 [FIXES]
 *   Overhauled how tainting was done.  Stole code directly from
     Test::Taint.
 *   Have LWP only handle decoding of Content-Encoding, not charset.
 
-
-1.27_01     Wed May 16 14:21:29 CDT 2007
-========================================
 [DOCUMENTATION]
 *   Fixed the docs for $mech->submit_form()'s with_fields arg.
     Thanks, Peteris Krumins.

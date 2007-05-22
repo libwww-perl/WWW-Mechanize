@@ -6,11 +6,11 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 =head1 VERSION
 
-Version 1.27_01
+Version 1.29_01
 
 =cut
 
-our $VERSION = '1.27_01';
+our $VERSION = '1.29_01';
 
 =head1 SYNOPSIS
 
