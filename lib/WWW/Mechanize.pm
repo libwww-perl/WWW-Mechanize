@@ -263,7 +263,23 @@ sets your User-Agent to
 
     Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)
 
-The list of valid aliases can be returned from C<known_agent_aliases()>.
+The list of valid aliases can be returned from C<known_agent_aliases()>.  The current list is:
+
+=over
+
+=item * Windows IE 6
+
+=item * Windows Mozilla
+
+=item * Mac Safari
+
+=item * Mac Mozilla
+
+=item * Linux Mozilla
+
+=item * Linux Konqueror
+
+=back
 
 =cut
 
