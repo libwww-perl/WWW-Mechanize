@@ -55,6 +55,7 @@ t/upload.t
 t/warnings.t
 t/warn.t
 
+t/live/computers4sure.t
 t/live/wikipedia.t
 
 t/local/LocalServer.pm
