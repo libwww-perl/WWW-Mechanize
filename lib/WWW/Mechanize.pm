@@ -336,7 +336,7 @@ sub get {
     return $self->SUPER::get( $uri->as_string, @_ );
 }
 
-=head2 $mech->put( $uri, 'content' => $content )
+=head2 $mech->put( $uri, content => $content )
 
 PUTs I<$content> to $uri.  Returns an L<HTTP::Response> object.
 I<$uri> can be a well-formed URI string, a L<URI> object, or a
@@ -838,7 +838,7 @@ sub find_all_links {
     return $self->find_link( @_, n=>'all' );
 }
 
-=head2 find_all_inputs( ... criteria ... )
+=head2 $mech->find_all_inputs( ... criteria ... )
 
 find_all_inputs() returns an array of all the input controls in the
 current form whose properties match all of the regexes passed in.

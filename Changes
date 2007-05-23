@@ -1,5 +1,11 @@
 Revision history for WWW::Mechanize
 
+NEXT
+
+[DOCUMENTATION]
+*   Minor doc fixes.  Thanks David Steinbrunner.
+
+
 1.29_01     Tue May 22 14:02:55 CDT 2007
 ========================================
 Kevin Falcone and I ask for your assistance in figuring out how to
