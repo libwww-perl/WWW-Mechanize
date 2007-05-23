@@ -21,8 +21,10 @@ cmp_ok( scalar @links, '>', 10, 'Should have lots of product links' );
 
 my $link = $links[@links/2]; # Pick one in the middle
 isa_ok( $link, 'WWW::Mechanize::Link' );
-
 my $link_str = $link->url;
+
+# The problem we're having is that the 2nd get, following a link,
+# comes back gzipped.
 $mech->get( $link_str );
 is( $mech->response->code, 200, "Fetched $link_str" );
 ok( $mech->content =~ /Your price/i, 'Found a likely phrase' );
