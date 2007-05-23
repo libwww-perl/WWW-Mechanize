@@ -3,17 +3,21 @@
 use warnings;
 use strict;
 
-use Test::More tests => 8;
+use Test::More tests => 9;
 
 BEGIN {
     use_ok( 'WWW::Mechanize' );
 }
 
+# XXX We need tests in here to verify that we're asking for gzip output
+
 my $mech = WWW::Mechanize->new;
 isa_ok( $mech, 'WWW::Mechanize', 'Created object' );
 $mech->agent_alias( 'Linux Mozilla' );
 
-$mech->get( 'http://www.computers4sure.com/' );
+my $first_page = 'http://www.computers4sure.com/';
+$mech->get( $first_page );
+is( $mech->response->code, 200, "Fetched $first_page" );
 ok( $mech->content =~ /Support/, 'Found a likely word in the first page' );
 
 my @links = $mech->find_all_links( url_regex => qr{product\.asp\?productid=} );
