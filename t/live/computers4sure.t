@@ -11,10 +11,10 @@ BEGIN {
 
 my $mech = WWW::Mechanize->new;
 isa_ok( $mech, 'WWW::Mechanize', 'Created object' );
-$mech->agent_alias('Linux Mozilla');
+$mech->agent_alias( 'Linux Mozilla' );
 
 $mech->get( 'http://www.computers4sure.com/' );
-ok( $mech->content =~ /Support/, 'Found a likely word.' );
+ok( $mech->content =~ /Support/, 'Found a likely word in the first page' );
 
 my @links = $mech->find_all_links( url_regex => qr{product\.asp\?productid=} );
 cmp_ok( scalar @links, '>', 10, 'Should have lots of product links' );
@@ -27,7 +27,7 @@ my $link_str = $link->url;
 # comes back gzipped.
 $mech->get( $link_str );
 is( $mech->response->code, 200, "Fetched $link_str" );
-ok( $mech->content =~ /Your price/i, 'Found a likely phrase' );
+ok( $mech->content =~ /Your price/i, 'Found a likely phrase in the second page' );
 #print $mech->content;
 
 SKIP: {
