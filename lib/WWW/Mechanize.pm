@@ -198,7 +198,7 @@ sub new {
         onwarn      => \&WWW::Mechanize::_warn,
         onerror     => \&WWW::Mechanize::_die,
         quiet       => 0,
-        stack_depth => 867_5309,    # Arbitrarily humungous stack
+        stack_depth => 867_5309,    # Arbitrarily humongous stack
         headers     => {},
     );
 
