@@ -169,7 +169,14 @@ Use the mech-dump utility, optionaly installed with Mechanize.
 =head2 How can I get WWW::Mechanize to execute this JavaScript?
 
 You can't.  JavaScript is entirely client-based, and WWW::Mechanize
-is a client that doesn't understand JavaScript.
+is a client that doesn't understand JavaScript.  See the top part
+of this FAQ.
+
+=head2 How do I check a checkbox that doesn't have a value defined?
+
+Set it to to the value of "on".
+
+    $mech->field( my_checkbox => 'on' );
 
 =head2 How do I handle frames?
 
