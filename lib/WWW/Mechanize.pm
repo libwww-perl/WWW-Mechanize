@@ -2577,6 +2577,7 @@ to read the FAQ if you have support requests.
 Thanks to the numerous people who have helped out on WWW::Mechanize in
 one way or another, including
 Kirrily Robert for the original C<WWW::Automate>,
+Miyagawa,
 Peteris Krumins,
 Rafael Kitover,
 David Steinbrunner,

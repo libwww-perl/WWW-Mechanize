@@ -7,6 +7,12 @@ use Test::More;
 use constant NONEXISTENT => 'http://blahblablah.xx-nonexistent.';
 
 BEGIN {
+    if (gethostbyname('blahblahblah.xx-nonexistent.')) {
+        plan skip_all => 'Found an A record for the non-existent domain';
+    }
+}
+
+BEGIN {
     eval 'use Test::Exception';
     plan skip_all => 'Test::Exception required to test autocheck' if $@;
     plan tests => 5;

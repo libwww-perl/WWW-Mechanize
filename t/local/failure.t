@@ -2,10 +2,17 @@
 
 use warnings;
 use strict;
-use Test::More tests => 16;
+use Test::More;
 
 use lib 't/local';
 use LocalServer;
+
+BEGIN {
+    if (gethostbyname('blahblahblah.xx-only-testing.')) {
+        plan skip_all => 'Found an A record for the non-existent domain';
+    }
+    plan tests => 16;
+}
 
 BEGIN { delete @ENV{ qw( http_proxy HTTP_PROXY ) }; }
 BEGIN {
