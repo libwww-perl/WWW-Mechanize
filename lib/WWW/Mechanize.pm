@@ -6,11 +6,11 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 =head1 VERSION
 
-Version 1.30
+Version 1.31_01
 
 =cut
 
-our $VERSION = '1.30';
+our $VERSION = '1.31_01';
 
 =head1 SYNOPSIS
 
@@ -198,7 +198,7 @@ sub new {
         onwarn      => \&WWW::Mechanize::_warn,
         onerror     => \&WWW::Mechanize::_die,
         quiet       => 0,
-        stack_depth => 867_5309,    # Arbitrarily humongous stack
+        stack_depth => 8675309,     # Arbitrarily humongous stack
         headers     => {},
     );
 
