@@ -553,7 +553,7 @@ sub content {
         my %parms = @_;
         if ( exists $parms{base_href} ) {
             my $arg = (delete $parms{base_href}) || $self->base;
-            $content=~s/<head>/<head>\n<base href="$arg">/;
+            $content=~s/<head>/<head>\n<base href="$arg">/i;
         }
         if ( my $arg = delete $parms{format} ) {
             if ($arg eq 'text') {

@@ -6,6 +6,9 @@ Revision history for WWW::Mechanize
 *   Mech tests now pass even if your DNS server gives A records for
     anything (like OpenDNS).  Thanks, Miyagawa!
 
+*   Searching for the <base href> is now case-inensitive.  A better
+    solution would be to actually parse the HTML.
+
 
 1.30        Thu May 24 21:31:10 CDT 2007
 ========================================
