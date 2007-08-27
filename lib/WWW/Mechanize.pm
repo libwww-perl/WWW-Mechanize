@@ -2412,9 +2412,9 @@ __END__
 
 =head1 WWW::MECHANIZE'S SUBVERSION REPOSITORY
 
-Mech is hosted by the kind generosity of Ask and Robert,
-maintainers of perl.org.  The Subversion repository is at
-L<http://svn.perl.org/modules/www-mechanize>.
+Mech and Test::WWW::Mechanize are both hosted at Google Code:
+http://code.google.com/p/www-mechanize/.  The Subversion repository
+is at http://www-mechanize.googlecode.com/svn/wm/
 
 =head1 OTHER DOCUMENTATION
 
@@ -2563,8 +2563,8 @@ Just like Mech, but using Microsoft Internet Explorer to do the work.
 
 Please report any requests, suggestions or (gasp!) bugs via the
 excellent RT bug-tracking system at http://rt.cpan.org/, or email to
-bug-WWW-Mechanize@rt.cpan.org.  This makes it much easier for me to
-track things.
+C<bug-WWW-Mechanize at rt.cpan.org>.  This makes it much easier for
+me to track things.
 
 L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=WWW-Mechanize> is the RT queue
 for Mechanize.  Please check to see if your bug has already been reported.
