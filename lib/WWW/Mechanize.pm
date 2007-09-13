@@ -2414,7 +2414,7 @@ __END__
 
 Mech and Test::WWW::Mechanize are both hosted at Google Code:
 http://code.google.com/p/www-mechanize/.  The Subversion repository
-is at http://www-mechanize.googlecode.com/svn/wm/
+is at http://www-mechanize.googlecode.com/svn/wm/.
 
 =head1 OTHER DOCUMENTATION
 
