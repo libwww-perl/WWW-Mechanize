@@ -3,7 +3,7 @@
 !_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
-!_TAG_PROGRAM_VERSION	5.7	//
+!_TAG_PROGRAM_VERSION	5.6	//
 AREA_CHECKS	t/area_link.t	/^AREA_CHECKS: {$/;"	l
 AREA_CHECKS	t/find_link.t	/^AREA_CHECKS: {$/;"	l
 AUTOCHECK_OFF	t/autocheck.t	/^AUTOCHECK_OFF: {$/;"	l
@@ -19,9 +19,6 @@ FORMS	lib/WWW/Mechanize.pm	/^    FORMS: for my $form (@{ $self->forms }) {$/;"	l
 GOOD_PAGE	t/local/failure.t	/^GOOD_PAGE: {$/;"	l
 INVALIDATE	t/local/reload.t	/^INVALIDATE: {$/;"	l
 LANGUAGES	t/live/wikipedia.t	/^use constant LANGUAGES => qw( en it ja es nl pl );$/;"	c
-LocalServer	t/local/LocalServer.pm	/^package LocalServer;$/;"	p
-MY	Makefile.PL	/^sub MY::postamble {$/;"	s
-MyMech	t/local/overload.t	/^    package MyMech;$/;"	p
 NEW_API	t/link.t	/^NEW_API: {$/;"	l
 NONEXISTENT	t/autocheck.t	/^use constant NONEXISTENT => 'http:\/\/blahblablah.xx-nonexistent.';$/;"	c
 NON_REGEX_STRING	t/find_link-warnings.t	/^NON_REGEX_STRING: {$/;"	l
@@ -52,9 +49,9 @@ UNKNOWN_ALIAS	t/warnings.t	/^UNKNOWN_ALIAS: {$/;"	l
 URI	lib/WWW/Mechanize/Image.pm	/^sub URI {$/;"	s
 URI	lib/WWW/Mechanize/Link.pm	/^sub URI {$/;"	s
 USER_AGENT	t/new.t	/^USER_AGENT: {$/;"	l
-WWW::Mechanize	lib/WWW/Mechanize.pm	/^package WWW::Mechanize;$/;"	p
-WWW::Mechanize::Image	lib/WWW/Mechanize/Image.pm	/^package WWW::Mechanize::Image;$/;"	p
-WWW::Mechanize::Link	lib/WWW/Mechanize/Link.pm	/^package WWW::Mechanize::Link;$/;"	p
+WWW	lib/WWW/Mechanize.pm	/^        WWW::Mechanize::Image->new({$/;"	l
+WWW	lib/WWW/Mechanize.pm	/^        WWW::Mechanize::Link->new({$/;"	l
+WWW	t/link.t	/^        WWW::Mechanize::Link->new($/;"	l
 _SUPER_put	lib/WWW/Mechanize.pm	/^sub _SUPER_put {$/;"	s
 _clean_keys	lib/WWW/Mechanize.pm	/^sub _clean_keys {$/;"	s
 _die	lib/WWW/Mechanize.pm	/^sub _die {$/;"	s
@@ -87,7 +84,6 @@ clone	lib/WWW/Mechanize.pm	/^sub clone {$/;"	s
 content	lib/WWW/Mechanize.pm	/^sub content {$/;"	s
 credentials	lib/WWW/Mechanize.pm	/^    sub credentials {$/;"	s
 creds_required	t/local/LocalServer.pm	/^sub creds_required {$/;"	s
-critic	Makefile.PL	/^critic:$/;"	l
 ct	lib/WWW/Mechanize.pm	/^sub ct {            my $self = shift; return $self->{ct}; }$/;"	s
 current_form	lib/WWW/Mechanize.pm	/^sub current_form {  my $self = shift; return $self->{form}; }$/;"	s
 delete_header	lib/WWW/Mechanize.pm	/^sub delete_header {$/;"	s
@@ -114,7 +110,6 @@ images	lib/WWW/Mechanize.pm	/^sub images {$/;"	s
 is_html	lib/WWW/Mechanize.pm	/^sub is_html {       my $self = shift; return defined $self->{ct} && ($self->{ct} eq 'text\/html'); }$/;"	s
 known_agent_aliases	lib/WWW/Mechanize.pm	/^sub known_agent_aliases {$/;"	s
 links	lib/WWW/Mechanize.pm	/^sub links {$/;"	s
-main	Makefile.PL	/^package main;$/;"	p
 name	lib/WWW/Mechanize/Image.pm	/^sub name    { return ($_[0])->{name}; }$/;"	s
 name	lib/WWW/Mechanize/Link.pm	/^sub name  { return ($_[0])->[2]; }$/;"	s
 new	lib/WWW/Mechanize.pm	/^sub new {$/;"	s
@@ -143,7 +138,6 @@ submit_form	lib/WWW/Mechanize.pm	/^sub submit_form {$/;"	s
 success	lib/WWW/Mechanize.pm	/^sub success {$/;"	s
 tag	lib/WWW/Mechanize/Image.pm	/^sub tag     { return ($_[0])->{tag}; }$/;"	s
 tag	lib/WWW/Mechanize/Link.pm	/^sub tag   { return ($_[0])->[3]; }$/;"	s
-tags	Makefile.PL	/^tags:$/;"	l
 text	lib/WWW/Mechanize/Link.pm	/^sub text  { return ($_[0])->[1]; }$/;"	s
 tick	lib/WWW/Mechanize.pm	/^sub tick {$/;"	s
 title	lib/WWW/Mechanize.pm	/^sub title {$/;"	s
