@@ -3,9 +3,12 @@
 use warnings;
 use strict;
 use Test::More;
-eval 'use Test::Taint';
-plan skip_all => 'Test::Taint required for checking taintedness' if $@;
-plan tests=>5;
+
+BEGIN {
+    eval 'use Test::Taint';
+    plan skip_all => 'Test::Taint required for checking taintedness' if $@;
+    plan tests=>6;
+}
 
 BEGIN { delete @ENV{ qw( http_proxy HTTP_PROXY ) }; }
 BEGIN {
