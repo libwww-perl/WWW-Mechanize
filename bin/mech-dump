@@ -15,10 +15,14 @@ use Pod::Usage;
 my @actions;
 my $absolute;
 
+my $user;
+my $pass;
 my $agent;
 my $agent_alias;
 
 GetOptions(
+    'user=s'        => \$user,
+    'password=s'    => \$pass,
     forms           => sub { push( @actions, \&dump_forms ); },
     links           => sub { push( @actions, \&dump_links ); },
     images          => sub { push( @actions, \&dump_images ); },
@@ -39,6 +43,9 @@ Options:
     --links         Dump table of links
     --images        Dump table of images
     --all           Dump all three of the above, in that order
+
+    --user=user     Set the username
+    --password=pass Set the password
 
     --agent=agent   Specify the UserAgent to pass
     --agent-alias=alias
@@ -74,9 +81,16 @@ if ( defined $agent ) {
 elsif ( defined $agent_alias ) {
     $mech->agent_alias( $agent_alias );
 }
-
+$mech->env_proxy();
 my $response = $mech->get( $uri );
-$response->is_success or die "Can't fetch $uri\n", $response->status_line, "\n";
+if (!$response->is_success and defined ($response->www_authenticate)) {
+    if (!defined $user or !defined $pass) {
+        die("Page requires username and password, but none specified.\n");
+    }
+    $mech->credentials($user,$pass);
+    $response = $mech->get( $uri );
+    $response->is_success or die "Can't fetch $uri with username and password\n", $response->status_line, "\n";
+}
 $mech->is_html or die qq{$uri returns type "}, $mech->ct, qq{", not "text/html"\n};
 
 for my $action ( @actions ) {

@@ -3,17 +3,21 @@ Revision history for WWW::Mechanize
 1.31_01
 ========================================
 [FIXES]
-*   Mech tests now pass even if your DNS server gives A records for
-    anything (like OpenDNS).  Thanks, Miyagawa!
+Mech tests now pass even if your DNS server gives A records for
+anything (like OpenDNS).  Thanks, Miyagawa!
 
-*   Searching for the <base href> is now case-inensitive.  A better
-    solution would be to actually parse the HTML.
+Searching for the <base href> is now case-inensitive.  A better
+solution would be to actually parse the HTML.
+
+[ENHANCEMENTS]
+mech-dump now handles --user and --password arguments for sites
+that require authentication.
 
 
 1.30        Thu May 24 21:31:10 CDT 2007
 ========================================
 [DOCUMENTATION]
-*   Minor doc fixes.  Thanks David Steinbrunner.
+Minor doc fixes.  Thanks David Steinbrunner.
 
 
 1.29_01     Tue May 22 14:02:55 CDT 2007
@@ -22,29 +26,31 @@ Kevin Falcone and I ask for your assistance in figuring out how to
 handle the warnings thrown by the tests, other than hiding them.
 
 [FIXES]
-*   Overhauled how tainting was done.  Stole code directly from
-    Test::Taint.
-*   Have LWP only handle decoding of Content-Encoding, not charset.
+Overhauled how tainting was done.  Stole code directly from
+Test::Taint.
+
+Have LWP only handle decoding of Content-Encoding, not charset.
 
 [DOCUMENTATION]
-*   Fixed the docs for $mech->submit_form()'s with_fields arg.
-    Thanks, Peteris Krumins.
+Fixed the docs for $mech->submit_form()'s with_fields arg.
+Thanks, Peteris Krumins.
 
 
 1.26        Wed May 16 14:21:29 CDT 2007
 ========================================
 [FIXES]
-*   Re-reversed the content decoding.  This is critical for reading from
-    sites with gzip on the fly, like Wikipedia.
-*   Content is now properly tainted.
+Re-reversed the content decoding.  This is critical for reading from
+sites with gzip on the fly, like Wikipedia.
+
+Content is now properly tainted.
 
 [ENHANCEMENTS]
-*   mech-dump can now pass --agent and --agent-alias flags so you can
-    fetch from sites like Wikipedia that block LWP user agents.
+mech-dump can now pass --agent and --agent-alias flags so you can
+fetch from sites like Wikipedia that block LWP user agents.
 
 [INSTALLATION]
-*   The mech-dump program is now always installed.  It no longer is
-    presented as an option.
+The mech-dump program is now always installed.  It no longer is
+presented as an option.
 
 
 1.24        Fri May 11 15:57:56 CDT 2007
