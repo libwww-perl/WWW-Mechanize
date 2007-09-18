@@ -57,7 +57,7 @@ traverse.
 
     $mech->back();
 
-If you want finer control over over your page fetching, you can use
+If you want finer control over your page fetching, you can use
 these methods. C<follow_link> and C<submit_form> are just high
 level wrappers around them.
 
@@ -177,7 +177,7 @@ calling C<< $mech->quiet(1) >>.  Default is off.
 
 =item * C<< stack_depth => $value >>
 
-Sets the depth of the page stack that keeps tracks of all the downloaded
+Sets the depth of the page stack that keeps track of all the downloaded
 pages. Default is 0 (infinite). If the stack is eating up your memory,
 then set it to 1.
 
@@ -951,7 +951,7 @@ Finds an image in the current page. It returns a
 L<WWW::Mechanize::Image> object which describes the image.  If it fails
 to find an image it returns undef.
 
-You can select which link to find by passing in one or more of these
+You can select which image to find by passing in one or more of these
 key/value pairs:
 
 =over 4
@@ -1105,7 +1105,7 @@ calls to C<L<field()>> and C<L<click()>>.  Also returns the form that was
 selected.
 
 If it is found, the form is returned as an L<HTML::Form> object and set internally
-for later used with Mech's form methods such as C<L<field()>> and C<L<click()>>.
+for later use with Mech's form methods such as C<L<field()>> and C<L<click()>>.
 
 Emits a warning and returns undef if no form is found.
 
@@ -1134,7 +1134,7 @@ with that name, then the first one is used, and a warning is
 generated.
 
 If it is found, the form is returned as an L<HTML::Form> object and set internally
-for later used with Mech's form methods such as C<L<field()>> and C<L<click()>>.
+for later use with Mech's form methods such as C<L<field()>> and C<L<click()>>.
 
 Returns undef if no form is found.
 
@@ -2612,6 +2612,7 @@ Julien Beasley,
 Abe Timmerman,
 Peter Stevens,
 Pete Krawczyk,
+Tad McClellan,
 and the late great Iain Truskett.
 
 =head1 COPYRIGHT
