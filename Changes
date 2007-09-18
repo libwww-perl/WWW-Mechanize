@@ -1,6 +1,6 @@
 Revision history for WWW::Mechanize
 
-1.31_01
+1.31_01     Mon Sep 17 23:38:03 CDT 2007
 ========================================
 [FIXES]
 Mech tests now pass even if your DNS server gives A records for
