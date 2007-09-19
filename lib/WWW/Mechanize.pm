@@ -1838,6 +1838,8 @@ sub save_content {
     open( my $fh, '>', $filename ) or $self->die( "Unable to create $filename: $!" );
     print {$fh} $self->content or $self->die( "Unable to write to $filename: $!" );
     close $fh or $self->die( "Unable to close $filename: $!" );
+
+    return;
 }
 
 =head1 OVERRIDDEN LWP::UserAgent METHODS
@@ -1902,6 +1904,8 @@ sub request {
     }
 
     $self->_update_page($request, $self->_make_request( $request, @_ ));
+
+    # XXX This should definitively return something.
 }
 
 =head2 $mech->update_html( $html )

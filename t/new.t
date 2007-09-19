@@ -38,7 +38,7 @@ USER_AGENT: {
     is( $m->agent, $alias, q{Aliases don't get translated in the constructor} );
 
     $m->agent_alias( $alias );
-    like( $m->agent, qr/^Mozilla.+compatible.+Windows/, 'Alias sets the agent' ); 
+    like( $m->agent, qr/^Mozilla.+compatible.+Windows/, 'Alias sets the agent' );
 
     $m->agent( 'ratso/bongo v.43' );
     is( $m->agent, 'ratso/bongo v.43', 'Can still set the agent' );

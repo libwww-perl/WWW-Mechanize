@@ -26,7 +26,7 @@ is( $x->url, 'http://www.drphil.com/', 'First link on the page' );
 
 $x = $mech->find_link( url_regex => qr/upcase/i );
 isa_ok( $x, 'WWW::Mechanize::Link' );
-like( $x->url, qr/upcase.com/i, 'found link in uppercase meta tag' ); 
+like( $x->url, qr/upcase.com/i, 'found link in uppercase meta tag' );
 
 $x = $mech->find_link( text => 'CPAN A' );
 isa_ok( $x, 'WWW::Mechanize::Link' );
@@ -71,10 +71,10 @@ is( $x->[0], 'http://c.cpan.org/', 'Got c.cpan.org' );
 is( $x->url, 'http://c.cpan.org/', 'Got c.cpan.org' );
 
 my @wanted_links= (
-   [ 'http://a.cpan.org/', 'CPAN A', undef, 'a' ], 
-   [ 'http://b.cpan.org/', 'CPAN B', undef, 'a' ], 
-   [ 'http://c.cpan.org/', 'CPAN C', 'bongo', 'a' ], 
-   [ 'http://d.cpan.org/', 'CPAN D', undef, 'a' ], 
+   [ 'http://a.cpan.org/', 'CPAN A', undef, 'a' ],
+   [ 'http://b.cpan.org/', 'CPAN B', undef, 'a' ],
+   [ 'http://c.cpan.org/', 'CPAN C', 'bongo', 'a' ],
+   [ 'http://d.cpan.org/', 'CPAN D', undef, 'a' ],
 );
 my @links = $mech->find_all_links( text_regex => qr/CPAN/ );
 @{$_} = @{$_}[0..3] for @links;

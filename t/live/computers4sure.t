@@ -3,7 +3,7 @@
 use warnings;
 use strict;
 
-use Test::More skip_all => "Still need to get the error-handling on here working";
+use Test::More skip_all => 'Still need to get the error-handling on here working';
 use Test::More tests => 9;
 
 BEGIN {
@@ -36,9 +36,9 @@ ok( $mech->content =~ /Your price/i, 'Found a likely phrase in the second page' 
 #print $mech->content;
 
 SKIP: {
-    eval "use Test::Memory::Cycle";
-    skip "Test::Memory::Cycle not installed", 1 if $@;
+    eval 'use Test::Memory::Cycle';
+    skip 'Test::Memory::Cycle not installed', 1 if $@;
 
-    memory_cycle_ok( $mech, "No memory cycles found" );
+    memory_cycle_ok( $mech, 'No memory cycles found' );
 }
 

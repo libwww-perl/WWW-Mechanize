@@ -25,9 +25,9 @@ for my $lang ( LANGUAGES ) {
 }
 
 SKIP: {
-    eval "use Test::Memory::Cycle";
-    skip "Test::Memory::Cycle not installed", 1 if $@;
+    eval 'use Test::Memory::Cycle';
+    skip 'Test::Memory::Cycle not installed', 1 if $@;
 
-    memory_cycle_ok( $mech, "No memory cycles found" );
+    memory_cycle_ok( $mech, 'No memory cycles found' );
 }
 
