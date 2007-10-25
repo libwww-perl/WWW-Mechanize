@@ -30,7 +30,7 @@ FIND_BY_CLASS: {
     is( $x->url, 'http://boo.xyz.com/boo_app', 'found link within "iframe" with given class' );
 }
 
-FIND_ID_BY_REGEX{
+FIND_ID_BY_REGEX: {
     my $x = $mech->find_link( id_regex => qr/^sig/ );
     isa_ok( $x, 'WWW::Mechanize::Link' );
     is( $x->url, 'signature.html', 'found link with ID matching a regex' );
@@ -38,6 +38,6 @@ FIND_ID_BY_REGEX{
 
 FIND_CLASS_BY_REGEX: {
     my $x = $mech->find_link( tag => 'iframe', class_regex => qr/IFRAME$/i );
-    isa_ok( $x, 'WWW::Mechanize::Link' ); 
+    isa_ok( $x, 'WWW::Mechanize::Link' );
     is( $x->url, 'http://boo.xyz.com/boo_app', 'found link with class matching a regex' );
 }
