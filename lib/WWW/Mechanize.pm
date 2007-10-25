@@ -6,11 +6,11 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 =head1 VERSION
 
-Version 1.31_01
+Version 1.31_02
 
 =cut
 
-our $VERSION = '1.31_01';
+our $VERSION = '1.31_02';
 
 =head1 SYNOPSIS
 
@@ -694,6 +694,16 @@ in the page.
 
 Matches the name of the link against I<string> or I<regex>, as appropriate.
 
+=item * C<< id => string >> and C<< id_regex => regex >>
+
+Matches the attribute 'id' of the link against I<string> or
+I<regex>, as appropriate.
+
+=item * C<< class => string >> and C<< class_regex => regex >>
+
+Matches the attribute 'class' of the link against I<string> or
+I<regex>, as appropriate.
+
 =item * C<< tag => string >> and C<< tag_regex => regex >>
 
 Matches the tag that the link came from against I<string> or I<regex>,
@@ -744,7 +754,7 @@ sub find_link {
 
     my $wantall = ( $parms{n} eq 'all' );
 
-    $self->_clean_keys( \%parms, qr/^(n|(text|url|url_abs|name|tag)(_regex)?)$/ );
+    $self->_clean_keys( \%parms, qr/^(n|(text|url|url_abs|name|tag|id|class)(_regex)?)$/ );
 
     my @links = $self->links or return;
 
@@ -789,6 +799,11 @@ sub _match_any_link_parms {
     return if defined $p->{name_regex}    && !(defined($link->name) && $link->name =~ $p->{name_regex} );
     return if defined $p->{tag}           && !($link->tag && $link->tag eq $p->{tag} );
     return if defined $p->{tag_regex}     && !($link->tag && $link->tag =~ $p->{tag_regex} );
+
+    return if defined $p->{id}            && !($link->attrs->{id} && $link->attrs->{id} eq $p->{id} );
+    return if defined $p->{id_regex}      && !($link->attrs->{id} && $link->attrs->{id} =~ $p->{id_regex} );
+    return if defined $p->{class}         && !($link->attrs->{class} && $link->attrs->{class} eq $p->{class} );
+    return if defined $p->{class_regex}   && !($link->attrs->{class} && $link->attrs->{class} =~ $p->{class_regex} );
 
     # Success: everything that was defined passed.
     return 1;
@@ -2581,6 +2596,7 @@ to read the FAQ if you have support requests.
 Thanks to the numerous people who have helped out on WWW::Mechanize in
 one way or another, including
 Kirrily Robert for the original C<WWW::Automate>,
+Adriano Ferreira,
 Miyagawa,
 Peteris Krumins,
 Rafael Kitover,

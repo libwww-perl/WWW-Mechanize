@@ -24,12 +24,14 @@ t/clone.t
 t/die.t
 t/field.html
 t/field.t
+t/find_image.t
 t/find_inputs.html
 t/find_inputs.t
+t/find_link-warnings.t
 t/find_link.html
 t/find_link.t
-t/find_image.t
-t/find_link-warnings.t
+t/find_link_id.html
+t/find_link_id.t
 t/form-parsing.t
 t/frames.html
 t/frames.t
@@ -52,8 +54,8 @@ t/tick.html
 t/tick.t
 t/upload.html
 t/upload.t
-t/warnings.t
 t/warn.t
+t/warnings.t
 
 t/live/computers4sure.t
 t/live/wikipedia.t

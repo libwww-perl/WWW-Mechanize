@@ -1,5 +1,12 @@
 Revision history for WWW::Mechanize
 
+1.31_02     Thu Oct 25 11:48:29 CDT 2007
+========================================
+[ENHANCEMENTS]
+Added class, class_regex, id and id_regex limiters to find_link()
+and find_all_links().  Thanks to Adriano Ferreira.
+
+
 1.31_01     Mon Sep 17 23:38:03 CDT 2007
 ========================================
 [FIXES]
