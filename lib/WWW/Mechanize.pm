@@ -6,11 +6,11 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 =head1 VERSION
 
-Version 1.31_02
+Version 1.32
 
 =cut
 
-our $VERSION = '1.31_02';
+our $VERSION = '1.32';
 
 =head1 SYNOPSIS
 
@@ -81,6 +81,12 @@ FAQ in WWW::Mechanize::FAQ for more.
 
 =over 4
 
+=item * L<http://code.google.com/p/www-mechanize/issues/list>
+
+The queue for bugs & enhancements in WWW::Mechanize and
+Test::WWW::Mechanize.  Please note that the queue at L<http://rt.cpan.org>
+is no longer maintained.
+
 =item * L<http://search.cpan.org/dist/WWW-Mechanize/>
 
 The CPAN documentation page for Mechanize.
@@ -88,11 +94,6 @@ The CPAN documentation page for Mechanize.
 =item * L<http://search.cpan.org/dist/WWW-Mechanize/lib/WWW/Mechanize/FAQ.pod>
 
 Frequently asked questions.  Make sure you read here FIRST.
-
-=item * L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=WWW-Mechanize>
-
-The RT queue for bugs & enhancements in Mechanize.  Click the "Report bug"
-link if your bug isn't already reported.
 
 =back
 

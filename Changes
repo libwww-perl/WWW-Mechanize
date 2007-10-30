@@ -1,7 +1,12 @@
 Revision history for WWW::Mechanize
 
-NEXT
+1.32        Tue Oct 30 12:02:17 CDT 2007
 ========================================
+Please note that WWW::Mechanize and Test::WWW::Mechanize are no
+longer using rt.cpan.org for bug tracking.  They are now being
+tracked via Google Code at
+http://code.google.com/p/www-mechanize/issues/list
+
 [ENHANCEMENTS]
 Added dump methods to mirror mech-dump:
 * $mech->dump_images()
