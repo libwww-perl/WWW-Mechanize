@@ -1857,6 +1857,89 @@ sub save_content {
     return;
 }
 
+=head2 $mech->dump_links( [[$fh], $absolute] )
+
+Prints a dump of the links on the current page to I<$fh>.  If I<$fh>
+is not specified or is undef, it dumps to STDOUT.
+
+If I<$absolute> is true, links displayed are absolute, not relative.
+
+=cut
+
+sub dump_links {
+    my $self = shift;
+    my $fh = shift || \*STDOUT;
+    my $absolute = shift;
+
+    for my $link ( $self->links ) {
+        my $url = $absolute ? $link->url_abs : $link->url;
+        $url = '' if not defined $url;
+        print {$fh} $url, "\n";
+    }
+    return;
+}
+
+=head2 $mech->dump_images( [[$fh], $absolute] )
+
+Prints a dump of the images on the current page to I<$fh>.  If I<$fh>
+is not specified or is undef, it dumps to STDOUT.
+
+If I<$absolute> is true, links displayed are absolute, not relative.
+
+=cut
+
+sub dump_images {
+    my $self = shift;
+    my $fh = shift || \*STDOUT;
+    my $absolute = shift;
+
+    for my $image ( $self->images ) {
+        my $url = $absolute ? $image->url_abs : $image->url;
+        $url = '' if not defined $url;
+        print {$fh} $url, "\n";
+    }
+    return;
+}
+
+=head2 $mech->dump_forms( [$fh] )
+
+Prints a dump of the forms on the current page to I<$fh>.  If I<$fh>
+is not specified or is undef, it dumps to STDOUT.
+
+=cut
+
+sub dump_forms {
+    my $self = shift;
+    my $fh = shift || \*STDOUT;
+
+    for my $form ( $self->forms ) {
+        print {$fh} $form->dump, "\n";
+    }
+    return;
+}
+
+=head2 $mech->dump_all( [[$fh], $absolute] )
+
+Prints a dump of all links, images and forms on the current page to
+I<$fh>.  If I<$fh> is not specified or is undef, it dumps to STDOUT.
+
+If I<$absolute> is true, links displayed are absolute, not relative.
+
+=cut
+
+sub dump_all {
+    my $self = shift;
+    my $fh = shift || \*STDOUT;
+    my $absolute = shift;
+
+    $self->dump_links( $fh, $absolute );
+    $self->dump_images( $fh, $absolute );
+    $self->dump_forms( $fh, $absolute );
+
+    return;
+}
+
+
 =head1 OVERRIDDEN LWP::UserAgent METHODS
 
 =head2 $mech->clone()

@@ -1,5 +1,18 @@
 Revision history for WWW::Mechanize
 
+NEXT
+========================================
+[ENHANCEMENTS]
+Added dump methods to mirror mech-dump:
+* $mech->dump_images()
+* $mech->dump_links()
+* $mech->dump_forms()
+$ $mech->dump_all()
+
+Sanity checks in the WWW::Mechanize::Image constructor.  Every Image
+must have a "url" and "tag" field passed in to it.
+
+
 1.31_02     Thu Oct 25 11:48:29 CDT 2007
 ========================================
 [ENHANCEMENTS]

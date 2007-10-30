@@ -34,13 +34,19 @@ sub new {
     my $class = shift;
     my $parms = shift || {};
 
-    my $self = {};
+    my $self = bless {}, $class;
 
     for my $parm ( qw( url base tag height width alt name ) ) {
-        $self->{$parm} = $parms->{$parm} if defined $parms->{$parm};
+        # Check for what we passed in, not whether it's defined
+        $self->{$parm} = $parms->{$parm} if exists $parms->{$parm};
     }
 
-    return bless $self, $class;
+    # url and tag are always required
+    for ( qw( url tag ) ) {
+        exists $self->{$_} or die "WWW::Mechanize::Image->new must have a $_ argument";
+    }
+
+    return $self;
 }
 
 =head1 Accessors

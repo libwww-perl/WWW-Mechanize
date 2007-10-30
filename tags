@@ -13,6 +13,10 @@ CHECK_DEATH	t/die.t	/^CHECK_DEATH: {$/;"	l
 CHECK_LIVING	t/die.t	/^CHECK_LIVING: {$/;"	l
 DESTROY	t/local/LocalServer.pm	/^sub DESTROY {$/;"	s
 EAT_THE_WARNING	t/select.t	/^EAT_THE_WARNING: { # Mech complains about the non-existent field$/;"	l
+FIND_BY_CLASS	t/find_link_id.t	/^FIND_BY_CLASS: {$/;"	l
+FIND_BY_ID	t/find_link_id.t	/^FIND_BY_ID: {$/;"	l
+FIND_CLASS_BY_REGEX	t/find_link_id.t	/^FIND_CLASS_BY_REGEX: {$/;"	l
+FIND_ID_BY_REGEX	t/find_link_id.t	/^FIND_ID_BY_REGEX: {$/;"	l
 FIRST_FORM	t/find_inputs.t	/^FIRST_FORM: {$/;"	l
 FIRST_GET	t/local/reload.t	/^FIRST_GET: {$/;"	l
 FORMS	lib/WWW/Mechanize.pm	/^    FORMS: for my $form (@{ $self->forms }) {$/;"	l
@@ -90,9 +94,13 @@ ct	lib/WWW/Mechanize.pm	/^sub ct {            my $self = shift; return $self->{c
 current_form	lib/WWW/Mechanize.pm	/^sub current_form {  my $self = shift; return $self->{form}; }$/;"	s
 delete_header	lib/WWW/Mechanize.pm	/^sub delete_header {$/;"	s
 die	lib/WWW/Mechanize.pm	/^sub die {$/;"	s
+dump_all	lib/WWW/Mechanize.pm	/^sub dump_all {$/;"	s
 dump_forms	bin/mech-dump	/^sub dump_forms {$/;"	s
+dump_forms	lib/WWW/Mechanize.pm	/^sub dump_forms {$/;"	s
 dump_images	bin/mech-dump	/^sub dump_images {$/;"	s
+dump_images	lib/WWW/Mechanize.pm	/^sub dump_images {$/;"	s
 dump_links	bin/mech-dump	/^sub dump_links {$/;"	s
+dump_links	lib/WWW/Mechanize.pm	/^sub dump_links {$/;"	s
 field	lib/WWW/Mechanize.pm	/^sub field {$/;"	s
 find_all_images	lib/WWW/Mechanize.pm	/^sub find_all_images {$/;"	s
 find_all_inputs	lib/WWW/Mechanize.pm	/^sub find_all_inputs {$/;"	s
