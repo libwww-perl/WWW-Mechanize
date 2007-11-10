@@ -325,8 +325,8 @@ I<$uri> can be a well-formed URL string, a L<URI> object, or a
 L<WWW::Mechanize::Link> object.
 
 The results are stored internally in the agent object, but you don't
-know that.  Just use the accessors listed below.  Poking at the internals
-is deprecated and subject to change in the future.
+know that.  Just use the accessors listed below.  Poking at the
+internals is deprecated and subject to change in the future.
 
 C<get()> is a well-behaved overloaded version of the method in
 L<LWP::UserAgent>.  This lets you do things like
@@ -335,6 +335,10 @@ L<LWP::UserAgent>.  This lets you do things like
 
 and you can rest assured that the parms will get filtered down
 appropriately.
+
+B<NOTE:> Because C<:content_file> causes the page contents to be
+stored in a file instead of the response object, some Mech functions
+that expect it to be there won't work as expected. Use with caution.
 
 =cut
 
