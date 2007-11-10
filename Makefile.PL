@@ -52,6 +52,15 @@ my $parms = {
     clean           => { FILES => 'WWW-Mechanize-*' },
 };
 
+if ( $ExtUtils::MakeMaker::VERSION eq '6.36' ) {
+    $parms->{EXTRA_META} = <<EOF;
+resources:
+    homepage: http://code.google.com/p/www-mechanize/
+    bugtracker: http://code.google.com/p/www-mechanize/issues/list
+EOF
+    }
+
+
 eval { require LWP; };
 if (!$@) {
     if ( ! LWP::Protocol::implementor('https') ) {

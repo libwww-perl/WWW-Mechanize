@@ -2517,6 +2517,12 @@ sub _die {
 
 __END__
 
+=head1 REQUESTS & BUGS
+
+The bug queue for WWW::Mechanize and Test::WWW::Mechanize is at
+L<http://code.google.com/p/www-mechanize/issues/list>.  Please do
+not add any tickets to the old queue at L<http://rt.cpan.org/>.
+
 =head1 WWW::MECHANIZE'S SUBVERSION REPOSITORY
 
 Mech and Test::WWW::Mechanize are both hosted at Google Code:
@@ -2665,19 +2671,6 @@ Just like Mech, but using Microsoft Internet Explorer to do the work.
 =item * L<WWW::Yahoo::Groups>
 
 =back
-
-=head1 REQUESTS & BUGS
-
-Please report any requests, suggestions or (gasp!) bugs via the
-excellent RT bug-tracking system at http://rt.cpan.org/, or email to
-C<bug-WWW-Mechanize at rt.cpan.org>.  This makes it much easier for
-me to track things.
-
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=WWW-Mechanize> is the RT queue
-for Mechanize.  Please check to see if your bug has already been reported.
-
-Please note that this is NOT for support requests.  Please be sure
-to read the FAQ if you have support requests.
 
 =head1 ACKNOWLEDGEMENTS
 
