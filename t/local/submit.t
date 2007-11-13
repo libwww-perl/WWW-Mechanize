@@ -6,8 +6,9 @@ use lib 't/local';
 use Test::More tests => 13;
 use LocalServer;
 
-BEGIN { delete @ENV{ qw( http_proxy HTTP_PROXY ) }; }
 BEGIN {
+    delete @ENV{ grep { lc eq 'http_proxy' } keys %ENV };
+    delete @ENV{ qw( IFS CDPATH ENV BASH_ENV ) };
     use_ok( 'WWW::Mechanize' );
 }
 

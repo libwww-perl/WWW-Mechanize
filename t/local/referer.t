@@ -4,11 +4,11 @@ use warnings;
 use strict;
 use FindBin;
 
-BEGIN { delete @ENV{ qw( http_proxy HTTP_PROXY ) }; }
-
 use Test::More tests => 13;
 
 BEGIN {
+    delete @ENV{ grep { lc eq 'http_proxy' } keys %ENV };
+    delete @ENV{ qw( IFS CDPATH ENV BASH_ENV ) };
     use_ok( 'WWW::Mechanize' );
 }
 

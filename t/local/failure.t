@@ -14,8 +14,9 @@ BEGIN {
     plan tests => 16;
 }
 
-BEGIN { delete @ENV{ qw( http_proxy HTTP_PROXY ) }; }
 BEGIN {
+    delete @ENV{ grep { lc eq 'http_proxy' } keys %ENV };
+    delete @ENV{ qw( IFS CDPATH ENV BASH_ENV ) };
     use_ok( 'WWW::Mechanize' );
 }
 

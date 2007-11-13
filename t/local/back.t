@@ -8,6 +8,7 @@ use LocalServer;
 use HTTP::Daemon;
 use HTTP::Response;
 
+
 =head1 NAME
 
 =head1 SYNOPSIS
@@ -18,10 +19,9 @@ and subsequently enriched to deal with RT ticket #8109.
 =cut
 
 BEGIN {
-    use_ok( 'WWW::Mechanize' );
-    delete @ENV{ qw( http_proxy HTTP_PROXY ) };
+    delete @ENV{ grep { lc eq 'http_proxy' } keys %ENV };
     delete @ENV{ qw( IFS CDPATH ENV BASH_ENV ) };
-
+    use_ok( 'WWW::Mechanize' );
 }
 
 my $mech = WWW::Mechanize->new(cookie_jar => {});
