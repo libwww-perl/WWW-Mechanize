@@ -126,7 +126,7 @@ my @links = qw(
 
 is( scalar @{$mech->{page_stack}}, 0, 'Pre-404 check' );
 
-my $server404 = HTTP::Daemon->new or die;
+my $server404 = HTTP::Daemon->new(LocalAddr => 'localhost') or die;
 my $server404url = $server404->url;
 
 die 'Cannot fork' if (! defined (my $pid404 = fork()));
@@ -146,7 +146,8 @@ if (! $pid404) { # Fake HTTP server code: a true 404-compliant server!
 }
 
 $mech->get($server404url);
-is( $mech->status, 404 , '404 check');
+is( $mech->status, 404 , '404 check') or
+    diag( qq{\$server404url=$server404url\n\$mech->content="}, $mech->content, qq{"\n} );
 
 is( scalar @{$mech->{page_stack}}, 1, 'Even 404s get on the stack' );
 

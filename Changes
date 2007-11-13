@@ -1,5 +1,11 @@
 Revision history for WWW::Mechanize
 
+NEXT
+========================================
+[FIXES]
+Many fixes to make the test suite more portable.
+
+
 1.32        Tue Oct 30 12:02:17 CDT 2007
 ========================================
 Please note that WWW::Mechanize and Test::WWW::Mechanize are no
@@ -12,7 +18,7 @@ Added dump methods to mirror mech-dump:
 * $mech->dump_images()
 * $mech->dump_links()
 * $mech->dump_forms()
-$ $mech->dump_all()
+* $mech->dump_all()
 
 Sanity checks in the WWW::Mechanize::Image constructor.  Every Image
 must have a "url" and "tag" field passed in to it.
