@@ -1,6 +1,14 @@
 Revision history for WWW::Mechanize
 
-NEXT
+Please note that WWW::Mechanize and Test::WWW::Mechanize are no
+longer using rt.cpan.org for bug tracking.  They are now being
+tracked via Google Code at
+http://code.google.com/p/www-mechanize/issues/list
+
+Mech now has its own mailing list at Google Groups:
+http://groups.google.com/group/www-mechanize-users
+
+1.34        Mon Dec 10 00:30:39 CST 2007
 ========================================
 [FIXES]
 Many fixes to make the test suite more portable.
@@ -8,11 +16,6 @@ Many fixes to make the test suite more portable.
 
 1.32        Tue Oct 30 12:02:17 CDT 2007
 ========================================
-Please note that WWW::Mechanize and Test::WWW::Mechanize are no
-longer using rt.cpan.org for bug tracking.  They are now being
-tracked via Google Code at
-http://code.google.com/p/www-mechanize/issues/list
-
 [ENHANCEMENTS]
 Added dump methods to mirror mech-dump:
 * $mech->dump_images()

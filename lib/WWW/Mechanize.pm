@@ -6,11 +6,11 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 =head1 VERSION
 
-Version 1.32
+Version 1.34
 
 =cut
 
-our $VERSION = '1.32';
+our $VERSION = '1.34';
 
 =head1 SYNOPSIS
 
@@ -1628,6 +1628,8 @@ sub click_button {
 Submits the page, without specifying a button to click.  Actually,
 no button is clicked at all.
 
+Returns an L<HTTP::Response> object.
+
 This used to be a synonym for C<< $mech->click( 'submit' ) >>, but is no
 longer so.
 
@@ -2562,13 +2564,18 @@ L<http://books.slashdot.org/article.pl?sid=03/12/11/2126256>
 
 =over 4
 
+=item * WWW::Mechanize mailing list
+
+The Mech mailing list is at
+L<http://groups.google.com/group/www-mechanize-users> and is specific
+to Mechanize, unlike the LWP mailing list below.  Although it is a
+users list, all development discussion takes place here, too.
+
 =item * LWP mailing list
 
 The LWP mailing list is at
 L<http://lists.perl.org/showlist.cgi?name=libwww>, and is more
-user-oriented and well-populated than the WWW::Mechanize Development
-list.  This is a good list for Mech users, since LWP is the basis
-for Mech.
+user-oriented and well-populated than the WWW::Mechanize list.
 
 =item * Perlmonks
 
