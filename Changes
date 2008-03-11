@@ -10,6 +10,7 @@ http://groups.google.com/group/www-mechanize-users
 
 NEXT
 
+1.36        Tue Mar 11 00:52:53 CDT 2008
 ========================================
 [THINGS THAT MAY BREAK YOUR CODE]
 The autocheck argument to the constructor is now ON by default.
