@@ -6,11 +6,11 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 =head1 VERSION
 
-Version 1.34
+Version 1.35_01
 
 =cut
 
-our $VERSION = '1.34';
+our $VERSION = '1.35_01';
 
 =head1 SYNOPSIS
 
@@ -150,6 +150,14 @@ Checks each request made to see if it was successful.  This saves you
 the trouble of manually checking yourself.  Any errors found are errors,
 not warnings.  Default is off.
 
+=item * C<< noproxy => [0|1] >>
+
+Turn off the automatic call to the L<LWP::UserAgent> C<env_proxy> function.
+
+This needs to be explicitly turned off if you're using L<Crypt::SSLeay> to
+access a https site via a proxy server.  Note: you still need to set your
+HTTPS_PROXY environment variable as appropriate.
+
 =item * C<< onwarn => \&func >>
 
 Reference to a C<warn>-compatible function, such as C<< L<Carp>::carp >>,
@@ -223,7 +231,7 @@ sub new {
         $self->{$parm} = $mech_parms{$parm};
     }
     $self->{page_stack} = [];
-    $self->env_proxy();
+    $self->env_proxy() unless $parent_parms{noproxy};
 
     # libwww-perl 5.800 (and before, I assume) has a problem where
     # $ua->{proxy} can be undef and clone() doesn't handle it.

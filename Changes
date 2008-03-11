@@ -8,6 +8,19 @@ http://code.google.com/p/www-mechanize/issues/list
 Mech now has its own mailing list at Google Groups:
 http://groups.google.com/group/www-mechanize-users
 
+NEXT
+
+========================================
+[THINGS THAT MAY BREAK YOUR CODE]
+
+
+[ENHANCEMENTS]
+You can now specify not to set up the proxy, if there is one.  The
+proxy causes problems for Crypt::SSLeay.  For details see:
+http://code.google.com/p/www-mechanize/issues/detail?id=39
+
+
+
 1.34        Mon Dec 10 00:30:39 CST 2007
 ========================================
 [FIXES]
