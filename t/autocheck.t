@@ -24,7 +24,7 @@ BEGIN {
 }
 
 AUTOCHECK_OFF: {
-    my $mech = WWW::Mechanize->new;
+    my $mech = WWW::Mechanize->new( autocheck => 0 );
     isa_ok( $mech, 'WWW::Mechanize' );
 
     $mech->get( NONEXISTENT );
@@ -32,7 +32,7 @@ AUTOCHECK_OFF: {
 }
 
 AUTOCHECK_ON: {
-    my $mech = WWW::Mechanize->new( autocheck => 1 );
+    my $mech = WWW::Mechanize->new;
     isa_ok( $mech, 'WWW::Mechanize' );
 
     dies_ok {

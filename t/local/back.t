@@ -113,7 +113,7 @@ SKIP: {
     memory_cycle_ok( $mech, 'No memory cycles found' );
 }
 
-$mech = WWW::Mechanize->new();
+$mech = WWW::Mechanize->new( autocheck => 0 );
 isa_ok( $mech, 'WWW::Mechanize' );
 $mech->get( $server->url );
 ok( $mech->success, 'Got root URL' );

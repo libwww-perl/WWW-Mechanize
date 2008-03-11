@@ -12,7 +12,9 @@ NEXT
 
 ========================================
 [THINGS THAT MAY BREAK YOUR CODE]
-
+The autocheck argument to the constructor is now ON by default.
+There are so many new programmers whose ->get() calls fail unchecked
+that I'm now putting on the seat belts for them.
 
 [ENHANCEMENTS]
 You can now specify not to set up the proxy, if there is one.  The

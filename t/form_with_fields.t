@@ -10,7 +10,7 @@ BEGIN {
     use_ok( 'WWW::Mechanize' );
 }
 
-my $mech = WWW::Mechanize->new( cookie_jar => undef );
+my $mech = WWW::Mechanize->new( cookie_jar => undef, autocheck => 0 );
 isa_ok( $mech, 'WWW::Mechanize' );
 my $uri = URI::file->new_abs( 't/form_with_fields.html' )->as_string;
 

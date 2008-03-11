@@ -148,7 +148,7 @@ parms that L<LWP::UserAgent> recognizes.
 
 Checks each request made to see if it was successful.  This saves you
 the trouble of manually checking yourself.  Any errors found are errors,
-not warnings.  Default is off.
+not warnings.  Default is ON.
 
 =item * C<< noproxy => [0|1] >>
 
@@ -203,7 +203,7 @@ sub new {
     );
 
     my %mech_parms = (
-        autocheck   => 0,
+        autocheck   => 1,
         onwarn      => \&WWW::Mechanize::_warn,
         onerror     => \&WWW::Mechanize::_die,
         quiet       => 0,

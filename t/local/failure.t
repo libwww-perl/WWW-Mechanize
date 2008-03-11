@@ -24,7 +24,7 @@ my $server = LocalServer->spawn;
 isa_ok( $server, 'LocalServer' );
 
 
-my $mech = WWW::Mechanize->new;
+my $mech = WWW::Mechanize->new( autocheck => 0 );
 isa_ok( $mech, 'WWW::Mechanize', 'Created object' );
 
 GOOD_PAGE: {
