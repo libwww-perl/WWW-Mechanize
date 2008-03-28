@@ -77,7 +77,7 @@ posting to the server. The URL you want is probably just buried in the
 Javascript function. Do a regular expression match on
 C<< $mech->content() >>
 to find the link that you want and C<< $mech->get >> it directly (this
-assumes that you know what your are looking for in advance).
+assumes that you know what you are looking for in advance).
 
 In more difficult cases, the Javascript is used for URL mangling to
 satisfy the needs of some middleware. In this case you need to figure
