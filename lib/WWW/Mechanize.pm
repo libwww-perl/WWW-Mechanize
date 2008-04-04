@@ -400,7 +400,7 @@ sub _SUPER_put {
 =head2 $mech->reload()
 
 Acts like the reload button in a browser: repeats the current
-request. The history (as per the L<back> method) is not altered.
+request. The history (as per the L</back> method) is not altered.
 
 Returns the L<HTTP::Response> object from the reload, or C<undef>
 if there's no current request.
@@ -866,7 +866,7 @@ sub _clean_keys {
 =head2 $mech->find_all_links( ... )
 
 Returns all the links on the current page that match the criteria.  The
-method for specifying link criteria is the same as in C<L<find_link()>>.
+method for specifying link criteria is the same as in C<L</find_link()>>.
 Each of the links returned is a L<WWW::Mechanize::Link> object.
 
 In list context, C<find_all_links()> returns a list of the links.
@@ -1094,7 +1094,7 @@ sub _match_any_image_parms {
 =head2 $mech->find_all_images( ... )
 
 Returns all the images on the current page that match the criteria.  The
-method for specifying image criteria is the same as in C<L<find_image()>>.
+method for specifying image criteria is the same as in C<L</find_image()>>.
 Each of the images returned is a L<WWW::Mechanize::Image> object.
 
 In list context, C<find_all_images()> returns a list of the images.
@@ -1129,11 +1129,11 @@ sub forms {
 =head2 $mech->form_number($number)
 
 Selects the I<number>th form on the page as the target for subsequent
-calls to C<L<field()>> and C<L<click()>>.  Also returns the form that was
+calls to C<L</field()>> and C<L</click()>>.  Also returns the form that was
 selected.
 
 If it is found, the form is returned as an L<HTML::Form> object and set internally
-for later use with Mech's form methods such as C<L<field()>> and C<L<click()>>.
+for later use with Mech's form methods such as C<L</field()>> and C<L</click()>>.
 
 Emits a warning and returns undef if no form is found.
 
@@ -1162,7 +1162,7 @@ with that name, then the first one is used, and a warning is
 generated.
 
 If it is found, the form is returned as an L<HTML::Form> object and set internally
-for later use with Mech's form methods such as C<L<field()>> and C<L<click()>>.
+for later use with Mech's form methods such as C<L</field()>> and C<L</click()>>.
 
 Returns undef if no form is found.
 
@@ -1193,7 +1193,7 @@ is more than one form on the page with that matches, then the first one is used,
 and a warning is generated.
 
 If it is found, the form is returned as an L<HTML::Form> object and set internally
-for later used with Mech's form methods such as C<L<field()>> and C<L<click()>>.
+for later used with Mech's form methods such as C<L</field()>> and C<L</click()>>.
 
 Returns undef if no form is found.
 
@@ -1230,9 +1230,10 @@ sub form_with_fields {
 
 =head2 $mech->field( $name, \@values, $number )
 
-Given the name of a field, set its value to the value specified.  This
-applies to the current form (as set by the L<form_name()> or L<form_number()> method or defaulting
-to the first form on the page).
+Given the name of a field, set its value to the value specified.
+This applies to the current form (as set by the L</form_name()> or
+L</form_number()> method or defaulting to the first form on the
+page).
 
 The optional I<$number> parameter is used to distinguish between two fields
 with the same name.  The fields are numbered from 1.
@@ -1670,32 +1671,32 @@ and data setting in one operation. It selects the first form that contains all
 fields mentioned in C<\%fields>.  This is nice because you don't need to know
 the name or number of the form to do this.
 
-(calls C<L<form_with_fields>> and C<L<set_fields()>>).
+(calls C<L</form_with_fields()>> and C<L</set_fields()>>).
 
 If you choose this, the form_number, form_name and fields options will be ignored.
 
 =item * form_number => n
 
-Selects the I<n>th form (calls C<L<form_number()>>).  If this parm is not
+Selects the I<n>th form (calls C<L</form_number()>>).  If this parm is not
 specified, the currently-selected form is used.
 
 =item * form_name => name
 
-Selects the form named I<name> (calls C<L<form_name()>>)
+Selects the form named I<name> (calls C<L</form_name()>>)
 
 =item * button => button
 
-Clicks on button I<button> (calls C<L<click()>>)
+Clicks on button I<button> (calls C<L</click()>>)
 
 =item * x => x, y => y
 
-Sets the x or y values for C<L<click()>>
+Sets the x or y values for C<L</click()>>
 
 =back
 
 If no form is selected, the first form found is used.
 
-If I<button> is not passed, then the C<L<submit()>> method is used instead.
+If I<button> is not passed, then the C<L</submit()>> method is used instead.
 
 Returns an L<HTTP::Response> object.
 
