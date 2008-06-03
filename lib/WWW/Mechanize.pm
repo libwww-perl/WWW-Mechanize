@@ -1267,7 +1267,8 @@ specified.  If the field is not E<lt>select multipleE<gt> and the
 C<$value> is an array, only the B<first> value will be set.  [Note:
 the documentation previously claimed that only the last value would
 be set, but this was incorrect.]  Passing C<$value> as a hash with
-an C<n> key selects an item by number (e.g. C<{n => 3> or C<{n => [2,4]}>).
+an C<n> key selects an item by number (e.g.
+C<< {n => 3} >> or C<{ {n => [2,4]} >>).
 The numbering starts at 1.  This applies to the current form.
 
 Returns 1 on successfully setting the value. On failure, returns
