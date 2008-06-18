@@ -564,30 +564,57 @@ sub content {
 
     if ( $self->is_html ) {
         my %parms = @_;
+
         if ( exists $parms{base_href} ) {
             my $base_href = (delete $parms{base_href}) || $self->base;
             $content=~s/<head>/<head>\n<base href="$base_href">/i;
         }
+
         if ( my $format = delete $parms{format} ) {
-            if ($format eq 'text') {
-                require HTML::TreeBuilder;
-                my $tree = HTML::TreeBuilder->new();
-                $tree->parse($content);
-                $tree->eof();
-                $tree->elementify(); # just for safety
-                $content = $tree->as_text();
-                $tree->delete;
-            }
-            else {
-                $self->die( qq{Unknown "format" parameter "$format"} );
-            }
+            $content = $self->_format_content( $format, $content );
         }
-        for my $cmd ( sort keys %parms ) {
-            $self->die( qq{Unknown named argument "$cmd"} );
-        }
-    } # is HTML
+
+        $self->_check_unhandled_parms( %parms );
+    }
 
     return $content;
+}
+
+sub _format_content {
+    my $self = shift;
+    my $format = shift;
+    my $content = shift;
+
+    if ( $format eq 'text' ) {
+        return $self->_content_as_text($content);
+    }
+    else {
+        $self->die( qq{Unknown "format" parameter "$format"} );
+    }
+}
+
+sub _content_as_text {
+    my $self = shift;
+    my $content = shift;
+
+    require HTML::TreeBuilder;
+    my $tree = HTML::TreeBuilder->new();
+    $tree->parse($content);
+    $tree->eof();
+    $tree->elementify(); # just for safety
+    my $formatted_content = $tree->as_text();
+    $tree->delete;
+
+    return $formatted_content;
+}
+
+sub _check_unhandled_parms {
+    my $self  = shift;
+    my %parms = @_;
+
+    for my $cmd ( sort keys %parms ) {
+        $self->die( qq{Unknown named argument "$cmd"} );
+    }
 }
 
 =head1 LINK METHODS
@@ -2155,8 +2182,8 @@ sub _update_page {
     $self->_reset_page;
 
     # Try to decode the content. Undef will be returned if there's nothing to decompress.
-    # See docs in HTTP::Message for details. Do we need to expose the options there? 
-    # use charset => 'none' because while we want LWP to handle Content-Encoding for 
+    # See docs in HTTP::Message for details. Do we need to expose the options there?
+    # use charset => 'none' because while we want LWP to handle Content-Encoding for
     # the auto-gzipping with Compress::Zlib we don't want it messing with charset
     my $content = $res->decoded_content( charset => 'none' );
     $content = $res->content if (not defined $content);

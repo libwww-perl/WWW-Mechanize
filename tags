@@ -62,10 +62,13 @@ WWW::Mechanize	lib/WWW/Mechanize.pm	/^package WWW::Mechanize;$/;"	p
 WWW::Mechanize::Image	lib/WWW/Mechanize/Image.pm	/^package WWW::Mechanize::Image;$/;"	p
 WWW::Mechanize::Link	lib/WWW/Mechanize/Link.pm	/^package WWW::Mechanize::Link;$/;"	p
 _SUPER_put	lib/WWW/Mechanize.pm	/^sub _SUPER_put {$/;"	s
+_check_unhandled_parms	lib/WWW/Mechanize.pm	/^sub _check_unhandled_parms {$/;"	s
 _clean_keys	lib/WWW/Mechanize.pm	/^sub _clean_keys {$/;"	s
+_content_as_text	lib/WWW/Mechanize.pm	/^sub _content_as_text {$/;"	s
 _die	lib/WWW/Mechanize.pm	/^sub _die {$/;"	s
 _extract_images	lib/WWW/Mechanize.pm	/^sub _extract_images {$/;"	s
 _extract_links	lib/WWW/Mechanize.pm	/^sub _extract_links {$/;"	s
+_format_content	lib/WWW/Mechanize.pm	/^sub _format_content {$/;"	s
 _image_from_token	lib/WWW/Mechanize.pm	/^sub _image_from_token {$/;"	s
 _is_tainted	lib/WWW/Mechanize.pm	/^sub _is_tainted {$/;"	s
 _link_from_token	lib/WWW/Mechanize.pm	/^sub _link_from_token {$/;"	s
