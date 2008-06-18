@@ -13,6 +13,12 @@ NEXT
 [DOCUMENTATION]
 Fixed internal links.
 
+[INTERNALS]
+Lots of refactoring based on Schwern's "Skimmable Code" talk.
+
+http://use.perl.org/~schwern/journal/36704
+http://schwern.org/~schwern/talks/Skimmable%20Code%20-%20YAPC-NA-2008.pdf
+
 
 1.36        Tue Mar 11 00:52:53 CDT 2008
 ========================================

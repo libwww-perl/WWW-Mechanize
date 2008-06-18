@@ -565,11 +565,11 @@ sub content {
     if ( $self->is_html ) {
         my %parms = @_;
         if ( exists $parms{base_href} ) {
-            my $arg = (delete $parms{base_href}) || $self->base;
-            $content=~s/<head>/<head>\n<base href="$arg">/i;
+            my $base_href = (delete $parms{base_href}) || $self->base;
+            $content=~s/<head>/<head>\n<base href="$base_href">/i;
         }
-        if ( my $arg = delete $parms{format} ) {
-            if ($arg eq 'text') {
+        if ( my $format = delete $parms{format} ) {
+            if ($format eq 'text') {
                 require HTML::TreeBuilder;
                 my $tree = HTML::TreeBuilder->new();
                 $tree->parse($content);
@@ -579,7 +579,7 @@ sub content {
                 $tree->delete;
             }
             else {
-                $self->die( qq{Unknown "format" parameter "$arg"} );
+                $self->die( qq{Unknown "format" parameter "$format"} );
             }
         }
         for my $cmd ( sort keys %parms ) {
@@ -2694,6 +2694,7 @@ Just like Mech, but using Microsoft Internet Explorer to do the work.
 Thanks to the numerous people who have helped out on WWW::Mechanize in
 one way or another, including
 Kirrily Robert for the original C<WWW::Automate>,
+Michael Schwern,
 Adriano Ferreira,
 Miyagawa,
 Peteris Krumins,

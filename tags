@@ -25,6 +25,7 @@ INVALIDATE	t/local/reload.t	/^INVALIDATE: {$/;"	l
 LANGUAGES	t/live/wikipedia.t	/^use constant LANGUAGES => qw( en it ja es nl pl );$/;"	c
 LocalServer	t/local/LocalServer.pm	/^package LocalServer;$/;"	p
 MY	Makefile.PL	/^sub MY::postamble {$/;"	s
+MailingList	Makefile.PL	/^    MailingList: http:\/\/groups.google.com\/group\/www-mechanize-users$/;"	l
 MyMech	t/local/overload.t	/^    package MyMech;$/;"	p
 NEW_API	t/link.t	/^NEW_API: {$/;"	l
 NONEXISTENT	t/autocheck.t	/^use constant NONEXISTENT => 'http:\/\/blahblablah.xx-nonexistent.';$/;"	c
@@ -38,6 +39,7 @@ REGEX_STRING	t/find_link-warnings.t	/^REGEX_STRING: {$/;"	l
 REGEX_USAGE	t/find_link-warnings.t	/^REGEX_USAGE: {$/;"	l
 RELOAD	t/local/reload.t	/^RELOAD: {$/;"	l
 RES_ON_NEW	t/new.t	/^RES_ON_NEW: {$/;"	l
+Repository	Makefile.PL	/^    Repository: http:\/\/code.google.com\/p\/www-mechanize\/source$/;"	l
 SECOND_FORM	t/find_inputs.t	/^SECOND_FORM: {$/;"	l
 SKIP	t/area_link.t	/^    SKIP: {$/;"	l
 SKIP	t/area_link.t	/^SKIP: {$/;"	l
@@ -123,6 +125,7 @@ homepage	Makefile.PL	/^    homepage: http:\/\/code.google.com\/p\/www-mechanize\
 images	lib/WWW/Mechanize.pm	/^sub images {$/;"	s
 is_html	lib/WWW/Mechanize.pm	/^sub is_html {       my $self = shift; return defined $self->{ct} && ($self->{ct} eq 'text\/html'); }$/;"	s
 known_agent_aliases	lib/WWW/Mechanize.pm	/^sub known_agent_aliases {$/;"	s
+license	Makefile.PL	/^    license: http:\/\/dev.perl.org\/licenses\/$/;"	l
 links	lib/WWW/Mechanize.pm	/^sub links {$/;"	s
 main	Makefile.PL	/^package main;$/;"	p
 name	lib/WWW/Mechanize/Image.pm	/^sub name    { return ($_[0])->{name}; }$/;"	s
