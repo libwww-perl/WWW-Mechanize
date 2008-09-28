@@ -57,7 +57,7 @@ is( $agent->uri, sprintf('%sbar/refinesearch.html',$server->url), 'Got relative 
 ok( $agent->is_html, 'is HTML' );
 is( $agent->title, 'WWW::Mechanize::Shell test page', 'Title matches' );
 like( $agent->content, qr/WWW::Mechanize::Shell test page/, 'Got the right page' );
-my $rslength = length $agent->content;
+my $rslength = do {use bytes; length $agent->content};
 
 my $tempfile = './temp';
 unlink $tempfile;

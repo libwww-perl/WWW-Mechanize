@@ -24,8 +24,6 @@ GOOD_PAGE	t/local/failure.t	/^GOOD_PAGE: {$/;"	l
 INVALIDATE	t/local/reload.t	/^INVALIDATE: {$/;"	l
 LANGUAGES	t/live/wikipedia.t	/^use constant LANGUAGES => qw( en it ja es nl pl );$/;"	c
 LocalServer	t/local/LocalServer.pm	/^package LocalServer;$/;"	p
-MY	Makefile.PL	/^sub MY::postamble {$/;"	s
-MailingList	Makefile.PL	/^    MailingList: http:\/\/groups.google.com\/group\/www-mechanize-users$/;"	l
 MyMech	t/local/overload.t	/^    package MyMech;$/;"	p
 NEW_API	t/link.t	/^NEW_API: {$/;"	l
 NONEXISTENT	t/autocheck.t	/^use constant NONEXISTENT => 'http:\/\/blahblablah.xx-nonexistent.';$/;"	c
@@ -39,7 +37,6 @@ REGEX_STRING	t/find_link-warnings.t	/^REGEX_STRING: {$/;"	l
 REGEX_USAGE	t/find_link-warnings.t	/^REGEX_USAGE: {$/;"	l
 RELOAD	t/local/reload.t	/^RELOAD: {$/;"	l
 RES_ON_NEW	t/new.t	/^RES_ON_NEW: {$/;"	l
-Repository	Makefile.PL	/^    Repository: http:\/\/code.google.com\/p\/www-mechanize\/source$/;"	l
 SECOND_FORM	t/find_inputs.t	/^SECOND_FORM: {$/;"	l
 SKIP	t/area_link.t	/^    SKIP: {$/;"	l
 SKIP	t/area_link.t	/^SKIP: {$/;"	l
@@ -90,14 +87,12 @@ back	lib/WWW/Mechanize.pm	/^sub back {$/;"	s
 base	lib/WWW/Mechanize.pm	/^sub base {          my $self = shift; return $self->{base}; }$/;"	s
 base	lib/WWW/Mechanize/Image.pm	/^sub base    { return ($_[0])->{base}; }$/;"	s
 base	lib/WWW/Mechanize/Link.pm	/^sub base  { return ($_[0])->[4]; }$/;"	s
-bugtracker	Makefile.PL	/^    bugtracker: http:\/\/code.google.com\/p\/www-mechanize\/issues\/list$/;"	l
 click	lib/WWW/Mechanize.pm	/^sub click {$/;"	s
 click_button	lib/WWW/Mechanize.pm	/^sub click_button {$/;"	s
 clone	lib/WWW/Mechanize.pm	/^sub clone {$/;"	s
 content	lib/WWW/Mechanize.pm	/^sub content {$/;"	s
 credentials	lib/WWW/Mechanize.pm	/^    sub credentials {$/;"	s
 creds_required	t/local/LocalServer.pm	/^sub creds_required {$/;"	s
-critic	Makefile.PL	/^critic:$/;"	l
 ct	lib/WWW/Mechanize.pm	/^sub ct {            my $self = shift; return $self->{ct}; }$/;"	s
 current_form	lib/WWW/Mechanize.pm	/^sub current_form {  my $self = shift; return $self->{form}; }$/;"	s
 delete_header	lib/WWW/Mechanize.pm	/^sub delete_header {$/;"	s
@@ -124,13 +119,10 @@ forms	lib/WWW/Mechanize.pm	/^sub forms {$/;"	s
 get	lib/WWW/Mechanize.pm	/^sub get {$/;"	s
 get_output	t/local/LocalServer.pm	/^sub get_output {$/;"	s
 height	lib/WWW/Mechanize/Image.pm	/^sub height  { return ($_[0])->{height}; }$/;"	s
-homepage	Makefile.PL	/^    homepage: http:\/\/code.google.com\/p\/www-mechanize\/$/;"	l
 images	lib/WWW/Mechanize.pm	/^sub images {$/;"	s
 is_html	lib/WWW/Mechanize.pm	/^sub is_html {       my $self = shift; return defined $self->{ct} && ($self->{ct} eq 'text\/html'); }$/;"	s
 known_agent_aliases	lib/WWW/Mechanize.pm	/^sub known_agent_aliases {$/;"	s
-license	Makefile.PL	/^    license: http:\/\/dev.perl.org\/licenses\/$/;"	l
 links	lib/WWW/Mechanize.pm	/^sub links {$/;"	s
-main	Makefile.PL	/^package main;$/;"	p
 name	lib/WWW/Mechanize/Image.pm	/^sub name    { return ($_[0])->{name}; }$/;"	s
 name	lib/WWW/Mechanize/Link.pm	/^sub name  { return ($_[0])->[2]; }$/;"	s
 new	lib/WWW/Mechanize.pm	/^sub new {$/;"	s
@@ -144,7 +136,6 @@ redirect_ok	lib/WWW/Mechanize.pm	/^sub redirect_ok {$/;"	s
 reload	lib/WWW/Mechanize.pm	/^sub reload {$/;"	s
 request	lib/WWW/Mechanize.pm	/^sub request {$/;"	s
 res	lib/WWW/Mechanize.pm	/^sub res {           my $self = shift; return $self->{res}; }$/;"	s
-resources	Makefile.PL	/^resources:$/;"	l
 response	lib/WWW/Mechanize.pm	/^sub response {      my $self = shift; return $self->{res}; }$/;"	s
 save_content	lib/WWW/Mechanize.pm	/^sub save_content {$/;"	s
 select	lib/WWW/Mechanize.pm	/^sub select {$/;"	s
@@ -160,7 +151,6 @@ submit_form	lib/WWW/Mechanize.pm	/^sub submit_form {$/;"	s
 success	lib/WWW/Mechanize.pm	/^sub success {$/;"	s
 tag	lib/WWW/Mechanize/Image.pm	/^sub tag     { return ($_[0])->{tag}; }$/;"	s
 tag	lib/WWW/Mechanize/Link.pm	/^sub tag   { return ($_[0])->[3]; }$/;"	s
-tags	Makefile.PL	/^tags:$/;"	l
 text	lib/WWW/Mechanize/Link.pm	/^sub text  { return ($_[0])->[1]; }$/;"	s
 tick	lib/WWW/Mechanize.pm	/^sub tick {$/;"	s
 title	lib/WWW/Mechanize.pm	/^sub title {$/;"	s

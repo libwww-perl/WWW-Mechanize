@@ -8,8 +8,24 @@ http://code.google.com/p/www-mechanize/issues/list
 Mech now has its own mailing list at Google Groups:
 http://groups.google.com/group/www-mechanize-users
 
-NEXT
+1.49_01
 ========================================
+[FIXES]
+I do believe we are on the way to having all the encoding problems
+ironed out.  This version incorporates a patch from here:
+
+    http://code.google.com/p/www-mechanize/issues/detail?id=61
+
+and tests from Miyagawa's WWW::Mechanize::DecodedContent
+
+    http://search.cpan.org/~miyagawa/WWW-Mechanize-DecodedContent-0.01/
+
+to finally fix this.
+
+
+
+
+
 [DOCUMENTATION]
 Fixed internal links.
 

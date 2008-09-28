@@ -106,6 +106,7 @@ use HTTP::Request 1.30;
 use LWP::UserAgent 2.003;
 use HTML::Form 1.00;
 use HTML::TokeParser;
+use HTTP::Response::Encoding 0.05;
 
 use base 'LWP::UserAgent';
 
@@ -2183,9 +2184,7 @@ sub _update_page {
 
     # Try to decode the content. Undef will be returned if there's nothing to decompress.
     # See docs in HTTP::Message for details. Do we need to expose the options there?
-    # use charset => 'none' because while we want LWP to handle Content-Encoding for
-    # the auto-gzipping with Compress::Zlib we don't want it messing with charset
-    my $content = $res->decoded_content( charset => 'none' );
+    my $content = $res->decoded_content();
     $content = $res->content if (not defined $content);
 
     $content .= _taintedness();

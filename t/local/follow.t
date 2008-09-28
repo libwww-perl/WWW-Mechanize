@@ -6,6 +6,7 @@ use strict;
 use Test::More tests => 21;
 use lib 't/local';
 use LocalServer;
+use encoding 'iso-8859-1';
 
 BEGIN {
     delete @ENV{ grep { lc eq 'http_proxy' } keys %ENV };

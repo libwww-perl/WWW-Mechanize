@@ -3,6 +3,7 @@
 use strict;
 use HTTP::Daemon;
 use CGI;
+use encoding 'iso-8859-1';
 
 $|++;
 
@@ -16,6 +17,7 @@ if ($filename) {
 };
 open LOG, ">", $logfile
   or die "Couldn't create logfile '$logfile' : $!\n";
+binmode DATA,':encoding(iso-8859-1)';
 my $body = join "", <DATA>;
 
 sub debug($) {

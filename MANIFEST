@@ -60,6 +60,7 @@ t/warn.t
 t/warnings.t
 
 t/live/computers4sure.t
+t/live/encoding.t
 t/live/wikipedia.t
 
 t/local/LocalServer.pm
