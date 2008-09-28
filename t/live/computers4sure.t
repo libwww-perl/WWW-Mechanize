@@ -3,7 +3,6 @@
 use warnings;
 use strict;
 
-use Test::More skip_all => 'Still need to get the error-handling on here working';
 use Test::More tests => 9;
 
 BEGIN {
@@ -33,7 +32,6 @@ my $link_str = $link->url;
 $mech->get( $link_str );
 is( $mech->response->code, 200, "Fetched $link_str" );
 ok( $mech->content =~ /Your price/i, 'Found a likely phrase in the second page' );
-#print $mech->content;
 
 SKIP: {
     eval 'use Test::Memory::Cycle';
@@ -41,4 +39,3 @@ SKIP: {
 
     memory_cycle_ok( $mech, 'No memory cycles found' );
 }
-
