@@ -10,6 +10,11 @@ http://groups.google.com/group/www-mechanize-users
 
 1.49_01     Sat Sep 27 23:50:04 CDT 2008
 ========================================
+[THINGS THAT MAY BREAK YOUR CODE]
+The autocheck argument to the constructor is now ON by default.
+There are so many new programmers whose ->get() calls fail unchecked
+that I'm now putting on the seat belts for them.
+
 [FIXES]
 I do believe we are on the way to having all the encoding problems
 ironed out.  This version incorporates a patch from here:
@@ -22,6 +27,10 @@ and tests from Miyagawa's WWW::Mechanize::DecodedContent
 
 to finally fix this.
 
+[ENHANCEMENTS]
+You can now specify not to set up the proxy, if there is one.  The
+proxy causes problems for Crypt::SSLeay.  For details see:
+http://code.google.com/p/www-mechanize/issues/detail?id=39
 
 [DOCUMENTATION]
 Fixed internal links.
@@ -31,19 +40,6 @@ Lots of refactoring based on Schwern's "Skimmable Code" talk.
 
 http://use.perl.org/~schwern/journal/36704
 http://schwern.org/~schwern/talks/Skimmable%20Code%20-%20YAPC-NA-2008.pdf
-
-
-1.36        Tue Mar 11 00:52:53 CDT 2008
-========================================
-[THINGS THAT MAY BREAK YOUR CODE]
-The autocheck argument to the constructor is now ON by default.
-There are so many new programmers whose ->get() calls fail unchecked
-that I'm now putting on the seat belts for them.
-
-[ENHANCEMENTS]
-You can now specify not to set up the proxy, if there is one.  The
-proxy causes problems for Crypt::SSLeay.  For details see:
-http://code.google.com/p/www-mechanize/issues/detail?id=39
 
 
 1.34        Mon Dec 10 00:30:39 CST 2007
