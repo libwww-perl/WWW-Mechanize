@@ -11,9 +11,10 @@ http://groups.google.com/group/www-mechanize-users
 1.49_01     Sat Sep 27 23:50:04 CDT 2008
 ========================================
 [THINGS THAT MAY BREAK YOUR CODE]
-The autocheck argument to the constructor is now ON by default.
-There are so many new programmers whose ->get() calls fail unchecked
-that I'm now putting on the seat belts for them.
+The autocheck argument to the constructor is now ON by default,
+unless WWW::Mechanize is being subclassed.  There are so many new
+programmers whose ->get() calls fail unchecked that I'm now putting
+on the seat belts for them.
 
 [FIXES]
 I do believe we are on the way to having all the encoding problems

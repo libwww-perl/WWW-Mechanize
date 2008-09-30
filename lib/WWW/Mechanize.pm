@@ -147,9 +147,18 @@ parms that L<LWP::UserAgent> recognizes.
 
 =item * C<< autocheck => [0|1] >>
 
-Checks each request made to see if it was successful.  This saves you
-the trouble of manually checking yourself.  Any errors found are errors,
-not warnings.  Default is ON.
+Checks each request made to see if it was successful.  This saves
+you the trouble of manually checking yourself.  Any errors found
+are errors, not warnings.
+
+The default value is ON, unless it's being subclassed, in which
+case it is OFF.  This means that standalone L<WWW::Mechanize>instances
+have autocheck turned on, which is protective for the vast majority
+of Mech users who don't bother checking the return value of get()
+and post() and can't figure why their code fails. However, if
+L<WWW::Mechanize> is subclassed, such as for L<Test::WWW::Mechanize>
+or L<Test::WWW::Mechanize::Catalyst>, this may not be an appropriate
+default, so it's off.
 
 =item * C<< noproxy => [0|1] >>
 
@@ -204,7 +213,7 @@ sub new {
     );
 
     my %mech_parms = (
-        autocheck   => 1,
+        autocheck   => ($class eq 'WWW::Mechanize' ? 1 : 0),
         onwarn      => \&WWW::Mechanize::_warn,
         onerror     => \&WWW::Mechanize::_die,
         quiet       => 0,
