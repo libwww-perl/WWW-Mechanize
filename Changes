@@ -8,6 +8,14 @@ http://code.google.com/p/www-mechanize/issues/list
 Mech now has its own mailing list at Google Groups:
 http://groups.google.com/group/www-mechanize-users
 
+1.50        Sun Sun Oct 26 22:42:46 CDT 2008
+========================================
+[THINGS THAT MAY BREAK YOUR CODE]
+WWW::Mechanize now requires version 5.815 of LWP.  This in itself
+may cause problems for you because of changes in how LWP does
+authentication.
+
+
 1.49_01     Sat Sep 27 23:50:04 CDT 2008
 ========================================
 [THINGS THAT MAY BREAK YOUR CODE]
