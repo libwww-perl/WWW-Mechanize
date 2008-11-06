@@ -6,11 +6,11 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 =head1 VERSION
 
-Version 1.50
+Version 1.51_01
 
 =cut
 
-our $VERSION = '1.50';
+our $VERSION = '1.51_01';
 
 =head1 SYNOPSIS
 
@@ -435,7 +435,17 @@ would it do if it could?)
 
 sub back {
     my $self = shift;
-    $self->_pop_page_stack;
+
+    my $stack = $self->{page_stack};
+    return unless $stack && @{$stack};
+
+    my $popped = pop @{$self->{page_stack}};
+    my $req    = $popped->{req};
+    my $res    = $popped->{res};
+
+    $self->_update_page( $req, $res );
+
+    return 1;
 }
 
 =head1 STATUS METHODS
@@ -2462,7 +2472,7 @@ sub _link_from_token {
         });
 } # _link_from_token
 
-=head2 $mech->_push_page_stack() / $mech->_pop_page_stack()
+=head2 $mech->_push_page_stack()
 
 The agent keeps a stack of visited pages, which it can pop when it needs
 to go BACK and so on.
@@ -2478,39 +2488,17 @@ object.
 sub _push_page_stack {
     my $self = shift;
 
+    my $req = $self->{req};
+    my $res = $self->{res};
+
+    return unless $req && $res && $self->stack_depth;
+
     # Don't push anything if it's a virgin object
-    if ( $self->{res} && $self->stack_depth ) {
-        my $save_stack = $self->{page_stack};
-        $self->{page_stack} = [];
-
-        my $clone = $self->clone;
-        push( @{$save_stack}, $clone );
-
-        while ( @{$save_stack} > $self->stack_depth ) {
-            shift @{$save_stack};
-        }
-        $self->{page_stack} = $save_stack;
+    my $stack = $self->{page_stack} ||= [];
+    if ( @{$stack} >= $self->stack_depth ) {
+        shift @{$stack};
     }
-
-    return 1;
-}
-
-sub _pop_page_stack {
-    my $self = shift;
-
-    if ( $self->{page_stack} && @{$self->{page_stack}} ) {
-        my $popped = pop @{$self->{page_stack}};
-
-        # eliminate everything in self
-        foreach my $key ( keys %{$self} ) {
-            delete $self->{ $key }              unless $key eq 'page_stack';
-        }
-
-        # make self just like the popped object
-        foreach my $key ( keys %{$popped} ) {
-            $self->{ $key } = $popped->{ $key } unless $key eq 'page_stack';
-        }
-    }
+    push( @{$stack}, { req => $req, res => $res } );
 
     return 1;
 }

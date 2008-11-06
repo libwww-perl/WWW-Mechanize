@@ -8,6 +8,16 @@ http://code.google.com/p/www-mechanize/issues/list
 Mech now has its own mailing list at Google Groups:
 http://groups.google.com/group/www-mechanize-users
 
+NEXT
+========================================
+[FIXES]
+Page history is now working much better.  The $mech->back() method
+should behave more like a browser now.  Most notably, it no longer
+restores the cookie state, just like your browser doesn't restore
+cookie state when you page back.  It also should use much less
+memory.
+
+
 1.50        Sun Sun Oct 26 22:42:46 CDT 2008
 ========================================
 [THINGS THAT MAY BREAK YOUR CODE]

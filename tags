@@ -8,6 +8,7 @@ AREA_CHECKS	t/area_link.t	/^AREA_CHECKS: {$/;"	l
 AREA_CHECKS	t/find_link.t	/^AREA_CHECKS: {$/;"	l
 AUTOCHECK_OFF	t/autocheck.t	/^AUTOCHECK_OFF: {$/;"	l
 AUTOCHECK_ON	t/autocheck.t	/^AUTOCHECK_ON: {$/;"	l
+BACK_TO_FIRST_PAGE	t/cookies.t	/^BACK_TO_FIRST_PAGE: {$/;"	l
 BAD_PAGE	t/local/failure.t	/^BAD_PAGE: {$/;"	l
 CHECK_DEATH	t/die.t	/^CHECK_DEATH: {$/;"	l
 CHECK_LIVING	t/die.t	/^CHECK_LIVING: {$/;"	l
@@ -17,9 +18,12 @@ FIND_BY_CLASS	t/find_link_id.t	/^FIND_BY_CLASS: {$/;"	l
 FIND_BY_ID	t/find_link_id.t	/^FIND_BY_ID: {$/;"	l
 FIND_CLASS_BY_REGEX	t/find_link_id.t	/^FIND_CLASS_BY_REGEX: {$/;"	l
 FIND_ID_BY_REGEX	t/find_link_id.t	/^FIND_ID_BY_REGEX: {$/;"	l
+FIRST_COOKIE	t/cookies.t	/^FIRST_COOKIE: {$/;"	l
 FIRST_FORM	t/find_inputs.t	/^FIRST_FORM: {$/;"	l
 FIRST_GET	t/local/reload.t	/^FIRST_GET: {$/;"	l
 FORMS	lib/WWW/Mechanize.pm	/^    FORMS: for my $form (@{ $self->forms }) {$/;"	l
+FORWARD_TO_NONCOOKIE_PAGE	t/cookies.t	/^FORWARD_TO_NONCOOKIE_PAGE: {$/;"	l
+GET_A_THIRD_COOKIE	t/cookies.t	/^GET_A_THIRD_COOKIE: {$/;"	l
 GOOD_PAGE	t/local/failure.t	/^GOOD_PAGE: {$/;"	l
 INVALIDATE	t/local/reload.t	/^INVALIDATE: {$/;"	l
 LANGUAGES	t/live/wikipedia.t	/^use constant LANGUAGES => qw( en it ja es nl pl );$/;"	c
@@ -41,6 +45,7 @@ REGEX_USAGE	t/find_link-warnings.t	/^REGEX_USAGE: {$/;"	l
 RELOAD	t/local/reload.t	/^RELOAD: {$/;"	l
 RES_ON_NEW	t/new.t	/^RES_ON_NEW: {$/;"	l
 Repository	Makefile.PL	/^    Repository: http:\/\/code.google.com\/p\/www-mechanize\/source$/;"	l
+SECOND_COOKIE	t/cookies.t	/^SECOND_COOKIE: {$/;"	l
 SECOND_FORM	t/find_inputs.t	/^SECOND_FORM: {$/;"	l
 SKIP	t/area_link.t	/^    SKIP: {$/;"	l
 SKIP	t/area_link.t	/^SKIP: {$/;"	l
@@ -78,7 +83,6 @@ _make_request	lib/WWW/Mechanize.pm	/^sub _make_request {$/;"	s
 _match_any_image_parms	lib/WWW/Mechanize.pm	/^sub _match_any_image_parms {$/;"	s
 _match_any_link_parms	lib/WWW/Mechanize.pm	/^sub _match_any_link_parms {$/;"	s
 _modify_request	lib/WWW/Mechanize.pm	/^sub _modify_request {$/;"	s
-_pop_page_stack	lib/WWW/Mechanize.pm	/^sub _pop_page_stack {$/;"	s
 _push_page_stack	lib/WWW/Mechanize.pm	/^sub _push_page_stack {$/;"	s
 _reset_page	lib/WWW/Mechanize.pm	/^sub _reset_page {$/;"	s
 _taintedness	lib/WWW/Mechanize.pm	/^sub _taintedness {$/;"	s
@@ -97,6 +101,7 @@ click	lib/WWW/Mechanize.pm	/^sub click {$/;"	s
 click_button	lib/WWW/Mechanize.pm	/^sub click_button {$/;"	s
 clone	lib/WWW/Mechanize.pm	/^sub clone {$/;"	s
 content	lib/WWW/Mechanize.pm	/^sub content {$/;"	s
+cookieval	t/cookies.t	/^sub cookieval {$/;"	s
 credentials	lib/WWW/Mechanize.pm	/^    sub credentials {$/;"	s
 creds_required	t/local/LocalServer.pm	/^sub creds_required {$/;"	s
 critic	Makefile.PL	/^critic:$/;"	l
@@ -139,6 +144,7 @@ name	lib/WWW/Mechanize/Link.pm	/^sub name  { return ($_[0])->[2]; }$/;"	s
 new	lib/WWW/Mechanize.pm	/^sub new {$/;"	s
 new	lib/WWW/Mechanize/Image.pm	/^sub new {$/;"	s
 new	lib/WWW/Mechanize/Link.pm	/^sub new {$/;"	s
+nosend_cookies	t/cookies.t	/^sub nosend_cookies {$/;"	s
 ok_click_success	t/local/click_button.t	/^sub ok_click_success {$/;"	s
 port	t/local/LocalServer.pm	/^sub port {$/;"	s
 print_banner	t/lib/TestServer.pm	/^sub print_banner {$/;"	s
