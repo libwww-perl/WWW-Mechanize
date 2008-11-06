@@ -8,7 +8,7 @@ http://code.google.com/p/www-mechanize/issues/list
 Mech now has its own mailing list at Google Groups:
 http://groups.google.com/group/www-mechanize-users
 
-NEXT
+1.51_01     Thu Nov  6 15:13:03 CST 2008
 ========================================
 [FIXES]
 Page history is now working much better.  The $mech->back() method
