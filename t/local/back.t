@@ -26,8 +26,7 @@ BEGIN {
 
 my $mech = WWW::Mechanize->new(cookie_jar => {});
 isa_ok( $mech, 'WWW::Mechanize' );
-ok(defined($mech->cookie_jar()),
-   'this $mech starts with a cookie jar');
+isa_ok( $mech->cookie_jar(), 'HTTP::Cookies', 'this $mech starts with a cookie jar' );
 
 my $html = <<'HTML';
 <html>
