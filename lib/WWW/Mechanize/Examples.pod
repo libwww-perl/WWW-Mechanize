@@ -22,7 +22,7 @@ so the freshest examples are always at the top.
 
 =head2 Starbucks Density Calculator, by Nat Torkington
 
-Here's a pair of scripts from Nat Torkington, editor for O'Reilly Media
+Here's a pair of programs from Nat Torkington, editor for O'Reilly Media
 and co-author of the I<Perl Cookbook>.
 
 =over 4
@@ -170,7 +170,7 @@ C<plague_of_coffee>
 
 =head2 pb-upload, by John Beppu
 
-This script takes filenames of images from the command line and
+This program takes filenames of images from the command line and
 uploads them to a www.photobucket.com folder.  John Beppu, the author, says:
 
 =over 4
@@ -283,7 +283,7 @@ mailman's web interface.
 Steve McConnell, author of the landmark I<Code Complete> has put
 up the chapters for the 2nd edition in PDF format on his website.
 I needed to download them to take to Kinko's to have printed.  This
-little script did it for me.
+little program did it for me.
 
 
     #!/usr/bin/perl -w
@@ -311,7 +311,7 @@ little script did it for me.
 
 =head2 quotes.pl, by Andy Lester
 
-This was a script that was going to get a hack in I<Spidering Hacks>,
+This was a program that was going to get a hack in I<Spidering Hacks>,
 but got cut at the last minute, probably because it's against IMDB's TOS
 to scrape from it.  I present it here as an example, not a suggestion
 that you break their TOS.
