@@ -469,7 +469,8 @@ Synonym for C<< $mech->response() >>
 
 =head2 $mech->status()
 
-Returns the HTTP status code of the response.
+Returns the HTTP status code of the response.  This is a 3-digit
+number like 200 for OK, 404 for not found, and so on.
 
 =head2 $mech->ct()
 
