@@ -26,15 +26,6 @@ ok( $mech->is_html, 'Local page is HTML' );
 my @forms = $mech->forms;
 is( scalar @forms, 1, 'Only one form' );
 
-sub ok_click_success {
-    my $mech = shift;
-    my $message = shift;
-
-    like($mech->uri(), qr/formsubmit/,   $message);
-    like($mech->uri(), qr/submit=Go/,   'Correct button was pressed');
-    like($mech->uri(), qr/cat_foo/,   'Parameters got transmitted OK');
-}
-
 $mech->click_button(number => 1);
 ok_click_success($mech, 'Clicking on button by number');
 $mech->back();
@@ -53,4 +44,13 @@ my ($input) = $forms[0]->find_input(undef, 'submit');
 $mech->click_button(input => $input);
 ok_click_success($mech, 'Clicking on button by object reference');
 $mech->back();
+
+sub ok_click_success {
+    my $mech    = shift;
+    my $message = shift;
+
+    like( $mech->uri(), qr/formsubmit/, $message );
+    like( $mech->uri(), qr/submit=Go/,  'Correct button was pressed' );
+    like( $mech->uri(), qr/cat_foo/,    'Parameters got transmitted OK' );
+}
 
