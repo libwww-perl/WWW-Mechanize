@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-use Test::More tests => 8;
+use Test::More tests => 10;
 use WWW::Mechanize;
 
 use URI::Escape qw( uri_unescape );
@@ -57,13 +57,23 @@ FIRST_COOKIE: {
 
 SECOND_COOKIE: {
     $mech->get( $feedme_url );
-    is( $mech->status, 200, 'Secnd fetch works' );
+    is( $mech->status, 200, 'Second fetch works' );
 
     my $cookie = $mech->cookie_jar->{COOKIES}{'localhost.local'}{'/'}{'my_cookie'};
     my $value = uri_unescape( $cookie->[1] );
 
     is( $value, 'Cookie #2', 'Second cookie matches' );
     is( $mech->title, 'Home of Cookie #2', 'Right title' );
+}
+
+BACK_TO_FIRST_PAGE: {
+    $mech->back();
+
+    my $cookie = $mech->cookie_jar->{COOKIES}{'localhost.local'}{'/'}{'my_cookie'};
+    my $value = uri_unescape( $cookie->[1] );
+
+    is( $value, 'Cookie #2', 'Cookie did not change...' );
+    is( $mech->title, 'Home of Cookie #1', '... but back to the first page title' );
 }
 
 my $nprocesses = kill 15, $pid;
