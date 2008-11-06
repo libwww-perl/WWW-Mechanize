@@ -27,6 +27,7 @@ LocalServer	t/local/LocalServer.pm	/^package LocalServer;$/;"	p
 MY	Makefile.PL	/^sub MY::postamble {$/;"	s
 MailingList	Makefile.PL	/^    MailingList: http:\/\/groups.google.com\/group\/www-mechanize-users$/;"	l
 MyMech	t/local/overload.t	/^    package MyMech;$/;"	p
+MyWebServer	t/cookies.t	/^package MyWebServer;$/;"	p
 NEW_API	t/link.t	/^NEW_API: {$/;"	l
 NONEXISTENT	t/autocheck.t	/^use constant NONEXISTENT => 'http:\/\/blahblablah.xx-nonexistent.';$/;"	c
 NON_REGEX_STRING	t/find_link-warnings.t	/^NON_REGEX_STRING: {$/;"	l
@@ -124,6 +125,7 @@ form_with_fields	lib/WWW/Mechanize.pm	/^sub form_with_fields {$/;"	s
 forms	lib/WWW/Mechanize.pm	/^sub forms {$/;"	s
 get	lib/WWW/Mechanize.pm	/^sub get {$/;"	s
 get_output	t/local/LocalServer.pm	/^sub get_output {$/;"	s
+handle_request	t/cookies.t	/^sub handle_request {$/;"	s
 height	lib/WWW/Mechanize/Image.pm	/^sub height  { return ($_[0])->{height}; }$/;"	s
 homepage	Makefile.PL	/^    homepage: http:\/\/code.google.com\/p\/www-mechanize\/$/;"	l
 images	lib/WWW/Mechanize.pm	/^sub images {$/;"	s
@@ -132,6 +134,7 @@ known_agent_aliases	lib/WWW/Mechanize.pm	/^sub known_agent_aliases {$/;"	s
 license	Makefile.PL	/^    license: http:\/\/dev.perl.org\/licenses\/$/;"	l
 links	lib/WWW/Mechanize.pm	/^sub links {$/;"	s
 main	Makefile.PL	/^package main;$/;"	p
+main	t/cookies.t	/^package main;$/;"	p
 name	lib/WWW/Mechanize/Image.pm	/^sub name    { return ($_[0])->{name}; }$/;"	s
 name	lib/WWW/Mechanize/Link.pm	/^sub name  { return ($_[0])->[2]; }$/;"	s
 new	lib/WWW/Mechanize.pm	/^sub new {$/;"	s
@@ -149,6 +152,7 @@ resources	Makefile.PL	/^resources:$/;"	l
 response	lib/WWW/Mechanize.pm	/^sub response {      my $self = shift; return $self->{res}; }$/;"	s
 save_content	lib/WWW/Mechanize.pm	/^sub save_content {$/;"	s
 select	lib/WWW/Mechanize.pm	/^sub select {$/;"	s
+send_cookies	t/cookies.t	/^sub send_cookies {$/;"	s
 set_fields	lib/WWW/Mechanize.pm	/^sub set_fields {$/;"	s
 set_visible	lib/WWW/Mechanize.pm	/^sub set_visible {$/;"	s
 slurp	t/save_content.t	/^sub slurp {$/;"	s

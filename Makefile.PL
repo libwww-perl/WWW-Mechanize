@@ -40,6 +40,7 @@ my $parms = {
         'HTTP::Daemon'             => 0,
         'HTTP::Request'            => 1.30,
         'HTTP::Response::Encoding' => 0.05,
+        'HTTP::Server::Simple'     => 0,
         'HTTP::Status'             => 0,
         'LWP'                      => 5.815,
         'LWP::UserAgent'           => 5.815,
