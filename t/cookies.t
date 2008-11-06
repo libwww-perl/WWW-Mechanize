@@ -52,12 +52,23 @@ sub send_cookies {
 
 package main;
 
+use WWW::Mechanize;
+
 # start the server on port 8080
 my $server = MyWebServer->new();
 my $port = $server->port();
 my $pid = $server->background();
 diag( "Mech server now running on port $port via pid $pid" );
 
+my $mech = WWW::Mechanize->new( autocheck => 0 );
+isa_ok( $mech, 'WWW::Mechanize' );
 
-my $nprocesses = kill 1, $pid;
+$mech->get( "http://localhost:$port/feedme" );
+is( $mech->status, 200 );
+{use Data::Dumper; local $Data::Dumper::Sortkeys=1;
+print Dumper( $mech->cookie_jar )}
+
+
+my $nprocesses = kill 15, $pid;
 is( $nprocesses, 1, 'Signaled the child process' );
+
