@@ -22,6 +22,8 @@ t/area_link.t
 t/autocheck.t
 t/clone.t
 t/cookies.t
+t/credentials.t
+t/credentials-api.t
 t/die.t
 t/field.html
 t/field.t
