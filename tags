@@ -97,12 +97,13 @@ base	lib/WWW/Mechanize.pm	/^sub base {          my $self = shift; return $self->
 base	lib/WWW/Mechanize/Image.pm	/^sub base    { return ($_[0])->{base}; }$/;"	s
 base	lib/WWW/Mechanize/Link.pm	/^sub base  { return ($_[0])->[4]; }$/;"	s
 bugtracker	Makefile.PL	/^    bugtracker: http:\/\/code.google.com\/p\/www-mechanize\/issues\/list$/;"	l
+clear_credentials	lib/WWW/Mechanize.pm	/^sub clear_credentials {$/;"	s
 click	lib/WWW/Mechanize.pm	/^sub click {$/;"	s
 click_button	lib/WWW/Mechanize.pm	/^sub click_button {$/;"	s
 clone	lib/WWW/Mechanize.pm	/^sub clone {$/;"	s
 content	lib/WWW/Mechanize.pm	/^sub content {$/;"	s
 cookieval	t/cookies.t	/^sub cookieval {$/;"	s
-credentials	lib/WWW/Mechanize.pm	/^    sub credentials {$/;"	s
+credentials	lib/WWW/Mechanize.pm	/^sub credentials {$/;"	s
 creds_required	t/local/LocalServer.pm	/^sub creds_required {$/;"	s
 critic	Makefile.PL	/^critic:$/;"	l
 ct	lib/WWW/Mechanize.pm	/^sub ct {            my $self = shift; return $self->{ct}; }$/;"	s
@@ -129,6 +130,7 @@ form_number	lib/WWW/Mechanize.pm	/^sub form_number {$/;"	s
 form_with_fields	lib/WWW/Mechanize.pm	/^sub form_with_fields {$/;"	s
 forms	lib/WWW/Mechanize.pm	/^sub forms {$/;"	s
 get	lib/WWW/Mechanize.pm	/^sub get {$/;"	s
+get_basic_credentials	lib/WWW/Mechanize.pm	/^sub get_basic_credentials {$/;"	s
 get_output	t/local/LocalServer.pm	/^sub get_output {$/;"	s
 handle_request	t/lib/TestServer.pm	/^sub handle_request {$/;"	s
 height	lib/WWW/Mechanize/Image.pm	/^sub height  { return ($_[0])->{height}; }$/;"	s
