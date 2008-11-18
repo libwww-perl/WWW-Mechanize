@@ -11,7 +11,10 @@ http://groups.google.com/group/www-mechanize-users
 NEXT
 ========================================
 [FIXES]
-Makefile.PL explicitly requires 5.8.0.
+Makefile.PL explicitly requires Perl 5.8.0.
+
+URI.pm has to be version 1.36 or else URIs don't get encoded
+correctly.
 
 
 1.51_01     Thu Nov  6 15:13:03 CST 2008

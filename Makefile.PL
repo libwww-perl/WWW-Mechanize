@@ -47,7 +47,7 @@ my $parms = {
         'Pod::Usage'               => 0,
         'Test::More'               => 0.34,
         'Test::Warn'               => 0.11,
-        'URI'                      => 1.25,
+        'URI'                      => 1.36,
         'URI::URL'                 => 0,
         'URI::file'                => 0,
     },
