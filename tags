@@ -12,6 +12,9 @@ BACK_TO_FIRST_PAGE	t/cookies.t	/^BACK_TO_FIRST_PAGE: {$/;"	l
 BAD_PAGE	t/local/failure.t	/^BAD_PAGE: {$/;"	l
 CHECK_DEATH	t/die.t	/^CHECK_DEATH: {$/;"	l
 CHECK_LIVING	t/die.t	/^CHECK_LIVING: {$/;"	l
+CLICK_BY_NAME	t/local/click_button.t	/^CLICK_BY_NAME: {$/;"	l
+CLICK_BY_NUMBER	t/local/click_button.t	/^CLICK_BY_NUMBER: {$/;"	l
+CLICK_BY_OBJECT_REFERENCE	t/local/click_button.t	/^CLICK_BY_OBJECT_REFERENCE: {$/;"	l
 DESTROY	t/local/LocalServer.pm	/^sub DESTROY {$/;"	s
 EAT_THE_WARNING	t/select.t	/^EAT_THE_WARNING: { # Mech complains about the non-existent field$/;"	l
 FIND_BY_CLASS	t/find_link_id.t	/^FIND_BY_CLASS: {$/;"	l
@@ -147,7 +150,6 @@ new	lib/WWW/Mechanize.pm	/^sub new {$/;"	s
 new	lib/WWW/Mechanize/Image.pm	/^sub new {$/;"	s
 new	lib/WWW/Mechanize/Link.pm	/^sub new {$/;"	s
 nosend_cookies	t/cookies.t	/^sub nosend_cookies {$/;"	s
-ok_click_success	t/local/click_button.t	/^sub ok_click_success {$/;"	s
 port	t/local/LocalServer.pm	/^sub port {$/;"	s
 print_banner	t/lib/TestServer.pm	/^sub print_banner {$/;"	s
 put	lib/WWW/Mechanize.pm	/^sub put {$/;"	s
