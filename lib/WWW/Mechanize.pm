@@ -795,15 +795,17 @@ The links come from the following:
 
 =over 4
 
-=item C<< <A HREF=...> >>
+=item C<< <a href=...> >>
 
-=item C<< <AREA HREF=...> >>
+=item C<< <area href=...> >>
 
-=item C<< <FRAME SRC=...> >>
+=item C<< <frame src=...> >>
 
-=item C<< <IFRAME SRC=...> >>
+=item C<< <iframe src=...> >>
 
-=item C<< <META CONTENT=...> >>
+=item C<< <link href=...> >>
+
+=item C<< <meta content=...> >>
 
 =back
 
@@ -2340,11 +2342,12 @@ Resets the internal fields that track page parsed stuff.
 sub _reset_page {
     my $self = shift;
 
-    $self->{_extracted_links} = 0;
+    $self->{_extracted_links}  = 0;
     $self->{_extracted_images} = 0;
-    $self->{links} = [];
-    $self->{images} = [];
-    $self->{forms} = [];
+    $self->{links}             = [];
+    $self->{images}            = [];
+    $self->{forms}             = [];
+
     delete $self->{form};
 
     return;
@@ -2358,11 +2361,12 @@ property with L<WWW::Mechanize::Link> objects.
 =cut
 
 my %link_tags = (
-    a => 'href',
-    area => 'href',
-    frame => 'src',
+    a      => 'href',
+    area   => 'href',
+    frame  => 'src',
     iframe => 'src',
-    meta => 'content',
+    link   => 'href',
+    meta   => 'content',
 );
 
 sub _extract_links {
@@ -2385,7 +2389,7 @@ sub _extract_links {
 
 
 my %image_tags = (
-    img => 'src',
+    img   => 'src',
     input => 'src',
 );
 
@@ -2734,6 +2738,7 @@ Just like Mech, but using Microsoft Internet Explorer to do the work.
 Thanks to the numerous people who have helped out on WWW::Mechanize in
 one way or another, including
 Kirrily Robert for the original C<WWW::Automate>,
+H.Merijn Brand,
 Matt Lawrence,
 Michael Schwern,
 Adriano Ferreira,

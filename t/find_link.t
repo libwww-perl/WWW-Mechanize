@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-use Test::More tests => 59;
+use Test::More tests => 62;
 use URI::file;
 
 BEGIN {
@@ -24,9 +24,14 @@ isa_ok( $x, 'WWW::Mechanize::Link' );
 is( $x->[0], 'http://www.drphil.com/', 'First link on the page' );
 is( $x->url, 'http://www.drphil.com/', 'First link on the page' );
 
+$x = $mech->find_link( n => 3 );
+isa_ok( $x, 'WWW::Mechanize::Link' );
+is( $x->[0], 'styles.css', 'Third link should be the CSS' );
+is( $x->url, 'styles.css', 'Third link should be the CSS' );
+
 $x = $mech->find_link( url_regex => qr/upcase/i );
 isa_ok( $x, 'WWW::Mechanize::Link' );
-like( $x->url, qr/upcase.com/i, 'found link in uppercase meta tag' );
+like( $x->url, qr/\Qupcase.com/i, 'found link in uppercase meta tag' );
 
 $x = $mech->find_link( text => 'CPAN A' );
 isa_ok( $x, 'WWW::Mechanize::Link' );

@@ -15,6 +15,9 @@ NEXT
 Fixed the bad credentials API that stomped on LWP::UserAgent's
 credentials() method.  Thanks to Max Maschien and Matt Lawrence.
 
+The $mech->links method now finds <link href="..."> links. Thanks
+to H.Merijn Brand.
+
 Makefile.PL explicitly requires Perl 5.8.0.
 
 URI.pm has to be version 1.36 or else URIs don't get encoded
