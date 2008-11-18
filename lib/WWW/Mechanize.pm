@@ -2133,36 +2133,52 @@ sub update_html {
 
 =head2 $mech->credentials( $username, $password )
 
-Provide credentials to be used for HTTP Basic authentication for all sites and
-realms until further notice.
+Provide credentials to be used for HTTP Basic authentication for
+all sites and realms until further notice.
 
-The four argument form described in L<LWP::UserAgent> is still supported.
+The four argument form described in L<LWP::UserAgent> is still
+supported.
 
 =cut
 
-{
-    my $saved_method;
+sub credentials {
+    my $self = shift;
 
-    sub credentials {
-        my $self = shift;
-        no warnings 'redefine'; ## no critic
-
-        if (@_ == 4) {
-            $saved_method
-                and *LWP::UserAgent::get_basic_credentials = $saved_method;
-            return $self->SUPER::credentials(@_);
-        }
-
-        @_ == 2
-            or $self->die( 'Invalid # of args for overridden credentials()' );
-
-        my ($username, $password) = @_;
-        $saved_method ||= \&LWP::UserAgent::get_basic_credentials;
-        *LWP::UserAgent::get_basic_credentials
-            = sub { return $username, $password };
+    # The lastest LWP::UserAgent also supports 2 arguments,
+    # in which case the first is host:port
+    if (@_ == 4 || (@_ == 2 && $_[0] =~ /:\d+$/)) {
+        return $self->SUPER::credentials(@_);
     }
+
+    @_ == 2
+        or $self->die( 'Invalid # of args for overridden credentials()' );
+
+    return @$self{qw( __username __password )} = @_;
 }
 
+=head2 $mech->get_basic_credentials( $realm, $uri, $isproxy )
+
+Returns the credentials for the realm and URI.
+
+=cut
+
+sub get_basic_credentials {
+    my $self = shift;
+    my @cred = grep { defined } @$self{qw( __username __password )};
+    return @cred if @cred == 2;
+    return $self->SUPER::get_basic_credentials(@_);
+}
+
+=head2 $mech->clear_credentials()
+
+Remove any credentials set up with C<credentials()>.
+
+=cut
+
+sub clear_credentials {
+    my $self = shift;
+    delete @$self{qw( __username __password )};
+}
 
 =head1 INTERNAL-ONLY METHODS
 
@@ -2718,6 +2734,7 @@ Just like Mech, but using Microsoft Internet Explorer to do the work.
 Thanks to the numerous people who have helped out on WWW::Mechanize in
 one way or another, including
 Kirrily Robert for the original C<WWW::Automate>,
+Matt Lawrence,
 Michael Schwern,
 Adriano Ferreira,
 Miyagawa,

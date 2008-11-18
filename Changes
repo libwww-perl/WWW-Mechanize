@@ -11,6 +11,10 @@ http://groups.google.com/group/www-mechanize-users
 NEXT
 ========================================
 [FIXES]
+
+Fixed the bad credentials API that stomped on LWP::UserAgent's
+credentials() method.  Thanks to Max Maschien and Matt Lawrence.
+
 Makefile.PL explicitly requires Perl 5.8.0.
 
 URI.pm has to be version 1.36 or else URIs don't get encoded
