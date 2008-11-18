@@ -40,7 +40,7 @@ AREA_CHECKS: {
         [ 'http://www.slashdot.org', undef, undef, 'area', {
              href => 'http://www.slashdot.org'
         } ],
-        [ 'http://mark.stosberg.com', undef, undef, 'area', { 
+        [ 'http://mark.stosberg.com', undef, undef, 'area', {
             alt => q{Mark Stosberg's homepage},
             href => 'http://mark.stosberg.com'
         } ],

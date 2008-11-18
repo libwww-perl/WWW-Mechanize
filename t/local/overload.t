@@ -72,7 +72,7 @@ my $mech = WWW::Mechanize->new();
 isa_ok( $mech, 'WWW::Mechanize' );
 
 $mech->get( $server->url );
-like($carpmsg, qr/bad.*select/i, 'Standard mech chokes on bogus HTML');
+like($carpmsg, qr{bad.*select}i, 'Standard mech chokes on bogus HTML');
 
 # If at first you don't succeed, try with a shorter bungee...
 undef $carpmsg;
@@ -88,4 +88,4 @@ ok( !$carpmsg, 'No warnings this time' );
 my @forms = $mech->forms;
 is( scalar @forms, 1, 'One form' );
 
-like($mech->content(), qr[/select], 'alteration visible in ->content() too');
+like($mech->content(), qr{/select}, 'alteration visible in ->content() too');

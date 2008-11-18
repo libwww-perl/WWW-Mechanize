@@ -67,4 +67,4 @@ SKIP: {
 
 END {
     close $server if $server;
-};
+}
