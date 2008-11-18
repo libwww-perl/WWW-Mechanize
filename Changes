@@ -8,10 +8,14 @@ http://code.google.com/p/www-mechanize/issues/list
 Mech now has its own mailing list at Google Groups:
 http://groups.google.com/group/www-mechanize-users
 
-NEXT
+1.51_02     Tue Nov 18 01:30:54 CST 2008
 ========================================
-[FIXES]
+[STILL BROKEN]
+t/local/click_button.t is still failing its tests for calling ->click
+on an HTML::Form object.  I suspect this is an LWP change, but I
+haven't dug into it enough yet.
 
+[FIXES]
 Fixed the bad credentials API that stomped on LWP::UserAgent's
 credentials() method.  Thanks to Max Maschien and Matt Lawrence.
 
