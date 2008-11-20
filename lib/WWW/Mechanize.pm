@@ -1165,6 +1165,10 @@ sub find_all_images {
 
 =head1 FORM METHODS
 
+These methods let you work with the forms on a page.  The idea is
+to choose a form that you'll later work with using the field methods
+below.
+
 =head2 $mech->forms
 
 Lists all the forms on the current page.  Each form is an L<HTML::Form>
@@ -1308,6 +1312,9 @@ sub form_with_fields {
     }
 }
 
+=head1 FIELD METHODS
+
+These methods allow you to set the values of fields in a given form.
 
 =head2 $mech->field( $name, $value, $number )
 
