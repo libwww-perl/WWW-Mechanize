@@ -2011,15 +2011,17 @@ sub dump_all {
 
 =head2 $mech->clone()
 
-Clone the mech object. We override here to be sure the cookie jar
-gets copied over
+Clone the mech object.  The clone will be using the same cookie jar
+as the original mech.
 
 =cut
 
 sub clone {
-    my $self = shift;
-    my $clone =  $self->SUPER::clone();
-    $clone->{cookie_jar} = $self->cookie_jar;
+    my $self  = shift;
+    my $clone = $self->SUPER::clone();
+
+    $clone->cookie_jar( $self->cookie_jar );
+
     return $clone;
 }
 
@@ -2738,6 +2740,7 @@ Just like Mech, but using Microsoft Internet Explorer to do the work.
 Thanks to the numerous people who have helped out on WWW::Mechanize in
 one way or another, including
 Kirrily Robert for the original C<WWW::Automate>,
+David Sainty,
 H.Merijn Brand,
 Matt Lawrence,
 Michael Schwern,

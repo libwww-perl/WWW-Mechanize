@@ -15,6 +15,7 @@ CHECK_LIVING	t/die.t	/^CHECK_LIVING: {$/;"	l
 CLICK_BY_NAME	t/local/click_button.t	/^CLICK_BY_NAME: {$/;"	l
 CLICK_BY_NUMBER	t/local/click_button.t	/^CLICK_BY_NUMBER: {$/;"	l
 CLICK_BY_OBJECT_REFERENCE	t/local/click_button.t	/^CLICK_BY_OBJECT_REFERENCE: {$/;"	l
+COOKIE_SHARING	t/clone.t	/^COOKIE_SHARING: {$/;"	l
 DESTROY	t/local/LocalServer.pm	/^sub DESTROY {$/;"	s
 EAT_THE_WARNING	t/select.t	/^EAT_THE_WARNING: { # Mech complains about the non-existent field$/;"	l
 FIND_BY_CLASS	t/find_link_id.t	/^FIND_BY_CLASS: {$/;"	l
@@ -28,6 +29,7 @@ FORMS	lib/WWW/Mechanize.pm	/^    FORMS: for my $form (@{ $self->forms }) {$/;"	l
 FORWARD_TO_NONCOOKIE_PAGE	t/cookies.t	/^FORWARD_TO_NONCOOKIE_PAGE: {$/;"	l
 GET_A_THIRD_COOKIE	t/cookies.t	/^GET_A_THIRD_COOKIE: {$/;"	l
 GOOD_PAGE	t/local/failure.t	/^GOOD_PAGE: {$/;"	l
+INITIAL_CLONE	t/clone.t	/^INITIAL_CLONE: {$/;"	l
 INVALIDATE	t/local/reload.t	/^INVALIDATE: {$/;"	l
 LANGUAGES	t/live/wikipedia.t	/^use constant LANGUAGES => qw( en it ja es nl pl );$/;"	c
 LocalServer	t/local/LocalServer.pm	/^package LocalServer;$/;"	p
