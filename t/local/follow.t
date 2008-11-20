@@ -17,7 +17,7 @@ BEGIN {
 my $server = LocalServer->spawn;
 isa_ok( $server, 'LocalServer' );
 
-my $agent = WWW::Mechanize->new;
+my $agent = WWW::Mechanize->new( autocheck => 0 );
 isa_ok( $agent, 'WWW::Mechanize', 'Created object' );
 $agent->quiet(1);
 

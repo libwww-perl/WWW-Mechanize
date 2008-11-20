@@ -107,6 +107,7 @@ click	lib/WWW/Mechanize.pm	/^sub click {$/;"	s
 click_button	lib/WWW/Mechanize.pm	/^sub click_button {$/;"	s
 clone	lib/WWW/Mechanize.pm	/^sub clone {$/;"	s
 content	lib/WWW/Mechanize.pm	/^sub content {$/;"	s
+content_type	lib/WWW/Mechanize.pm	/^sub content_type {  my $self = shift; return $self->{ct}; }$/;"	s
 cookieval	t/cookies.t	/^sub cookieval {$/;"	s
 credentials	lib/WWW/Mechanize.pm	/^sub credentials {$/;"	s
 creds_required	t/local/LocalServer.pm	/^sub creds_required {$/;"	s
@@ -142,7 +143,7 @@ handle_request	t/lib/TestServer.pm	/^sub handle_request {$/;"	s
 height	lib/WWW/Mechanize/Image.pm	/^sub height  { return ($_[0])->{height}; }$/;"	s
 homepage	Makefile.PL	/^    homepage: http:\/\/code.google.com\/p\/www-mechanize\/$/;"	l
 images	lib/WWW/Mechanize.pm	/^sub images {$/;"	s
-is_html	lib/WWW/Mechanize.pm	/^sub is_html {       my $self = shift; return defined $self->{ct} && ($self->{ct} eq 'text\/html'); }$/;"	s
+is_html	lib/WWW/Mechanize.pm	/^sub is_html {       my $self = shift; return defined $self->ct && ($self->ct eq 'text\/html'); }$/;"	s
 known_agent_aliases	lib/WWW/Mechanize.pm	/^sub known_agent_aliases {$/;"	s
 license	Makefile.PL	/^    license: http:\/\/dev.perl.org\/licenses\/$/;"	l
 links	lib/WWW/Mechanize.pm	/^sub links {$/;"	s

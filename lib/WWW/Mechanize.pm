@@ -6,11 +6,11 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 =head1 VERSION
 
-Version 1.51_02
+Version 1.51_03
 
 =cut
 
-our $VERSION = '1.51_02';
+our $VERSION = '1.51_03';
 
 =head1 SYNOPSIS
 
@@ -704,6 +704,7 @@ sub follow_link {
 
     my $link = $self->find_link(%parms);
     return $self->get( $link->url ) if $link;
+    $self->die( 'Link not found: ', $link->url ) if $self->{autocheck};
     return;
 }
 
