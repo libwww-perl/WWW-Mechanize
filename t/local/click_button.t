@@ -4,7 +4,7 @@ use warnings;
 use strict;
 use lib 't/local';
 use LocalServer;
-use Test::More tests => 20;
+use Test::More tests => 19;
 
 BEGIN {
     delete @ENV{ grep { lc eq 'http_proxy' } keys %ENV };
@@ -24,7 +24,6 @@ ok( $response->is_success, 'Got URL' ) or die q{Can't even fetch local url};
 ok( $mech->is_html, 'Local page is HTML' );
 
 my @forms = $mech->forms;
-is( scalar @forms, 1, 'Only one form' );
 my $form = $forms[0];
 
 CLICK_BY_NUMBER: {

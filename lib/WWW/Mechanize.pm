@@ -1213,12 +1213,11 @@ Selects a form by name.  If there is more than one form on the page
 with that name, then the first one is used, and a warning is
 generated.
 
-If it is found, the form is returned as an L<HTML::Form> object and set internally
-for later use with Mech's form methods such as C<L</field()>> and C<L</click()>>.
+If it is found, the form is returned as an L<HTML::Form> object and
+set internally for later use with Mech's form methods such as
+C<L</field()>> and C<L</click()>>.
 
 Returns undef if no form is found.
-
-Note that this functionality requires libwww-perl 5.69 or higher.
 
 =cut
 
@@ -1237,6 +1236,36 @@ sub form_name {
         return undef;
     }
 }
+
+=head2 $mech->form_id( $name )
+
+Selects a form by ID.  If there is more than one form on the page
+with that ID, then the first one is used, and a warning is generated.
+
+If it is found, the form is returned as an L<HTML::Form> object and
+set internally for later use with Mech's form methods such as
+C<L</field()>> and C<L</click()>>.
+
+Returns undef if no form is found.
+
+=cut
+
+sub form_id {
+    my ($self, $formid) = @_;
+
+    my $temp;
+    my @matches = grep { defined($temp = $_->attr('id')) and ($temp eq $formid) } $self->forms;
+    if ( @matches ) {
+        $self->warn( 'There are ', scalar @matches, " forms with ID $formid.  The first one was used." )
+            if @matches > 1;
+        return $self->{form} = $matches[0];
+    }
+    else {
+        $self->warn( qq{ There is no form with ID "$formid"} );
+        return undef;
+    }
+}
+
 
 =head2 $mech->form_with_fields( @fields )
 

@@ -4,7 +4,7 @@ use warnings;
 use strict;
 use lib 't/local';
 use LocalServer;
-use Test::More tests => 10;
+use Test::More tests => 9;
 
 BEGIN {
     delete @ENV{ grep { lc eq 'http_proxy' } keys %ENV };
@@ -22,8 +22,6 @@ my $response = $mech->get( $server->url );
 isa_ok( $response, 'HTTP::Response', 'Got back a response' );
 ok( $response->is_success, 'Got URL' ) or die q{Can't even fetch local url};
 ok( $mech->is_html, 'Local page is HTML' );
-my @forms = $mech->forms;
-is( scalar @forms, 1, 'Only one form' );
 
 $mech->field(query => 'foo'); # Filled the 'q' field
 

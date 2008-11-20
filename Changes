@@ -17,6 +17,9 @@ clone properly.  Thanks to David Sainty.
 The $mech->back() can fail if there's nothing on the stack to go
 back to.  Thanks to Dave Page.
 
+[ENHANCEMENTS]
+Added a $mech->form_id() method so you can look up forms by ID.
+
 
 1.51_02     Tue Nov 18 01:30:54 CST 2008
 ========================================

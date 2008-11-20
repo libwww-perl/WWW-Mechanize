@@ -11,7 +11,7 @@ BEGIN {
     if (gethostbyname('blahblahblah.xx-only-testing.')) {
         plan skip_all => 'Found an A record for the non-existent domain';
     }
-    plan tests => 16;
+    plan tests => 15;
 }
 
 BEGIN {
@@ -38,8 +38,7 @@ GOOD_PAGE: {
     my @links = $mech->links;
     is( scalar @links, 10, '10 links, please' );
     my @forms = $mech->forms;
-    is( scalar @forms, 1, 'One form' );
-    isa_ok( $forms[0], 'HTML::Form' );
+    is( scalar @forms, 2, 'Two form' );
 }
 
 BAD_PAGE: {
