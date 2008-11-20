@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-use Test::More tests => 38;
+use Test::More tests => 47;
 use lib 't/local';
 use LocalServer;
 use HTTP::Daemon;
@@ -47,6 +47,8 @@ HTML
 my $server = LocalServer->spawn( html => $html );
 isa_ok( $server, 'LocalServer' );
 
+ok( !$mech->back(), 'With no stack, no going back' );
+
 $mech->get($server->url);
 ok( $mech->success, 'Fetched OK' );
 
@@ -56,14 +58,14 @@ my $title = $mech->title;
 $mech->follow_link( n=>2 );
 ok( $mech->success, 'Followed OK' );
 
-$mech->back();
+ok( $mech->back(), 'Back should succeed' );
 is( $mech->base, $first_base, 'Did the base get set back?' );
 is( $mech->title, $title, 'Title set back?' );
 
 $mech->follow_link( text => 'Images' );
 ok( $mech->success, 'Followed OK' );
 
-$mech->back();
+ok( $mech->back(), 'Back should succeed' );
 is( $mech->base, $first_base, 'Did the base get set back?' );
 is( $mech->title, $title, 'Title set back?' );
 
@@ -79,7 +81,7 @@ $mech->head( $server->url );
 ok( $mech->success, 'HEAD succeeded' );
 is( scalar @{$mech->{page_stack}}, 1, 'HEAD is not in the stack' );
 
-$mech->back();
+ok( $mech->back(), 'Back should succeed' );
 ok( $mech->success, 'Back' );
 is( $mech->base, $first_base, 'Did the base get set back?' );
 is( $mech->title, $title, 'Title set back?' );
@@ -97,7 +99,7 @@ browser does not cause it to go away).
 
 $mech->follow_link( text => 'Images' );
 $mech->reload();
-$mech->back();
+ok( $mech->back(), 'Back should succeed' );
 is($mech->title, $title, 'reload() does not push page to stack' );
 
 ok(defined($mech->cookie_jar()),
@@ -150,7 +152,7 @@ is( $mech->status, 404 , '404 check') or
 
 is( scalar @{$mech->{page_stack}}, 1, 'Even 404s get on the stack' );
 
-$mech->back();
+ok( $mech->back(), 'Back should succeed' );
 is( $mech->uri, $server->url, 'Back from the 404' );
 is( scalar @{$mech->{page_stack}}, 0, 'Post-404 check' );
 
@@ -159,7 +161,7 @@ for my $link ( @links ) {
     warn $mech->status() if (! $mech->success());
     is( $mech->status, 200, "Get $link" );
 
-    $mech->back();
+    ok( $mech->back(), 'Back should succeed' );
     is( $mech->uri, $server->url, "Back from $link" );
 }
 

@@ -431,6 +431,8 @@ The equivalent of hitting the "back" button in a browser.  Returns to
 the previous page.  Won't go back past the first page. (Really, what
 would it do if it could?)
 
+Returns true if it could go back, or false if not.
+
 =cut
 
 sub back {
@@ -2740,6 +2742,7 @@ Just like Mech, but using Microsoft Internet Explorer to do the work.
 Thanks to the numerous people who have helped out on WWW::Mechanize in
 one way or another, including
 Kirrily Robert for the original C<WWW::Automate>,
+Dave Page,
 David Sainty,
 H.Merijn Brand,
 Matt Lawrence,
