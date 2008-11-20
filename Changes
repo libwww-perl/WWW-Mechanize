@@ -20,6 +20,8 @@ back to.  Thanks to Dave Page.
 [ENHANCEMENTS]
 Added a $mech->form_id() method so you can look up forms by ID.
 
+Added $mech->content_type, because $mech->ct is just too cryptic.
+
 
 1.51_02     Tue Nov 18 01:30:54 CST 2008
 ========================================

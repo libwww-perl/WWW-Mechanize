@@ -484,7 +484,7 @@ Synonym for C<< $mech->response() >>
 Returns the HTTP status code of the response.  This is a 3-digit
 number like 200 for OK, 404 for not found, and so on.
 
-=head2 $mech->ct()
+=head2 $mech->ct() / $mech->content_type()
 
 Returns the content type of the response.
 
@@ -525,9 +525,10 @@ sub res {           my $self = shift; return $self->{res}; }
 sub response {      my $self = shift; return $self->{res}; }
 sub status {        my $self = shift; return $self->{status}; }
 sub ct {            my $self = shift; return $self->{ct}; }
+sub content_type {  my $self = shift; return $self->{ct}; }
 sub base {          my $self = shift; return $self->{base}; }
 sub current_form {  my $self = shift; return $self->{form}; }
-sub is_html {       my $self = shift; return defined $self->{ct} && ($self->{ct} eq 'text/html'); }
+sub is_html {       my $self = shift; return defined $self->ct && ($self->ct eq 'text/html'); }
 
 =head2 $mech->title()
 
@@ -1942,6 +1943,9 @@ sub stack_depth {
 Dumps the contents of C<< $mech->content >> into I<$filename>.
 I<$filename> will be overwritten.  Dies if there are any errors.
 
+If the content type does not begin with "text/", then the content
+is saved in binary mode.
+
 =cut
 
 sub save_content {
@@ -1949,6 +1953,7 @@ sub save_content {
     my $filename = shift;
 
     open( my $fh, '>', $filename ) or $self->die( "Unable to create $filename: $!" );
+    binmode $fh unless $self->content_type =~ m{^text/};
     print {$fh} $self->content or $self->die( "Unable to write to $filename: $!" );
     close $fh or $self->die( "Unable to close $filename: $!" );
 
