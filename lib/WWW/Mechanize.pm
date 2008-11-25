@@ -6,11 +6,11 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 =head1 VERSION
 
-Version 1.51_03
+Version 1.52
 
 =cut
 
-our $VERSION = '1.51_03';
+our $VERSION = '1.52';
 
 =head1 SYNOPSIS
 
@@ -1818,13 +1818,13 @@ sub submit_form {
 
     if ($args{'with_fields'}) {
         $fields || die q{must submit some 'fields' with with_fields};
-        $self->form_with_fields(keys %{$fields}) or die;
+        $self->form_with_fields(keys %{$fields}) or die "There is no form with the requested fields";
     }
     elsif ( my $form_number = $args{'form_number'} ) {
-        $self->form_number( $form_number ) or die;
+        $self->form_number( $form_number ) or die "There is no form numbered $form_number";
     }
     elsif ( my $form_name = $args{'form_name'} ) {
-        $self->form_name( $form_name ) or die;
+        $self->form_name( $form_name ) or die qq{There is no form named "$form_name"};
     }
     else {
         # No form selector was used.
@@ -2784,6 +2784,7 @@ Just like Mech, but using Microsoft Internet Explorer to do the work.
 Thanks to the numerous people who have helped out on WWW::Mechanize in
 one way or another, including
 Kirrily Robert for the original C<WWW::Automate>,
+Norbert Buchmuller,
 Dave Page,
 David Sainty,
 H.Merijn Brand,

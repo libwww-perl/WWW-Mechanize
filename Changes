@@ -8,6 +8,14 @@ http://code.google.com/p/www-mechanize/issues/list
 Mech now has its own mailing list at Google Groups:
 http://groups.google.com/group/www-mechanize-users
 
+
+1.52        Tue Nov 25 09:52:30 CST 2008
+========================================
+[FIXED]
+Improved some error messages in $mech->submit_form().  Thanks to
+Norbert Buchmuller.
+
+
 1.51_03     Thu Nov 20 11:05:49 CST 2008
 ========================================
 [FIXED]
