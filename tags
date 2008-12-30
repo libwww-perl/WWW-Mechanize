@@ -55,7 +55,6 @@ SECOND_FORM	t/find_inputs.t	/^SECOND_FORM: {$/;"	l
 SKIP	t/area_link.t	/^    SKIP: {$/;"	l
 SKIP	t/area_link.t	/^SKIP: {$/;"	l
 SKIP	t/content.t	/^SKIP: {$/;"	l
-SKIP	t/live/computers4sure.t	/^SKIP: {$/;"	l
 SKIP	t/live/wikipedia.t	/^SKIP: {$/;"	l
 SKIP	t/local/back.t	/^SKIP: {$/;"	l
 SKIP	t/local/get.t	/^SKIP: {$/;"	l

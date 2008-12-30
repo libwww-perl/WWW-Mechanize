@@ -64,7 +64,6 @@ t/warnings.t
 
 t/lib/TestServer.pm
 
-t/live/computers4sure.t
 t/live/encoding.t
 t/live/wikipedia.t
 

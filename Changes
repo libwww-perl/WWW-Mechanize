@@ -8,6 +8,11 @@ http://code.google.com/p/www-mechanize/issues/list
 Mech now has its own mailing list at Google Groups:
 http://groups.google.com/group/www-mechanize-users
 
+NEXT
+========================================
+[FIXED]
+Removed test that checked against computers4sure.com
+
 
 1.52        Tue Nov 25 09:52:30 CST 2008
 ========================================
