@@ -35,8 +35,11 @@ sub handle_request {
     my $self = shift;
     my $cgi  = shift;
 
-    my $file = (split( /\//,$cgi->path_info))[-1]||'index.html';
-    $file    =~ s/\s+//g;
+    my $file = $cgi->path_info;
+    if ( $file =~ m[/$] ) {
+        $file .= 'index.html';
+    }
+    $file =~ s/\s+//g;
 
     my $filename = "t/html/$file";
     if ( -r $filename ) {
