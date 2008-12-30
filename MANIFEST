@@ -14,6 +14,8 @@ lib/WWW/Mechanize/FAQ.pod
 lib/WWW/Mechanize/Image.pm
 lib/WWW/Mechanize/Link.pm
 
+t/TestServer.pm
+
 t/00-load.t
 t/add_header.t
 t/aliases.t
