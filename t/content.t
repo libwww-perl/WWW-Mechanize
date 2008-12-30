@@ -2,8 +2,6 @@
 
 use warnings;
 use strict;
-use lib 't/local';
-use LocalServer;
 use Test::More tests => 5;
 
 =head1 NAME
