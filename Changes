@@ -10,8 +10,12 @@ http://groups.google.com/group/www-mechanize-users
 
 NEXT
 ========================================
+
+
+1.54        Mon Jan 12 00:36:08 CST 2009
+========================================
 [FIXED]
-Removed test that checked against computers4sure.com
+Removed the computers4sure test that was failing.
 
 
 1.52        Tue Nov 25 09:52:30 CST 2008
