@@ -333,88 +333,89 @@ still good as sample code.
         "match=s" => \$match,
         "random" => \$random,
     ) or exit 1;
-    
+
     my $movie = shift @ARGV or die "Must specify a movie\n";
-    
+
     my $quotes_page = get_quotes_page( $movie );
     my @quotes = extract_quotes( $quotes_page );
-    
+
     if ( $match ) {
         $match = quotemeta($match);
         @quotes = grep /$match/i, @quotes;
     }
-    
+
     if ( $random ) {
         print $quotes[rand @quotes];
-    } else {
+    }
+    else {
         print join( "\n", @quotes );
     }
-    
-    
+
+
     sub get_quotes_page {
         my $movie = shift;
-    
-        my $mech = new WWW::Mechanize;
+
+        my $mech = WWW::Mechanize->new;
         $mech->get( "http://www.imdb.com/search" );
         $mech->success or die "Can't get the search page";
-    
+
         $mech->submit_form(
-    	form_number => 2,
-    	fields => {
-    	    title	=> $movie,
-    	    restrict    => "Movies only",
-    	},
+            form_number => 2,
+            fields => {
+                title	=> $movie,
+                restrict    => "Movies only",
+            },
         );
-    
+
         my @links = $mech->find_all_links( url_regex => qr[^/Title] )
-    	or die "No matches for \"$movie\" were found.\n";
-    
+            or die "No matches for \"$movie\" were found.\n";
+
         # Use the first link
         my ( $url, $title ) = @{$links[0]};
-    
+
         warn "Checking $title...\n";
-    
+
         $mech->get( $url );
         my $link = $mech->find_link( text_regex => qr/Memorable Quotes/i )
-    	or die qq{"$title" has no quotes in IMDB!\n};
-    
+            or die qq{"$title" has no quotes in IMDB!\n};
+
         warn "Fetching quotes...\n\n";
         $mech->get( $link->[0] );
-    
+
         return $mech->content;
     }
-    
-    
+
+
     sub extract_quotes {
         my $page = shift;
-    
+
         # Nibble away at the unwanted HTML at the beginnning...
         $page =~ s/.+Memorable Quotes//si;
         $page =~ s/.+?(<a name)/$1/si;
-    
+
         # ... and the end of the page
         $page =~ s/Browse titles in the movie quotes.+$//si;
         $page =~ s/<p.+$//g;
-    
+
         # Quotes separated by an <HR> tag
         my @quotes = split( /<hr.+?>/, $page );
-    
+
         for my $quote ( @quotes ) {
-    	my @lines = split( /<br>/, $quote );
-    	for ( @lines ) {
-    	    s/<[^>]+>//g;   # Strip HTML tags
-    	    s/\s+/ /g;	    # Squash whitespace
-    	    s/^ //;	    # Strip leading space
-    	    s/ $//;	    # Strip trailing space
-    	    s/&#34;/"/g;    # Replace HTML entity quotes
-    
-    	    # Word-wrap to fit in 72 columns
-    	    $Text::Wrap::columns = 72;
-    	    $_ = wrap( '', '    ', $_ );
-    	}
-    	$quote = join( "\n", @lines );
+            my @lines = split( /<br>/, $quote );
+            for ( @lines ) {
+                s/<[^>]+>//g;   # Strip HTML tags
+                s/\s+/ /g;	    # Squash whitespace
+                s/^ //;	    # Strip leading space
+                s/ $//;	    # Strip trailing space
+                s/&#34;/"/g;    # Replace HTML entity quotes
+
+                # Word-wrap to fit in 72 columns
+                $Text::Wrap::columns = 72;
+                $_ = wrap( '', '    ', $_ );
+            }
+            $quote = join( "\n", @lines );
         }
-    
+
         return @quotes;
     }
 
@@ -518,15 +519,15 @@ with a results page.
     # MT date format of YYYY-MM-DD HH:MI:SS is the only one that won't error out
 
     if ($entry->{date} && $entry->{date} =~ /^\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}/) {
-	# travel the redirect
-	$results = $mech->get($results->{_headers}->{location});
-	$results->{_content} =~ /<body onLoad="([^\"]+)"/is;
-	my $js = $1;
-	$js =~ /\'([^']+)\'/;
-	$results = $mech->get($start.$1);
-	$mech->form_name('entry_form');
-	$mech->field('created_on_manual',$entry->{date});
-	$mech->submit();
+        # travel the redirect
+        $results = $mech->get($results->{_headers}->{location});
+        $results->{_content} =~ /<body onLoad="([^\"]+)"/is;
+        my $js = $1;
+        $js =~ /\'([^']+)\'/;
+        $results = $mech->get($start.$1);
+        $mech->form_name('entry_form');
+        $mech->field('created_on_manual',$entry->{date});
+        $mech->submit();
     }
 
 =head2 get-despair, by Randal Schwartz
@@ -536,26 +537,26 @@ all the pictures.
 
     use strict; 
     $|++;
-     
+
     use WWW::Mechanize;
     use File::Basename; 
-      
+
     my $m = WWW::Mechanize->new;
-     
+
     $m->get("http://www.despair.com/indem.html");
-     
+
     my @top_links = @{$m->links};
-      
+
     for my $top_link_num (0..$#top_links) {
-	next unless $top_links[$top_link_num][0] =~ /^http:/; 
-	 
-	$m->follow_link( n=>$top_link_num ) or die "can't follow $top_link_num";
-	 
-	print $m->uri, "\n";
-	for my $image (grep m{^http://store4}, map $_->[0], @{$m->links}) { 
-	    my $local = basename $image;
-	    print " $image...", $m->mirror($image, $local)->message, "\n"
-	}
-	 
-	$m->back or die "can't go back";
+        next unless $top_links[$top_link_num][0] =~ /^http:/; 
+
+        $m->follow_link( n=>$top_link_num ) or die "can't follow $top_link_num";
+
+        print $m->uri, "\n";
+        for my $image (grep m{^http://store4}, map $_->[0], @{$m->links}) { 
+            my $local = basename $image;
+            print " $image...", $m->mirror($image, $local)->message, "\n"
+        }
+
+        $m->back or die "can't go back";
     }
