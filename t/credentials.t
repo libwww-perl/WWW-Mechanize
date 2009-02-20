@@ -6,7 +6,7 @@ use strict;
 use WWW::Mechanize;
 use Test::More tests => 12;
 
-my $mech = new WWW::Mechanize;
+my $mech = WWW::Mechanize->new;
 
 my ($user, $pass);
 
@@ -33,7 +33,7 @@ is $user, 'username',
 is $pass, 'password',
    'cloned object has password for get_basic_credentials';
 
-my $mech3 = new WWW::Mechanize;
+my $mech3 = WWW::Mechanize->new;
 
 ($user, $pass) = $mech3->get_basic_credentials('myrealm', $uri, 0);
 is $user, undef, 'new object has no username for get_basic_credentials';
