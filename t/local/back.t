@@ -140,7 +140,7 @@ END {
 if (! $pid404) { # Fake HTTP server code: a true 404-compliant server!
     while ( my $c = $server404->accept() ) {
         while ( $c->get_request() ) {
-            $c->send_response( new HTTP::Response(404) );
+            $c->send_response( HTTP::Response->new(404) );
             $c->close();
         }
     }
