@@ -1593,12 +1593,12 @@ sub untick {
     shift->tick(shift,shift,undef);
 }
 
-=head2 $mech->value( $name, $number )
+=head2 $mech->value( $name [, $number] )
 
 Given the name of a field, return its value. This applies to the current
 form.
 
-The option I<$number> parameter is used to distinguish between two fields
+The optional I<$number> parameter is used to distinguish between two fields
 with the same name.  The fields are numbered from 1.
 
 If the field is of type file (file upload field), the value is always
