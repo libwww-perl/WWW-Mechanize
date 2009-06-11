@@ -3,6 +3,7 @@ package TestServer;
 use warnings;
 use strict;
 
+use Test::More;
 use HTTP::Server::Simple::CGI;
 use base qw( HTTP::Server::Simple::CGI );
 
@@ -24,6 +25,8 @@ sub new {
         $port = int(rand(20000)) + 20000;
     }
     my $self = $class->SUPER::new( $port );
+
+    my $root = $self->root;
 
     return $self;
 }
@@ -94,7 +97,9 @@ sub background {
 
     sleep 1; # background() may come back prematurely, so give it a second to fire up
 
-    my $port = $self->port;
+    my $root = $self->root;
+
+    diag( "Test server $root as PID $pid" );
 
     return $pid;
 }

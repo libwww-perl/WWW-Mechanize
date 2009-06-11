@@ -56,7 +56,6 @@ $server->set_dispatch( {
 my $pid = $server->background();
 
 my $root             = $server->root;
-diag( "Test server $root as PID $pid" );
 
 my $cookiepage_url   = "$root/feedme";
 my $nocookiepage_url = "$root/nocookie";
