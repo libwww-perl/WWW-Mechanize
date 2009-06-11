@@ -10,6 +10,8 @@ http://groups.google.com/group/www-mechanize-users
 
 NEXT
 ========================================
+[FIXED]
+New test server now randomizes the port it runs on.
 
 
 1.54        Mon Jan 12 00:36:08 CST 2009

@@ -4,8 +4,8 @@ use warnings;
 use strict;
 use Test::More tests => 32;
 
-use lib 't/';
-use TestServer;
+use lib 't/local';
+use LocalServer;
 
 
 BEGIN {
@@ -17,14 +17,13 @@ BEGIN {
 eval "use Test::Memory::Cycle";
 my $canTMC = !$@;
 
-my $server      = TestServer->new;
-my $pid         = $server->background;
-my $server_root = $server->root;
+my $server = LocalServer->spawn;
+isa_ok( $server, 'LocalServer' );
 
 my $agent = WWW::Mechanize->new;
 isa_ok( $agent, 'WWW::Mechanize', 'Created object' );
 
-my $response = $agent->get( "$server_root/" );
+my $response = $agent->get($server->url);
 isa_ok( $response, 'HTTP::Response' );
 isa_ok( $agent->response, 'HTTP::Response' );
 ok( $response->is_success, 'Page read OK' );
@@ -35,26 +34,26 @@ is( $agent->title, 'WWW::Mechanize::Shell test page', 'Titles match' );
 
 $agent->get( '/foo/' );
 ok( $agent->success, 'Got the /foo' );
-is( $agent->uri, "$server_root/foo/", 'Got relative OK' );
+is( $agent->uri, sprintf('%sfoo/',$server->url), 'Got relative OK' );
 ok( $agent->is_html,'Got HTML back' );
 is( $agent->title, 'WWW::Mechanize::Shell test page', 'Got the right page' );
 
 $agent->get( '../bar/' );
 ok( $agent->success, 'Got the /bar page' );
-is( $agent->uri, "$server_root/bar/", 'Got relative OK' );
+is( $agent->uri, sprintf('%sbar/',$server->url), 'Got relative OK' );
 ok( $agent->is_html, 'is HTML' );
 is( $agent->title, 'WWW::Mechanize::Shell test page', 'Got the right page' );
 
 $agent->get( 'basics.html' );
 ok( $agent->success, 'Got the basics page' );
-is( $agent->uri, "$server_root/bar/basics.html", 'Got relative OK' );
+is( $agent->uri, sprintf('%sbar/basics.html',$server->url), 'Got relative OK' );
 ok( $agent->is_html, 'is HTML' );
 is( $agent->title, 'WWW::Mechanize::Shell test page', 'Title matches' );
 like( $agent->content, qr/WWW::Mechanize::Shell test page/, 'Got the right page' );
 
 $agent->get( './refinesearch.html' );
 ok( $agent->success, 'Got the "refine search" page' );
-is( $agent->uri, "$server_root/bar/refinesearch.html", 'Got relative OK' );
+is( $agent->uri, sprintf('%sbar/refinesearch.html',$server->url), 'Got relative OK' );
 ok( $agent->is_html, 'is HTML' );
 is( $agent->title, 'WWW::Mechanize::Shell test page', 'Title matches' );
 like( $agent->content, qr/WWW::Mechanize::Shell test page/, 'Got the right page' );
