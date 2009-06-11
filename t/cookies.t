@@ -111,7 +111,8 @@ GET_A_THIRD_COOKIE: {
 }
 
 
-my $nprocesses = kill 15, $pid;
+my $signal = ($^O eq 'MSWin32') ? 9 : 15;
+my $nprocesses = kill $signal, $pid;
 is( $nprocesses, 1, 'Signaled the child process' );
 
 

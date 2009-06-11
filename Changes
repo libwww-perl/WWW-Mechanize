@@ -13,6 +13,8 @@ NEXT
 [FIXED]
 New test server now randomizes the port it runs on.
 
+t/cookies.t should not hang on Windows any more.
+
 
 1.54        Mon Jan 12 00:36:08 CST 2009
 ========================================
