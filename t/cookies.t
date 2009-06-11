@@ -10,9 +10,8 @@ use WWW::Mechanize;
 use URI::Escape qw( uri_unescape );
 
 
-use lib 't/lib';
+use lib 't/';
 use TestServer;
-
 
 my $ncookies = 0;
 
@@ -49,17 +48,18 @@ sub nosend_cookies {
         $cgi->end_html;
 }
 
-# start the server on port 8080
 my $server = TestServer->new();
 $server->set_dispatch( {
     '/feedme'   => \&send_cookies,
     '/nocookie' => \&nosend_cookies,
 } );
+my $pid = $server->background();
 
-my ($port,$pid) = $server->spawn();
+my $root             = $server->root;
+diag( "Test server $root as PID $pid" );
 
-my $cookiepage_url   = "http://127.0.0.1:$port/feedme";
-my $nocookiepage_url = "http://127.0.0.1:$port/nocookie";
+my $cookiepage_url   = "$root/feedme";
+my $nocookiepage_url = "$root/nocookie";
 
 my $mech = WWW::Mechanize->new( autocheck => 0 );
 isa_ok( $mech, 'WWW::Mechanize' );

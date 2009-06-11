@@ -3,22 +3,29 @@ package TestServer;
 use warnings;
 use strict;
 
-BEGIN {
-    delete $ENV{http_proxy}; # All our tests are running on localhost
-}
+use HTTP::Server::Simple::CGI;
+use base qw( HTTP::Server::Simple::CGI );
 
-use base 'HTTP::Server::Simple::CGI';
+my $dispatch_table = {};
 
-use Carp ();
+=head1 OVERLOADED METHODS
+
+=cut
 
 our $pid;
 
 sub new {
-    my $class = shift;
-
     die 'An instance of TestServer has already been started.' if $pid;
 
-    return $class->SUPER::new(@_);
+    my $class = shift;
+    my $port  = shift;
+
+    if ( !$port ) {
+        $port = int(rand(20000)) + 20000;
+    }
+    my $self = $class->SUPER::new( $port );
+
+    return $self;
 }
 
 sub run {
@@ -35,22 +42,46 @@ sub handle_request {
     my $self = shift;
     my $cgi  = shift;
 
-    my $file = $cgi->path_info;
-    if ( $file =~ m[/$] ) {
-        $file .= 'index.html';
-    }
-    $file =~ s/\s+//g;
+    my $path = $cgi->path_info();
+    my $handler = $dispatch_table->{$path};
 
-    my $filename = "t/html/$file";
-    if ( -r $filename ) {
-        if (my $response=do { local (@ARGV, $/) = $filename; <> }) {
-            print "HTTP/1.0 200 OK\r\n";
-            print "Content-Type: text/html\r\nContent-Length: ", length($response), "\r\n\r\n", $response;
-            return;
+    if (ref($handler) eq "CODE") {
+        print "HTTP/1.0 200 OK\r\n";
+        $handler->($cgi);
+    }
+    else {
+        my $file = $path;
+        if ( $file =~ m{/$} ) {
+            $file .= 'index.html';
+        }
+        $file =~ s/\s+//g;
+
+        my $filename = "t/html/$file";
+        if ( -r $filename ) {
+            if (my $response=do { local (@ARGV, $/) = $filename; <> }) {
+                print "HTTP/1.0 200 OK\r\n";
+                print "Content-Type: text/html\r\nContent-Length: ", length($response), "\r\n\r\n", $response;
+                return;
+            }
+        }
+        else {
+            print "HTTP/1.0 404 Not found\r\n";
+            print
+            $cgi->header,
+            $cgi->start_html('Not found'),
+            $cgi->h1('Not found'),
+            $cgi->end_html;
         }
     }
+}
 
-    print "HTTP/1.0 404 Not Found\r\n\r\n";
+=head1 METHODS UNIQUE TO TestServer
+
+=cut
+
+sub set_dispatch {
+    my $self = shift;
+    $dispatch_table = shift;
 
     return;
 }
@@ -63,14 +94,24 @@ sub background {
 
     sleep 1; # background() may come back prematurely, so give it a second to fire up
 
+    my $port = $self->port;
+
     return $pid;
+}
+
+
+sub hostname {
+    my $self = shift;
+
+    return '127.0.0.1';
 }
 
 sub root {
     my $self = shift;
     my $port = $self->port;
+    my $hostname = $self->hostname;
 
-    return "http://localhost:$port";
+    return "http://$hostname:$port";
 }
 
 sub stop {

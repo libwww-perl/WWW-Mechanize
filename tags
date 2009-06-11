@@ -33,8 +33,6 @@ INITIAL_CLONE	t/clone.t	/^INITIAL_CLONE: {$/;"	l
 INVALIDATE	t/local/reload.t	/^INVALIDATE: {$/;"	l
 LANGUAGES	t/live/wikipedia.t	/^use constant LANGUAGES => qw( en it ja es nl pl );$/;"	c
 LocalServer	t/local/LocalServer.pm	/^package LocalServer;$/;"	p
-MY	Makefile.PL	/^sub MY::postamble {$/;"	s
-MailingList	Makefile.PL	/^    MailingList: http:\/\/groups.google.com\/group\/www-mechanize-users$/;"	l
 MyMech	t/local/overload.t	/^    package MyMech;$/;"	p
 NEW_API	t/link.t	/^NEW_API: {$/;"	l
 NONEXISTENT	t/autocheck.t	/^use constant NONEXISTENT => 'http:\/\/blahblablah.xx-nonexistent.';$/;"	c
@@ -49,7 +47,6 @@ REGEX_STRING	t/find_link-warnings.t	/^REGEX_STRING: {$/;"	l
 REGEX_USAGE	t/find_link-warnings.t	/^REGEX_USAGE: {$/;"	l
 RELOAD	t/local/reload.t	/^RELOAD: {$/;"	l
 RES_ON_NEW	t/new.t	/^RES_ON_NEW: {$/;"	l
-Repository	Makefile.PL	/^    Repository: http:\/\/code.google.com\/p\/www-mechanize\/source$/;"	l
 SECOND_COOKIE	t/cookies.t	/^SECOND_COOKIE: {$/;"	l
 SECOND_FORM	t/find_inputs.t	/^SECOND_FORM: {$/;"	l
 SKIP	t/area_link.t	/^    SKIP: {$/;"	l
@@ -64,7 +61,7 @@ SKIP	t/local/submit.t	/^SKIP: {$/;"	l
 SPACE_PADDED	t/find_link-warnings.t	/^SPACE_PADDED: {$/;"	l
 STANDARD_STACK	t/local/page_stack.t	/^STANDARD_STACK: {$/;"	l
 THIRD_FORM	t/find_inputs.t	/^THIRD_FORM: {$/;"	l
-TestServer	t/lib/TestServer.pm	/^package TestServer;$/;"	p
+TestServer	t/TestServer.pm	/^package TestServer;$/;"	p
 UNKNOWN_ALIAS	t/warnings.t	/^UNKNOWN_ALIAS: {$/;"	l
 URI	lib/WWW/Mechanize/Image.pm	/^sub URI {$/;"	s
 URI	lib/WWW/Mechanize/Link.pm	/^sub URI {$/;"	s
@@ -97,10 +94,10 @@ agent_alias	lib/WWW/Mechanize.pm	/^sub agent_alias {$/;"	s
 alt	lib/WWW/Mechanize/Image.pm	/^sub alt     { return ($_[0])->{alt}; }$/;"	s
 attrs	lib/WWW/Mechanize/Link.pm	/^sub attrs { return ($_[0])->[5]; }$/;"	s
 back	lib/WWW/Mechanize.pm	/^sub back {$/;"	s
+background	t/TestServer.pm	/^sub background {$/;"	s
 base	lib/WWW/Mechanize.pm	/^sub base {          my $self = shift; return $self->{base}; }$/;"	s
 base	lib/WWW/Mechanize/Image.pm	/^sub base    { return ($_[0])->{base}; }$/;"	s
 base	lib/WWW/Mechanize/Link.pm	/^sub base  { return ($_[0])->[4]; }$/;"	s
-bugtracker	Makefile.PL	/^    bugtracker: http:\/\/code.google.com\/p\/www-mechanize\/issues\/list$/;"	l
 clear_credentials	lib/WWW/Mechanize.pm	/^sub clear_credentials {$/;"	s
 click	lib/WWW/Mechanize.pm	/^sub click {$/;"	s
 click_button	lib/WWW/Mechanize.pm	/^sub click_button {$/;"	s
@@ -110,7 +107,6 @@ content_type	lib/WWW/Mechanize.pm	/^sub content_type {  my $self = shift; return
 cookieval	t/cookies.t	/^sub cookieval {$/;"	s
 credentials	lib/WWW/Mechanize.pm	/^sub credentials {$/;"	s
 creds_required	t/local/LocalServer.pm	/^sub creds_required {$/;"	s
-critic	Makefile.PL	/^critic:$/;"	l
 ct	lib/WWW/Mechanize.pm	/^sub ct {            my $self = shift; return $self->{ct}; }$/;"	s
 current_form	lib/WWW/Mechanize.pm	/^sub current_form {  my $self = shift; return $self->{form}; }$/;"	s
 delete_header	lib/WWW/Mechanize.pm	/^sub delete_header {$/;"	s
@@ -138,49 +134,48 @@ forms	lib/WWW/Mechanize.pm	/^sub forms {$/;"	s
 get	lib/WWW/Mechanize.pm	/^sub get {$/;"	s
 get_basic_credentials	lib/WWW/Mechanize.pm	/^sub get_basic_credentials {$/;"	s
 get_output	t/local/LocalServer.pm	/^sub get_output {$/;"	s
-handle_request	t/lib/TestServer.pm	/^sub handle_request {$/;"	s
+handle_request	t/TestServer.pm	/^sub handle_request {$/;"	s
 height	lib/WWW/Mechanize/Image.pm	/^sub height  { return ($_[0])->{height}; }$/;"	s
-homepage	Makefile.PL	/^    homepage: http:\/\/code.google.com\/p\/www-mechanize\/$/;"	l
+hostname	t/TestServer.pm	/^sub hostname {$/;"	s
 images	lib/WWW/Mechanize.pm	/^sub images {$/;"	s
 is_html	lib/WWW/Mechanize.pm	/^sub is_html {       my $self = shift; return defined $self->ct && ($self->ct eq 'text\/html'); }$/;"	s
 known_agent_aliases	lib/WWW/Mechanize.pm	/^sub known_agent_aliases {$/;"	s
-license	Makefile.PL	/^    license: http:\/\/dev.perl.org\/licenses\/$/;"	l
 links	lib/WWW/Mechanize.pm	/^sub links {$/;"	s
-main	Makefile.PL	/^package main;$/;"	p
 name	lib/WWW/Mechanize/Image.pm	/^sub name    { return ($_[0])->{name}; }$/;"	s
 name	lib/WWW/Mechanize/Link.pm	/^sub name  { return ($_[0])->[2]; }$/;"	s
 new	lib/WWW/Mechanize.pm	/^sub new {$/;"	s
 new	lib/WWW/Mechanize/Image.pm	/^sub new {$/;"	s
 new	lib/WWW/Mechanize/Link.pm	/^sub new {$/;"	s
+new	t/TestServer.pm	/^sub new {$/;"	s
 nosend_cookies	t/cookies.t	/^sub nosend_cookies {$/;"	s
 port	t/local/LocalServer.pm	/^sub port {$/;"	s
-print_banner	t/lib/TestServer.pm	/^sub print_banner {$/;"	s
+print_banner	t/TestServer.pm	/^sub print_banner {$/;"	s
 put	lib/WWW/Mechanize.pm	/^sub put {$/;"	s
 quiet	lib/WWW/Mechanize.pm	/^sub quiet {$/;"	s
 redirect_ok	lib/WWW/Mechanize.pm	/^sub redirect_ok {$/;"	s
 reload	lib/WWW/Mechanize.pm	/^sub reload {$/;"	s
 request	lib/WWW/Mechanize.pm	/^sub request {$/;"	s
 res	lib/WWW/Mechanize.pm	/^sub res {           my $self = shift; return $self->{res}; }$/;"	s
-resources	Makefile.PL	/^resources:$/;"	l
 response	lib/WWW/Mechanize.pm	/^sub response {      my $self = shift; return $self->{res}; }$/;"	s
+root	t/TestServer.pm	/^sub root {$/;"	s
+run	t/TestServer.pm	/^sub run {$/;"	s
 save_content	lib/WWW/Mechanize.pm	/^sub save_content {$/;"	s
 select	lib/WWW/Mechanize.pm	/^sub select {$/;"	s
 send_cookies	t/cookies.t	/^sub send_cookies {$/;"	s
-set_dispatch	t/lib/TestServer.pm	/^sub set_dispatch {$/;"	s
+set_dispatch	t/TestServer.pm	/^sub set_dispatch {$/;"	s
 set_fields	lib/WWW/Mechanize.pm	/^sub set_fields {$/;"	s
 set_visible	lib/WWW/Mechanize.pm	/^sub set_visible {$/;"	s
 slurp	t/save_content.t	/^sub slurp {$/;"	s
-spawn	t/lib/TestServer.pm	/^sub spawn {$/;"	s
 spawn	t/local/LocalServer.pm	/^sub spawn {$/;"	s
 stack_depth	lib/WWW/Mechanize.pm	/^sub stack_depth {$/;"	s
 status	lib/WWW/Mechanize.pm	/^sub status {        my $self = shift; return $self->{status}; }$/;"	s
+stop	t/TestServer.pm	/^sub stop {$/;"	s
 stop	t/local/LocalServer.pm	/^sub stop {$/;"	s
 submit	lib/WWW/Mechanize.pm	/^sub submit {$/;"	s
 submit_form	lib/WWW/Mechanize.pm	/^sub submit_form {$/;"	s
 success	lib/WWW/Mechanize.pm	/^sub success {$/;"	s
 tag	lib/WWW/Mechanize/Image.pm	/^sub tag     { return ($_[0])->{tag}; }$/;"	s
 tag	lib/WWW/Mechanize/Link.pm	/^sub tag   { return ($_[0])->[3]; }$/;"	s
-tags	Makefile.PL	/^tags:$/;"	l
 text	lib/WWW/Mechanize/Link.pm	/^sub text  { return ($_[0])->[1]; }$/;"	s
 tick	lib/WWW/Mechanize.pm	/^sub tick {$/;"	s
 title	lib/WWW/Mechanize.pm	/^sub title {$/;"	s

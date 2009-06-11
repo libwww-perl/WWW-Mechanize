@@ -2376,7 +2376,7 @@ L<WWW::Mechanize::Cached> to intercept the request.
 
 sub _make_request {
     my $self = shift;
-    $self->SUPER::request(@_);
+    return $self->SUPER::request(@_);
 }
 
 =head2 $mech->_reset_page()
