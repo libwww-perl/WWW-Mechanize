@@ -8,7 +8,7 @@ http://code.google.com/p/www-mechanize/issues/list
 Mech now has its own mailing list at Google Groups:
 http://groups.google.com/group/www-mechanize-users
 
-NEXT
+NEXT 1.55_01
 ========================================
 [FIXED]
 New test server now randomizes the port it runs on.

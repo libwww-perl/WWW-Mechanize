@@ -64,8 +64,6 @@ t/upload.t
 t/warn.t
 t/warnings.t
 
-t/lib/TestServer.pm
-
 t/live/encoding.t
 t/live/wikipedia.t
 
