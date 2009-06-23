@@ -15,6 +15,9 @@ New test server now randomizes the port it runs on.
 
 t/cookies.t should not hang on Windows any more.
 
+META.yml has been updated so the search.cpan.org links should be
+correct.
+
 
 1.54        Mon Jan 12 00:36:08 CST 2009
 ========================================
