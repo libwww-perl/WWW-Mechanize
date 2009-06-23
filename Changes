@@ -28,6 +28,10 @@ reporting it.
 $mech->submit_form() now can specify the form by ID using the form_id
 parameter.
 
+[DOCUMENTATION]
+The docs used to say that ->stack_depth(0) was an infinite stack
+size.  This is wrong.  Zero will tell Mech not to keep any history.
+
 
 
 1.54        Mon Jan 12 00:36:08 CST 2009

@@ -196,9 +196,11 @@ calling C<< $mech->quiet(1) >>.  Default is off.
 
 =item * C<< stack_depth => $value >>
 
-Sets the depth of the page stack that keeps track of all the downloaded
-pages. Default is 0 (infinite). If the stack is eating up your memory,
-then set it to 1.
+Sets the depth of the page stack that keeps track of all the
+downloaded pages. Default is effectively infinite stack size.  If
+the stack is eating up your memory, then set this to a smaller
+number, say 5 or 10.  Setting this to zero means Mech will keep no
+history.
 
 =back
 
@@ -2839,7 +2841,7 @@ and the late great Iain Truskett.
 
 =head1 COPYRIGHT
 
-Copyright (c) 2005-2008 Andy Lester. All rights reserved. This program is
+Copyright (c) 2005-2009 Andy Lester. All rights reserved. This program is
 free software; you can redistribute it and/or modify it under the same
 terms as Perl itself.
 

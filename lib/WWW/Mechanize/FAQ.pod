@@ -377,7 +377,7 @@ Some web sites use distributed databases for their processing. It
 can take a few seconds for the login/session information to percolate
 through to all the servers. For human users with their slow reaction
 times, this is not a problem, but a Perl script can outrun the server.
-So try adding a sleep(5) between logging in and actually doing anything
+So try adding a C<sleep(5)> between logging in and actually doing anything
 (the optimal delay must be determined experimentally).
 
 =head2 Mech is a big memory pig!  I'm running out of RAM!
@@ -386,10 +386,10 @@ Mech keeps a history of every page, and the state it was in.  It actually
 keeps a clone of the full Mech object at every step along the way.
 
 You can limit this stack size with the C<stack_depth> parm in the C<new()>
-constructor.
+constructor.  If you set stack_size to 0, Mech will not keep any history.
 
 =head1 AUTHOR
 
-Copyright 2005 Andy Lester C<< <andy at petdance.com> >>
+Copyright 2005-2009 Andy Lester C<< <andy at petdance.com> >>
 
 =cut
