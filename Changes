@@ -24,6 +24,11 @@ Schilli for the fix.
 Cookies test would fail under Windows.  Fixed, thanks to many people
 reporting it.
 
+[ENHANCEMENTS]
+$mech->submit_form() now can specify the form by ID using the form_id
+parameter.
+
+
 
 1.54        Mon Jan 12 00:36:08 CST 2009
 ========================================

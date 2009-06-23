@@ -1765,7 +1765,7 @@ the name or number of the form to do this.
 
 (calls C<L</form_with_fields()>> and C<L</set_fields()>>).
 
-If you choose this, the form_number, form_name and fields options will be ignored.
+If you choose this, the form_number, form_name, form_id and fields options will be ignored.
 
 =item * form_number => n
 
@@ -1775,6 +1775,10 @@ specified, the currently-selected form is used.
 =item * form_name => name
 
 Selects the form named I<name> (calls C<L</form_name()>>)
+
+=item * form_id => ID
+
+Selects the form with ID I<ID> (calls C<L</form_id()>>)
 
 =item * button => button
 
@@ -1798,7 +1802,7 @@ sub submit_form {
     my( $self, %args ) = @_ ;
 
     for ( keys %args ) {
-        if ( !/^(form_(number|name|fields)|(with_)?fields|button|x|y)$/ ) {
+        if ( !/^(form_(number|name|fields|id)|(with_)?fields|button|x|y)$/ ) {
             # XXX Why not die here?
             $self->warn( qq{Unknown submit_form parameter "$_"} );
         }
@@ -1817,15 +1821,18 @@ sub submit_form {
         }
     }
 
-    if ($args{'with_fields'}) {
+    if ( $args{with_fields} ) {
         $fields || die q{must submit some 'fields' with with_fields};
         $self->form_with_fields(keys %{$fields}) or die "There is no form with the requested fields";
     }
-    elsif ( my $form_number = $args{'form_number'} ) {
+    elsif ( my $form_number = $args{form_number} ) {
         $self->form_number( $form_number ) or die "There is no form numbered $form_number";
     }
-    elsif ( my $form_name = $args{'form_name'} ) {
+    elsif ( my $form_name = $args{form_name} ) {
         $self->form_name( $form_name ) or die qq{There is no form named "$form_name"};
+    }
+    elsif ( my $form_id = $args{form_id} ) {
+        $self->form_id( $form_id ) or die qq{There is no form with ID "$form_id"};
     }
     else {
         # No form selector was used.
