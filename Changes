@@ -21,6 +21,9 @@ correct.
 Passing no_proxy would make LWP::UserAgent barf.  Thanks to Mike
 Schilli for the fix.
 
+Cookies test would fail under Windows.  Fixed, thanks to many people
+reporting it.
+
 
 1.54        Mon Jan 12 00:36:08 CST 2009
 ========================================

@@ -2,6 +2,8 @@
 
 # XXX add cookie reading on the server side to the test
 
+BEGIN { delete @ENV{ qw( http_proxy HTTP_PROXY ) }; }
+
 use warnings;
 use strict;
 use Test::More tests => 14;
