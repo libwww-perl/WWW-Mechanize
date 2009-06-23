@@ -219,6 +219,7 @@ sub new {
         quiet       => 0,
         stack_depth => 8675309,     # Arbitrarily humongous stack
         headers     => {},
+        noproxy     => 0,
     );
 
     my %passed_parms = @_;
@@ -241,7 +242,7 @@ sub new {
         $self->{$parm} = $mech_parms{$parm};
     }
     $self->{page_stack} = [];
-    $self->env_proxy() unless $parent_parms{noproxy};
+    $self->env_proxy() unless $mech_parms{noproxy};
 
     # libwww-perl 5.800 (and before, I assume) has a problem where
     # $ua->{proxy} can be undef and clone() doesn't handle it.

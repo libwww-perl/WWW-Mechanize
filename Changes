@@ -18,6 +18,9 @@ t/cookies.t should not hang on Windows any more.
 META.yml has been updated so the search.cpan.org links should be
 correct.
 
+Passing no_proxy would make LWP::UserAgent barf.  Thanks to Mike
+Schilli for the fix.
+
 
 1.54        Mon Jan 12 00:36:08 CST 2009
 ========================================
