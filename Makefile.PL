@@ -56,16 +56,21 @@ my $parms = {
     clean           => { FILES => 'WWW-Mechanize-*' },
 };
 
-if ( $ExtUtils::MakeMaker::VERSION eq '6.46' ) {
-    $parms->{META_MERGE} = <<HERE;
-resources:
-    license: http://dev.perl.org/licenses/
-    homepage: http://code.google.com/p/www-mechanize/
-    bugtracker: http://code.google.com/p/www-mechanize/issues/list
-    Repository: http://code.google.com/p/www-mechanize/source
-    MailingList: http://groups.google.com/group/www-mechanize-users
-HERE
-    }
+if ( $ExtUtils::MakeMaker::VERSION ge '6.45_01' ) {
+    $parms->{META_MERGE} = {
+        resources => {
+            license     => 'http://dev.perl.org/licenses/',
+            homepage    => 'http://code.google.com/p/www-mechanize/',
+            bugtracker  => 'http://code.google.com/p/www-mechanize/issues/list',
+            Repository  => 'http://code.google.com/p/www-mechanize/source',
+            MailingList => 'http://groups.google.com/group/www-mechanize-users',
+        }
+    };
+    $parms->{LICENSE} = 'perl';
+}
+if ( $ExtUtils::MakeMaker::VERSION ge '6.47_02' ) {
+    $parms->{MIN_PERL_VERSION} = 5.008;
+}
 
 
 eval { require LWP; };

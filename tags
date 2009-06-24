@@ -33,6 +33,7 @@ INITIAL_CLONE	t/clone.t	/^INITIAL_CLONE: {$/;"	l
 INVALIDATE	t/local/reload.t	/^INVALIDATE: {$/;"	l
 LANGUAGES	t/live/wikipedia.t	/^use constant LANGUAGES => qw( en it ja es nl pl );$/;"	c
 LocalServer	t/local/LocalServer.pm	/^package LocalServer;$/;"	p
+MY	Makefile.PL	/^sub MY::postamble {$/;"	s
 MyMech	t/local/overload.t	/^    package MyMech;$/;"	p
 NEW_API	t/link.t	/^NEW_API: {$/;"	l
 NONEXISTENT	t/autocheck.t	/^use constant NONEXISTENT => 'http:\/\/blahblablah.xx-nonexistent.';$/;"	c
@@ -107,6 +108,7 @@ content_type	lib/WWW/Mechanize.pm	/^sub content_type {  my $self = shift; return
 cookieval	t/cookies.t	/^sub cookieval {$/;"	s
 credentials	lib/WWW/Mechanize.pm	/^sub credentials {$/;"	s
 creds_required	t/local/LocalServer.pm	/^sub creds_required {$/;"	s
+critic	Makefile.PL	/^critic:$/;"	l
 ct	lib/WWW/Mechanize.pm	/^sub ct {            my $self = shift; return $self->{ct}; }$/;"	s
 current_form	lib/WWW/Mechanize.pm	/^sub current_form {  my $self = shift; return $self->{form}; }$/;"	s
 delete_header	lib/WWW/Mechanize.pm	/^sub delete_header {$/;"	s
@@ -141,6 +143,7 @@ images	lib/WWW/Mechanize.pm	/^sub images {$/;"	s
 is_html	lib/WWW/Mechanize.pm	/^sub is_html {       my $self = shift; return defined $self->ct && ($self->ct eq 'text\/html'); }$/;"	s
 known_agent_aliases	lib/WWW/Mechanize.pm	/^sub known_agent_aliases {$/;"	s
 links	lib/WWW/Mechanize.pm	/^sub links {$/;"	s
+main	Makefile.PL	/^package main;$/;"	p
 name	lib/WWW/Mechanize/Image.pm	/^sub name    { return ($_[0])->{name}; }$/;"	s
 name	lib/WWW/Mechanize/Link.pm	/^sub name  { return ($_[0])->[2]; }$/;"	s
 new	lib/WWW/Mechanize.pm	/^sub new {$/;"	s
@@ -149,7 +152,6 @@ new	lib/WWW/Mechanize/Link.pm	/^sub new {$/;"	s
 new	t/TestServer.pm	/^sub new {$/;"	s
 nosend_cookies	t/cookies.t	/^sub nosend_cookies {$/;"	s
 port	t/local/LocalServer.pm	/^sub port {$/;"	s
-print_banner	t/TestServer.pm	/^sub print_banner {$/;"	s
 put	lib/WWW/Mechanize.pm	/^sub put {$/;"	s
 quiet	lib/WWW/Mechanize.pm	/^sub quiet {$/;"	s
 redirect_ok	lib/WWW/Mechanize.pm	/^sub redirect_ok {$/;"	s
@@ -176,6 +178,7 @@ submit_form	lib/WWW/Mechanize.pm	/^sub submit_form {$/;"	s
 success	lib/WWW/Mechanize.pm	/^sub success {$/;"	s
 tag	lib/WWW/Mechanize/Image.pm	/^sub tag     { return ($_[0])->{tag}; }$/;"	s
 tag	lib/WWW/Mechanize/Link.pm	/^sub tag   { return ($_[0])->[3]; }$/;"	s
+tags	Makefile.PL	/^tags:$/;"	l
 text	lib/WWW/Mechanize/Link.pm	/^sub text  { return ($_[0])->[1]; }$/;"	s
 tick	lib/WWW/Mechanize.pm	/^sub tick {$/;"	s
 title	lib/WWW/Mechanize.pm	/^sub title {$/;"	s
