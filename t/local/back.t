@@ -133,7 +133,7 @@ my $server404url = $server404->url;
 die 'Cannot fork' if (! defined (my $pid404 = fork()));
 END {
     local $?;
-    kill KILL => $pid404; # Extreme prejudice intended, because we do not
+    kill KILL => $pid404 if $pid404; # Extreme prejudice intended, because we do not
     # want the global cleanup to be done twice.
 }
 
