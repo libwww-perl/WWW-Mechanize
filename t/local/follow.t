@@ -1,9 +1,8 @@
 #!perl
 
-
 use warnings;
 use strict;
-use Test::More tests => 21;
+use Test::More tests => 22;
 use lib 't/local';
 use LocalServer;
 use encoding 'iso-8859-1';
@@ -21,13 +20,17 @@ my $agent = WWW::Mechanize->new( autocheck => 0 );
 isa_ok( $agent, 'WWW::Mechanize', 'Created object' );
 $agent->quiet(1);
 
+my $response;
+
 $agent->get( $server->url );
 ok( $agent->success, 'Got some page' );
 is( $agent->uri, $server->url, 'Got local server page' );
 
-ok(! $agent->follow_link( n => 99999), q{Can't follow too-high-numbered link});
+$response = $agent->follow_link( n => 99999 );
+ok( !$response, q{Can't follow too-high-numbered link});
 
-ok($agent->follow_link( n => 1 ), 'Can follow first link');
+$response = $agent->follow_link( n => 1 );
+isa_ok( $response, 'HTTP::Response', 'Gives a response' );
 isnt( $agent->uri, $server->url, 'Need to be on a separate page' );
 
 ok($agent->back(), 'Can go back');
@@ -48,3 +51,6 @@ isnt( $agent->uri, $server->url, 'Need to be on a separate page' );
 
 ok($agent->back(), 'Can still go back');
 is( $agent->uri, $server->url, 'Back at the start page again' );
+
+$response = $agent->follow_link( text_regex => qr/Snargle/ );
+ok( !$response, q{Couldn't find it} );
