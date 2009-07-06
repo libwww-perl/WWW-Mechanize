@@ -198,6 +198,15 @@ I<submit_form()>, and I<request()> methods.
         print $key, " : ", $response->header( $key ), "\n";
     }
 
+=head2 How do I enable keep-alive?
+
+Since L<WWW::Mechanize> is a subclass of L<LWP::UserAgent>, you can
+use the same mechanism to enable keep-alive:
+
+    use LWP::ConnCache;
+    ...
+    $mech->conn_cache(LWP::ConnCache->new);
+
 =head1 Why doesn't this work: Debugging your Mechanize program
 
 =head2 My Mech program doesn't work, but it works in the browser.
