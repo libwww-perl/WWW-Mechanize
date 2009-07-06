@@ -203,6 +203,10 @@ history.
 
 =back
 
+To support forms, WWW::Mechanize's constructor pushes POST
+on to the agent's C<requests_redirectable> list (see also
+L<LWP::UserAgent>.)
+
 =cut
 
 sub new {
@@ -2085,6 +2089,9 @@ An overloaded version of C<redirect_ok()> in L<LWP::UserAgent>.
 This method is used to determine whether a redirection in the request
 should be followed.
 
+Note that WWW::Mechanize's constructor pushes POST on to the agent's
+C<requests_redirectable> list.
+
 =cut
 
 sub redirect_ok {
@@ -2793,6 +2800,7 @@ Just like Mech, but using Microsoft Internet Explorer to do the work.
 Thanks to the numerous people who have helped out on WWW::Mechanize in
 one way or another, including
 Kirrily Robert for the original C<WWW::Automate>,
+Hilary Holz,
 Rafael Kitover,
 Norbert Buchmuller,
 Dave Page,
