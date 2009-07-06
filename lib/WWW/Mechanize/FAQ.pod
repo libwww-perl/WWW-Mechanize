@@ -214,6 +214,25 @@ use the same mechanism to enable keep-alive:
     ...
     $mech->conn_cache(LWP::ConnCache->new);
 
+=head2 How can I change/specify the action parameter of an HTML form?
+
+You can access the action of the form by utilizing the L<HTML::Form>
+object returned from one of the specifying form methods.
+
+Using C<< $mech->form_number($number) >>:
+
+    my $mech = WWW::mechanize->new;
+    $mech->get('http://someurlhere.com');
+    # Access the form using its Zero-Based Index by DOM order
+    $mech->form_number(0)->action('http://newAction'); #ABS URL
+
+Using C<< $mech->form_name($number) >>:
+
+    my $mech = WWW::mechanize->new;
+    $mech->get('http://someurlhere.com');
+    #Access the form using its Zero-Based Index by DOM order
+    $mech->form_name('trgForm')->action('http://newAction'); #ABS URL
+
 =head1 Why doesn't this work: Debugging your Mechanize program
 
 =head2 My Mech program doesn't work, but it works in the browser.
