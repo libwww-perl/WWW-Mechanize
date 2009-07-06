@@ -166,6 +166,13 @@ Use the mech-dump utility, optionaly installed with Mechanize.
     $agent->credentials( ADDRESS, REALM, USER, PASS );
     $agent->get( URL, @args );
 
+If you want to use the credentials for all future requests, you can
+also use the L<LWP::UserAgent> C<default_header()> method instead
+of the extra arguments to C<get()>
+
+    $mech->default_header(
+        Authorization => 'Basic ' . encode_base64( USER . ':' . PASSWORD ) );
+
 =head2 How can I get WWW::Mechanize to execute this JavaScript?
 
 You can't.  JavaScript is entirely client-based, and WWW::Mechanize
