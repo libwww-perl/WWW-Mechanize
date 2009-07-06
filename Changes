@@ -16,6 +16,8 @@ the proper encoding of the page it receives.  Now, it lets
 LWP::UserAgent do the work, and no longer requires
 HTTP::Response::Encoding.
 
+[DOCUMENTATION]
+Added a few notes to the FAQ, and fixed some incorrect docs.
 
 
 1.55_01     Mon Jul  6 12:17:10 CDT 2009

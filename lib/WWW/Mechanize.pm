@@ -957,19 +957,15 @@ then the return will be an empty array.
 You may use a regex or a literal string:
 
     # get all textarea controls whose names begin with "customer"
-    my @customer_text_inputs =
-        $mech->find_all_inputs( {
-            type       => 'textarea',
-            name_regex => qr/^customer/,
-        }
+    my @customer_text_inputs = $mech->find_all_inputs(
+        type       => 'textarea',
+        name_regex => qr/^customer/,
     );
 
     # get all text or textarea controls called "customer"
-    my @customer_text_inputs =
-        $mech->find_all_inputs( {
-            type_regex => qr/^(text|textarea)$/,
-            name       => 'customer',
-        }
+    my @customer_text_inputs = $mech->find_all_inputs(
+        type_regex => qr/^(text|textarea)$/,
+        name       => 'customer',
     );
 
 =cut
