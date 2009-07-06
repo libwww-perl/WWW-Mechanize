@@ -7,7 +7,7 @@ use constant PAIRS => {
     'http://delicious.com/'
         => 'utf-8',
     'http://www.liveinternet.ru/users/dashdi/blog'
-        => 'cp1251',
+        => '(?:cp|windows-)1251',
     'http://oops-music.com/'
         => 'EUC-JP',
 };
@@ -29,6 +29,7 @@ for my $url ( sort keys %pairs ) {
     $mech->get( $url );
     is( $mech->response->code, 200, "Fetched $url" );
 
-    like( $mech->res->encoding, qr/$want_encoding/i, "   ... Got encoding $want_encoding" );
+    like( $mech->res->content_charset, qr/$want_encoding/i,
+        "   ... Got encoding $want_encoding" );
     ok( Encode::is_utf8( $mech->content ), 'Got back UTF-8' );
 }

@@ -8,6 +8,16 @@ http://code.google.com/p/www-mechanize/issues/list
 Mech now has its own mailing list at Google Groups:
 http://groups.google.com/group/www-mechanize-users
 
+NEXT
+========================================
+[THINGS THAT MAY BREAK YOUR CODE]
+For a while, Mech used HTTP::Response::Encoding to try to suss out
+the proper encoding of the page it receives.  Now, it lets
+LWP::UserAgent do the work, and no longer requires
+HTTP::Response::Encoding.
+
+
+
 1.55_01     Mon Jul  6 12:17:10 CDT 2009
 ========================================
 This is mostly a bug fix release.  There will be a number of other

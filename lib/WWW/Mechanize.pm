@@ -103,10 +103,9 @@ use strict;
 use warnings;
 
 use HTTP::Request 1.30;
-use LWP::UserAgent 2.003;
+use LWP::UserAgent 5.827;
 use HTML::Form 1.00;
 use HTML::TokeParser;
-use HTTP::Response::Encoding 0.05;
 
 use base 'LWP::UserAgent';
 
