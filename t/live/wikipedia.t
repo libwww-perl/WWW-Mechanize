@@ -6,6 +6,12 @@ use strict;
 use constant LANGUAGES => qw( en it ja es nl pl );
 use Test::More tests => 3 + (2 * scalar LANGUAGES);
 
+use lib 't';
+
+BEGIN {
+    use Tools;
+}
+
 BEGIN {
     use_ok( 'WWW::Mechanize' );
 }
@@ -25,8 +31,7 @@ for my $lang ( LANGUAGES ) {
 }
 
 SKIP: {
-    eval 'use Test::Memory::Cycle';
-    skip 'Test::Memory::Cycle not installed', 1 if $@;
+    skip 'Test::Memory::Cycle not installed', 1 unless $canTMC;
 
     memory_cycle_ok( $mech, 'No memory cycles found' );
 }

@@ -7,8 +7,11 @@ use FindBin;
 use Test::More tests => 13;
 
 BEGIN {
-    delete @ENV{ grep { lc eq 'http_proxy' } keys %ENV };
-    delete @ENV{ qw( IFS CDPATH ENV BASH_ENV ) };
+    use lib 't';
+    use Tools;
+}
+
+BEGIN {
     use_ok( 'WWW::Mechanize' );
 }
 
@@ -59,8 +62,7 @@ SKIP: {
 };
 
 SKIP: {
-    eval 'use Test::Memory::Cycle';
-    skip 'Test::Memory::Cycle not installed', 1 if $@;
+    skip 'Test::Memory::Cycle not installed', 1 unless $canTMC;
 
     memory_cycle_ok( $agent, 'No memory cycles found' );
 }

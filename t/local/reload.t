@@ -4,12 +4,14 @@ use warnings;
 use strict;
 use Test::More tests => 14;
 
-use lib 't/local';
+use lib qw( t t/local );
 use LocalServer;
 
 BEGIN {
-    delete @ENV{ grep { lc eq 'http_proxy' } keys %ENV };
-    delete @ENV{ qw( IFS CDPATH ENV BASH_ENV ) };
+    use Tools;
+}
+
+BEGIN {
     use_ok( 'WWW::Mechanize' );
 }
 
@@ -47,8 +49,7 @@ RELOAD: {
 }
 
 SKIP: {
-    eval 'use Test::Memory::Cycle';
-    skip 'Test::Memory::Cycle not installed', 1 if $@;
+    skip 'Test::Memory::Cycle not installed', 1 unless $canTMC;
 
     memory_cycle_ok( $agent, 'Mech: no cycles' );
 }

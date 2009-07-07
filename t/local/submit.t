@@ -2,13 +2,15 @@
 
 use warnings;
 use strict;
-use lib 't/local';
+use lib qw( t t/local );
 use Test::More tests => 13;
 use LocalServer;
 
 BEGIN {
-    delete @ENV{ grep { lc eq 'http_proxy' } keys %ENV };
-    delete @ENV{ qw( IFS CDPATH ENV BASH_ENV ) };
+    use Tools;
+}
+
+BEGIN {
     use_ok( 'WWW::Mechanize' );
 }
 
@@ -37,8 +39,7 @@ like($mech->content, qr/\bfoo\b/i, 'Found "Foo"');
 is( $mech->value('upload'), '', 'No upload happens' );
 
 SKIP: {
-    eval 'use Test::Memory::Cycle';
-    skip 'Test::Memory::Cycle not installed', 1 if $@;
+    skip 'Test::Memory::Cycle not installed', 1 unless $canTMC;
 
     memory_cycle_ok( $mech, 'Mech: no cycles' );
 }

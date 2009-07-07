@@ -4,18 +4,16 @@ use warnings;
 use strict;
 use Test::More tests => 32;
 
-use lib 't/local';
+use lib qw( t t/local );
 use LocalServer;
 
-
 BEGIN {
-    delete @ENV{ grep { lc eq 'http_proxy' } keys %ENV };
-    delete @ENV{ qw( IFS CDPATH ENV BASH_ENV ) };
-    use_ok( 'WWW::Mechanize' );
+    use Tools;
 }
 
-eval "use Test::Memory::Cycle";
-my $canTMC = !$@;
+BEGIN {
+    use_ok( 'WWW::Mechanize' );
+}
 
 my $server = LocalServer->spawn;
 isa_ok( $server, 'LocalServer' );

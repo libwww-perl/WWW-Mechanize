@@ -3,7 +3,7 @@
 use warnings;
 use strict;
 use Test::More tests => 47;
-use lib 't/local';
+use lib qw( t t/local );
 use LocalServer;
 use HTTP::Daemon;
 use HTTP::Response;
@@ -19,8 +19,10 @@ and subsequently enriched to deal with RT ticket #8109.
 =cut
 
 BEGIN {
-    delete @ENV{ grep { lc eq 'http_proxy' } keys %ENV };
-    delete @ENV{ qw( IFS CDPATH ENV BASH_ENV ) };
+    use Tools;
+}
+
+BEGIN {
     use_ok( 'WWW::Mechanize' );
 }
 
@@ -108,8 +110,7 @@ ok(defined($mech->cookie_jar()),
 # Now some other weird stuff. Start with a fresh history by recreating
 # $mech.
 SKIP: {
-    eval 'use Test::Memory::Cycle';
-    skip 'Test::Memory::Cycle not installed', 1 if $@;
+    skip 'Test::Memory::Cycle not installed', 1 unless $canTMC;
 
     memory_cycle_ok( $mech, 'No memory cycles found' );
 }
@@ -166,8 +167,7 @@ for my $link ( @links ) {
 }
 
 SKIP: {
-    eval 'use Test::Memory::Cycle';
-    skip 'Test::Memory::Cycle not installed', 1 if $@;
+    skip 'Test::Memory::Cycle not installed', 1 unless $canTMC;
 
     memory_cycle_ok( $mech, 'No memory cycles found' );
 }
