@@ -4,15 +4,18 @@
 use warnings;
 use strict;
 use Test::More tests => 9;
-use URI::file;
 
-BEGIN { delete @ENV{ qw( http_proxy HTTP_PROXY PATH IFS CDPATH ENV BASH_ENV) }; }
+use lib 't';
+
+BEGIN {
+    use Tools;
+}
+
 BEGIN {
     use_ok( 'WWW::Mechanize' );
 }
 
-eval 'use Test::Memory::Cycle';
-my $canTMC = !$@;
+use URI::file;
 
 my $mech = WWW::Mechanize->new( cookie_jar => undef );
 isa_ok( $mech, 'WWW::Mechanize' );

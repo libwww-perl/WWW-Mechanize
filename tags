@@ -63,6 +63,7 @@ SPACE_PADDED	t/find_link-warnings.t	/^SPACE_PADDED: {$/;"	l
 STANDARD_STACK	t/local/page_stack.t	/^STANDARD_STACK: {$/;"	l
 THIRD_FORM	t/find_inputs.t	/^THIRD_FORM: {$/;"	l
 TestServer	t/TestServer.pm	/^package TestServer;$/;"	p
+Tools	t/Tools.pm	/^package Tools;$/;"	p
 UNKNOWN_ALIAS	t/warnings.t	/^UNKNOWN_ALIAS: {$/;"	l
 URI	lib/WWW/Mechanize/Image.pm	/^sub URI {$/;"	s
 URI	lib/WWW/Mechanize/Link.pm	/^sub URI {$/;"	s
@@ -140,6 +141,7 @@ handle_request	t/TestServer.pm	/^sub handle_request {$/;"	s
 height	lib/WWW/Mechanize/Image.pm	/^sub height  { return ($_[0])->{height}; }$/;"	s
 hostname	t/TestServer.pm	/^sub hostname {$/;"	s
 images	lib/WWW/Mechanize.pm	/^sub images {$/;"	s
+import	t/Tools.pm	/^sub import {$/;"	s
 is_html	lib/WWW/Mechanize.pm	/^sub is_html {       my $self = shift; return defined $self->ct && ($self->ct eq 'text\/html'); }$/;"	s
 known_agent_aliases	lib/WWW/Mechanize.pm	/^sub known_agent_aliases {$/;"	s
 links	lib/WWW/Mechanize.pm	/^sub links {$/;"	s
