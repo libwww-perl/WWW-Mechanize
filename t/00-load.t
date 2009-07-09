@@ -12,7 +12,6 @@ use_ok( 'WWW::Mechanize::Link' );
 diag( "Testing WWW::Mechanize $WWW::Mechanize::VERSION, with LWP $LWP::VERSION, Perl $], $^X" );
 if ( $canTMC ) {
     diag( "Test::Memory::Cycle $Test::Memory::Cycle::VERSION is installed." );
-    diag( 'However, HTTP::Response has broken cycles, so we have to wait until an updated version.' );
 }
 else {
     diag( 'Test::Memory::Cycle is not installed.' );

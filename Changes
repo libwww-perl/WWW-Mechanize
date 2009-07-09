@@ -16,6 +16,10 @@ the proper encoding of the page it receives.  Now, it lets
 LWP::UserAgent do the work, and no longer requires
 HTTP::Response::Encoding.
 
+[FIXES]
+Now requires LWP version 5.829 because HTTP::Response has memory
+cycle bugs.
+
 [DOCUMENTATION]
 Added a few notes to the FAQ, and fixed some incorrect docs.
 
