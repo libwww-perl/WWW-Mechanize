@@ -117,6 +117,8 @@ die	lib/WWW/Mechanize.pm	/^sub die {$/;"	s
 dump_all	lib/WWW/Mechanize.pm	/^sub dump_all {$/;"	s
 dump_forms	bin/mech-dump	/^sub dump_forms {$/;"	s
 dump_forms	lib/WWW/Mechanize.pm	/^sub dump_forms {$/;"	s
+dump_headers	bin/mech-dump	/^sub dump_headers {$/;"	s
+dump_headers	lib/WWW/Mechanize.pm	/^sub dump_headers {$/;"	s
 dump_images	bin/mech-dump	/^sub dump_images {$/;"	s
 dump_images	lib/WWW/Mechanize.pm	/^sub dump_images {$/;"	s
 dump_links	bin/mech-dump	/^sub dump_links {$/;"	s

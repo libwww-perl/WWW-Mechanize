@@ -16,6 +16,11 @@ the proper encoding of the page it receives.  Now, it lets
 LWP::UserAgent do the work, and no longer requires
 HTTP::Response::Encoding.
 
+[ENHANCEMENTS]
+Added a new dump_headers() method to dump the HTTP response headers.
+
+Added --headers flag to mech-dump to dump the HTTP response headers.
+
 [FIXES]
 Now requires LWP version 5.829 because HTTP::Response has memory
 cycle bugs.

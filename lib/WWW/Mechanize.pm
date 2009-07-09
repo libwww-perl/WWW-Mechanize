@@ -1977,6 +1977,25 @@ sub save_content {
     return;
 }
 
+
+=head2 $mech->dump_headers()
+
+Prints a dump of the HTTP response headers for the most recent response.
+
+Unlike the rest of the dump_* methods, you cannot specify a filehandle
+to print to.
+
+=cut
+
+sub dump_headers {
+    my $self     = shift;
+
+    $self->response->dump( maxlength => 70 );
+
+    return;
+}
+
+
 =head2 $mech->dump_links( [[$fh], $absolute] )
 
 Prints a dump of the links on the current page to I<$fh>.  If I<$fh>
