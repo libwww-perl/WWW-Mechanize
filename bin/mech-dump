@@ -95,14 +95,15 @@ if (!$response->is_success and defined ($response->www_authenticate)) {
 }
 $mech->is_html or die qq{$uri returns type "}, $mech->ct, qq{", not "text/html"\n};
 
-for my $action ( @actions ) {
+while ( my $action = shift @actions ) {
     $action->( $mech );
+    print "\n" if @actions;
 }
 
 
 sub dump_headers {
     my $mech = shift;
-    $mech->dump_headers();
+    $mech->dump_headers( undef );
     return;
 }
 

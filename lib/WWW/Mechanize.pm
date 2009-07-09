@@ -1978,9 +1978,11 @@ sub save_content {
 }
 
 
-=head2 $mech->dump_headers()
+=head2 $mech->dump_headers( [$fh] )
 
-Prints a dump of the HTTP response headers for the most recent response.
+Prints a dump of the HTTP response headers for the most recent
+response.  If I<$fh> is not specified or is undef, it dumps to
+STDOUT.
 
 Unlike the rest of the dump_* methods, you cannot specify a filehandle
 to print to.
@@ -1988,9 +1990,10 @@ to print to.
 =cut
 
 sub dump_headers {
-    my $self     = shift;
+    my $self = shift;
+    my $fh   = shift || \*STDOUT;
 
-    $self->response->dump( maxlength => 70 );
+    print {$fh} $self->response->headers_as_string;
 
     return;
 }
