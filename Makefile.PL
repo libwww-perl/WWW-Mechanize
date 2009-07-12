@@ -15,7 +15,7 @@ GetOptions(
     'local!'        => \$local,
     'all'           => sub { print "All tests are on by default.  This option is deprecated.\n" },
     'mech-dump!'    => sub { print "mech-dump is always installed now.  This option is deprecated.\n" },
-);
+) or exit 1;
 
 my @tests = glob File::Spec->catfile( 't', '*.t' );
 push( @tests, glob File::Spec->catfile( 't', 'local', '*.t' ) ) if $local;
@@ -39,7 +39,6 @@ my $parms = {
         'HTML::TokeParser'          => 2.28,
         'HTTP::Daemon'              => 0,
         'HTTP::Request'             => 1.30,
-        'HTTP::Response::Encoding'  => 0.05,
         'HTTP::Server::Simple'      => 0.35,
         'HTTP::Server::Simple::CGI' => 0,
         'HTTP::Status'              => 0,

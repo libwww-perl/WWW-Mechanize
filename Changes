@@ -8,6 +8,14 @@ http://code.google.com/p/www-mechanize/issues/list
 Mech now has its own mailing list at Google Groups:
 http://groups.google.com/group/www-mechanize-users
 
+NEXT
+========================================
+[FIXES]
+Removed prereq of HTTP::Response::Encoding, even though it was never
+used.  Thanks for the catch, Gisle.
+
+
+
 1.56        Thu Jul  9 00:36:54 CDT 2009
 ========================================
 [THINGS THAT MAY BREAK YOUR CODE]

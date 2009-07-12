@@ -2818,6 +2818,7 @@ Just like Mech, but using Microsoft Internet Explorer to do the work.
 Thanks to the numerous people who have helped out on WWW::Mechanize in
 one way or another, including
 Kirrily Robert for the original C<WWW::Automate>,
+Gisle Aas,
 Jeremy Ary,
 Hilary Holz,
 Rafael Kitover,
