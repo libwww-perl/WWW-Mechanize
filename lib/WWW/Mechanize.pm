@@ -658,7 +658,7 @@ links.  In scalar context, returns an array reference of all links.
 =cut
 
 sub links {
-    my $self = shift ;
+    my $self = shift;
 
     $self->_extract_links() unless $self->{_extracted_links};
 
@@ -1021,7 +1021,7 @@ images.  In scalar context, returns an array reference of all images.
 =cut
 
 sub images {
-    my $self = shift ;
+    my $self = shift;
 
     $self->_extract_images() unless $self->{_extracted_images};
 
@@ -1180,7 +1180,7 @@ context, returns an array reference of all forms.
 =cut
 
 sub forms {
-    my $self = shift ;
+    my $self = shift;
     return @{$self->{forms}} if wantarray;
     return $self->{forms};
 }
@@ -1450,7 +1450,7 @@ of the duplicate field to set, use a value which is an anonymous array
 which has the field value and its number as the 2 elements.
 
         # set the second foo field
-        $mech->set_fields( $name => [ 'foo', 2 ] ) ;
+        $mech->set_fields( $name => [ 'foo', 2 ] );
 
 The fields are numbered from 1.
 
@@ -1483,7 +1483,7 @@ password, you do not have to fetch the form and inspect the source (or
 use the F<mech-dump> utility, installed with WWW::Mechanize) to see
 what the field names are; you can just say
 
-    $mech->set_visible( $username, $password ) ;
+    $mech->set_visible( $username, $password );
 
 and the first and second fields will be set accordingly.  The method
 is called set_I<visible> because it acts only on visible fields;
@@ -1498,11 +1498,11 @@ you to specify the I<type> of input field you want to set and is
 denoted with an arrayref containing two elements.  So you could
 specify the first radio button with
 
-    $mech->set_visible( [ radio => 'KCRW' ] ) ;
+    $mech->set_visible( [ radio => 'KCRW' ] );
 
 Field values and specifiers can be intermixed, hence
 
-    $mech->set_visible( 'fred', 'secret', [ option => 'Checking' ] ) ;
+    $mech->set_visible( 'fred', 'secret', [ option => 'Checking' ] );
 
 would set the first two fields to "fred" and "secret", and the I<next>
 C<OPTION> menu field to "Checking".
@@ -1800,7 +1800,7 @@ Returns an L<HTTP::Response> object.
 =cut
 
 sub submit_form {
-    my( $self, %args ) = @_ ;
+    my( $self, %args ) = @_;
 
     for ( keys %args ) {
         if ( !/^(form_(number|name|fields|id)|(with_)?fields|button|x|y)$/ ) {
