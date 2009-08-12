@@ -1753,11 +1753,11 @@ are a list of key/value pairs, all of which are optional.
 
 =over 4
 
-=item * fields => \%fields
+=item * C<< fields => \%fields >>
 
 Specifies the fields to be filled in the current form.
 
-=item * with_fields => \%fields
+=item * C<< with_fields => \%fields >>
 
 Probably all you need for the common case. It combines a smart form selector
 and data setting in one operation. It selects the first form that contains all
@@ -1768,24 +1768,24 @@ the name or number of the form to do this.
 
 If you choose this, the form_number, form_name, form_id and fields options will be ignored.
 
-=item * form_number => n
+=item * C<< form_number => n >>
 
 Selects the I<n>th form (calls C<L</form_number()>>).  If this parm is not
 specified, the currently-selected form is used.
 
-=item * form_name => name
+=item * C<< form_name => name >>
 
 Selects the form named I<name> (calls C<L</form_name()>>)
 
-=item * form_id => ID
+=item * C<< form_id => ID >>
 
 Selects the form with ID I<ID> (calls C<L</form_id()>>)
 
-=item * button => button
+=item * C<< button => button >>
 
 Clicks on button I<button> (calls C<L</click()>>)
 
-=item * x => x, y => y
+=item * C<< x => x, y => y >>
 
 Sets the x or y values for C<L</click()>>
 
