@@ -649,7 +649,7 @@ sub _check_unhandled_parms {
 
 =head1 LINK METHODS
 
-=head2 $mech->links
+=head2 $mech->links()
 
 Lists all the links on the current page.  Each link is a
 WWW::Mechanize::Link object. In list context, returns a list of all
@@ -1653,19 +1653,19 @@ the keys.
 
 =over 4
 
-=item * name => name
+=item * C<< name => name >>
 
 Clicks the button named I<name> in the current form.
 
-=item * number => n
+=item * C<< number => n >>
 
 Clicks the I<n>th button in the current form. Numbering starts at 1.
 
-=item * value => value
+=item * C<< value => value >>
 
 Clicks the button with the value I<value> in the current form.
 
-=item * input => $inputobject
+=item * C<< input => $inputobject >>
 
 Clicks on the button referenced by $inputobject, an instance of
 L<HTML::Form::SubmitInput> obtained e.g. from
@@ -1674,9 +1674,9 @@ L<HTML::Form::SubmitInput> obtained e.g. from
 
 $inputobject must belong to the current form.
 
-=item * x => x
+=item * C<< x => x >>
 
-=item * y => y
+=item * C<< y => y >>
 
 These arguments (optional) allow you to specify the (x,y) coordinates
 of the click.
