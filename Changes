@@ -8,6 +8,14 @@ http://code.google.com/p/www-mechanize/issues/list
 Mech now has its own mailing list at Google Groups:
 http://groups.google.com/group/www-mechanize-users
 
+1.60        Mon Aug 17 00:41:39 CDT 2009
+========================================
+No new features.  Exists only to skip tests that always fail on
+Windows.
+
+Fixed up some minor documentation problems.
+
+
 1.58        Mon Jul 13 22:32:23 CDT 2009
 ========================================
 No new features.  If you have 1.56 installed OK, you do NOT need

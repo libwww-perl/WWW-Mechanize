@@ -6,11 +6,17 @@ BEGIN { delete @ENV{ qw( http_proxy HTTP_PROXY ) }; }
 
 use warnings;
 use strict;
-use Test::More tests => 14;
+use Test::More;
+
+if ( $^O =~ /Win32/ ) {
+    plan skip_all => 'HTTP::Server::Simple does not support Windows yet.';
+}
+else {
+    plan tests => 14;
+}
+
 use WWW::Mechanize;
-
 use URI::Escape qw( uri_unescape );
-
 
 use lib 't/';
 use TestServer;

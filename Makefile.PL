@@ -39,8 +39,6 @@ my $parms = {
         'HTML::TokeParser'          => 2.28,
         'HTTP::Daemon'              => 0,
         'HTTP::Request'             => 1.30,
-        'HTTP::Server::Simple'      => 0.35,
-        'HTTP::Server::Simple::CGI' => 0,
         'HTTP::Status'              => 0,
         'LWP'                       => 5.829,
         'LWP::UserAgent'            => 5.829,
@@ -54,6 +52,11 @@ my $parms = {
     test            => { TESTS => join( ' ', @tests ) },
     clean           => { FILES => 'WWW-Mechanize-*' },
 };
+
+if ( $^O !~ /Win32/ ) {
+    $parms->{PREREQ_PM}->{'HTTP::Server::Simple'} = 0.35;
+    $parms->{PREREQ_PM}->{'HTTP::Server::Simple::CGI'} = 0;
+}
 
 if ( $ExtUtils::MakeMaker::VERSION ge '6.45_01' ) {
     $parms->{META_MERGE} = {
