@@ -1363,6 +1363,11 @@ an C<n> key selects an item by number (e.g.
 C<< {n => 3} >> or C<< {n => [2,4]} >>).
 The numbering starts at 1.  This applies to the current form.
 
+If you have a field with C<< <select multiple> >> and you pass a single
+C<$value>, then C<$value> will be added to the list of fields selected,
+without clearing the others.  However, if you pass an array reference,
+then all previously selected values will be cleared.
+
 Returns true on successfully setting the value. On failure, returns
 false and calls C<< $self>warn() >> with an error message.
 
