@@ -1710,7 +1710,8 @@ sub click_button {
         $_ = 1 unless defined;
     }
 
-    my $form = $self->{form};
+    my $form = $self->{form} or $self->die( 'click_button: No form has been selected' );
+
     my $request;
     if ( $args{name} ) {
         $request = $form->click( $args{name}, $args{x}, $args{y} );

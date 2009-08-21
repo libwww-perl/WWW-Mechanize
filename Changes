@@ -14,6 +14,8 @@ http://groups.google.com/group/www-mechanize-users
 $mech->follow_link() no longer dies with an inappropriate error if
 the link is not found.
 
+$mech->click_button() now checks to see if a form is selected.
+
 
 1.60        Mon Aug 17 00:41:39 CDT 2009
 ========================================
