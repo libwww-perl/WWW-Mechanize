@@ -709,8 +709,14 @@ sub follow_link {
     }
 
     my $link = $self->find_link(%parms);
-    return $self->get( $link->url ) if $link;
-    $self->die( 'Link not found: ', $link->url ) if $self->{autocheck};
+    if ( $link ) {
+        return $self->get( $link->url );
+    }
+
+    if ( $self->{autocheck} ) {
+        $self->die( 'Link not found' );
+    }
+
     return;
 }
 
