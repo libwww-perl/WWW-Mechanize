@@ -16,6 +16,9 @@ the link is not found.
 
 $mech->click_button() now checks to see if a form is selected.
 
+[DOCUMENTATION]
+More additions to the FAQ.
+
 
 1.60        Mon Aug 17 00:41:39 CDT 2009
 ========================================

@@ -233,6 +233,19 @@ Using C<< $mech->form_name($number) >>:
     #Access the form using its Zero-Based Index by DOM order
     $mech->form_name('trgForm')->action('http://newAction'); #ABS URL
 
+=head2 How do I save an image?  How do I save a large tarball?
+
+An image is just content.  You get the image and save it.
+
+    $mech->get( 'photo.jpg' );
+    $mech->save_content( '/path/to/my/directory/photo.jpg' );
+
+You can also save any content directly to disk using the C<:content_file>
+flag to C<get()>, which is part of L<LWP::UserAgent>.
+
+    $mech->get( 'http://www.cpan.org/src/stable.tar.gz',
+                ':content_file' => 'stable.tar.gz' );
+
 =head1 Why doesn't this work: Debugging your Mechanize program
 
 =head2 My Mech program doesn't work, but it works in the browser.
