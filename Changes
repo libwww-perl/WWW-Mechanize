@@ -14,6 +14,9 @@ NEXT
 Fixed a declaration in the Movable Type example in
 WWW::Mechanize::Examples.
 
+Quiet warnings if %ENV has undef values.
+
+
 1.62
 ========================================
 [FIXED]
