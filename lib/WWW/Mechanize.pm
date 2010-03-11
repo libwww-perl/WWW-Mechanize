@@ -2344,7 +2344,7 @@ sub _taintedness {
     return $_taintbrush if _is_tainted( $_taintbrush );
 
     # Let's try again. Maybe somebody cleaned those.
-    $_taintbrush = substr(join('', map { defined($_) ? $_ : '' } @ARGV, %ENV), 0, 0);
+    $_taintbrush = substr(join('', grep { defined } @ARGV, %ENV), 0, 0);
     return $_taintbrush if _is_tainted( $_taintbrush );
 
     # If those don't work, go try to open some file from some unsafe
