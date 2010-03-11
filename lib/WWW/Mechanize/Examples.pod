@@ -489,12 +489,13 @@ with a results page.
 
 =head2 Hacking Movable Type, by Dan Rinzel
 
+    use strict;
     use WWW::Mechanize;
 
     # a tool to automatically post entries to a moveable type weblog, and set arbitary creation dates
 
     my $mech = WWW::Mechanize->new();
-    my %entry;
+    my $entry;
     $entry->{title} = "Test AutoEntry Title";
     $entry->{btext} = "Test AutoEntry Body";
     $entry->{date} = '2002-04-15 14:18:00';
