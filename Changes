@@ -16,6 +16,9 @@ WWW::Mechanize::Examples.
 
 Quiet warnings if %ENV has undef values.
 
+[DOCUMENTATION]
+Added to the FAQ.
+
 
 1.62
 ========================================

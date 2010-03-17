@@ -246,6 +246,24 @@ flag to C<get()>, which is part of L<LWP::UserAgent>.
     $mech->get( 'http://www.cpan.org/src/stable.tar.gz',
                 ':content_file' => 'stable.tar.gz' );
 
+=head2 How do I pick a specific value from a C<< <select> >> list?
+
+Find the C<HTML::Form::ListInput> in the page.
+
+    my ($listbox) = $mech->find_all_inputs( name => 'listbox' );
+
+Then create a hash for the lookup:
+
+    my %name_lookup;
+    @name_lookup{ $listbox->value_names } = $listbox->possible_values;
+    my $value = $name_lookup{ 'Name I want' };
+
+If you have duplicate names, this method won't work, and you'll
+have to loop over C<< $listbox->value_names >> and
+C<< $listbox->possible_values >> in parallel until you find a
+matching name.
+
+
 =head1 Why doesn't this work: Debugging your Mechanize program
 
 =head2 My Mech program doesn't work, but it works in the browser.
