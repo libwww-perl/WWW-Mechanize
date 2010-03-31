@@ -263,6 +263,20 @@ have to loop over C<< $listbox->value_names >> and
 C<< $listbox->possible_values >> in parallel until you find a
 matching name.
 
+=head2 How do I get Mech to not follow redirects?
+
+You use functionality in LWP::UserAgent, not Mech itself.
+
+    $mech->requests_redirectable( [] );
+
+Or you can set C<max_redirect>:
+
+    $mech->max_redirect( 0 );
+
+Both these options can also be set in the constructor.  Mech doesn't
+understand them, so will pass them through to the LWP::UserAgent
+constructor.
+
 
 =head1 Why doesn't this work: Debugging your Mechanize program
 
