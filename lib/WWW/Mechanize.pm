@@ -6,11 +6,11 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 =head1 VERSION
 
-Version 1.60
+Version 1.62
 
 =cut
 
-our $VERSION = '1.60';
+our $VERSION = '1.62';
 
 =head1 SYNOPSIS
 
@@ -2903,7 +2903,7 @@ and the late great Iain Truskett.
 
 =head1 COPYRIGHT
 
-Copyright (c) 2005-2009 Andy Lester. All rights reserved. This program is
+Copyright (c) 2005-2010 Andy Lester. All rights reserved. This program is
 free software; you can redistribute it and/or modify it under the same
 terms as Perl itself.
 
