@@ -8,7 +8,12 @@ http://code.google.com/p/www-mechanize/issues/list
 Mech now has its own mailing list at Google Groups:
 http://groups.google.com/group/www-mechanize-users
 
-NEXT        Sat Apr 10 23:10:07 CDT 2010
+
+NEXT
+========================================
+
+
+1.62        Sat Apr 10 23:10:07 CDT 2010
 ========================================
 [FIXED]
 Fixed a declaration in the Movable Type example in
