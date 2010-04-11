@@ -1241,10 +1241,8 @@ sub form_number {
         $self->{form} = $self->{forms}->[$form-1];
         return $self->{form};
     }
-    else {
-        $self->warn( "There is no form numbered $form" );
-        return undef;
-    }
+
+    return;
 }
 
 =head2 $mech->form_name( $name )
@@ -1271,10 +1269,8 @@ sub form_name {
             if $nmatches > 1;
         return $self->{form} = $matches[0];
     }
-    else {
-        $self->warn( qq{ There is no form named "$form"} );
-        return undef;
-    }
+
+    return;
 }
 
 =head2 $mech->form_id( $name )

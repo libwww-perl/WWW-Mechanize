@@ -16,17 +16,15 @@ WWW::Mechanize::Examples.
 
 Quiet warnings if %ENV has undef values.
 
-[DOCUMENTATION]
-Added to the FAQ.
-
-
-1.62
-========================================
-[FIXED]
 $mech->follow_link() no longer dies with an inappropriate error if
 the link is not found.
 
 $mech->click_button() now checks to see if a form is selected.
+
+[INCOMPATIBILITIES]
+$mech->form_name() and $mech->form_number() no longer throw warnings
+if they can't find the form specified.  They still return undef,
+though.
 
 [DOCUMENTATION]
 More additions to the FAQ.
