@@ -14,12 +14,38 @@ our $VERSION = '1.60';
 
 =head1 SYNOPSIS
 
-C<WWW::Mechanize>, or Mech for short, helps you automate interaction with
-a website. It supports performing a sequence of page fetches including
-following links and submitting forms. Each fetched page is parsed and
-its links and forms are extracted. A link or a form can be selected, form
-fields can be filled and the next page can be fetched. Mech also stores
-a history of the URLs you've visited, which can be queried and revisited.
+C<WWW::Mechanize>, or Mech for short, is a Perl module for stateful
+programmatic web browsing, used for automating interaction with
+websites.
+
+Features include:
+
+=over 4
+
+=item * All HTTP methods
+
+=item * High-level hyperlink and HTML form support, without having to parse HTML yourself
+
+=item * SSL support
+
+=item * Automatic cookies
+
+=item * Custom HTTP headers
+
+=item * Automatic handling of redirections
+
+=item * Proxies
+
+=item * HTTP authentication
+
+=back
+
+Mech supports performing a sequence of page fetches including
+following links and submitting forms. Each fetched page is parsed
+and its links and forms are extracted. A link or a form can be
+selected, form fields can be filled and the next page can be fetched.
+Mech also stores a history of the URLs you've visited, which can
+be queried and revisited.
 
     use WWW::Mechanize;
     my $mech = WWW::Mechanize->new();
