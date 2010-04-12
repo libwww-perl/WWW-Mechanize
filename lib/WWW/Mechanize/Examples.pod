@@ -492,7 +492,7 @@ with a results page.
     use strict;
     use WWW::Mechanize;
 
-    # a tool to automatically post entries to a moveable type weblog, and set arbitary creation dates
+    # a tool to automatically post entries to a moveable type weblog, and set arbitrary creation dates
 
     my $mech = WWW::Mechanize->new();
     my $entry;
