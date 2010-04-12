@@ -124,3 +124,7 @@ sub dump_images {
     $mech->dump_images( undef, $absolute );
     return;
 }
+
+=head1 SEE ALSO
+
+L<WWW::Mechanize>
