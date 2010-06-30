@@ -11,6 +11,20 @@ http://groups.google.com/group/www-mechanize-users
 
 NEXT
 ========================================
+[THINGS THAT MAY BREAK YOUR CODE]
+If you've been accessing $mech->{forms} or $mech->{form} values
+directly, instead of going through the $mech->forms or $mech->current_form
+accessors, respectively, then this version of Mech will break your
+code.
+
+[ENHANCEMENTS]
+Parsing of forms has been delayed until they're actually needed.
+If don't use forms on a page, you'll no longer waste time and memory
+parsing them.
+
+$mech->title now caches the title of the page after parsing the
+page to find it.
+
 [DOCUMENTATION]
 Typo fixes.
 

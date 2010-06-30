@@ -280,7 +280,7 @@ sub new {
     $self->{proxy} = {} unless defined $self->{proxy};
     push( @{$self->requests_redirectable}, 'POST' );
 
-    $self->_reset_page;
+    $self->_reset_page();
 
     return $self;
 }
@@ -559,7 +559,6 @@ sub status {        my $self = shift; return $self->{status}; }
 sub ct {            my $self = shift; return $self->{ct}; }
 sub content_type {  my $self = shift; return $self->{ct}; }
 sub base {          my $self = shift; return $self->{base}; }
-sub current_form {  my $self = shift; return $self->{form}; }
 sub is_html {       my $self = shift; return defined $self->ct && ($self->ct eq 'text/html'); }
 
 =head2 $mech->title()
@@ -571,12 +570,16 @@ L<HTML::HeadParser>.  Returns undef if the content is not HTML.
 
 sub title {
     my $self = shift;
+
     return unless $self->is_html;
 
-    require HTML::HeadParser;
-    my $p = HTML::HeadParser->new;
-    $p->parse($self->content);
-    return $p->header('Title');
+    if ( not defined $self->{title} ) {
+        require HTML::HeadParser;
+        my $p = HTML::HeadParser->new;
+        $p->parse($self->content);
+        $self->{title} = $p->header('Title');
+    }
+    return $self->{title};
 }
 
 =head1 CONTENT-HANDLING METHODS
@@ -686,7 +689,7 @@ links.  In scalar context, returns an array reference of all links.
 sub links {
     my $self = shift;
 
-    $self->_extract_links() unless $self->{_extracted_links};
+    $self->_extract_links() unless $self->{links};
 
     return @{$self->{links}} if wantarray;
     return $self->{links};
@@ -1055,7 +1058,7 @@ images.  In scalar context, returns an array reference of all images.
 sub images {
     my $self = shift;
 
-    $self->_extract_images() unless $self->{_extracted_images};
+    $self->_extract_images() unless $self->{images};
 
     return @{$self->{images}} if wantarray;
     return $self->{images};
@@ -1213,10 +1216,22 @@ context, returns an array reference of all forms.
 
 sub forms {
     my $self = shift;
+
+    $self->_extract_forms() unless $self->{forms};
+
     return @{$self->{forms}} if wantarray;
     return $self->{forms};
 }
 
+sub current_form {
+    my $self = shift;
+
+    if ( !$self->{current_form} ) {
+        $self->form_number(1);
+    }
+
+    return $self->{current_form};
+}
 
 =head2 $mech->form_number($number)
 
@@ -1237,9 +1252,10 @@ sub form_number {
     my ($self, $form) = @_;
     # XXX Should we die if no $form is defined? Same question for form_name()
 
-    if ($self->{forms}->[$form-1]) {
-        $self->{form} = $self->{forms}->[$form-1];
-        return $self->{form};
+    my $forms = $self->forms;
+    if ( $forms->[$form-1] ) {
+        $self->{current_form} = $forms->[$form-1];
+        return $self->{current_form};
     }
 
     return;
@@ -1267,7 +1283,7 @@ sub form_name {
     if ( my $nmatches = @matches ) {
         $self->warn( "There are $nmatches forms named $form.  The first one was used." )
             if $nmatches > 1;
-        return $self->{form} = $matches[0];
+        return $self->{current_form} = $matches[0];
     }
 
     return;
@@ -1294,7 +1310,7 @@ sub form_id {
     if ( @matches ) {
         $self->warn( 'There are ', scalar @matches, " forms with ID $formid.  The first one was used." )
             if @matches > 1;
-        return $self->{form} = $matches[0];
+        return $self->{current_form} = $matches[0];
     }
     else {
         $self->warn( qq{ There is no form with ID "$formid"} );
@@ -1334,7 +1350,7 @@ sub form_with_fields {
     if ( my $nmatches = @matches ) {
         $self->warn( "There are $nmatches forms with the named fields.  The first one was used." )
             if $nmatches > 1;
-        return $self->{form} = $matches[0];
+        return $self->{current_form} = $matches[0];
     }
     else {
         $self->warn( qq{There is no form with the requested fields} );
@@ -1364,7 +1380,7 @@ sub field {
     my ($self, $name, $value, $number) = @_;
     $number ||= 1;
 
-    my $form = $self->{form};
+    my $form = $self->current_form();
     if ($number > 1) {
         $form->find_input($name, undef, $number)->value($value);
     }
@@ -1404,7 +1420,7 @@ false and calls C<< $self>warn() >> with an error message.
 sub select {
     my ($self, $name, $value) = @_;
 
-    my $form = $self->{form};
+    my $form = $self->current_form();
 
     my $input = $form->find_input($name);
     if (!$input) {
@@ -1647,7 +1663,7 @@ sub value {
     my $name = shift;
     my $number = shift || 1;
 
-    my $form = $self->{form};
+    my $form = $self->current_form;
     if ( $number > 1 ) {
         return $form->find_input( $name, undef, $number )->value();
     }
@@ -1673,7 +1689,7 @@ Returns an L<HTTP::Response> object.
 sub click {
     my ($self, $button, $x, $y) = @_;
     for ($x, $y) { $_ = 1 unless defined; }
-    my $request = $self->{form}->click($button, $x, $y);
+    my $request = $self->current_form->click($button, $x, $y);
     return $self->request( $request );
 }
 
@@ -1732,7 +1748,7 @@ sub click_button {
         $_ = 1 unless defined;
     }
 
-    my $form = $self->{form} or $self->die( 'click_button: No form has been selected' );
+    my $form = $self->current_form or $self->die( 'click_button: No form has been selected' );
 
     my $request;
     if ( $args{name} ) {
@@ -1774,7 +1790,7 @@ longer so.
 sub submit {
     my $self = shift;
 
-    my $request = $self->{form}->make_request;
+    my $request = $self->current_form->make_request;
     return $self->request( $request );
 }
 
@@ -2232,17 +2248,7 @@ sub update_html {
     $self->{ct} = 'text/html';
     $self->{content} = $html;
 
-    $self->{forms} = [ HTML::Form->parse($html, $self->base) ];
-    for my $form (@{ $self->{forms} }) {
-        for my $input ($form->inputs) {
-             if ($input->type eq 'file') {
-                 $input->value( undef );
-             }
-        }
-    }
-    $self->{form}  = $self->{forms}->[0];
-    $self->{_extracted_links} = 0;
-    $self->{_extracted_images} = 0;
+    $self->_reset_page();
 
     return;
 }
@@ -2456,13 +2462,11 @@ Resets the internal fields that track page parsed stuff.
 sub _reset_page {
     my $self = shift;
 
-    $self->{_extracted_links}  = 0;
-    $self->{_extracted_images} = 0;
-    $self->{links}             = [];
-    $self->{images}            = [];
-    $self->{forms}             = [];
-
-    delete $self->{form};
+    $self->{links}        = undef;
+    $self->{images}       = undef;
+    $self->{forms}        = undef;
+    $self->{current_form} = undef;
+    $self->{title}        = undef;
 
     return;
 }
@@ -2496,8 +2500,6 @@ sub _extract_links {
         } # while
     }
 
-    $self->{_extracted_links} = 1;
-
     return;
 }
 
@@ -2519,8 +2521,6 @@ sub _extract_images {
             push( @{$self->{images}}, $image ) if $image;
         } # while
     }
-
-    $self->{_extracted_images} = 1;
 
     return;
 }
@@ -2605,6 +2605,23 @@ sub _link_from_token {
             attrs => $attrs,
         });
 } # _link_from_token
+
+
+sub _extract_forms {
+    my $self = shift;
+
+    my @forms = HTML::Form->parse( $self->content, $self->base );
+    $self->{forms} = \@forms;
+    for my $form ( @forms ) {
+        for my $input ($form->inputs) {
+             if ($input->type eq 'file') {
+                 $input->value( undef );
+             }
+        }
+    }
+
+    return;
+}
 
 =head2 $mech->_push_page_stack()
 
