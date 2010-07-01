@@ -8,10 +8,11 @@ mech-dump - Dumps information about a web page
 
 use warnings;
 use strict;
-use WWW::Mechanize;
+use WWW::Mechanize ();
 use Getopt::Long;
 use Pod::Usage;
 
+use HTTP::Cookies;
 my @actions;
 my $absolute;
 
@@ -19,6 +20,7 @@ my $user;
 my $pass;
 my $agent;
 my $agent_alias;
+my $cookie_filename;
 
 GetOptions(
     'user=s'        => \$user,
@@ -31,6 +33,7 @@ GetOptions(
     absolute        => \$absolute,
     'agent=s'       => \$agent,
     'agent-alias=s' => \$agent_alias,
+    'cookie-file=s' => \$cookie_filename,
     help            => sub { pod2usage(1); },
 ) or pod2usage(2);
 
@@ -40,28 +43,29 @@ mech-dump [options] [file|url]
 
 Options:
 
-    --headers       Dump HTTP response headers
-    --forms         Dump table of forms (default action)
-    --links         Dump table of links
-    --images        Dump table of images
-    --all           Dump all four of the above, in that order
+    --headers              Dump HTTP response headers
+    --forms                Dump table of forms (default action)
+    --links                Dump table of links
+    --images               Dump table of images
+    --all                  Dump all four of the above, in that order
 
-    --user=user     Set the username
-    --password=pass Set the password
+    --user=user            Set the username
+    --password=pass        Set the password
+    --cookie-file=filename Set the filename to use for persistent cookies
 
-    --agent=agent   Specify the UserAgent to pass
+    --agent=agent          Specify the UserAgent to pass
     --agent-alias=alias
-                    Specify the alias for the UserAgent to pass.
-                    Pick one of:
-                        * Windows IE 6
-                        * Windows Mozilla
-                        * Mac Safari
-                        * Mac Mozilla
-                        * Linux Mozilla
-                        * Linux Konqueror
+                           Specify the alias for the UserAgent to pass.
+                           Pick one of:
+                               * Windows IE 6
+                               * Windows Mozilla
+                               * Mac Safari
+                               * Mac Mozilla
+                               * Linux Mozilla
+                               * Linux Konqueror
 
-    --absolute      Show URLs as absolute, even if relative in the page
-    --help          Show this message
+    --absolute             Show URLs as absolute, even if relative in the page
+    --help                 Show this message
 
 The order of the options specified is relevant.  Repeated options
 get repeated dumps.
@@ -76,13 +80,22 @@ if ( -e $uri ) {
 
 @actions = (\&dump_forms) unless @actions;
 
-my $mech = WWW::Mechanize->new( cookie_jar => undef );
+my $mech = WWW::Mechanize->new();
 if ( defined $agent ) {
     $mech->agent( $agent );
 }
 elsif ( defined $agent_alias ) {
     $mech->agent_alias( $agent_alias );
 }
+if ( defined $cookie_filename ) {
+    my $cookies = HTTP::Cookies->new( file => $cookie_filename, autosave => 1, ignore_discard => 1 );
+    $cookies->load() ;
+    $mech->cookie_jar($cookies);
+}
+else {
+    $mech->cookie_jar(undef) ;
+}
+
 $mech->env_proxy();
 my $response = $mech->get( $uri );
 if (!$response->is_success and defined ($response->www_authenticate)) {
