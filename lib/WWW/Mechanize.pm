@@ -1280,9 +1280,12 @@ sub form_name {
 
     my $temp;
     my @matches = grep {defined($temp = $_->attr('name')) and ($temp eq $form) } $self->forms;
-    if ( my $nmatches = @matches ) {
-        $self->warn( "There are $nmatches forms named $form.  The first one was used." )
-            if $nmatches > 1;
+
+    my $nmatches = @matches;
+    if ( $nmatches > 0 ) {
+        if ( $nmatches > 1 ) {
+            $self->warn( "There are $nmatches forms named $form.  The first one was used." )
+        }
         return $self->{current_form} = $matches[0];
     }
 
@@ -1347,9 +1350,11 @@ sub form_with_fields {
         push @matches, $form;
     }
 
-    if ( my $nmatches = @matches ) {
-        $self->warn( "There are $nmatches forms with the named fields.  The first one was used." )
-            if $nmatches > 1;
+    my $nmatches = @matches;
+    if ( $nmatches > 0 ) {
+        if ( $nmatches > 1 ) {
+            $self->warn( "There are $nmatches forms with the named fields.  The first one was used." )
+        }
         return $self->{current_form} = $matches[0];
     }
     else {
