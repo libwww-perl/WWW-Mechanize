@@ -26,7 +26,7 @@ $mech->title now caches the title of the page after parsing the
 page to find it.
 
 mech-dump now takes a --cookie-file parameter for keeping cookies
-between calls.
+between calls.  Thanks, Damien Clark.
 
 
 [DOCUMENTATION]
