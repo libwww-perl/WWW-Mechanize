@@ -955,6 +955,8 @@ sub _clean_keys {
             }
         }
     } # for keys %parms
+
+    return;
 } # _clean_keys()
 
 
@@ -2203,9 +2205,7 @@ sub request {
         $self->_push_page_stack();
     }
 
-    $self->_update_page($request, $self->_make_request( $request, @_ ));
-
-    # XXX This should definitively return something.
+    return $self->_update_page($request, $self->_make_request( $request, @_ ));
 }
 
 =head2 $mech->update_html( $html )
