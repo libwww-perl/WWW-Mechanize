@@ -2307,6 +2307,44 @@ sub clear_credentials {
     delete @$self{qw( __username __password )};
 }
 
+=head1 INHERITED UNCHANGED LWP::UserAgent METHODS
+
+As a sublass of L<LWP::UserAgent>, WWW::Mechanize inherits all of
+L<LWP::UserAgent>'s methods.  Many of which are overridden or
+extended. The following methods are inherited unchanged. View the
+L<LWP::UserAgent> documentation for their implementation descriptions.
+
+This is not meant to be an inclusive list.  LWP::UA may have added
+others.
+
+=head2 $mech->head()
+
+Inherited from L<LWP::UserAgent>.
+
+=head2 $mech->post()
+
+Inherited from L<LWP::UserAgent>.
+
+=head2 $mech->mirror()
+
+Inherited from L<LWP::UserAgent>.
+
+=head2 $mech->simple_request()
+
+Inherited from L<LWP::UserAgent>.
+
+=head2 $mech->is_protocol_supported()
+
+Inherited from L<LWP::UserAgent>.
+
+=head2 $mech->prepare_request()
+
+Inherited from L<LWP::UserAgent>.
+
+=head2 $mech->progress()
+
+Inherited from L<LWP::UserAgent>.
+
 =head1 INTERNAL-ONLY METHODS
 
 These methods are only used internally.  You probably don't need to
@@ -2874,6 +2912,7 @@ Just like Mech, but using Microsoft Internet Explorer to do the work.
 Thanks to the numerous people who have helped out on WWW::Mechanize in
 one way or another, including
 Kirrily Robert for the original C<WWW::Automate>,
+Lyle Hopkins,
 Damien Clark,
 Ansgar Burchardt,
 Gisle Aas,
