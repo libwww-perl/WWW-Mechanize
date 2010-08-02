@@ -14,6 +14,8 @@ NEXT
 [FIXED]
 Fixed prerequisites on HTTP::Server::Simple on Windows.
 
+DNS checks in t/autocheck.t improved.
+
 [DOCUMENTATION]
 Improvements to the docs explaining explicitly about the subclassed
 methods we inherit from LWP::UserAgent.  Thanks, Lyle Hopkins!
