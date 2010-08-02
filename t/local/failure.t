@@ -7,22 +7,25 @@ use Test::More;
 use lib 't/local';
 use LocalServer;
 
-BEGIN {
-    if (gethostbyname('blahblahblah.xx-only-testing.')) {
-        plan skip_all => 'Found an A record for the non-existent domain';
-    }
-    plan tests => 15;
-}
 
 BEGIN {
     delete @ENV{ grep { lc eq 'http_proxy' } keys %ENV };
     delete @ENV{ qw( IFS CDPATH ENV BASH_ENV ) };
-    use_ok( 'WWW::Mechanize' );
 }
 
+my $NONEXISTENT = 'blahblahblah.xx-only-testing.foo';
+my @results = gethostbyname( $NONEXISTENT );
+if ( @results ) {
+    my ($name,$aliases,$addrtype,$length,@addrs) = @results;
+    my $ip = join( '.', unpack('W4',$addrs[0]) );
+    plan skip_all => "Your ISP is overly helpful and returns $ip for non-existent domain $NONEXISTENT. This test cannot be run.";
+}
+my $bad_url = "http://$NONEXISTENT/";
+
+plan tests => 15;
+require_ok( 'WWW::Mechanize' );
 my $server = LocalServer->spawn;
 isa_ok( $server, 'LocalServer' );
-
 
 my $mech = WWW::Mechanize->new( autocheck => 0 );
 isa_ok( $mech, 'WWW::Mechanize', 'Created object' );
@@ -42,8 +45,8 @@ GOOD_PAGE: {
 }
 
 BAD_PAGE: {
-    my $badurl = "http://blahblahblah.xx-only-testing.";
-    $mech->get( $badurl );
+    my $bad_url = "http://$NONEXISTENT/";
+    $mech->get( $bad_url );
 
     ok( !$mech->success, 'Failed the fetch' );
     ok( !$mech->is_html, "Isn't HTML" );

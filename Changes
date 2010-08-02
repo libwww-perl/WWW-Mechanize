@@ -14,7 +14,8 @@ NEXT
 [FIXED]
 Fixed prerequisites on HTTP::Server::Simple on Windows.
 
-DNS checks in t/autocheck.t improved.
+DNS checks in t/autocheck.t and t/local/failure.t improved.  Thanks,
+Schwern.
 
 [DOCUMENTATION]
 Improvements to the docs explaining explicitly about the subclassed
