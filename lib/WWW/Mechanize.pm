@@ -1852,6 +1852,11 @@ If no form is selected, the first form found is used.
 
 If I<button> is not passed, then the C<L</submit()>> method is used instead.
 
+If you want to submit a file and get its content from a scalar rather
+than a file in the filesystem, you can use:
+
+    $mech->submit_form(with_fields => { logfile => [ [ undef, 'whatever', Content => $content ], 1 ] } );
+
 Returns an L<HTTP::Response> object.
 
 =cut
