@@ -17,6 +17,11 @@ Fixed prerequisites on HTTP::Server::Simple on Windows.
 DNS checks in t/autocheck.t and t/local/failure.t improved.  Thanks,
 Schwern.
 
+[ENHANCEMENTS]
+New $mech->text method returns the text from your HTML page.  The
+exact rendering of this text is simply removing all the HTML
+tags, but this may change.
+
 [DOCUMENTATION]
 Improvements to the docs explaining explicitly about the subclassed
 methods we inherit from LWP::UserAgent.  Thanks, Lyle Hopkins!

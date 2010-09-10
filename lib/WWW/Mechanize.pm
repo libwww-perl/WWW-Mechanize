@@ -630,7 +630,12 @@ sub content {
         }
 
         if ( my $format = delete $parms{format} ) {
-            $content = $self->_format_content( $format, $content );
+            if ( $format eq 'text' ) {
+                $content = $self->text;
+            }
+            else {
+                $self->die( qq{Unknown "format" parameter "$format"} );
+            }
         }
 
         $self->_check_unhandled_parms( %parms );
@@ -639,32 +644,31 @@ sub content {
     return $content;
 }
 
-sub _format_content {
+=head2 $mech->text()
+
+Returns the text of the current HTML content.  If the content isn't
+HTML, $mech will die.
+
+The text is extracted by parsing the content, and then the extracted
+text is cached, so don't worry about performance of calling this
+repeatedly.
+
+=cut
+
+sub text {
     my $self = shift;
-    my $format = shift;
-    my $content = shift;
 
-    if ( $format eq 'text' ) {
-        return $self->_content_as_text($content);
+    if ( not defined $self->{text} ) {
+        require HTML::TreeBuilder;
+        my $tree = HTML::TreeBuilder->new();
+        $tree->parse( $self->content );
+        $tree->eof();
+        $tree->elementify(); # just for safety
+        $self->{text} = $tree->as_text();
+        $tree->delete;
     }
-    else {
-        $self->die( qq{Unknown "format" parameter "$format"} );
-    }
-}
 
-sub _content_as_text {
-    my $self = shift;
-    my $content = shift;
-
-    require HTML::TreeBuilder;
-    my $tree = HTML::TreeBuilder->new();
-    $tree->parse($content);
-    $tree->eof();
-    $tree->elementify(); # just for safety
-    my $formatted_content = $tree->as_text();
-    $tree->delete;
-
-    return $formatted_content;
+    return $self->{text};
 }
 
 sub _check_unhandled_parms {
@@ -2258,8 +2262,6 @@ sub update_html {
     $self->{ct} = 'text/html';
     $self->{content} = $html;
 
-    $self->_reset_page();
-
     return;
 }
 
@@ -2515,6 +2517,7 @@ sub _reset_page {
     $self->{forms}        = undef;
     $self->{current_form} = undef;
     $self->{title}        = undef;
+    $self->{text}         = undef;
 
     return;
 }
