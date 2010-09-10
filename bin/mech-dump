@@ -25,11 +25,12 @@ my $cookie_filename;
 GetOptions(
     'user=s'        => \$user,
     'password=s'    => \$pass,
-    headers         => sub { push( @actions, \&dump_headers ); },
-    forms           => sub { push( @actions, \&dump_forms ); },
-    links           => sub { push( @actions, \&dump_links ); },
-    images          => sub { push( @actions, \&dump_images ); },
-    all             => sub { push( @actions, \&dump_headers, \&dump_forms, \&dump_links, \&dump_images ); },
+    headers         => sub { push( @actions, \&dump_headers ) },
+    forms           => sub { push( @actions, \&dump_forms ) },
+    links           => sub { push( @actions, \&dump_links ) },
+    images          => sub { push( @actions, \&dump_images ) },
+    all             => sub { push( @actions, \&dump_headers, \&dump_forms, \&dump_links, \&dump_images ) },
+    text            => sub { push( @actions, \&dump_text ) },
     absolute        => \$absolute,
     'agent=s'       => \$agent,
     'agent-alias=s' => \$agent_alias,
@@ -48,6 +49,8 @@ Options:
     --links                Dump table of links
     --images               Dump table of images
     --all                  Dump all four of the above, in that order
+
+    --text                 Dumps the textual part of the web page
 
     --user=user            Set the username
     --password=pass        Set the password
@@ -135,6 +138,12 @@ sub dump_links {
 sub dump_images {
     my $mech = shift;
     $mech->dump_images( undef, $absolute );
+    return;
+}
+
+sub dump_text {
+    my $mech = shift;
+    $mech->dump_text();
     return;
 }
 

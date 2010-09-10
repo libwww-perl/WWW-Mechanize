@@ -36,7 +36,6 @@ LocalServer	t/local/LocalServer.pm	/^package LocalServer;$/;"	p
 MY	Makefile.PL	/^sub MY::postamble {$/;"	s
 MyMech	t/local/overload.t	/^    package MyMech;$/;"	p
 NEW_API	t/link.t	/^NEW_API: {$/;"	l
-NONEXISTENT	t/autocheck.t	/^use constant NONEXISTENT => 'http:\/\/blahblablah.xx-nonexistent.';$/;"	c
 NON_REGEX_STRING	t/find_link-warnings.t	/^NON_REGEX_STRING: {$/;"	l
 NO_AGENT	t/new.t	/^NO_AGENT: {$/;"	l
 NO_BASE	t/link-base.t	/^NO_BASE: {$/;"	l
@@ -74,11 +73,10 @@ WWW::Mechanize::Link	lib/WWW/Mechanize/Link.pm	/^package WWW::Mechanize::Link;$/
 _SUPER_put	lib/WWW/Mechanize.pm	/^sub _SUPER_put {$/;"	s
 _check_unhandled_parms	lib/WWW/Mechanize.pm	/^sub _check_unhandled_parms {$/;"	s
 _clean_keys	lib/WWW/Mechanize.pm	/^sub _clean_keys {$/;"	s
-_content_as_text	lib/WWW/Mechanize.pm	/^sub _content_as_text {$/;"	s
 _die	lib/WWW/Mechanize.pm	/^sub _die {$/;"	s
+_extract_forms	lib/WWW/Mechanize.pm	/^sub _extract_forms {$/;"	s
 _extract_images	lib/WWW/Mechanize.pm	/^sub _extract_images {$/;"	s
 _extract_links	lib/WWW/Mechanize.pm	/^sub _extract_links {$/;"	s
-_format_content	lib/WWW/Mechanize.pm	/^sub _format_content {$/;"	s
 _image_from_token	lib/WWW/Mechanize.pm	/^sub _image_from_token {$/;"	s
 _is_tainted	lib/WWW/Mechanize.pm	/^sub _is_tainted {$/;"	s
 _link_from_token	lib/WWW/Mechanize.pm	/^sub _link_from_token {$/;"	s
@@ -111,18 +109,23 @@ credentials	lib/WWW/Mechanize.pm	/^sub credentials {$/;"	s
 creds_required	t/local/LocalServer.pm	/^sub creds_required {$/;"	s
 critic	Makefile.PL	/^critic:$/;"	l
 ct	lib/WWW/Mechanize.pm	/^sub ct {            my $self = shift; return $self->{ct}; }$/;"	s
-current_form	lib/WWW/Mechanize.pm	/^sub current_form {  my $self = shift; return $self->{form}; }$/;"	s
+current_form	lib/WWW/Mechanize.pm	/^sub current_form {$/;"	s
 delete_header	lib/WWW/Mechanize.pm	/^sub delete_header {$/;"	s
 die	lib/WWW/Mechanize.pm	/^sub die {$/;"	s
-dump_all	lib/WWW/Mechanize.pm	/^sub dump_all {$/;"	s
 dump_forms	bin/mech-dump	/^sub dump_forms {$/;"	s
+dump_forms	bin/mech-dump.orig	/^sub dump_forms {$/;"	s
 dump_forms	lib/WWW/Mechanize.pm	/^sub dump_forms {$/;"	s
 dump_headers	bin/mech-dump	/^sub dump_headers {$/;"	s
+dump_headers	bin/mech-dump.orig	/^sub dump_headers {$/;"	s
 dump_headers	lib/WWW/Mechanize.pm	/^sub dump_headers {$/;"	s
 dump_images	bin/mech-dump	/^sub dump_images {$/;"	s
+dump_images	bin/mech-dump.orig	/^sub dump_images {$/;"	s
 dump_images	lib/WWW/Mechanize.pm	/^sub dump_images {$/;"	s
 dump_links	bin/mech-dump	/^sub dump_links {$/;"	s
+dump_links	bin/mech-dump.orig	/^sub dump_links {$/;"	s
 dump_links	lib/WWW/Mechanize.pm	/^sub dump_links {$/;"	s
+dump_text	bin/mech-dump	/^sub dump_text {$/;"	s
+dump_text	lib/WWW/Mechanize.pm	/^sub dump_text {$/;"	s
 field	lib/WWW/Mechanize.pm	/^sub field {$/;"	s
 find_all_images	lib/WWW/Mechanize.pm	/^sub find_all_images {$/;"	s
 find_all_inputs	lib/WWW/Mechanize.pm	/^sub find_all_inputs {$/;"	s
@@ -183,6 +186,7 @@ success	lib/WWW/Mechanize.pm	/^sub success {$/;"	s
 tag	lib/WWW/Mechanize/Image.pm	/^sub tag     { return ($_[0])->{tag}; }$/;"	s
 tag	lib/WWW/Mechanize/Link.pm	/^sub tag   { return ($_[0])->[3]; }$/;"	s
 tags	Makefile.PL	/^tags:$/;"	l
+text	lib/WWW/Mechanize.pm	/^sub text {$/;"	s
 text	lib/WWW/Mechanize/Link.pm	/^sub text  { return ($_[0])->[1]; }$/;"	s
 tick	lib/WWW/Mechanize.pm	/^sub tick {$/;"	s
 title	lib/WWW/Mechanize.pm	/^sub title {$/;"	s

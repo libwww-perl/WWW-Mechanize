@@ -2126,23 +2126,19 @@ sub dump_forms {
     return;
 }
 
-=head2 $mech->dump_all( [[$fh], $absolute] )
+=head2 $mech->dump_text( [$fh] )
 
-Prints a dump of all links, images and forms on the current page to
-I<$fh>.  If I<$fh> is not specified or is undef, it dumps to STDOUT.
-
-If I<$absolute> is true, links displayed are absolute, not relative.
+Prints a dump of the text on the current page to I<$fh>.  If I<$fh>
+is not specified or is undef, it dumps to STDOUT.
 
 =cut
 
-sub dump_all {
+sub dump_text {
     my $self = shift;
     my $fh = shift || \*STDOUT;
     my $absolute = shift;
 
-    $self->dump_links( $fh, $absolute );
-    $self->dump_images( $fh, $absolute );
-    $self->dump_forms( $fh, $absolute );
+    print {$fh} $self->text, "\n";
 
     return;
 }

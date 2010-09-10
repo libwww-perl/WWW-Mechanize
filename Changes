@@ -20,7 +20,9 @@ Schwern.
 [ENHANCEMENTS]
 New $mech->text method returns the text from your HTML page.  The
 exact rendering of this text is simply removing all the HTML
-tags, but this may change.
+tags, but this will change. It's pretty ugly.
+
+Added mech-dump --text.
 
 [DOCUMENTATION]
 Improvements to the docs explaining explicitly about the subclassed
