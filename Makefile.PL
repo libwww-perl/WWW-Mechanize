@@ -37,6 +37,7 @@ my $parms = {
         'HTML::HeadParser'          => 0,
         'HTML::Parser'              => 3.33,
         'HTML::TokeParser'          => 2.28,
+        'HTML::TreeBuilder'         => 0,
         'HTTP::Daemon'              => 0,
         'HTTP::Request'             => 1.30,
         'HTTP::Server::Simple'      => 0.35,

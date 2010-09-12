@@ -8,6 +8,11 @@ http://code.google.com/p/www-mechanize/issues/list
 Mech now has its own mailing list at Google Groups:
 http://groups.google.com/group/www-mechanize-users
 
+NEXT
+========================================
+[FIXED]
+Added prereq for HTML::TreeBuilder.
+
 
 1.66        Fri Sep 10 16:25:44 CDT 2010
 ========================================
