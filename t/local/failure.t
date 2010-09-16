@@ -17,7 +17,7 @@ my $NONEXISTENT = 'blahblahblah.xx-only-testing.foo';
 my @results = gethostbyname( $NONEXISTENT );
 if ( @results ) {
     my ($name,$aliases,$addrtype,$length,@addrs) = @results;
-    my $ip = join( '.', unpack('W4',$addrs[0]) );
+    my $ip = join( '.', unpack('C4',$addrs[0]) );
     plan skip_all => "Your ISP is overly helpful and returns $ip for non-existent domain $NONEXISTENT. This test cannot be run.";
 }
 my $bad_url = "http://$NONEXISTENT/";
