@@ -1,15 +1,17 @@
 Revision history for WWW::Mechanize
 
-Please note that WWW::Mechanize and Test::WWW::Mechanize are no
-longer using rt.cpan.org for bug tracking.  They are now being
-tracked via Google Code at
-http://code.google.com/p/www-mechanize/issues/list
-
 Mech now has its own mailing list at Google Groups:
 http://groups.google.com/group/www-mechanize-users
 
-NEXT
+1.67_01
 ========================================
+[ANNOUNCE]
+As of this release, Jesse Vincent has taken over maintenance of
+WWW-Mechanize.  The project's repository can be found at:
+
+ https://github.com/bestpractical/www-mechanize
+
+
 [FIXED]
 Added prereq for HTML::TreeBuilder.
 

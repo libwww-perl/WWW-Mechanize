@@ -26,7 +26,7 @@ my $parms = {
     NAME            => 'WWW::Mechanize',
     VERSION_FROM    => 'lib/WWW/Mechanize.pm', # finds $VERSION
     ABSTRACT_FROM   => 'lib/WWW/Mechanize.pm', # retrieve abstract from module
-    AUTHOR          => 'Andy Lester <andy@petdance.com>',
+    AUTHOR          => 'Jesse Vincent <jesse@bestpractical.com>',
     EXE_FILES       => [ 'bin/mech-dump' ],
     PREREQ_PM       => {
         'Carp'                      => 0,
@@ -63,9 +63,9 @@ if ( $ExtUtils::MakeMaker::VERSION ge '6.45_01' ) {
     $parms->{META_MERGE} = {
         resources => {
             license     => 'http://dev.perl.org/licenses/',
-            homepage    => 'http://code.google.com/p/www-mechanize/',
+            homepage    => 'https://github.com/bestpractical/www-mechanize',
             bugtracker  => 'http://code.google.com/p/www-mechanize/issues/list',
-            Repository  => 'http://code.google.com/p/www-mechanize/source',
+            Repository  => 'https://github.com/bestpractical/www-mechanize',
             MailingList => 'http://groups.google.com/group/www-mechanize-users',
         }
     };
