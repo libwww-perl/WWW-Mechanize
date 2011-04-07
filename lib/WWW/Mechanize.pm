@@ -2751,17 +2751,13 @@ sub _die {
 
 __END__
 
-=head1 REQUESTS & BUGS
+=head1 WWW::MECHANIZE'S GIT REPOSITORY
 
-The bug queue for WWW::Mechanize and Test::WWW::Mechanize is at
-L<http://code.google.com/p/www-mechanize/issues/list>.  Please do
-not add any tickets to the old queue at L<http://rt.cpan.org/>.
+WWW::Mechanize is hosted at GitHub, though the bug tracker still
+lives at Google Code.
 
-=head1 WWW::MECHANIZE'S SUBVERSION REPOSITORY
-
-Mech and Test::WWW::Mechanize are both hosted at Google Code:
-http://code.google.com/p/www-mechanize/.  The Subversion repository
-is at http://www-mechanize.googlecode.com/svn/wm/.
+Repository: https://github.com/bestpractical/www-mechanize/.  
+Bugs: http://code.google.com/p/www-mechanize/issues
 
 =head1 OTHER DOCUMENTATION
 
