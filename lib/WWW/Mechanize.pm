@@ -1611,9 +1611,12 @@ sub set_visible {
 =head2 $mech->tick( $name, $value [, $set] )
 
 "Ticks" the first checkbox that has both the name and value associated
-with it on the current form.  Dies if there is no named check box for
-that value.  Passing in a false value as the third optional argument
-will cause the checkbox to be unticked.
+with it on the current form.  If there is no value to the input, just
+pass an empty string or undef as the value.  Dies if there is no named
+checkbox for the value given, if a value is given.  Passing in a false
+value as the third optional argument will cause the checkbox to be
+unticked.  The third value does not need to be set if you wish to
+merely tick the box.
 
 =cut
 
@@ -1626,6 +1629,13 @@ sub tick {
     # loop though all the inputs
     my $index = 0;
     while ( my $input = $self->current_form->find_input( $name, 'checkbox', $index ) ) {
+        # Sometimes the HTML is malformed and there is no value for the check
+        # box, so we just return if the value passed is an empty string
+        # (and the form input is found)
+        if ($value eq '') {
+            $input->value($set ? $value : undef);
+            return;
+        }
         # Can't guarantee that the first element will be undef and the second
         # element will be the right name
         foreach my $val ($input->possible_values()) {
