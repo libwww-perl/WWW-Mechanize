@@ -1612,11 +1612,11 @@ sub set_visible {
 
 "Ticks" the first checkbox that has both the name and value associated
 with it on the current form.  If there is no value to the input, just
-pass an empty string or undef as the value.  Dies if there is no named
-checkbox for the value given, if a value is given.  Passing in a false
-value as the third optional argument will cause the checkbox to be
-unticked.  The third value does not need to be set if you wish to
-merely tick the box.
+pass an empty string as the value.  Dies if there is no named checkbox
+for the value given, if a value is given.  Passing in a false value
+as the third optional argument will cause the checkbox to be unticked.
+The third value does not need to be set if you wish to merely tick the
+box.
 
 =cut
 
