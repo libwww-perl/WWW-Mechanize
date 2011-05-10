@@ -559,7 +559,11 @@ sub status {        my $self = shift; return $self->{status}; }
 sub ct {            my $self = shift; return $self->{ct}; }
 sub content_type {  my $self = shift; return $self->{ct}; }
 sub base {          my $self = shift; return $self->{base}; }
-sub is_html {       my $self = shift; return defined $self->ct && ($self->ct eq 'text/html'); }
+sub is_html {
+    my $self = shift; 
+    return defined $self->ct && 
+        ($self->ct eq 'text/html' || $self->ct eq 'application/xhtml+xml');
+}
 
 =head2 $mech->title()
 
