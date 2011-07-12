@@ -100,8 +100,8 @@ you can also use any of L<LWP::UserAgent>'s methods.
 
     $mech->add_header($name => $value);
 
-Please note that Mech does NOT support JavaScript.  Please check the
-FAQ in WWW::Mechanize::FAQ for more.
+Please note that Mech does NOT support JavaScript, you need additional software
+for that. Please check L<WWW::Mechanize::FAQ/"JavaScript"> for more.
 
 =head1 IMPORTANT LINKS
 
