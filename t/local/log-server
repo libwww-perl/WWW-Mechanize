@@ -4,19 +4,35 @@ use strict;
 use HTTP::Daemon;
 use CGI;
 use encoding 'iso-8859-1';
+use Getopt::Long;
+use vars qw($VERSION);
+$VERSION = '0.55';
 
 $|++;
 
-my $d = HTTP::Daemon->new or die;
-print $d->url, "\n";
+GetOptions(
+    'e=s' => \my $expression,
+);
+
+my $host = 'localhost';
+my $d = HTTP::Daemon->new(
+    LocalAddr => $host,
+) or die;
+
+# HTTP::Deamon doesn't return http://localhost:.../
+# for LocalAddr => 'localhost'. This causes the
+# tests to fail of many machines.
+( my $url = URI->new($d->url) )->host($host);
+print "$url\n";
 
 my ($filename,$logfile) = @ARGV[0,1];
 if ($filename) {
   open DATA, "< $filename"
     or die "Couldn't read page '$filename' : $!\n";
 };
-open LOG, ">", $logfile
-  or die "Couldn't create logfile '$logfile' : $!\n";
+#open LOG, ">", $logfile
+#  or die "Couldn't create logfile '$logfile' : $!\n";
+my $log;
 binmode DATA,':encoding(iso-8859-1)';
 my $body = join "", <DATA>;
 
@@ -32,7 +48,6 @@ SERVERLOOP: {
   while (my $c = $d->accept) {
     debug "New connection";
     while (my $r = $c->get_request) {
-      print LOG "Request:\n" . $r->as_string . "\n";
       debug "Request:\n" . $r->as_string;
       my $location = ($r->uri->path || "/");
       my ($link1,$link2) = ('','');
@@ -40,33 +55,87 @@ SERVERLOOP: {
         ($link1,$link2) = ($1,$2);
       };
       my $res;
-      if ($location =~ m!^/redirect/(.*)$!) {
-        $res = HTTP::Response->new(302);
-				$res->header('location', $d->url . $1);
+      if ($location eq '/get_server_log') {
+        $res = HTTP::Response->new(200, "OK", undef, $log);
+        $log = '';
+      } elsif ( $location eq '/quit_server') {
+        debug "Quitting";
+        $res = HTTP::Response->new(200, "OK", [Connection => 'close'], "quit");
+        $quitserver = 1;
       } else {
-        my $q = CGI->new($r->uri->query);
+        eval $expression
+            if $expression;
+        warn "eval: $@" if $@;
+        $log .= "Request:\n" . $r->as_string . "\n";
+        if ($location =~ m!^/redirect/(.*)$!) {
+            $res = HTTP::Response->new(302);
+            $res->header('location', $d->url . $1);
+        } elsif ($location =~ m!^/error/notfound/(.*)$!) {
+            $res = HTTP::Response->new(404, "Not found", [Connection => 'close']);
+        } elsif ($location =~ m!^/error/timeout/(\d+)$!) {
+            sleep $1;
+            $res = HTTP::Response->new(599, "Timeout reached", [Connection => 'close']);
+        } elsif ($location =~ m!^/error/close/(\d+)$!) {
+            sleep $1;
+            $res = undef;
+        } elsif ( $location =~ m!^/chunks!) {
+            my $count = 5;
+            $res = HTTP::Response->new(200, "OK", undef, sub {
+               sleep 1;
+               my $buf = 'x' x 16;
+               return $buf if $count-- > 0;
+               return undef; # done
+            });
+        } elsif ($location =~ m!^/error/after_headers$!) {
+            my $count = 2;
+            $res = HTTP::Response->new(200, "OK", undef, sub {
+               sleep 1;
+               my $buf = 'x' x 16;
+               return $buf if $count-- > 0;
+               die "Planned error after headers";
+            });
+        } else {
+            my $q = CGI->new($r->uri->query);
 
-        # Make sticky form fields
-        my ($query,$session,%cat);
-        $query = defined $q->param('query') ? $q->param('query') : "(empty)";
-        $session = defined $q->param('session') ? $q->param('session') : 1;
-        %cat = map { $_ => 1 } (defined $q->param('cat') ? $q->param('cat') : qw( cat_foo cat_bar ));
-        my @categories = map { $cat{$_} ? "checked" : "" } qw( cat_foo cat_bar cat_baz );
-        $res = HTTP::Response->new(200, "OK", undef, sprintf($body,$location,$session,$query,@categories));
-        $res->content_type('text/html; charset=utf8');
-        debug "Request " . ($r->uri->path || "/");
-        if ( $location eq '/quit_server') {
-          debug "Quitting";
-          $c->force_last_request;
-          $quitserver = 1;
-          close LOG;
+            # Make sticky form fields
+            my ($query,$session,%cat);
+            $query = defined $q->param('query') ? $q->param('query') : "(empty)";
+            $session = defined $q->param('session') ? $q->param('session') : 1;
+            %cat = map { $_ => 1 } (defined $q->param('cat') ? $q->param('cat') : qw( cat_foo cat_bar ));
+            my @categories = map { $cat{$_} ? "checked" : "" } qw( cat_foo cat_bar cat_baz );
+            (my $h = $r->headers->{host}) =~ s/:\d+//;
+            my $rbody = sprintf $body,$location,$session,$query,@categories;
+            $res = HTTP::Response->new(200, "OK", [
+                  "Set-Cookie" => $q->cookie(-name => 'log-server',-value=>'shazam2', -discard=>1,),
+                  'Cache-Control' => 'no-cache',
+                  'Pragma' => 'no-cache',
+                  'Max-Age' => 0,
+                  'Connection' => 'close',
+                  'Content-Length' => length($rbody),
+              ], $rbody);
+            $res->content_type('text/html');
+            debug "Request " . ($r->uri->path || "/");
         };
       };
-      debug "Response:\n" . $res->as_string;
-      $c->send_response($res);
+      debug "Response:\n" . $res->as_string
+          if $res;
+      eval {
+        $c->send_response($res)
+            if $res;
+      };
+      if (my $err = $@) {
+          debug "Server raised error: $err";
+          if ($err !~ /^Planned error\b/) {
+              warn $err;
+          };
+          $c->close;
+      };
+      if (! $res) {
+          $c->close;
+      };
       last if $quitserver;
     }
-    $c->close;
+    sleep 1;
     undef($c);
     last SERVERLOOP
       if $quitserver;
@@ -77,7 +146,7 @@ END { debug "Server stopped" };
 __DATA__
 <html>
 <head>
-<title>WWW::Mechanize::Shell test page</title>
+<title>WWW::Mechanize test page</title>
 </head>
 <body>
 <h1>Location: %s</h1>

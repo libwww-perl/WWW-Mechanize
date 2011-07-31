@@ -31,13 +31,13 @@ FIRST_GET: {
     isa_ok( $r, 'HTTP::Response' );
     ok( $r->is_success, 'Get google webpage');
     ok( $agent->is_html, 'Valid HTML' );
-    is( $agent->title, 'WWW::Mechanize::Shell test page' );
+    is( $agent->title, 'WWW::Mechanize test page' );
 }
 
 INVALIDATE: {
     undef $agent->{content};
     undef $agent->{ct};
-    isnt( $agent->title, 'WWW::Mechanize::Shell test page' );
+    isnt( $agent->title, 'WWW::Mechanize test page' );
     ok( !$agent->is_html, 'Not HTML' );
 }
 
@@ -45,7 +45,7 @@ RELOAD: {
     my $r = $agent->reload;
     isa_ok( $r, 'HTTP::Response' );
     ok( $agent->is_html, 'Valid HTML' );
-    ok( $agent->title, 'WWW::Mechanize::Shell test page' );
+    ok( $agent->title, 'WWW::Mechanize test page' );
 }
 
 SKIP: {

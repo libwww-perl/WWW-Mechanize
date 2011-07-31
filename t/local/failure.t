@@ -36,7 +36,7 @@ GOOD_PAGE: {
     ok( $response->is_success, 'Success' );
     ok( $mech->success, 'Get webpage' );
     ok( $mech->is_html, 'It\'s HTML' );
-    is( $mech->title, 'WWW::Mechanize::Shell test page', 'Correct title' );
+    is( $mech->title, 'WWW::Mechanize test page', 'Correct title' );
 
     my @links = $mech->links;
     is( scalar @links, 10, '10 links, please' );

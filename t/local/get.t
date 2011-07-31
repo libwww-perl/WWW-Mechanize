@@ -28,33 +28,33 @@ ok( $response->is_success, 'Page read OK' );
 ok( $agent->success, "Get webpage" );
 is( $agent->ct, "text/html", "Got the content-type..." );
 ok( $agent->is_html, "... and the is_html wrapper" );
-is( $agent->title, 'WWW::Mechanize::Shell test page', 'Titles match' );
+is( $agent->title, 'WWW::Mechanize test page', 'Titles match' );
 
 $agent->get( '/foo/' );
 ok( $agent->success, 'Got the /foo' );
 is( $agent->uri, sprintf('%sfoo/',$server->url), 'Got relative OK' );
 ok( $agent->is_html,'Got HTML back' );
-is( $agent->title, 'WWW::Mechanize::Shell test page', 'Got the right page' );
+is( $agent->title, 'WWW::Mechanize test page', 'Got the right page' );
 
 $agent->get( '../bar/' );
 ok( $agent->success, 'Got the /bar page' );
 is( $agent->uri, sprintf('%sbar/',$server->url), 'Got relative OK' );
 ok( $agent->is_html, 'is HTML' );
-is( $agent->title, 'WWW::Mechanize::Shell test page', 'Got the right page' );
+is( $agent->title, 'WWW::Mechanize test page', 'Got the right page' );
 
 $agent->get( 'basics.html' );
 ok( $agent->success, 'Got the basics page' );
 is( $agent->uri, sprintf('%sbar/basics.html',$server->url), 'Got relative OK' );
 ok( $agent->is_html, 'is HTML' );
-is( $agent->title, 'WWW::Mechanize::Shell test page', 'Title matches' );
-like( $agent->content, qr/WWW::Mechanize::Shell test page/, 'Got the right page' );
+is( $agent->title, 'WWW::Mechanize test page', 'Title matches' );
+like( $agent->content, qr/WWW::Mechanize test page/, 'Got the right page' );
 
 $agent->get( './refinesearch.html' );
 ok( $agent->success, 'Got the "refine search" page' );
 is( $agent->uri, sprintf('%sbar/refinesearch.html',$server->url), 'Got relative OK' );
 ok( $agent->is_html, 'is HTML' );
-is( $agent->title, 'WWW::Mechanize::Shell test page', 'Title matches' );
-like( $agent->content, qr/WWW::Mechanize::Shell test page/, 'Got the right page' );
+is( $agent->title, 'WWW::Mechanize test page', 'Title matches' );
+like( $agent->content, qr/WWW::Mechanize test page/, 'Got the right page' );
 my $rslength = do {use bytes; length $agent->content};
 
 my $tempfile = './temp';

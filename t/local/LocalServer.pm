@@ -3,7 +3,6 @@ package LocalServer;
 # start a fake webserver, fork, and connect to ourselves
 use warnings;
 use strict;
-use Test::More;
 use LWP::Simple;
 use FindBin;
 use File::Spec;
@@ -11,7 +10,21 @@ use File::Temp;
 use URI::URL qw();
 use Carp qw(carp croak);
 
-=head2 C<< Test::HTTP::LocalServer->spawn %ARGS >>
+use vars qw($VERSION);
+$VERSION = '0.55';
+
+=head1 SYNOPSIS
+
+  use LWP::Simple qw(get);
+  my $server = Test::HTTP::LocalServer->spawn;
+
+  ok get $server->url, "Retrieve " . $server->url;
+
+  $server->stop;
+
+=head1 METHODS
+
+=head2 C<Test::HTTP::LocalServer-E<gt>spawn %ARGS>
 
 This spawns a new HTTP server. The server will stay running until
 C<< $server->stop >> is called.
@@ -20,21 +33,36 @@ Valid arguments are:
 
 =over 4
 
-=item * html
+=item *
 
-scalar containing the page to be served
+C<< html => >> scalar containing the page to be served
 
-=item * file
+=item *
 
-filename containing the page to be served
+C<< file => >> filename containing the page to be served
 
-=item * debug
+=item *
 
-Set to true to make the spawned server output debug information
+C<<  debug => 1 >> to make the spawned server output debug information
+
+=item *
+
+C<<  eval => >> string that will get evaluated per request in the server
+
+Try to avoid characters that are special to the shell, especially quotes.
+A good idea for a slow server would be
+
+  eval => sleep+10
 
 =back
 
 All served HTML will have the first %s replaced by the current location.
+
+The following entries will be removed from C<%ENV>:
+
+    HTTP_PROXY
+    http_proxy
+    CGI_HTTP_PROXY
 
 =cut
 
@@ -44,7 +72,10 @@ sub spawn {
   bless $self,$class;
 
   local $ENV{TEST_HTTP_VERBOSE};
-  $ENV{TEST_HTTP_VERBOSE} = 1 if delete $args{debug};
+  $ENV{TEST_HTTP_VERBOSE} = 1
+    if (delete $args{debug});
+
+  delete @ENV{qw(HTTP_PROXY http_proxy CGI_HTTP_PROXY)};
 
   $self->{delete} = [];
   if (my $html = delete $args{html}) {
@@ -61,28 +92,27 @@ sub spawn {
   close $fh;
   push @{$self->{delete}},$logfile;
   $self->{logfile} = $logfile;
-  my $web_page = delete $args{file};
-  if (defined $web_page) {
-    $web_page = qq{"$web_page"}
-  } else {
-    $web_page = "";
-  };
+  my $web_page = delete $args{file} || "";
 
   my $server_file = File::Spec->catfile( $FindBin::Bin,'log-server' );
+  my @opts;
+  push @opts, "-e" => qq{"} . delete($args{ eval }) . qq{"}
+      if $args{ eval };
 
-  open my $server, qq'$^X "$server_file" "$web_page" "$logfile" |'
-    or die "Couldn't spawn fake server $server_file : $!";
+  my $pid = open my $server, qq'$^X "$server_file" "$web_page" "$logfile" @opts|'
+    or croak "Couldn't spawn local server $server_file : $!";
   my $url = <$server>;
   chomp $url;
-  die "Couldn't find fake server url" unless $url;
+  die "Couldn't read back local server url"
+      unless $url;
 
-  $self->{_fh} = $server;
-
+  # What is this code supposed to fix?
   my $lhurl = URI::URL->new( $url );
   $lhurl->host( 'localhost' );
   $self->{_server_url} = $lhurl;
-
-  diag "Started $lhurl";
+  
+  $self->{_fh} = $server;
+  $self->{_pid} = $pid;
 
   $self;
 };
@@ -103,32 +133,14 @@ sub port {
 =head2 C<< $server->url >>
 
 This returns the url where you can contact the server. This url
-is valid until you call
-C<< $server->stop >>
-or
-C<< $server->get_output >>
+is valid until the C<$server> goes out of scope or you call
+C<< $server->stop >> or C<< $server->get_log >>.
 
 =cut
 
 sub url {
-  my $url = $_[0]->{_server_url}->abs;
-
-  return $url->as_string;
+  $_[0]->{_server_url}->abs->as_string
 };
-
-=head2 C<< $server->creds_required >>
-
-This returns a URL for a page that requires HTTP Basic-Auth.  The
-content returned is invariant and irrelevant; this method is for
-testing credential-passing code.  The username is 'luser' and the
-password is 'fnord'.  When these credentials are passed, the returned
-status will be 200, otherwise it will be 401.
-
-=cut
-
-sub creds_required {
-  return $_[0]->{_server_url} . 'creds_required';
-}
 
 =head2 C<< $server->stop >>
 
@@ -138,11 +150,29 @@ url.
 =cut
 
 sub stop {
-  get( $_[0]->{_server_url} . 'quit_server' );
-  undef $_[0]->{_server_url}
+    my ($self) = @_;
+    get( $self->quit_server );
+    undef $self->{_server_url};
+    if ( $self->{_fh} ) {
+        close $self->{_fh};
+        delete $self->{_fh};
+    }
 };
 
-=head2 C<< $server->get_output >>
+=head2 C<< $server->kill >>
+
+This kills the server process via C<kill>. The log
+cannot be retrieved then.
+
+=cut
+
+sub kill {
+  CORE::kill( 9 => $_[0]->{ _pid } );
+  undef $_[0]->{_server_url};
+  undef $_[0]->{_pid};
+};
+
+=head2 C<< $server->get_log >>
 
 This stops the server by calling C<stop> and then returns the
 output of the server process. This output will be a list of
@@ -151,27 +181,76 @@ as a string.
 
 =cut
 
-sub get_output {
+sub get_log {
   my ($self) = @_;
+  
+  my $log = get( $self->get_server_log );
   $self->stop;
-  local $/;
-  local *LOG;
-  open LOG, '<', $self->{logfile}
-    or die "Couldn't retrieve logfile";
-  return join "", <LOG>;
-}
+  return $log;
+};
 
 sub DESTROY {
-    my $self = shift;
-    $self->stop if $self->{_server_url};
-    if ( $self->{_fh} ) {
-        close $self->{_fh};
-        delete $self->{_fh};
-    }
-    for my $file ( @{$self->{delete}} ) {
-        unlink $file or warn "Couldn't remove tempfile $file : $!\n";
-    }
-}
+  $_[0]->stop if $_[0]->{_server_url};
+  for my $file (@{$_[0]->{delete}}) {
+    unlink $file or warn "Couldn't remove tempfile $file : $!\n";
+  };
+};
+
+=head1 URLs implemented by the server
+
+=head2 302 redirect C<< $server->redirect($target) >>
+
+This URL will issue a redirect to C<$target>. No special care is taken
+towards URL-decoding C<$target> as not to complicate the server code.
+You need to be wary about issuing requests with escaped URL parameters.
+
+=head2 404 error C<< $server->error_notfound($target) >>
+
+This URL will response with status code 404.
+
+=head2 Timeout C<< $server->error_timeout($seconds) >>
+
+This URL will send a 599 error after C<$seconds> seconds.
+
+=head2 Timeout+close C<< $server->error_close($seconds) >>
+
+This URL will send nothing and close the connection after C<$seconds> seconds.
+
+=head2 Error in response content C<< $server->error_after_headers >>
+
+This URL will send headers for a successfull response but will close the
+socket with an error after 2 blocks of 16 spaces have been sent.
+
+=head2 Chunked response C<< $server->chunked >>
+
+This URL will return 5 blocks of 16 spaces at a rate of one block per second
+in a chunked response.
+
+=head2 Other URLs
+
+All other URLs will echo back the cookies and query parameters.
+
+=cut
+
+use vars qw(%urls);
+%urls = (
+    'quit_server' => 'quit_server',
+    'get_server_log' => 'get_server_log',
+    'redirect' => 'redirect/%s',
+    'error_notfound' => 'error/notfound/%s',
+    'error_timeout' => 'error/timeout/%s',
+    'error_close' => 'error/close/%s',
+    'error_after_headers' => 'error/after_headers',
+    'chunked' => 'chunks',
+);
+for (keys %urls) {
+    no strict 'refs';
+    my $name = $_;
+    *{ $name } = sub {
+        my $self = shift;
+        $self->url . sprintf $urls{ $name }, @_;
+    };
+};
 
 =head1 EXPORT
 
@@ -181,7 +260,7 @@ None by default.
 
 This library is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
 
-Copyright (C) 2003 Max Maischein
+Copyright (C) 2003-2011 Max Maischein
 
 =head1 AUTHOR
 
@@ -191,7 +270,7 @@ Please contact me if you find bugs or otherwise improve the module. More tests a
 
 =head1 SEE ALSO
 
-L<WWW::Mechanize>,L<WWW::Mechanize::Shell>
+L<WWW::Mechanize>,L<WWW::Mechanize::Shell>,L<WWW::Mechanize::Firefox>
 
 =cut
 
