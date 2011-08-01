@@ -1,8 +1,7 @@
 # auto-generated shipit config file.
-steps = FindVersion, ChangeVersion, CheckChangeLog, DistTest, Commit, Tag, MakeDist, UploadCPAN, Twitter
+steps = FindVersion, ChangeVersion, CheckChangeLog, DistTest, Commit, Tag, MakeDist, UploadCPAN
 
 git.tagpattern = %v
-twitter.config = ~/.twitterrc
 
 # svn.tagpattern = MyProj-%v
 # svn.tagpattern = http://code.example.com/svn/tags/MyProj-%v

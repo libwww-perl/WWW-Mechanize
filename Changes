@@ -5,6 +5,9 @@ http://groups.google.com/group/www-mechanize-users
 
 [CHANGES]
 
+1.69_01
+========================================
+[INTERNALS]
 The test suite for the local tests was updated
 
 1.68        Fri Apr 22 01:10:40 EST 2011
