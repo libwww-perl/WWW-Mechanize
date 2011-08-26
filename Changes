@@ -5,6 +5,13 @@ http://groups.google.com/group/www-mechanize-users
 
 [CHANGES]
 
+1.70        Fri Aug 26 13:46:30 EDT 2011
+========================================
+[ENHANCEMENTS]
+Mech now defaults to _not_ running live tests by default.
+You can still enable them by running "perl Makefile.PL --live"
+Thanks to RJBS for the suggestion
+
 1.69_01
 ========================================
 [INTERNALS]

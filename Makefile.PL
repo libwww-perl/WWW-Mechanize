@@ -8,7 +8,7 @@ use ExtUtils::MakeMaker qw( WriteMakefile );
 use File::Spec;
 use Getopt::Long;
 
-my $live = 1;
+my $live = 0;
 my $local = 1;
 GetOptions(
     'live!'         => \$live,
