@@ -113,7 +113,11 @@ SERVERLOOP: {
                   'Connection' => 'close',
                   'Content-Length' => length($rbody),
               ], $rbody);
-            $res->content_type('text/html');
+
+            $res->content_type(
+                $q->param('xml') ? 'application/xhtml+xml' : 'text/html'
+            );
+
             debug "Request " . ($r->uri->path || "/");
         };
       };
