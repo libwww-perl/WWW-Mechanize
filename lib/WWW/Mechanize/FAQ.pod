@@ -110,7 +110,7 @@ or get the specs from the environment:
 
 =head2 How can I see what fields are on the forms?
 
-Use the mech-dump utility, optionaly installed with Mechanize.
+Use the mech-dump utility, optionally installed with Mechanize.
 
     $ mech-dump --forms http://search.cpan.org
     Dumping forms
