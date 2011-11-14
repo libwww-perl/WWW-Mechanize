@@ -5,6 +5,18 @@ http://groups.google.com/group/www-mechanize-users
 
 [CHANGES]
 
+1.71        Tue Nov 14 13:50:41 EDT 2011
+========================================
+[ENHANCEMENTS]
+Recognise application/xhtml+xml as HTML.
+
+[DOCUMENTATION]
+Improved docs about support of JavaScript
+Typo fixes.
+
+[TESTS]
+Updated tests as oops-music.com is in utf-8 now
+
 1.70        Fri Aug 26 13:46:30 EDT 2011
 ========================================
 [ENHANCEMENTS]
