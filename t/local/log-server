@@ -94,6 +94,13 @@ SERVERLOOP: {
                return $buf if $count-- > 0;
                die "Planned error after headers";
             });
+        } elsif ($location =~ m!^/encoding/(.*)!) {
+            my $encoding = $1;
+            $res = HTTP::Response->new(
+                200, "OK",
+                [ 'Content-Type' => "text/html; charset=$encoding" ],
+                "encoding $encoding"
+            );
         } else {
             my $q = CGI->new($r->uri->query);
 

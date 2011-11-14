@@ -1,0 +1,23 @@
+#!perl
+
+use warnings;
+use strict;
+use Test::More tests => 5;
+use lib qw( t/local );
+use LocalServer;
+
+BEGIN {
+    delete @ENV{ grep { lc eq 'http_proxy' } keys %ENV };
+    delete @ENV{qw( IFS CDPATH ENV BASH_ENV )};
+    use_ok('WWW::Mechanize');
+}
+
+my $mech = WWW::Mechanize->new();
+isa_ok( $mech, 'WWW::Mechanize' );
+my $server = LocalServer->spawn();
+isa_ok( $server, 'LocalServer' );
+
+my $response = $mech->get( $server->url . 'encoding/euc-jp' );
+ok( $mech->success, 'Fetched OK' );
+is( $response->content_charset(), 'EUC-JP', 'got encoding enc-jp' );
+
