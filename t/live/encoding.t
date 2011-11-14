@@ -8,8 +8,6 @@ use constant PAIRS => {
         => 'utf-8',
     'http://www.liveinternet.ru/users/dashdi/blog'
         => '(?:cp|windows-)1251',
-    'http://oops-music.com/'
-        => 'EUC-JP',
 };
 
 use Test::More tests => (4 * keys %{+PAIRS}) + 1;
