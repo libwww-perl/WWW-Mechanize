@@ -10,8 +10,6 @@ lib/WWW/Mechanize/Link.pm
 Makefile.PL
 MANIFEST			This list of files
 MANIFEST.SKIP
-MYMETA.json
-MYMETA.yml
 perlcriticrc
 t/00-load.t
 t/add_header.t
