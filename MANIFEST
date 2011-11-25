@@ -10,6 +10,8 @@ lib/WWW/Mechanize/Link.pm
 Makefile.PL
 MANIFEST			This list of files
 MANIFEST.SKIP
+MYMETA.json
+MYMETA.yml
 perlcriticrc
 t/00-load.t
 t/add_header.t
@@ -52,6 +54,8 @@ t/live/wikipedia.t
 t/local/back.t
 t/local/click.t
 t/local/click_button.t
+t/local/content.t
+t/local/encoding.t
 t/local/failure.t
 t/local/follow.t
 t/local/form.t
