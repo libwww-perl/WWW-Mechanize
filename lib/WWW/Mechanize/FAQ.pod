@@ -166,7 +166,7 @@ I<submit_form()>, and I<request()> methods.
 
     my $mech = WWW::Mechanize->new( autocheck => 1 );
     $mech->get( 'http://my.site.com' );
-    my $res = $mech->response();
+    my $response = $mech->response();
     for my $key ( $response->header_field_names() ) {
         print $key, " : ", $response->header( $key ), "\n";
     }
