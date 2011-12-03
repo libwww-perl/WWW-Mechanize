@@ -2922,6 +2922,8 @@ Just like Mech, but using Microsoft Internet Explorer to do the work.
 
 =item * L<WWW::Yahoo::Groups>
 
+=item * L<WWW::Scripter>
+
 =back
 
 =head1 ACKNOWLEDGEMENTS
