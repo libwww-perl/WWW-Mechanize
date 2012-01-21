@@ -591,7 +591,8 @@ sub title {
 =head2 $mech->content(...)
 
 Returns the content that the mech uses internally for the last page
-fetched. Ordinarily this is the same as $mech->response()->content(),
+fetched. Ordinarily this is the same as
+C<< $mech->response()->decoded_content() >>,
 but this may differ for HTML documents if L</update_html> is
 overloaded (in which case the value passed to the base-class
 implementation of same will be returned), and/or extra named arguments
@@ -603,31 +604,56 @@ are passed to I<content()>:
 
 Returns a text-only version of the page, with all HTML markup
 stripped. This feature requires I<HTML::TreeBuilder> to be installed,
-or a fatal error will be thrown.
+or a fatal error will be thrown. This works only if the contents are
+HTML.
 
 =item I<< $mech->content( base_href => [$base_href|undef] ) >>
 
 Returns the HTML document, modified to contain a
 C<< <base href="$base_href"> >> mark-up in the header.
 I<$base_href> is C<< $mech->base() >> if not specified. This is
-handy to pass the HTML to e.g. L<HTML::Display>.
+handy to pass the HTML to e.g. L<HTML::Display>. This works only if
+the contents are HTML.
+
+
+=item I<< $mech->content( raw => 1 ) >>
+
+Returns C<< $self->response()->content() >>, i.e. the raw contents from the
+response.
+
+=item I<< $mech->content( decoded_by_headers => 1 ) >>
+
+Returns the content after applying all C<Content-Encoding> headers but
+with not additional mangling.
+
+=item I<< $mech->content( charset => $charset ) >>
+
+Returns C<< $self->response()->decoded_content(charset => $charset) >>
+(see L<HTTP::Response> for details).
 
 =back
 
-Passing arguments to C<content()> if the current document is not
-HTML has no effect now (i.e. the return value is the same as
-C<< $self->response()->content() >>. This may change in the future,
-but will likely be backwards-compatible when it does.
+To preserve backwards compatibility, additional parameters will be
+ignored unless none of C<< raw | decoded_by_headers | charset >> is
+specified and the text is HTML, in which case an error will be triggered.
 
 =cut
 
 sub content {
     my $self = shift;
+    my %parms = @_;
+
     my $content = $self->{content};
-
-    if ( $self->is_html ) {
-        my %parms = @_;
-
+    if (delete $parms{raw}) {
+        $content = $self->response()->content();
+    }
+    elsif (delete $parms{decoded_by_headers}) {
+        $content = $self->response()->decoded_content(charset => 'none');
+    }
+    elsif (my $charset = delete $parms{charset}) {
+        $content = $self->response()->decoded_content(charset => $charset);
+    }
+    elsif ( $self->is_html ) {
         if ( exists $parms{base_href} ) {
             my $base_href = (delete $parms{base_href}) || $self->base;
             $content=~s/<head>/<head>\n<base href="$base_href">/i;
