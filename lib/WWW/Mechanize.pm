@@ -2760,8 +2760,8 @@ __END__
 WWW::Mechanize is hosted at GitHub, though the bug tracker still
 lives at Google Code.
 
-Repository: https://github.com/bestpractical/www-mechanize/.  
-Bugs: http://code.google.com/p/www-mechanize/issues
+Repository: L<https://github.com/bestpractical/www-mechanize/>.  
+Bugs: L<http://code.google.com/p/www-mechanize/issues>.
 
 =head1 OTHER DOCUMENTATION
 
