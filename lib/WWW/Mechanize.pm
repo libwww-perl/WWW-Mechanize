@@ -2051,7 +2051,7 @@ sub stack_depth {
     return $self->{stack_depth};
 }
 
-=head2 $mech->save_content( $filename )
+=head2 $mech->save_content( $filename, %opts )
 
 Dumps the contents of C<< $mech->content >> into I<$filename>.
 I<$filename> will be overwritten.  Dies if there are any errors.
@@ -2059,15 +2059,51 @@ I<$filename> will be overwritten.  Dies if there are any errors.
 If the content type does not begin with "text/", then the content
 is saved in binary mode.
 
+Additional arguments can be passed as I<key>/I<value> pairs:
+
+=over
+
+=item I<< $mech->save_content( $filename, binary => 1 ) >>
+
+Filehandle is set with C<binmode> to C<:raw> and contents are taken
+calling C<< $self->content(decoded_by_headers => 1) >>. Same as calling:
+
+    $mech->save_content( $filename, binmode =>  \':raw',
+                         decoded_by_headers => 1 );
+
+=item I<< $mech->save_content( $filename, binmode => $binmode ) >>
+
+Filehandle is set to binary mode. If C<$binmode> is a reference, it is
+dereferenced as a scalar and passed to C<binmode>:
+
+    binmode $fh, $$binmode;
+
+otherwise the filehandle is set to binary mode if C<$binmode> is true:
+
+    binmode $fh;
+
+=item I<all other arguments>
+
+are passed as-is to C<< $mech->content(%opts) >>
+
+=back
+
 =cut
 
 sub save_content {
     my $self = shift;
     my $filename = shift;
+    my %opts = @_;
+    if (delete $opts{binary}) {
+        $opts{binmode} = \':raw';
+        $opts{decoded_by_headers} = 1;
+    }
 
     open( my $fh, '>', $filename ) or $self->die( "Unable to create $filename: $!" );
-    binmode $fh unless $self->content_type =~ m{^text/};
-    print {$fh} $self->content(@_) or $self->die( "Unable to write to $filename: $!" );
+    if ((my $binmode = delete $opts{binmode}) || ($self->content_type() !~ m{^text/})) {
+        ref($binmode) ? binmode($fh, $$binmode) : binmode($fh);
+    }
+    print {$fh} $self->content(%opts) or $self->die( "Unable to write to $filename: $!" );
     close $fh or $self->die( "Unable to close $filename: $!" );
 
     return;

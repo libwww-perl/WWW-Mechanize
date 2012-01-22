@@ -42,7 +42,7 @@ ok( $old_text eq $new_text, 'Saved copy matches the original' ) && unlink $saved
 
     #unlink $saved;
     ok( !-e $saved, "$saved does not exist" );
-    $mech->save_content( $saved, decoded_by_headers => 1 );
+    $mech->save_content( $saved, binary => 1 );
 
     my $old_text = slurp( $original );
     my $new_text = slurp( $saved );
