@@ -2067,7 +2067,7 @@ sub save_content {
 
     open( my $fh, '>', $filename ) or $self->die( "Unable to create $filename: $!" );
     binmode $fh unless $self->content_type =~ m{^text/};
-    print {$fh} $self->content or $self->die( "Unable to write to $filename: $!" );
+    print {$fh} $self->content(decoded_by_headers => 1) or $self->die( "Unable to write to $filename: $!" );
     close $fh or $self->die( "Unable to close $filename: $!" );
 
     return;

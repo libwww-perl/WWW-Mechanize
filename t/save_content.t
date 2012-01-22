@@ -14,7 +14,7 @@ BEGIN {
 my $mech = WWW::Mechanize->new( cookie_jar => undef );
 isa_ok( $mech, 'WWW::Mechanize' );
 
-my $original = 't/find_inputs.html';
+my $original = 't/save_content.html';
 my $saved = 'saved.test.txt';
 
 my $uri = URI::file->new_abs( $original )->as_string;
