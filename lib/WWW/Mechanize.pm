@@ -2057,7 +2057,8 @@ Dumps the contents of C<< $mech->content >> into I<$filename>.
 I<$filename> will be overwritten.  Dies if there are any errors.
 
 If the content type does not begin with "text/", then the content
-is saved in binary mode.
+is saved in binary mode (i.e. C<binmode()> is set on the output
+filehandle).
 
 Additional arguments can be passed as I<key>/I<value> pairs:
 
@@ -2068,15 +2069,17 @@ Additional arguments can be passed as I<key>/I<value> pairs:
 Filehandle is set with C<binmode> to C<:raw> and contents are taken
 calling C<< $self->content(decoded_by_headers => 1) >>. Same as calling:
 
-    $mech->save_content( $filename, binmode =>  \':raw',
+    $mech->save_content( $filename, binmode => ':raw',
                          decoded_by_headers => 1 );
+
+This I<should> be the safest way to save contents verbatim.
 
 =item I<< $mech->save_content( $filename, binmode => $binmode ) >>
 
-Filehandle is set to binary mode. If C<$binmode> is a reference, it is
-dereferenced as a scalar and passed to C<binmode>:
+Filehandle is set to binary mode. If C<$binmode> begins with ':', it is
+passed as a parameter to C<binmode>:
 
-    binmode $fh, $$binmode;
+    binmode $fh, $binmode;
 
 otherwise the filehandle is set to binary mode if C<$binmode> is true:
 
@@ -2084,7 +2087,10 @@ otherwise the filehandle is set to binary mode if C<$binmode> is true:
 
 =item I<all other arguments>
 
-are passed as-is to C<< $mech->content(%opts) >>
+are passed as-is to C<< $mech->content(%opts) >>. In particular,
+C<decoded_by_headers> might come handy if you want to revert the effect
+of line compression performed by the web server but without further
+interpreting the contents (e.g. decoding it according to the charset).
 
 =back
 
@@ -2095,13 +2101,18 @@ sub save_content {
     my $filename = shift;
     my %opts = @_;
     if (delete $opts{binary}) {
-        $opts{binmode} = \':raw';
+        $opts{binmode} = ':raw';
         $opts{decoded_by_headers} = 1;
     }
 
     open( my $fh, '>', $filename ) or $self->die( "Unable to create $filename: $!" );
-    if ((my $binmode = delete $opts{binmode}) || ($self->content_type() !~ m{^text/})) {
-        ref($binmode) ? binmode($fh, $$binmode) : binmode($fh);
+    if ((my $binmode = delete($opts{binmode}) || '') || ($self->content_type() !~ m{^text/})) {
+        if (length($binmode) && (substr($binmode, 0, 1) eq ':')) {
+            binmode $fh, $binmode;
+        }
+        else {
+            binmode $fh;
+        }
     }
     print {$fh} $self->content(%opts) or $self->die( "Unable to write to $filename: $!" );
     close $fh or $self->die( "Unable to close $filename: $!" );
