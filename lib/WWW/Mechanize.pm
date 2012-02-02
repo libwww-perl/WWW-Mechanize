@@ -10,7 +10,7 @@ Version 1.70
 
 =cut
 
-our $VERSION = '1.71';
+our $VERSION = '1.72';
 
 =head1 SYNOPSIS
 

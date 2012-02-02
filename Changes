@@ -5,6 +5,13 @@ http://groups.google.com/group/www-mechanize-users
 
 [CHANGES]
 
+1.72        Thu Feb  2 18:37:28 EST 2012
+========================================
+[DEPENDENCIES]
+Bumped the HTML::Form dependency to fix failures on CentOS 5
+
+
+
 1.71        Tue Nov 14 13:50:41 EDT 2011
 ========================================
 [ENHANCEMENTS]
