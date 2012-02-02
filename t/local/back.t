@@ -128,48 +128,51 @@ my @links = qw(
 
 is( scalar @{$mech->{page_stack}}, 0, 'Pre-404 check' );
 
-my $server404 = HTTP::Daemon->new(LocalAddr => 'localhost') or die;
-my $server404url = $server404->url;
+SKIP: {
+    skip 'forking is not reliable on windows', 15 if $^O =~ /Win32/;
 
-die 'Cannot fork' if (! defined (my $pid404 = fork()));
-END {
-    local $?;
-    kill KILL => $pid404 if $pid404; # Extreme prejudice intended, because we do not
-    # want the global cleanup to be done twice.
-}
+    my $server404 = HTTP::Daemon->new(LocalAddr => 'localhost') or die;
+    my $server404url = $server404->url;
 
-if (! $pid404) { # Fake HTTP server code: a true 404-compliant server!
-    while ( my $c = $server404->accept() ) {
-        while ( $c->get_request() ) {
-            $c->send_response( HTTP::Response->new(404) );
-            $c->close();
+    die 'Cannot fork' if (! defined (my $pid404 = fork()));
+    END {
+        local $?;
+        kill KILL => $pid404 if $pid404; # Extreme prejudice intended, because we do not
+        # want the global cleanup to be done twice.
+    }
+
+    if (! $pid404) { # Fake HTTP server code: a true 404-compliant server!
+        while ( my $c = $server404->accept() ) {
+            while ( $c->get_request() ) {
+                $c->send_response( HTTP::Response->new(404) );
+                $c->close();
+            }
         }
     }
-}
 
-$mech->get($server404url);
-is( $mech->status, 404 , '404 check') or
-    diag( qq{\$server404url=$server404url\n\$mech->content="}, $mech->content, qq{"\n} );
+    $mech->get($server404url);
+    is( $mech->status, 404 , '404 check') or
+        diag( qq{\$server404url=$server404url\n\$mech->content="}, $mech->content, qq{"\n} );
 
-is( scalar @{$mech->{page_stack}}, 1, 'Even 404s get on the stack' );
-
-ok( $mech->back(), 'Back should succeed' );
-is( $mech->uri, $server->url, 'Back from the 404' );
-is( scalar @{$mech->{page_stack}}, 0, 'Post-404 check' );
-
-for my $link ( @links ) {
-    $mech->get( $link );
-    warn $mech->status() if (! $mech->success());
-    is( $mech->status, 200, "Get $link" );
+    is( scalar @{$mech->{page_stack}}, 1, 'Even 404s get on the stack' );
 
     ok( $mech->back(), 'Back should succeed' );
-    is( $mech->uri, $server->url, "Back from $link" );
+    is( $mech->uri, $server->url, 'Back from the 404' );
+    is( scalar @{$mech->{page_stack}}, 0, 'Post-404 check' );
+
+    for my $link ( @links ) {
+        $mech->get( $link );
+        warn $mech->status() if (! $mech->success());
+        is( $mech->status, 200, "Get $link" );
+
+        ok( $mech->back(), 'Back should succeed' );
+        is( $mech->uri, $server->url, "Back from $link" );
+    }
+
+    SKIP: {
+        skip 'Test::Memory::Cycle not installed', 1 unless $canTMC;
+
+        memory_cycle_ok( $mech, 'No memory cycles found' );
+    }
+
 }
-
-SKIP: {
-    skip 'Test::Memory::Cycle not installed', 1 unless $canTMC;
-
-    memory_cycle_ok( $mech, 'No memory cycles found' );
-}
-
-
