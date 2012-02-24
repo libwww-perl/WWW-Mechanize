@@ -185,6 +185,10 @@ L<WWW::Mechanize> is subclassed, such as for L<Test::WWW::Mechanize>
 or L<Test::WWW::Mechanize::Catalyst>, this may not be an appropriate
 default, so it's off.
 
+You can change the value later by calling:
+
+    $mech->autocheck( [0|1] );
+
 =item * C<< noproxy => [0|1] >>
 
 Turn off the automatic call to the L<LWP::UserAgent> C<env_proxy> function.
@@ -1988,6 +1992,32 @@ sub delete_header {
     }
 
     return;
+}
+
+
+=head2 $mech->autocheck(true/false)
+
+Change the autocheck state & return the current state.
+
+    $mech->autocheck(0); # don't fail on non HTTP 200 response
+    $mech->autocheck(1); # a non 200 HTTP response is an automatic failure.
+
+With no arguments, it will simply return the current autocheck state.
+
+    my $autocheck = $mech->autocheck();
+
+For more details, see the "autocheck" argument to WWW::Mechanize->new()
+
+=cut
+
+sub autocheck {
+    my $self = shift;
+
+    if (defined $_[0]) {
+        $self->{autocheck} = $_[0] ? 1 : 0;
+    }
+
+    return $self->{autocheck};
 }
 
 
