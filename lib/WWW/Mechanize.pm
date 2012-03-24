@@ -2054,14 +2054,27 @@ Prints a dump of the HTTP response headers for the most recent
 response.  If I<$fh> is not specified or is undef, it dumps to
 STDOUT.
 
-Unlike the rest of the dump_* methods, you cannot specify a filehandle
-to print to.
+Unlike the rest of the dump_* methods, $fh can be a scalar. It
+will be used as a file name.
 
 =cut
 
+sub _get_fh_default_stdout {
+    my $self = shift;
+    my $p = shift || '';
+    if ( !$p ) {
+        return \*STDOUT;
+    } elsif ( !ref($p) ) {
+        open my $fh, '>', $p or $self->die( "Unable to write to $p: $!" );;
+        return $fh;
+    } else {
+        return $p;
+    }
+}
+
 sub dump_headers {
     my $self = shift;
-    my $fh   = shift || \*STDOUT;
+    my $fh   = $self->_get_fh_default_stdout(shift);
 
     print {$fh} $self->response->headers_as_string;
 
@@ -2908,6 +2921,8 @@ Just like Mech, but using Microsoft Internet Explorer to do the work.
 =item * L<WWW::SourceForge>
 
 =item * L<WWW::Yahoo::Groups>
+
+=item * L<WWW::Scripter>
 
 =back
 
