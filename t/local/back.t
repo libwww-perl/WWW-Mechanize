@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-use Test::More tests => 47;
+use Test::More tests => 48;
 use lib qw( t t/local );
 use LocalServer;
 use HTTP::Daemon;
@@ -128,24 +128,10 @@ my @links = qw(
 
 is( scalar @{$mech->{page_stack}}, 0, 'Pre-404 check' );
 
-my $server404 = HTTP::Daemon->new(LocalAddr => 'localhost') or die;
-my $server404url = $server404->url;
+my $server404 = LocalServer->spawn( html => '<html><body>ARGH</body></html>' );
+isa_ok( $server404, 'LocalServer' );
 
-die 'Cannot fork' if (! defined (my $pid404 = fork()));
-END {
-    local $?;
-    kill KILL => $pid404 if $pid404; # Extreme prejudice intended, because we do not
-    # want the global cleanup to be done twice.
-}
-
-if (! $pid404) { # Fake HTTP server code: a true 404-compliant server!
-    while ( my $c = $server404->accept() ) {
-        while ( $c->get_request() ) {
-            $c->send_response( HTTP::Response->new(404) );
-            $c->close();
-        }
-    }
-}
+my $server404url = $server404->error_notfound('404check');
 
 $mech->get($server404url);
 is( $mech->status, 404 , '404 check') or

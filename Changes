@@ -3,6 +3,12 @@ Revision history for WWW::Mechanize
 Mech now has its own mailing list at Google Groups:
 http://groups.google.com/group/www-mechanize-users
 
+[TESTS]
+
+Update t/local/back.t to use LocalServer for 404 checking to avoid fails
+on win32. Fix by Matt S Trout, patient diagnostics and testing provided
+by jayefuu of freenode #perl
+
 [CHANGES]
 
 1.72        Thu Feb  2 18:37:28 EST 2012
