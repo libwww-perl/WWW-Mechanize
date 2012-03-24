@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-use Test::More tests => 5;
+use Test::More tests => 8;
 
 =head1 NAME
 
@@ -63,3 +63,35 @@ like($content, qr/base href="foo"/, 'Found the base href');
 $content = $mech->content(base_href => undef);
 like($content, qr[base href="http://example.com/"], 'Found the new base href');
 
+$mech->{res} = Test::MockResponse->new(
+   raw_content => 'this is the raw content',
+   charset_none => 'this is a slightly decoded content',
+   charset_whatever => 'this is charset whatever',
+);
+
+$content = $mech->content(raw => 1);
+is($content, 'this is the raw content', 'raw => 1');
+
+$content = $mech->content(decoded_by_headers => 1);
+is($content, 'this is a slightly decoded content', 'decoded_by_headers => 1');
+
+$content = $mech->content(charset => 'whatever');
+is($content, 'this is charset whatever', 'charset => ...');
+
+package Test::MockResponse;
+
+sub new {
+   my $package = shift;
+   return bless { @_ }, $package;
+}
+
+sub content {
+   my ($self) = @_;
+   return $self->{raw_content};
+}
+
+sub decoded_content {
+   my ($self, %opts) = @_;
+   return $self->{decoded_content} unless exists $opts{charset};
+   return $self->{"charset_$opts{charset}"};
+}
