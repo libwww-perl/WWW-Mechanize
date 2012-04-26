@@ -9,6 +9,9 @@ Update t/local/back.t to use LocalServer for 404 checking to avoid fails
 on win32. Fix by Matt S Trout, patient diagnostics and testing provided
 by jayefuu of freenode #perl
 
+Blow away more proxy env vars in LocalServer, and do it on load so that
+the LWP env checking doesn't happen before we've done it.
+
 [CHANGES]
 
 1.72        Thu Feb  2 18:37:28 EST 2012

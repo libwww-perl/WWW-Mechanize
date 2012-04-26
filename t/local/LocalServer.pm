@@ -3,6 +3,14 @@ package LocalServer;
 # start a fake webserver, fork, and connect to ourselves
 use warnings;
 use strict;
+# this has to happen here because LWP::Simple creates a $ua
+# on load so any time after this is too late.
+BEGIN {
+  delete @ENV{qw(
+    HTTP_PROXY http_proxy CGI_HTTP_PROXY
+    HTTPS_PROXY https_proxy HTTP_PROXY_ALL http_proxy_all
+  )};
+}
 use LWP::Simple;
 use FindBin;
 use File::Spec;
@@ -63,6 +71,10 @@ The following entries will be removed from C<%ENV>:
     HTTP_PROXY
     http_proxy
     CGI_HTTP_PROXY
+    HTTPS_PROXY
+    https_proxy
+    HTTP_PROXY_ALL
+    http_proxy_all
 
 =cut
 
@@ -74,8 +86,6 @@ sub spawn {
   local $ENV{TEST_HTTP_VERBOSE};
   $ENV{TEST_HTTP_VERBOSE} = 1
     if (delete $args{debug});
-
-  delete @ENV{qw(HTTP_PROXY http_proxy CGI_HTTP_PROXY)};
 
   $self->{delete} = [];
   if (my $html = delete $args{html}) {

@@ -7,7 +7,6 @@ use lib qw( t/local );
 use LocalServer;
 
 BEGIN {
-    delete @ENV{ grep { lc eq 'http_proxy' } keys %ENV };
     delete @ENV{qw( IFS CDPATH ENV BASH_ENV )};
     use_ok('WWW::Mechanize');
 }

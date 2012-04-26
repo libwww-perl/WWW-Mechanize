@@ -31,7 +31,6 @@ way, and/or to install supplemental "surface tests" on the HTML
 =cut
 
 BEGIN {
-    delete @ENV{ grep { lc eq 'http_proxy' } keys %ENV };
     delete @ENV{ qw( IFS CDPATH ENV BASH_ENV ) };
     use_ok( 'WWW::Mechanize' );
 }

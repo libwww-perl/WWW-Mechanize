@@ -8,7 +8,6 @@ use LocalServer;
 use encoding 'iso-8859-1';
 
 BEGIN {
-    delete @ENV{ grep { lc eq 'http_proxy' } keys %ENV };
     delete @ENV{ qw( IFS CDPATH ENV BASH_ENV ) };
     use_ok( 'WWW::Mechanize' );
 }

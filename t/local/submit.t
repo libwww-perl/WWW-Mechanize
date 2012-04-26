@@ -11,6 +11,7 @@ BEGIN {
 }
 
 BEGIN {
+    delete @ENV{ qw( IFS CDPATH ENV BASH_ENV ) };
     use_ok( 'WWW::Mechanize' );
 }
 

@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-use Test::More tests => 48;
+use Test::More tests => 47;
 use lib qw( t t/local );
 use LocalServer;
 use HTTP::Daemon;
@@ -23,6 +23,7 @@ BEGIN {
 }
 
 BEGIN {
+    delete @ENV{ qw( IFS CDPATH ENV BASH_ENV ) };
     use_ok( 'WWW::Mechanize' );
 }
 
@@ -128,10 +129,7 @@ my @links = qw(
 
 is( scalar @{$mech->{page_stack}}, 0, 'Pre-404 check' );
 
-my $server404 = LocalServer->spawn( html => '<html><body>ARGH</body></html>' );
-isa_ok( $server404, 'LocalServer' );
-
-my $server404url = $server404->error_notfound('404check');
+my $server404url = $server->error_notfound('404check');
 
 $mech->get($server404url);
 is( $mech->status, 404 , '404 check') or
