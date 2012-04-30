@@ -2271,6 +2271,18 @@ sub redirect_ok {
 
     my $ok = $self->SUPER::redirect_ok( $prospective_request, $response );
     if ( $ok ) {
+        # From LWP::UserAgent
+        my $referral_uri = $response->header('Location');
+        {
+            # Some servers erroneously return a relative URL for redirects,
+            # so make it absolute if it not already is.
+            local $URI::ABS_ALLOW_RELATIVE_SCHEME = 1;
+            my $base = $response->base;
+            $referral_uri = "" unless defined $referral_uri;
+            $referral_uri = $HTTP::URI_CLASS->new($referral_uri, $base)
+                            ->abs($base);
+        }
+        $self->add_header(Referer => $referral_uri);
         $self->{redirected_uri} = $prospective_request->uri;
     }
 
