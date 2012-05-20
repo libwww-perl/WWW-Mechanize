@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-use Test::More tests => 62;
+use Test::More tests => 65;
 use URI::file;
 
 BEGIN {
@@ -149,3 +149,8 @@ ok( !defined $x, 'No match' );
 
 $x = $mech->find_link( url_abs_regex => qr[t/blongo\.html$] );
 isa_ok( $x, 'WWW::Mechanize::Link' );
+
+$x = $mech->find_link( text_regex => qr/click/i);
+isa_ok( $x, 'WWW::Mechanize::Link' );
+is( $x->[0], 'http://www.yahoo.com/', 'Got js url link' );
+is( $x->url, 'http://www.yahoo.com/', 'Got js url link' );
