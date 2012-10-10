@@ -1,0 +1,9 @@
+body {
+	background-color:white;
+	background-image:url(/Images/bg-gradient.png);
+}
+
+.logo {
+    background: url("images/logo.png") no-repeat;
+    background-size: 275px 95px;
+}

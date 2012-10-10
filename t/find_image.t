@@ -35,6 +35,7 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
     cmp_deeply(
         [ map { $_->url } @images ],
         [ qw(
+            /Images/bg-gradient.png
             wango.jpg
             bongo.gif
             linked.gif
@@ -42,8 +43,8 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
             hacktober.jpg
             hacktober.jpg
             http://example.org/abs.tif
-        ), undef ],
-        '... and all seven are in the right order'
+        ), undef, 'images/logo.png' ],
+        '... and all ten are in the right order'
     );
 
     cmp_deeply(
@@ -102,6 +103,7 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
 # shortcuts for all six images in the website. They can be used instead
 # of each array reference.
 
+my $image0 = [ url => '/Images/bg-gradient.png', tag => 'css' ]; # this is the body background from the style tag
 my $image1 = [ url => 'wango.jpg', alt => re('world of') ];
 my $image2 = [ url => 'bongo.gif', tag => 'input', height => 142 ];
 my $image3 = [ url => 'linked.gif', tag => 'img' ];
@@ -110,8 +112,20 @@ my $image5 = [ url => 'hacktober.jpg', attrs => superhashof( { class => re('my-c
 my $image6 = [ url => 'hacktober.jpg', attrs => superhashof( { class => re('my-class-3') } ) ];
 my $image7 = [ url => 'http://example.org/abs.tif', attrs => superhashof( { id => 'absolute' } ) ];
 my $image8 = [ url => undef, tag => 'img', attrs => superhashof( { 'data-image' => "hacktober.jpg", id => "no-src-regression-269" } ) ];
+my $image9 = [ url => 'images/logo.png', tag => 'css' ];
 
 my $tests = [
+    {
+        name => 'CSS',
+        args => [
+            tag => 'css',
+        ],
+        expected_single => $image0,
+        expected_all => [
+            $image0,
+            $image9,
+        ],
+    },
     {
         name => 'alt',
         args => [
@@ -281,6 +295,13 @@ my $tests = [
         ],
         expected_single => $image5,
     },
+    {
+      name => 'inline style background image',
+      args => [
+        url_regex => qr/logo/,
+      ],
+      expected_single => $image9,
+    },
 ];
 
 foreach my $test ( @{ $tests } ) {
@@ -326,6 +347,7 @@ foreach my $arg (qw/alt url url_abs tag id class/) {
     );
 }
 
+# all of these will find the "wrong" image
 {
     my $image;
     like(
@@ -357,7 +379,7 @@ foreach my $arg (qw/alt url url_abs tag id class/) {
         qr/space-padded and cannot succeed/,
         'find_image warns about space-padding'
     );
-    isnt $image->attrs->{id}, 'absolute', '... and ignores this argument';
+    is $image->attrs, undef, '... and ignores this argument';
 }
 
 done_testing;
