@@ -2652,11 +2652,28 @@ sub _extract_images {
     $self->{images} = [];
 
     if ( defined $self->{content} ) {
-        my $parser = HTML::TokeParser->new(\$self->{content});
-        while ( my $token = $parser->get_tag( keys %image_tags ) ) {
-            my $image = $self->_image_from_token( $token, $parser );
-            push( @{$self->{images}}, $image ) if $image;
-        } # while
+        if ($self->content_type eq 'text/css') {
+            push( @{$self->{images}}, $self->_images_from_css($self->{content}) );
+        }
+        else {
+            my $parser = HTML::TokeParser->new(\$self->{content});
+            while ( my $token = $parser->get_tag() ) {
+                my ($tag_name, $attrs) = @{$token};
+                next if $tag_name =~ m{^/};
+
+                if ($image_tags{$tag_name}) {
+                    my $image = $self->_image_from_token( $token, $parser );
+                    push( @{$self->{images}}, $image ) if $image;
+                }
+                elsif ($tag_name eq 'style') {
+                    push( @{$self->{images}}, $self->_images_from_css($parser->get_text) );
+                }
+
+                if ($attrs->{style}) {
+                    push( @{$self->{images}}, $self->_images_from_css($attrs->{style}) );
+                }
+            } # while
+        }
     }
 
     return;
@@ -2686,6 +2703,50 @@ sub _image_from_token {
             width   => $attrs->{width},
             alt     => $attrs->{alt},
         });
+}
+
+my $STYLE_URL_REGEXP = qr{
+    # ex. "url('/site.css')"
+    (             # capture non url path of the string
+        url       # url
+        \s*       #
+        \(        # (
+        \s*       #
+        (['"]?)   # opening ' or "
+    )
+    (             # the rest is url
+        .+?       # non greedy "everything"
+    )
+    (
+        \2        # closing ' or "
+        \s*       #
+        \)        # )
+    )
+}xmsi;
+
+sub _images_from_css {
+    my $self = shift;
+    my $css  = shift;
+
+    my @images;
+    while ($css =~ m/$STYLE_URL_REGEXP/g) {
+        my $url = $3;
+        require WWW::Mechanize::Image;
+        push(
+            @images,
+            WWW::Mechanize::Image->new({
+                tag     => 'css',
+                base    => $self->base,
+                url     => $url,
+                name    => undef,
+                height  => undef,
+                width   => undef,
+                alt     => undef,
+            })
+        );
+    }
+
+    return @images;
 }
 
 sub _link_from_token {
