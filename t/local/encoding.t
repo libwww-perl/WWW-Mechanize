@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-use Test::More tests => 5;
+use Test::More tests => 6;
 use lib qw( t/local );
 use LocalServer;
 
@@ -20,3 +20,5 @@ my $response = $mech->get( $server->url . 'encoding/euc-jp' );
 ok( $mech->success, 'Fetched OK' );
 is( $response->content_charset(), 'EUC-JP', 'got encoding enc-jp' );
 
+$response = $mech->get( $server->url . 'quit_server' );
+ok( $mech->success, 'Quit OK' );

@@ -4,7 +4,7 @@ use warnings;
 use strict;
 use FindBin;
 
-use Test::More tests => 13;
+use Test::More tests => 14;
 
 BEGIN {
     use lib 't';
@@ -60,6 +60,9 @@ SKIP: {
     $agent->get( $url );
     is($agent->status, 200, 'Got fourth page') or diag $agent->res->message;
     is($agent->content, "Referer: '$ref'", 'Custom referer can be set');
+
+    $agent->get( $url . 'quit_server' );
+    ok( $agent->success, 'Quit OK' );
 };
 
 SKIP: {
