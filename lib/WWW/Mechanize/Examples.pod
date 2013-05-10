@@ -214,7 +214,7 @@ WWW::Mechanize.
 =head2 listmod, by Ian Langworth
 
 Ian Langworth contributes this little gem that will bring joy to
-beleagured mailing list admins.  It discards spam messages through
+beleaguered mailing list admins.  It discards spam messages through
 mailman's web interface.
 
 
