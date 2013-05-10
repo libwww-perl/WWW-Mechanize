@@ -46,7 +46,7 @@ out what the Javascript is doing (why are these URLs always really
 long?). There is probably some function with one or more arguments which
 calculates the new URL. Step one: using your favorite browser, get the
 before and after URLs and save them to files. Edit each file, converting
-the the argument separators ('?', '&' or ';') into newlines. Now it is
+the argument separators ('?', '&' or ';') into newlines. Now it is
 easy to use diff or comm to find out what Javascript did to the URL.
 Step 2 - find the function call which created the URL - you will need
 to parse and interpret its argument list. The Javascript Debugger in the
@@ -54,7 +54,7 @@ Firebug extension for Firefox helps with the analysis. At this point, it is
 fairly trivial to write your own function which emulates the Javascript
 for the pages you want to process.
 
-Here's annother approach that answers the question, "It works in Firefox,
+Here's another approach that answers the question, "It works in Firefox,
 but why not Mech?"  Everything the web server knows about the client is
 present in the HTTP request. If two requests are identical, the results
 should be identical. So the real question is "What is different between
@@ -147,7 +147,7 @@ of this FAQ.
 
 =head2 How do I check a checkbox that doesn't have a value defined?
 
-Set it to to the value of "on".
+Set it to the value of "on".
 
     $mech->field( my_checkbox => 'on' );
 

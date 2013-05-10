@@ -2364,7 +2364,7 @@ supported.
 sub credentials {
     my $self = shift;
 
-    # The lastest LWP::UserAgent also supports 2 arguments,
+    # The latest LWP::UserAgent also supports 2 arguments,
     # in which case the first is host:port
     if (@_ == 4 || (@_ == 2 && $_[0] =~ /:\d+$/)) {
         return $self->SUPER::credentials(@_);
@@ -2402,7 +2402,7 @@ sub clear_credentials {
 
 =head1 INHERITED UNCHANGED LWP::UserAgent METHODS
 
-As a sublass of L<LWP::UserAgent>, WWW::Mechanize inherits all of
+As a subclass of L<LWP::UserAgent>, WWW::Mechanize inherits all of
 L<LWP::UserAgent>'s methods.  Many of which are overridden or
 extended. The following methods are inherited unchanged. View the
 L<LWP::UserAgent> documentation for their implementation descriptions.
