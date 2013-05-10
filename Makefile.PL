@@ -63,9 +63,9 @@ if ( $ExtUtils::MakeMaker::VERSION ge '6.45_01' ) {
     $parms->{META_MERGE} = {
         resources => {
             license     => 'http://dev.perl.org/licenses/',
-            homepage    => 'https://github.com/bestpractical/www-mechanize',
+            homepage    => 'https://github.com/libwww-perl/WWW-Mechanize',
             bugtracker  => 'http://code.google.com/p/www-mechanize/issues/list',
-            Repository  => 'https://github.com/bestpractical/www-mechanize',
+            Repository  => 'https://github.com/libwww-perl/WWW-Mechanize',
             MailingList => 'http://groups.google.com/group/www-mechanize-users',
         }
     };
