@@ -65,7 +65,7 @@ if ( $ExtUtils::MakeMaker::VERSION ge '6.45_01' ) {
             license     => 'http://dev.perl.org/licenses/',
             homepage    => 'https://github.com/libwww-perl/WWW-Mechanize',
             bugtracker  => 'http://code.google.com/p/www-mechanize/issues/list',
-            Repository  => 'https://github.com/libwww-perl/WWW-Mechanize',
+            repository  => 'https://github.com/libwww-perl/WWW-Mechanize',
             MailingList => 'http://groups.google.com/group/www-mechanize-users',
         }
     };
