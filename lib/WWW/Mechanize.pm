@@ -754,6 +754,14 @@ or
 
     $mech->follow_link( n => 3 );
 
+=item the link with the url
+
+    $mech->follow_link( url => '/other/page' );
+
+or
+
+    $mech->follow_link( url => 'http://example.com/page' );
+
 =back
 
 Returns the result of the GET method (an HTTP::Response object) if
