@@ -754,6 +754,14 @@ or
 
     $mech->follow_link( n => 3 );
 
+=item * the link with the url
+
+    $mech->follow_link( url => '/other/page' );
+
+or
+
+    $mech->follow_link( url => 'http://example.com/page' );
+
 =back
 
 Returns the result of the GET method (an HTTP::Response object) if
@@ -764,6 +772,7 @@ couldn't be found, returns undef.
 
 sub follow_link {
     my $self = shift;
+    $self->die( qq{Needs to get key-value pairs of parameters.} ) if @_ % 2;
     my %parms = ( n=>1, @_ );
 
     if ( $parms{n} eq 'all' ) {
