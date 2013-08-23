@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-use Test::More tests => 22;
+use Test::More tests => 28;
 use lib 't/local';
 use LocalServer;
 use encoding 'iso-8859-1';
@@ -53,3 +53,13 @@ is( $agent->uri, $server->url, 'Back at the start page again' );
 
 $response = $agent->follow_link( text_regex => qr/Snargle/ );
 ok( !$response, q{Couldn't find it} );
+
+ok($agent->follow_link( url => '/foo' ), 'can follow url');
+isnt( $agent->uri, $server->url, 'Need to be on a separate page' );
+ok($agent->back(), 'Can still go back');
+
+ok(!$agent->follow_link( url => '/notfoo' ), "can't follow wrong url");
+is( $agent->uri, $server->url, 'Needs to be on the same page' );
+eval {$agent->follow_link( '/foo' )};
+like($@, qr/Needs to get key-value pairs of parameters.*follow\.t/, "Invalid parameter passing gets better error message");
+
