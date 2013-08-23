@@ -754,7 +754,7 @@ or
 
     $mech->follow_link( n => 3 );
 
-=item the link with the url
+=item * the link with the url
 
     $mech->follow_link( url => '/other/page' );
 
