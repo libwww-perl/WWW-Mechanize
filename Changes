@@ -12,7 +12,10 @@ by jayefuu of freenode #perl
 Blow away more proxy env vars in LocalServer, and do it on load so that
 the LWP env checking doesn't happen before we've done it.
 
-[CHANGES]
+[OTHER CHANGES]
+
+- Better error when passing only one parameter to follow_link
+
 
 1.72        Thu Feb  2 18:37:28 EST 2012
 ========================================
