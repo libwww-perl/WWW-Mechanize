@@ -3,13 +3,16 @@ Revision history for WWW::Mechanize
 Mech now has its own mailing list at Google Groups:
 http://groups.google.com/group/www-mechanize-users
 
+
+1.73        2013-08-24
+========================================
 [TESTS]
 
-Update t/local/back.t to use LocalServer for 404 checking to avoid fails
+- Update t/local/back.t to use LocalServer for 404 checking to avoid fails
 on win32. Fix by Matt S Trout, patient diagnostics and testing provided
 by jayefuu of freenode #perl
 
-Blow away more proxy env vars in LocalServer, and do it on load so that
+- Blow away more proxy env vars in LocalServer, and do it on load so that
 the LWP env checking doesn't happen before we've done it.
 
 [OTHER CHANGES]
