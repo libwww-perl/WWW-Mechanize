@@ -135,6 +135,7 @@ find_image	lib/WWW/Mechanize.pm	/^sub find_image {$/;"	s
 find_link	lib/WWW/Mechanize.pm	/^sub find_link {$/;"	s
 follow_link	lib/WWW/Mechanize.pm	/^sub follow_link {$/;"	s
 form_id	lib/WWW/Mechanize.pm	/^sub form_id {$/;"	s
+form_action	lib/WWW/Mechanize.pm	/^sub form_action {$/;"	s
 form_name	lib/WWW/Mechanize.pm	/^sub form_name {$/;"	s
 form_number	lib/WWW/Mechanize.pm	/^sub form_number {$/;"	s
 form_with_fields	lib/WWW/Mechanize.pm	/^sub form_with_fields {$/;"	s

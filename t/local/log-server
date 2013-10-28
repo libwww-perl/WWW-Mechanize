@@ -6,7 +6,7 @@ use CGI;
 use encoding 'iso-8859-1';
 use Getopt::Long;
 use vars qw($VERSION);
-$VERSION = '0.55';
+$VERSION = '0.56';
 
 $|++;
 
@@ -189,6 +189,9 @@ __DATA__
     <input type="file" name="upload" value="README" />
   </form>
   <form id="pounder" action="/formsubmit">
+    <input type="text" name="query" value="%s"/>
+  </form>
+  <form id="searchbox" action="/google-cli">
     <input type="text" name="query" value="%s"/>
   </form>
 </p>
