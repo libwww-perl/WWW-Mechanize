@@ -185,6 +185,9 @@ __DATA__
   <form id="pounder" action="/formsubmit" class="test" foo="">
     <input type="text" name="query" value="%s"/>
   </form>
+  <form id="searchbox" action="/google-cli">
+    <input type="text" name="query" value="%s"/>
+  </form>
 </p>
 </body>
 </html>

@@ -2,6 +2,10 @@ Revision history for WWW::Mechanize
 
 {{$NEXT}}
 
+    [ENHANCEMENTS]
+    - Added form_action($action) to look up forms by regex matching $action (GH#19)
+      (Mark Leighton Fisher and Julien Fiegehenn)
+
     [DOCUMENTATION]
     - Explain that file URIs need url encoding (GH#329) (Julien Fiegehenn and
       積丹尼 Dan Jacobson)
