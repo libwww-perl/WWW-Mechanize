@@ -1604,6 +1604,37 @@ sub form_number {
     return wantarray ? () : undef;
 }
 
+=head2 $mech->form_action( $action )
+
+Selects a form by action, using a regex containing $action.
+If there is more than one form on the page matching that action,
+then the first one is used, and a warning is generated.
+
+If it is found, the form is returned as an L<HTML::Form> object and
+set internally for later use with Mech's form methods such as
+C<L</field()>> and C<L</click()>>.
+
+Returns C<undef> if no form is found.
+
+=cut
+
+sub form_action {
+    my ($self, $action) = @_;
+
+    my $temp;
+    my @matches = grep {defined($temp = $_->action) and ($temp =~ m/$action/msx) } $self->forms;
+
+    my $nmatches = @matches;
+    if ( $nmatches > 0 ) {
+        if ( $nmatches > 1 ) {
+            $self->warn( "There are $nmatches forms with action matching $action. The first one was used." )
+        }
+        return $self->{current_form} = $matches[0];
+    }
+
+    return;
+}
+
 =head2 $mech->form_name( $name )
 
 Selects a form by name.  If there is more than one form on the page
