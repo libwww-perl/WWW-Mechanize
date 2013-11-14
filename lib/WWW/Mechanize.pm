@@ -2990,6 +2990,8 @@ Just like Mech, but using Microsoft Internet Explorer to do the work.
 
 =item * L<WWW::Mechanize::Cached>
 
+=item * L<WWW::Mechanize::Cached::GZip>
+
 =item * L<WWW::Mechanize::FormFiller>
 
 =item * L<WWW::Mechanize::Shell>
