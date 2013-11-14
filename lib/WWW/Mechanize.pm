@@ -2920,7 +2920,7 @@ Mechanize distribution.
 
 =over 4
 
-=item * L<http://www-128.ibm.com/developerworks/linux/library/wa-perlsecure.html>
+=item * L<http://www.ibm.com/developerworks/linux/library/wa-perlsecure/>
 
 IBM article "Secure Web site access with Perl"
 
@@ -2957,7 +2957,7 @@ method existed at press time.
 
 WWW::Mechanize on the Perl Advent Calendar, by Mark Fowler.
 
-=item * L<http://www.linux-magazin.de/Artikel/ausgabe/2004/03/perl/perl.html>
+=item * L<http://www.linux-magazin.de/Ausgaben/2004/03/Datenruessel/%28language%29/ger-DE>
 
 Michael Schilli's article on Mech and L<WWW::Mechanize::Shell> for the
 German magazine I<Linux Magazin>.
