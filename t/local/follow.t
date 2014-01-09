@@ -3,7 +3,6 @@ use strict;
 use Test::More tests => 28;
 use lib 't/local';
 use LocalServer;
-use encoding 'iso-8859-1';
 
 BEGIN {
     delete @ENV{ qw( IFS CDPATH ENV BASH_ENV ) };
@@ -39,11 +38,11 @@ ok($agent->follow_link( text => 'Link /foo' ), 'Can follow obvious named link');
 isnt( $agent->uri, $server->url, 'Need to be on a separate page' );
 
 ok($agent->back(), 'Can still go back');
-ok($agent->follow_link( text_regex=>qr/Löschen/ ), 'Can follow link with o-umlaut');
+ok($agent->follow_link( text_regex=>qr/L\x{f6}schen/ ), 'Can follow link with o-umlaut');
 isnt( $agent->uri, $server->url, 'Need to be on a separate page' );
 
 ok($agent->back(), 'Can still go back');
-ok($agent->follow_link( text_regex=>qr/Stösberg/ ), q{Can follow link with o-umlaut, when it's encoded in the HTML, but not in "follow"});
+ok($agent->follow_link( text_regex=>qr/St\x{f6}sberg/ ), q{Can follow link with o-umlaut, when it's encoded in the HTML, but not in "follow"});
 isnt( $agent->uri, $server->url, 'Need to be on a separate page' );
 
 ok($agent->back(), 'Can still go back');

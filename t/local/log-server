@@ -3,7 +3,6 @@
 use strict;
 use HTTP::Daemon;
 use CGI;
-use encoding 'iso-8859-1';
 use Getopt::Long;
 use vars qw($VERSION);
 $VERSION = '0.55';
@@ -33,8 +32,10 @@ if ($filename) {
 #open LOG, ">", $logfile
 #  or die "Couldn't create logfile '$logfile' : $!\n";
 my $log;
-binmode DATA,':encoding(iso-8859-1)';
 my $body = join "", <DATA>;
+$body =~ s/<!x([0-9a-fA-F]+)>/chr(hex($1))/eg;
+utf8::encode($body);
+utf8::upgrade($body);
 
 sub debug($) {
   my $message = $_[0];
@@ -170,7 +171,7 @@ __DATA__
   <a href="/foo1.save_log_server_test.tmp">Link foo1.save_log_server_test.tmp</a>
   <a href="/foo2.save_log_server_test.tmp">Link foo2.save_log_server_test.tmp</a>
   <a href="/foo3.save_log_server_test.tmp">Link foo3.save_log_server_test.tmp</a>
-  <a href="/o-umlaut">Löschen -- testing for o-umlaut.</a>
+  <a href="/o-umlaut">L<!xf6>schen -- testing for o-umlaut.</a>
   <a href="/o-umlaut-encoded">St&ouml;sberg -- testing for encoded o-umlaut.</a>
 
   <table>
