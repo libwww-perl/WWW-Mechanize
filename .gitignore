@@ -5,3 +5,8 @@ blib/
 pm_to_blib
 *.swp
 MANIFEST
+/.ackrc
+!/.gitignore
+/WWW-Mechanize-*/
+/WWW-Mechanize-*.tar.gz
+/todo.txt
