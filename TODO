@@ -1,0 +1,6 @@
+
+urgh!  code.google.com does not notify the maintainers when there is a new
+issue.  We should transfer the issue queue to github or RT.
+
+This is an issue that needs addressing, re encodings:
+https://github.com/kentnl/HTTP-Tiny-Mech/pull/2
