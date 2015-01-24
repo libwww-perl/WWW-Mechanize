@@ -3,6 +3,12 @@ Revision history for WWW::Mechanize
 Mech now has its own mailing list at Google Groups:
 http://groups.google.com/group/www-mechanize-users
 
+1.74        2015-01-23
+========================================
+[OTHER CHANGES]
+
+- updated repository link in metadata
+
 
 1.73        2013-08-24
 ========================================
