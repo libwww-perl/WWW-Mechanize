@@ -76,7 +76,7 @@ if ( $ExtUtils::MakeMaker::VERSION ge '6.45_01' ) {
             x_MailingList => 'http://groups.google.com/group/www-mechanize-users',
         }
     };
-    $parms->{LICENSE} = 'perl';
+    $parms->{LICENSE} = 'perl_5';
 }
 if ( $ExtUtils::MakeMaker::VERSION ge '6.47_02' ) {
     $parms->{MIN_PERL_VERSION} = 5.008;
