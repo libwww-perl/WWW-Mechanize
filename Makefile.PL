@@ -30,6 +30,7 @@ my $parms = {
     AUTHOR          => 'Jesse Vincent <jesse@bestpractical.com>',
     EXE_FILES       => [ 'bin/mech-dump' ],
     PREREQ_PM       => {
+        'CGI'                       => 4.08,
         'Carp'                      => 0,
         'File::Temp'                => 0,
         'FindBin'                   => 0,
