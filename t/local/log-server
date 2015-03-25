@@ -2,7 +2,7 @@
 # Thanks to merlyn for nudging me and giving me this snippet!
 use strict;
 use HTTP::Daemon;
-use CGI;
+use CGI 4.08;
 use Getopt::Long;
 use vars qw($VERSION);
 $VERSION = '0.55';
@@ -109,7 +109,7 @@ SERVERLOOP: {
             my ($query,$session,%cat);
             $query = defined $q->param('query') ? $q->param('query') : "(empty)";
             $session = defined $q->param('session') ? $q->param('session') : 1;
-            %cat = map { $_ => 1 } (defined $q->param('cat') ? $q->param('cat') : qw( cat_foo cat_bar ));
+            %cat = map { $_ => 1 } (defined $q->param('cat') ? $q->multi_param('cat') : qw( cat_foo cat_bar ));
             my @categories = map { $cat{$_} ? "checked" : "" } qw( cat_foo cat_bar cat_baz );
             (my $h = $r->headers->{host}) =~ s/:\d+//;
             my $rbody = sprintf $body,$location,$session,$query,@categories;
