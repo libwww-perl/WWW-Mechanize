@@ -9,6 +9,7 @@ http://groups.google.com/group/www-mechanize-users
 
 - WWW::Mechanize::Image and WWW::Mechanize::Link now have a defined $VERSION
 - fixed warning about the use of the encoding pragma (new in 5.22) (RT#91971)
+- fixed warning about the use of CGI::param in list context (RT#103096)
 
 
 1.74        2015-01-23
