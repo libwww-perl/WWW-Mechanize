@@ -1,6 +1,7 @@
 package main;
 
 require 5.008000;
+use utf8;
 
 use strict;
 use warnings;
@@ -74,7 +75,26 @@ if ( $ExtUtils::MakeMaker::VERSION ge '6.45_01' ) {
                 web => 'http://code.google.com/p/www-mechanize/issues/list',
             },
             x_MailingList => 'http://groups.google.com/group/www-mechanize-users',
-        }
+        },
+        x_contributors => [ # manually added, from git shortlog -e -s -n
+            'Andy Lester <andy@petdance.com>',
+            'Mark Stosberg <mark@summersault.com>',
+            'Karen Etheridge <ether@cpan.org>',
+            'Jesse Vincent <jesse@bestpractical.com>',
+            'Max Maischein <corion@cpan.org>',
+            'Flavio Poletti <flavio@polettix.it>',
+            'Gabor Szabo <szabgab@gmail.com>',
+            'David Steinbrunner <dsteinbrunner@pobox.com>',
+            'Matt S Trout <mst@shadowcat.co.uk>',
+            'sunnavy <sunnavy@bestpractical.com>',
+            'Jason May <jasonmay@bestpractical.com>',
+            'Alexandr Ciornii <alexchorny@gmail.com>',
+            'Kirrily \'Skud\' Robert <skud@infotrope.net>',
+            'Olaf Alders <olaf@wundersolutions.com>',
+            'David Precious <davidp@preshweb.co.uk>',
+            'Ville Skyttä <ville.skytta@iki.fi>',
+            'Lars Dɪᴇᴄᴋᴏᴡ 迪拉斯 <daxim@cpan.org>',
+        ],
     };
     $parms->{LICENSE} = 'perl_5';
 }
