@@ -1,6 +1,6 @@
-#!/usr/bin/perl -w
-
 use strict;
+use warnings;
+
 use Test::More tests => 4;
 use LWP::UserAgent;
 use WWW::Mechanize;

@@ -1,5 +1,3 @@
-#!/usr/bin/perl -w
-
 # XXX add cookie reading on the server side to the test
 
 BEGIN { delete @ENV{ qw( http_proxy HTTP_PROXY ) }; }
