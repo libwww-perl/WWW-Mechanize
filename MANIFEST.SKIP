@@ -1,13 +1,5 @@
-^Makefile$
-blib
-pm_to_blib
-.swp$
-~$
-.tmp$
-.bak$
-.git/
-.gitignore$
-.shipit$
+#!include_default
+^.ackrc$
+^.shipit$
 ^tags$
-^MYMETA
-^WWW-Mechanize
+^WWW-Mechanize-
