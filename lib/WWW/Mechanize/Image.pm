@@ -4,6 +4,8 @@ package WWW::Mechanize::Image;
 use strict;
 use warnings;
 
+our $VERSION = '1.75';
+
 =head1 NAME
 
 WWW::Mechanize::Image - Image object for WWW::Mechanize
