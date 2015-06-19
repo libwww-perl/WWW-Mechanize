@@ -9,6 +9,9 @@ use ExtUtils::MakeMaker qw( WriteMakefile );
 use File::Spec;
 use Getopt::Long;
 
+my $developer = -f '.gitignore';
+ExtUtils::MakeMaker->VERSION(6.98) if $developer;
+
 my $live = 0;
 my $local = 1;
 GetOptions(
@@ -136,6 +139,11 @@ EOT
 }
 
 WriteMakefile( %$parms );
+
+use Config;
+system("$Config{bin}/pod2text $parms->{VERSION_FROM} > README")
+    if $developer
+        and (not -e 'README' or (stat('README'))[9] < (stat($parms->{VERSION_FROM}))[9]);
 
 sub MY::postamble {
     return <<'MAKE_FRAG';

@@ -11,6 +11,7 @@ Makefile.PL
 MANIFEST			This list of files
 MANIFEST.SKIP
 perlcriticrc
+README
 t/00-load.t
 t/add_header.t
 t/aliases.t
