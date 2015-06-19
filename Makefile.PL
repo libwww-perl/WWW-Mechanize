@@ -73,7 +73,7 @@ if ( $ExtUtils::MakeMaker::VERSION ge '6.45_01' ) {
                 type => 'git',
             },
             bugtracker => {
-                web => 'http://code.google.com/p/www-mechanize/issues/list',
+                web => 'https://github.com/libwww-perl/WWW-Mechanize/issues',
             },
             x_MailingList => 'http://groups.google.com/group/www-mechanize-users',
         },
@@ -109,7 +109,7 @@ if (!$@) {
     if ( ! LWP::Protocol::implementor('https') ) {
         print <<EOT;
 
-It looks like you don't have SSL capability (like IO::Socket::SSL) installed. 
+It looks like you don't have SSL capability (like IO::Socket::SSL) installed.
 You will not be able to process https:// URLs correctly.
 
 EOT

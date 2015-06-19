@@ -107,7 +107,7 @@ for that. Please check L<WWW::Mechanize::FAQ/"JavaScript"> for more.
 
 =over 4
 
-=item * L<http://code.google.com/p/www-mechanize/issues/list>
+=item * L<https://github.com/libwww-perl/WWW-Mechanize/issues>
 
 The queue for bugs & enhancements in WWW::Mechanize and
 Test::WWW::Mechanize.  Please note that the queue at L<http://rt.cpan.org>
@@ -2856,7 +2856,7 @@ WWW::Mechanize is hosted at GitHub, though the bug tracker still
 lives at Google Code.
 
 Repository: L<https://github.com/libwww-perl/WWW-Mechanize>.
-Bugs: L<http://code.google.com/p/www-mechanize/issues>.
+Bugs: L<https://github.com/libwww-perl/WWW-Mechanize/issues>.
 
 =head1 OTHER DOCUMENTATION
 
