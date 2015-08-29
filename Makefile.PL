@@ -76,7 +76,7 @@ if ( $ExtUtils::MakeMaker::VERSION ge '6.45_01' ) {
                 type => 'git',
             },
             bugtracker => {
-                web => 'http://code.google.com/p/www-mechanize/issues/list',
+                web => 'https://github.com/libwww-perl/WWW-Mechanize/issues',
             },
             x_MailingList => 'http://groups.google.com/group/www-mechanize-users',
         },
