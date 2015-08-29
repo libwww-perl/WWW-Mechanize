@@ -35,8 +35,6 @@ my $parms = {
     PREREQ_PM       => {
         'CGI'                       => 4.08,
         'Carp'                      => 0,
-        'File::Temp'                => 0,
-        'FindBin'                   => 0,
         'Getopt::Long'              => 0,
         'HTML::Form'                => 6.00,
         'HTML::HeadParser'          => 0,
@@ -51,11 +49,14 @@ my $parms = {
         'LWP'                       => 5.829,
         'LWP::UserAgent'            => 5.829,
         'Pod::Usage'                => 0,
-        'Test::More'                => 0.34,
-        'Test::Warn'                => 0.11,
         'URI'                       => 1.36,
         'URI::URL'                  => 0,
         'URI::file'                 => 0,
+    },
+    TEST_REQUIRES   => {
+        'Test::More'                => 0.34,
+        'File::Temp'                => 0,
+        'FindBin'                   => 0,
     },
     test            => { TESTS => join( ' ', @tests ) },
     clean           => { FILES => 'WWW-Mechanize-*' },
@@ -99,6 +100,13 @@ if ( $ExtUtils::MakeMaker::VERSION ge '6.45_01' ) {
             'Ville Skyttä <ville.skytta@iki.fi>',
             'Lars Dɪᴇᴄᴋᴏᴡ 迪拉斯 <daxim@cpan.org>',
         ],
+        prereqs => {
+            test => {
+                recommends => {
+                    'Test::Warn'        => 0.11,
+                },
+            },
+        },
     };
     $parms->{LICENSE} = 'perl_5';
 }
