@@ -197,3 +197,11 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
         'submit_form with valid fields and strict_forms option succeeds',
     );
 }
+
+{
+    $mech->get($uri);
+    eval { $mech->submit_form(
+            with_fields => { 'select' => \1 },
+        ); };
+    is($@,'', ' submit_form( with_fields => %data_with_refs ) ' );
+}
