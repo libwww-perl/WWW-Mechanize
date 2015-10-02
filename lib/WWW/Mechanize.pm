@@ -1967,7 +1967,7 @@ the same name, the first one found is set. If you want to select which
 of the duplicate field to set, use a value which is an anonymous array
 which has the field value and its number as the 2 elements.
 
-        # set the second foo field
+        # set the second $name field to 'foo'
         $mech->set_fields( $name => [ 'foo', 2 ] );
 
 The fields are numbered from 1.
