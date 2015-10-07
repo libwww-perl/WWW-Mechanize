@@ -132,6 +132,7 @@ use HTTP::Request 1.30;
 use LWP::UserAgent 5.827;
 use HTML::Form 1.00;
 use HTML::TokeParser;
+use Scalar::Utile qw(tainted);
 
 use base 'LWP::UserAgent';
 
@@ -2542,7 +2543,7 @@ sub _taintedness {
 sub _is_tainted {
     no warnings qw(void uninitialized);
 
-    return !eval { join('', shift), kill 0; 1 };
+    return tainted($_[0]);
 } # _is_tainted
 
 
