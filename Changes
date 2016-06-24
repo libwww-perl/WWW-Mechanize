@@ -3,6 +3,9 @@ Revision history for WWW::Mechanize
 Mech now has its own mailing list at Google Groups:
 http://groups.google.com/group/www-mechanize-users
 
+- Document that form_id warns in addition to returning undef when a form cannot
+  be found.
+
 1.75        2015-06-03
 ========================================
 [OTHER CHANGES]

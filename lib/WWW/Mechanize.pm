@@ -1346,7 +1346,8 @@ If it is found, the form is returned as an L<HTML::Form> object and
 set internally for later use with Mech's form methods such as
 C<L</field()>> and C<L</click()>>.
 
-Returns undef if no form is found.
+If no form is found it returns C<undef>.  This will also trigger a warning,
+unless C<quiet> is enabled.
 
 =cut
 
