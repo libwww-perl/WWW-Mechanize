@@ -73,6 +73,9 @@ Options:
 The order of the options specified is relevant.  Repeated options
 get repeated dumps.
 
+Proxy settings are specified through the environment (e.g. C<http_proxy=http://proxy.my.place/>).
+See LWP::UserAgent for details.
+
 =cut
 
 my $uri = shift or die "Must specify a URL or file to check.  See --help for details.\n";
