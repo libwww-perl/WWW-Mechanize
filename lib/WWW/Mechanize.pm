@@ -2258,6 +2258,7 @@ sub clone {
     my $clone = $self->SUPER::clone();
 
     $clone->cookie_jar( $self->cookie_jar );
+    $clone->{headers} = { %{$self->{headers}} };
 
     return $clone;
 }
