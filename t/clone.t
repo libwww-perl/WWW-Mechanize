@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-use Test::More tests => 5;
+use Test::More tests => 6;
 
 BEGIN {
     use_ok( 'WWW::Mechanize' );
@@ -30,4 +30,13 @@ COOKIE_SHARING: {
     my $new_cookies = $clone->cookie_jar->as_string;
 
     is( $old_cookies, $new_cookies, 'Adding cookies adds to both jars' );
+}
+
+HEADERS_NOT_SHARING: {
+    # headers should be independent
+    $clone->add_header(foo=>'bar');
+    ok(
+        not($mech->{headers}{foo}),
+        'Adding headers does not add to both agents',
+    );
 }
