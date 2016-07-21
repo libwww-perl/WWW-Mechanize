@@ -482,7 +482,7 @@ sub back {
     return 1;
 }
 
-=head1 $mech->history_count()
+=head2 $mech->history_count()
 
 This returns the number of items in the browser history.  This number I<does>
 include the most recently made request.
@@ -503,7 +503,7 @@ sub history_count {
     return 1 + @$stack;
 }
 
-=head1 $mech->history($n)
+=head2 $mech->history($n)
 
 This returns the I<n>th item in history.  The 0th item is the most recent
 request and response, which would be acted on by methods like C<find_link()>.
