@@ -120,7 +120,7 @@ if (!$@) {
     if ( ! LWP::Protocol::implementor('https') ) {
         print <<EOT;
 
-It looks like you don't have SSL capability (like IO::Socket::SSL) installed. 
+It looks like you don't have SSL capability (like IO::Socket::SSL) installed.
 You will not be able to process https:// URLs correctly.
 
 EOT
