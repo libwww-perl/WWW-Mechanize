@@ -54,7 +54,7 @@ my $parms = {
         'URI::file'                 => 0,
     },
     TEST_REQUIRES   => {
-        'Test::More'                => 0.34,
+        'Test::More'                => 0.87,
         'File::Temp'                => 0,
         'FindBin'                   => 0,
     },

@@ -482,6 +482,58 @@ sub back {
     return 1;
 }
 
+=head2 $mech->history_count()
+
+This returns the number of items in the browser history.  This number I<does>
+include the most recently made request.
+
+=cut
+
+sub history_count {
+    my $self = shift;
+
+    # If we don't have a "current" page, we certainly don't have any previous
+    # ones.
+    return 0 unless $self->{req} && $self->{res};
+
+    my $stack = $self->{page_stack};
+
+    return 1 unless $stack;
+
+    return 1 + @$stack;
+}
+
+=head2 $mech->history($n)
+
+This returns the I<n>th item in history.  The 0th item is the most recent
+request and response, which would be acted on by methods like C<find_link()>.
+The 1th item is the state you'd return to if you called C<back()>.
+
+The maximum useful value for C<$n> is C<< $mech->history_count - 1 >>.
+Requests beyond that bound will return C<undef>.
+
+History items are returned as hash references, in the form:
+
+  { req => $http_request, res => $http_response }
+
+=cut
+
+sub history {
+    my $self = shift;
+    my $n    = shift;
+
+    return undef unless $self->{req} && $self->{res};
+
+    if ($n == 0) {
+      return { req => $self->{req}, res => $self->{res} };
+    }
+
+    my $stack = $self->{page_stack};
+    return undef unless $stack && @$stack >= $n;
+
+    return { req => $stack->[-$n]{req}, res => $stack->[-$n]{res} };
+}
+
 =head1 STATUS METHODS
 
 =head2 $mech->success()
