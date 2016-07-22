@@ -3,11 +3,7 @@ package WWW::Mechanize::Link;
 use strict;
 use warnings;
 
-our $VERSION = '1.76';
-
-=head1 NAME
-
-WWW::Mechanize::Link - Link object for WWW::Mechanize
+#ABSTRACT: Link object for WWW::Mechanize
 
 =head1 SYNOPSIS
 
@@ -117,23 +113,6 @@ sub url_abs {
 =head1 SEE ALSO
 
 L<WWW::Mechanize> and L<WWW::Mechanize::Image>
-
-=head1 COPYRIGHT & LICENSE
-
-Copyright 2004-2010 Andy Lester.
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of either:
-
-=over 4
-
-=item * the GNU General Public License as published by the Free
-Software Foundation; either version 1, or (at your option) any later
-version, or
-
-=item * the Artistic License version 2.0.
-
-=back
 
 =cut
 

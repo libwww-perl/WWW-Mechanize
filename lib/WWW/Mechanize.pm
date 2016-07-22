@@ -1,16 +1,7 @@
 package WWW::Mechanize;
 
-=head1 NAME
+#ABSTRACT: Handy web browsing in a Perl object
 
-WWW::Mechanize - Handy web browsing in a Perl object
-
-=head1 VERSION
-
-Version 1.76
-
-=cut
-
-our $VERSION = '1.76';
 
 =head1 SYNOPSIS
 
@@ -127,6 +118,8 @@ Frequently asked questions.  Make sure you read here FIRST.
 
 use strict;
 use warnings;
+
+our $VERSION = 1.76;
 
 use HTTP::Request 1.30;
 use LWP::UserAgent 5.827;
@@ -3131,11 +3124,5 @@ Peter Stevens,
 Pete Krawczyk,
 Tad McClellan,
 and the late great Iain Truskett.
-
-=head1 COPYRIGHT
-
-Copyright (c) 2005-2010 Andy Lester. All rights reserved. This program is
-free software; you can redistribute it and/or modify it under the same
-terms as Perl itself.
 
 =cut

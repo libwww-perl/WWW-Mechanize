@@ -1,6 +1,5 @@
-=head1 NAME
-
-WWW::Mechanize::FAQ - Frequently Asked Questions about WWW::Mechanize
+# PODNAME: WWW::Mechanize::FAQ
+# ABSTRACT: Frequently Asked Questions about WWW::Mechanize
 
 =head1 How to get help with WWW::Mechanize
 
@@ -433,9 +432,5 @@ keeps a clone of the full Mech object at every step along the way.
 
 You can limit this stack size with the C<stack_depth> parm in the C<new()>
 constructor.  If you set stack_size to 0, Mech will not keep any history.
-
-=head1 AUTHOR
-
-Copyright 2005-2009 Andy Lester C<< <andy at petdance.com> >>
 
 =cut
