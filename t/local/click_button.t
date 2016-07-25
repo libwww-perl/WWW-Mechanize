@@ -55,9 +55,10 @@ CLICK_BY_OBJECT_REFERENCE: {
     my $resp = $mech->click_button(input => $clicky_button);
     {
         require Data::Dumper;
-        local $Data::Dumper::Sortkeys=1;
+        my $to_dump = Data::Dumper->new( [$resp->request] );
+        $to_dump->Sortkeys(1);
         my $tb = Test::Builder->new;
-        $tb->_print_comment($tb->failure_output, Data::Dumper::Dumper( $resp->request ));
+        $tb->_print_comment($tb->failure_output, $to_dump->Dump);
     }
 
     like( $mech->uri, qr/formsubmit/, 'Clicking on button by object reference' );
