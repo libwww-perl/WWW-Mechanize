@@ -21,6 +21,7 @@ on 'build' => sub {
 };
 
 on 'test' => sub {
+  requires "CGI" => "4.32";
   requires "Data::Dumper" => "0";
   requires "Encode" => "0";
   requires "Exporter" => "0";
