@@ -15,10 +15,6 @@ requires "base" => "0";
 requires "strict" => "0";
 requires "warnings" => "0";
 
-on 'build' => sub {
-  requires "Module::Build" => "0.28";
-};
-
 on 'test' => sub {
   requires "CGI" => "4.32";
   requires "Data::Dumper" => "0";
@@ -33,6 +29,7 @@ on 'test' => sub {
   requires "LWP" => "0";
   requires "LWP::Simple" => "0";
   requires "Test::More" => "0";
+  requires "Test::RequiresInternet" => "0";
   requires "URI" => "0";
   requires "URI::Escape" => "0";
   requires "bytes" => "0";
@@ -43,7 +40,6 @@ on 'test' => sub {
 
 on 'configure' => sub {
   requires "ExtUtils::MakeMaker" => "0";
-  requires "Module::Build" => "0.28";
 };
 
 on 'configure' => sub {
@@ -53,5 +49,7 @@ on 'configure' => sub {
 on 'develop' => sub {
   requires "Pod::Coverage::TrustPod" => "0";
   requires "Test::CPAN::Changes" => "0.19";
+  requires "Test::Code::TidyAll" => "0.24";
+  requires "Test::More" => "0.88";
   requires "Test::Pod::Coverage" => "1.08";
 };
