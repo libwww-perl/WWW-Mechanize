@@ -8,8 +8,9 @@ use constant PAIRS => {
         => '(?:cp|windows-)1251',
 };
 
-use Test::More tests => (4 * keys %{+PAIRS}) + 1;
 use Encode;
+use Test::More;
+use Test::RequiresInternet( 'delicious.com' => 80, 'www.liveinternet.ru' => 80 );
 
 BEGIN {
     use_ok( 'WWW::Mechanize' );
@@ -29,3 +30,5 @@ for my $url ( sort keys %pairs ) {
         "   ... Got encoding $want_encoding" );
     ok( Encode::is_utf8( $mech->content ), 'Got back UTF-8' );
 }
+
+done_testing();
