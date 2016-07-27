@@ -271,6 +271,24 @@ would it do if it could?)
 
 Returns true if it could go back, or false if not.
 
+## $mech->history\_count()
+
+This returns the number of items in the browser history.  This number _does_
+include the most recently made request.
+
+## $mech->history($n)
+
+This returns the _n_th item in history.  The 0th item is the most recent
+request and response, which would be acted on by methods like `find_link()`.
+The 1th item is the state you'd return to if you called `back()`.
+
+The maximum useful value for `$n` is `$mech->history_count - 1`.
+Requests beyond that bound will return `undef`.
+
+History items are returned as hash references, in the form:
+
+    { req => $http_request, res => $http_response }
+
 # STATUS METHODS
 
 ## $mech->success()
