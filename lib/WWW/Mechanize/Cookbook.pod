@@ -1,6 +1,5 @@
-=head1 NAME
-
-WWW::Mechanize::Cookbook - Recipes for using WWW::Mechanize
+# PODNAME: WWW::Mechanize::Cookbook
+# ABSTRACT: Recipes for using WWW::Mechanize
 
 =head1 INTRODUCTION
 
@@ -75,12 +74,5 @@ L<http://search.cpan.org/dist/WWW-CheckSite/>
 =head1 SEE ALSO
 
 L<WWW::Mechanize>
-
-=head1 AUTHORS
-
-Copyright 2005-2010 Andy Lester C<< <andy@petdance.com> >>
-
-Later contributions by Peter Scott, Mark Stosberg and others.  See
-Acknowledgements section in L<WWW::Mechanize> for more.
 
 =cut

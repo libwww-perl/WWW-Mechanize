@@ -4,7 +4,9 @@ use warnings;
 use strict;
 
 use constant LANGUAGES => qw( en it ja es nl pl );
-use Test::More tests => 3 + (2 * scalar LANGUAGES);
+
+use Test::RequiresInternet( 'wikipedia.org' => 80 );
+use Test::More;
 
 use lib 't';
 
@@ -36,3 +38,4 @@ SKIP: {
     memory_cycle_ok( $mech, 'No memory cycles found' );
 }
 
+done_testing();

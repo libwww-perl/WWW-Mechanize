@@ -36,7 +36,7 @@ EOT
 
 is( $reqstring, $wanted, 'Proper posting' );
 
-$mech->field('upload', 'MANIFEST');
+$mech->field('upload', 'dist.ini');
 $reqstring = $form->click->as_string;
-like( $reqstring, qr/Cookbook/, 'The uploaded file should be in the request');
+like( $reqstring, qr/WWW-Mechanize/, 'The uploaded file should be in the request');
 

@@ -1,6 +1,0 @@
-#!include_default
-^.ackrc$
-^.shipit$
-^tags$
-^.mailmap$
-^WWW-Mechanize-

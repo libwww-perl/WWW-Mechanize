@@ -1,6 +1,5 @@
-=head1 NAME
-
-WWW::Mechanize::Examples - Sample programs that use WWW::Mechanize
+# PODNAME: WWW::Mechanize::Examples
+# ABSTRACT: Sample programs that use WWW::Mechanize
 
 =head1 SYNOPSIS
 
