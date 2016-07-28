@@ -1369,7 +1369,7 @@ Added Perl::Critic changes and a perlcriticrc file.
         * Added a quiet() method to suppress warnings to the screen.
 
         [FIXES]
-        * More documentation fixes.  (Thanks to Briac Pilpré)
+        * More documentation fixes.  (Thanks to Briac PilprÃ©)
 
 0.32    September 23, 2002
         [FIXES]
