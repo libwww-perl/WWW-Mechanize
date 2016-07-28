@@ -21,7 +21,7 @@ if ( @results ) {
 }
 my $bad_url = "http://$NONEXISTENT/";
 
-plan tests => 5;
+plan tests => 10;
 require_ok( 'WWW::Mechanize' );
 
 AUTOCHECK_OFF: {
@@ -39,4 +39,24 @@ AUTOCHECK_ON: {
     dies_ok {
         $mech->get( $bad_url );
     } qq{Couldn't fetch $bad_url, and died as a result};
+}
+
+AUTOCHECK_CHANGE: {
+    my $mech = WWW::Mechanize->new;
+    isa_ok( $mech, 'WWW::Mechanize' );
+
+    $mech->autocheck( 0 );
+
+    $mech->get( $bad_url );
+    ok( !$mech->success, qq{Didn't fetch $bad_url, but didn't die, either} );
+
+    $mech->autocheck( 1 );
+
+    dies_ok {
+        $mech->get( $bad_url );
+    } qq{Couldn't fetch $bad_url, and died as a result};
+
+    ok( $mech->autocheck(), 'autocheck getter correctly returns true' );
+    $mech->autocheck( 0 );
+    ok( !$mech->autocheck(), 'autocheck getter correctly returns false' );
 }
