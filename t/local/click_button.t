@@ -1,8 +1,10 @@
 use warnings;
 use strict;
+
 use lib 't/local';
+
 use LocalServer;
-use Test::More tests => 19;
+use Test::More;
 
 BEGIN {
     delete @ENV{ qw( IFS CDPATH ENV BASH_ENV ) };
@@ -23,26 +25,34 @@ ok( $mech->is_html, 'Local page is HTML' );
 my @forms = $mech->forms;
 my $form = $forms[0];
 
-CLICK_BY_NUMBER: {
-    $mech->click_button(number => 1);
-
-    like( $mech->uri, qr/formsubmit/, 'Clicking on button by number' );
-    like( $mech->uri, qr/submit=Go/,  'Correct button was pressed' );
-    like( $mech->uri, qr/cat_foo/,    'Parameters got transmitted OK' );
-    $mech->back;
+subtest 'click by id' => sub {
+    $mech->click_button(id => 'my-submit-id');
+    test_click( $mech );
 
     ok(! eval { $mech->click_button(number => 2); 1 }, 'Button number out of range');
-}
+};
 
-CLICK_BY_NAME: {
+subtest 'click by number' => sub {
+    $mech->click_button(number => 1);
+    test_click( $mech );
+
+    ok(! eval { $mech->click_button(number => 2); 1 }, 'Button number out of range');
+};
+
+subtest 'click by name' => sub {
     $mech->click_button(name => 'submit');
-    like( $mech->uri, qr/formsubmit/, 'Clicking on button by name' );
-    like( $mech->uri, qr/submit=Go/,  'Correct button was pressed' );
-    like( $mech->uri, qr/cat_foo/,    'Parameters got transmitted OK' );
-    $mech->back;
+    test_click( $mech );
 
     ok(! eval { $mech->click_button(name => 'bogus'); 1 },
     'Button name unknown');
+};
+
+sub test_click {
+    my $mech = shift;
+    like( $mech->uri, qr/formsubmit/, 'Clicking on button' );
+    like( $mech->uri, qr/submit=Go/,  'Correct button was pressed' );
+    like( $mech->uri, qr/cat_foo/,    'Parameters got transmitted OK' );
+    $mech->back;
 }
 
 CLICK_BY_OBJECT_REFERENCE: {
@@ -67,3 +77,5 @@ CLICK_BY_OBJECT_REFERENCE: {
 
     $mech->back;
 }
+
+done_testing();
