@@ -2359,6 +2359,9 @@ Returns an L<HTTP::Response> object.
 sub request {
     my $self = shift;
     my $request = shift;
+    
+    _die( '->request was called without a request parameter' )
+        unless $request;
 
     $request = $self->_modify_request( $request );
 
