@@ -26,7 +26,7 @@ my @forms = $mech->forms;
 my $form = $forms[0];
 
 subtest 'click by id' => sub {
-    $mech->click_button(id => 'my-submit-id');
+    $mech->click_button(id => 0);
     test_click( $mech );
 
     ok(! eval { $mech->click_button(number => 2); 1 }, 'Button number out of range');
