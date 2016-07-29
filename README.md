@@ -857,6 +857,10 @@ the keys.
 
     Clicks the button named _name_ in the current form.
 
+- `id => id`
+
+    Clicks the button with the id _id_ in the current form.
+
 - `number => n`
 
     Clicks the _n_th button in the current form. Numbering starts at 1.

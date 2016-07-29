@@ -38,7 +38,6 @@ my %WriteMakefileArgs = (
   },
   "TEST_REQUIRES" => {
     "CGI" => "4.32",
-    "Data::Dumper" => 0,
     "Encode" => 0,
     "Exporter" => 0,
     "File::Spec" => 0,
@@ -68,7 +67,6 @@ my %WriteMakefileArgs = (
 my %FallbackPrereqs = (
   "CGI" => "4.32",
   "Carp" => 0,
-  "Data::Dumper" => 0,
   "Encode" => 0,
   "Exporter" => 0,
   "File::Spec" => 0,
