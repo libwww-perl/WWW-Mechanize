@@ -1802,6 +1802,10 @@ the keys.
 
 Clicks the button named I<name> in the current form.
 
+=item * C<< id => id >>
+
+Clicks the button with the id I<id> in the current form.
+
 =item * C<< number => n >>
 
 Clicks the I<n>th button in the current form. Numbering starts at 1.
@@ -1835,7 +1839,7 @@ sub click_button {
     my %args = @_;
 
     for ( keys %args ) {
-        if ( !/^(number|name|value|input|x|y)$/ ) {
+        if ( !/^(number|name|value|id|input|x|y)$/ ) {
             $self->warn( qq{Unknown click_button parameter "$_"} );
         }
     }
@@ -1849,6 +1853,12 @@ sub click_button {
     my $request;
     if ( $args{name} ) {
         $request = $form->click( $args{name}, $args{x}, $args{y} );
+    }
+    # 0 is a valid id in HTML5
+    elsif ( defined $args{id} ) {
+        # HTML::Form expects ids to be prefixed with '#'
+        my $input = $form->find_input('#' . $args{id});
+        $request = $input->click( $form, $args{x}, $args{y} );
     }
     elsif ( $args{number} ) {
         my $input = $form->find_input( undef, 'submit', $args{number} );
