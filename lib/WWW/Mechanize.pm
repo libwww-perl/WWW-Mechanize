@@ -1854,7 +1854,8 @@ sub click_button {
     if ( $args{name} ) {
         $request = $form->click( $args{name}, $args{x}, $args{y} );
     }
-    elsif ( $args{id} ) {
+    # 0 is a valid id in HTML5
+    elsif ( defined $args{id} ) {
         # HTML::Form expects ids to be prefixed with '#'
         my $input = $form->find_input('#' . $args{id});
         $request = $input->click( $form, $args{x}, $args{y} );
