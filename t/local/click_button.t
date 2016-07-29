@@ -29,7 +29,10 @@ subtest 'click by id' => sub {
     $mech->click_button(id => 0);
     test_click( $mech );
 
-    ok(! eval { $mech->click_button(number => 2); 1 }, 'Button number out of range');
+    ok(
+        !eval { $mech->click_button( id => 'i-do-not-exist' ); 1 },
+        'Button id not found'
+    );
 };
 
 subtest 'click by number' => sub {
