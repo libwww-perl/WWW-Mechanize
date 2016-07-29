@@ -50,34 +50,24 @@ subtest 'click by name' => sub {
     'Button name unknown');
 };
 
+CLICK_BY_OBJECT_REFERENCE: {
+    subtest 'click by object reference' => sub {
+        my $clicky_button = $form->find_input( undef, 'submit' );
+        isa_ok( $clicky_button, 'HTML::Form::Input', 'Found the submit button' );
+        is( $clicky_button->value, 'Go', 'Named the right thing, too' );
+
+        my $res = $mech->click_button(input => $clicky_button);
+        local $TODO = q{Calling ->click() on an object doesn't seem to use the submit button.};
+        test_click( $mech );
+        diag $res->request->uri;
+    };
+}
+
 sub test_click {
     my $mech = shift;
     like( $mech->uri, qr/formsubmit/, 'Clicking on button' );
     like( $mech->uri, qr/submit=Go/,  'Correct button was pressed' );
     like( $mech->uri, qr/cat_foo/,    'Parameters got transmitted OK' );
-    $mech->back;
-}
-
-CLICK_BY_OBJECT_REFERENCE: {
-    local $TODO = q{It seems that calling ->click() on an object is broken in LWP. Need to investigate further.};
-
-    my $clicky_button = $form->find_input( undef, 'submit' );
-    isa_ok( $clicky_button, 'HTML::Form::Input', 'Found the submit button' );
-    is( $clicky_button->value, 'Go', 'Named the right thing, too' );
-
-    my $resp = $mech->click_button(input => $clicky_button);
-    {
-        require Data::Dumper;
-        my $to_dump = Data::Dumper->new( [$resp->request] );
-        $to_dump->Sortkeys(1);
-        my $tb = Test::Builder->new;
-        $tb->_print_comment($tb->failure_output, $to_dump->Dump);
-    }
-
-    like( $mech->uri, qr/formsubmit/, 'Clicking on button by object reference' );
-    like( $mech->uri, qr/submit=Go/,  'Correct button was pressed' );
-    like( $mech->uri, qr/cat_foo/,    'Parameters got transmitted OK' );
-
     $mech->back;
 }
 
