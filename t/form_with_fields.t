@@ -42,3 +42,11 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
         ); };
     is($@,'', ' submit_form( with_fields => %data ) ' );
 }
+
+{
+    $mech->get($uri);
+    eval { $mech->submit_form(
+            with_fields => { 'select' => \1 },
+        ); };
+    is($@,'', ' submit_form( with_fields => %data_with_refs ) ' );
+}
