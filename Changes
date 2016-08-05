@@ -4,6 +4,8 @@ Mech now has its own mailing list at Google Groups:
 http://groups.google.com/group/www-mechanize-users
 
 {{$NEXT}}
+
+1.77      2016-08-05 12:50:12-04:00 America/Toronto (TRIAL RELEASE)
 ========================================
 [TESTS]
 - Skip Wikipedia tests if LWP::Protocol::https is not installed.
