@@ -1,8 +1,10 @@
 /.ackrc
 /blib/
 .build
+cpanfile.snapshot
 /_eumm/
 !/.gitignore
+local
 /Makefile
 /Makefile.old
 /MANIFEST.bak
@@ -13,5 +15,6 @@
 /README
 *.sw*
 /.tidyall.d
+tidyall.ERR
 /WWW-Mechanize-*/
 /WWW-Mechanize-*.tar.gz
