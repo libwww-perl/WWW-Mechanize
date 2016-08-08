@@ -4,6 +4,9 @@ Mech now has its own mailing list at Google Groups:
 http://groups.google.com/group/www-mechanize-users
 
 {{$NEXT}}
+========================================
+[OTHER CHANGES]
+- No changes specific to this version.  First non-develepment release in about a year.
 
 1.77      2016-08-05 12:50:12-04:00 America/Toronto (TRIAL RELEASE)
 ========================================
@@ -523,7 +526,7 @@ Added Perl::Critic changes and a perlcriticrc file.
           responses are returned. (Mark Stosberg)
 
         [INTERNALS]
-        * test suite no longer fails when Test::Warn is missing. 
+        * test suite no longer fails when Test::Warn is missing.
           (CPAN testers, Mark Stosberg)
         * Removed all the testing against live sites. The networking
           code is not actually in Mech anway, and they were prone to
@@ -744,7 +747,7 @@ Added Perl::Critic changes and a perlcriticrc file.
 
         * When links are extracted from <area> tags, the ALT attribute will
           be captured and become part of the WWW::Mechanize::Link object.
-          (RT #3317). Patch by Mark Stosberg. 
+          (RT #3317). Patch by Mark Stosberg.
 
         [INTERNALS]
         * t/mech-dump.t is now more portable (RT #7690)

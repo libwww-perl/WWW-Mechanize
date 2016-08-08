@@ -119,7 +119,7 @@ Frequently asked questions.  Make sure you read here FIRST.
 use strict;
 use warnings;
 
-our $VERSION = 1.77;
+our $VERSION = 1.78;
 
 use HTTP::Request 1.30;
 use LWP::UserAgent 5.827;
