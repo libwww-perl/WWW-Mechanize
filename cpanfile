@@ -28,6 +28,7 @@ on 'test' => sub {
   requires "LWP" => "0";
   requires "LWP::Simple" => "0";
   requires "Test::More" => "0";
+  requires "Test::Output" => "0";
   requires "Test::RequiresInternet" => "0";
   requires "URI" => "0";
   requires "URI::Escape" => "0";
