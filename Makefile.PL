@@ -49,6 +49,7 @@ my %WriteMakefileArgs = (
     "LWP" => 0,
     "LWP::Simple" => 0,
     "Test::More" => 0,
+    "Test::Output" => 0,
     "Test::RequiresInternet" => 0,
     "URI" => 0,
     "URI::Escape" => 0,
