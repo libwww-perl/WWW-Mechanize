@@ -1367,19 +1367,7 @@ Returns undef if no form is found.
 
 sub form_name {
     my ($self, $form) = @_;
-
-    my $temp;
-    my @matches = grep {defined($temp = $_->attr('name')) and ($temp eq $form) } $self->forms;
-
-    my $nmatches = @matches;
-    if ( $nmatches > 0 ) {
-        if ( $nmatches > 1 ) {
-            $self->warn( "There are $nmatches forms named $form.  The first one was used." )
-        }
-        return $self->{current_form} = $matches[0];
-    }
-
-    return;
+    $self->form_with( name => $form );
 }
 
 =head2 $mech->form_id( $name )
@@ -1398,18 +1386,9 @@ unless C<quiet> is enabled.
 
 sub form_id {
     my ($self, $formid) = @_;
-
-    my $temp;
-    my @matches = grep { defined($temp = $_->attr('id')) and ($temp eq $formid) } $self->forms;
-    if ( @matches ) {
-        $self->warn( 'There are ', scalar @matches, " forms with ID $formid.  The first one was used." )
-            if @matches > 1;
-        return $self->{current_form} = $matches[0];
-    }
-    else {
-        $self->warn( qq{ There is no form with ID "$formid"} );
-        return undef;
-    }
+    defined( my $form = $self->form_with( id => $formid ) )
+      or $self->warn(qq{ There is no form with ID "$formid"});
+    $form;
 }
 
 
@@ -1452,6 +1431,59 @@ sub form_with_fields {
         $self->warn( qq{There is no form with the requested fields} );
         return undef;
     }
+}
+
+
+=head2 $mech->form_with( $attr1 => $value1, $attr2 => $value2, ... )
+
+Searches for forms with arbitrary attribute/value pairs within the E<lt>formE<gt>
+tag.
+(Currently does not work for attribute C<action> due to implementation details
+of L<HTML::Form>.)
+When given more than one pair, all criteria must match.
+Using C<undef> as value means that the attribute in question may not be present.
+
+If it is found, the form is returned as an L<HTML::Form> object and set internally
+for later used with Mech's form methods such as C<L</field()>> and C<L</click()>>.
+
+Returns undef if no form is found.
+
+
+=cut
+
+sub form_with {
+    my ( $self, %spec ) = @_;
+
+    my @forms = $self->forms or return;
+    while ( my ( $attr, $expected_value ) = each %spec ) {
+        @forms = grep {
+            my $actual_value = $_->attr($attr);
+            if ( defined $expected_value ) {
+                defined $actual_value && $actual_value eq $expected_value;
+            }
+            else {
+                !defined $actual_value;
+            }
+        } @forms or return;
+    }
+
+    $self->warn(
+            'There are '
+          . @forms
+          . ' forms '
+          . (
+            keys %spec > 0 && 'with '
+              . join( ' and ',
+                  map defined $spec{$_}
+                ? length $spec{$_}
+                      ? "$_ $spec{$_}"
+                      : "empty $_"
+                : "no $_",
+                sort keys %spec )
+          )
+          . '.  The first one was used.'
+    ) if @forms > 1;
+    $self->{current_form} = $forms[0];
 }
 
 =head1 FIELD METHODS

@@ -1,6 +1,6 @@
 use warnings;
 use strict;
-use Test::More tests => 13;
+use Test::More tests => 15;
 
 use lib 't/local';
 use LocalServer;
@@ -34,3 +34,8 @@ ok( !$mech->form_name('bargle-snark'), 'cannot select non-existent form' );
 my $form_id_pounder = $mech->form_id('pounder');
 isa_ok( $form_id_pounder, 'HTML::Form', 'Can select the form' );
 ok( !$mech->form_id('bargle-snark'), 'cannot select non-existent form' );
+
+my $form_with = $mech->form_with( class => 'test', id => undef );
+isa_ok( $form_with, 'HTML::Form', 'Can select the form without id' );
+is( $mech->current_form, $form_number_1,
+    'Form without id is now the current form' );
