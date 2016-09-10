@@ -5,6 +5,9 @@ http://groups.google.com/group/www-mechanize-users
 
 {{$NEXT}}
 
+[ENHANCEMENTS]
+- Added form_with() method. (Martin Sluka)
+
 1.78      2016-08-08 09:18:59-04:00 America/Toronto
 ========================================
 [OTHER CHANGES]
