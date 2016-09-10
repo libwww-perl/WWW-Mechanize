@@ -1457,13 +1457,11 @@ sub form_with {
     my @forms = $self->forms or return;
     foreach my $attr ( keys %spec ) {
         @forms = grep {
-            my $actual_value = $_->attr($attr);
-            if ( defined( my $expected_value = $spec{$attr} ) ) {
-                defined $actual_value && $actual_value eq $expected_value;
-            }
-            else {
-                !defined $actual_value;
-            }
+            my $expected_value = $spec{$attr};
+            my $actual_value   = $_->attr($attr);
+            defined $expected_value
+              ? defined $actual_value && $actual_value eq $expected_value
+              : !defined $actual_value;
         } @forms or return;
     }
 
