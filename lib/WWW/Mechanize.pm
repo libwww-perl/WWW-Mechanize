@@ -1367,7 +1367,7 @@ Returns undef if no form is found.
 
 sub form_name {
     my ($self, $form) = @_;
-    $self->form_with( name => $form );
+    return $self->form_with( name => $form );
 }
 
 =head2 $mech->form_id( $name )
@@ -1388,7 +1388,7 @@ sub form_id {
     my ($self, $formid) = @_;
     defined( my $form = $self->form_with( id => $formid ) )
       or $self->warn(qq{ There is no form with ID "$formid"});
-    $form;
+    return $form;
 }
 
 
@@ -1455,10 +1455,10 @@ sub form_with {
     my ( $self, %spec ) = @_;
 
     my @forms = $self->forms or return;
-    while ( my ( $attr, $expected_value ) = each %spec ) {
+    foreach my $attr ( keys %spec ) {
         @forms = grep {
             my $actual_value = $_->attr($attr);
-            if ( defined $expected_value ) {
+            if ( defined( my $expected_value = $spec{$attr} ) ) {
                 defined $actual_value && $actual_value eq $expected_value;
             }
             else {
@@ -1467,23 +1467,37 @@ sub form_with {
         } @forms or return;
     }
 
-    $self->warn(
-            'There are '
-          . @forms
-          . ' forms '
-          . (
-            keys %spec > 0 && 'with '
-              . join( ' and ',
-                  map defined $spec{$_}
-                ? length $spec{$_}
-                      ? "$_ $spec{$_}"
-                      : "empty $_"
-                : "no $_",
-                sort keys %spec )
-          )
-          . '.  The first one was used.'
-    ) if @forms > 1;
-    $self->{current_form} = $forms[0];
+    if ( @forms > 1 ) {    # Warn if several forms matched.
+
+        # For ->form_with( method => 'POST', action => '', id => undef ) we get:
+        # >>There are 2 forms with empty action and no id and method "POST".
+        # The first one was used.<<
+
+        $self->warn(
+            'There are ' . @forms . ' forms ' . (
+                keys %spec    # explain search criteria if there were any
+                ? 'with ' . join(
+                    ' and ',    # "with ... and ... and ..."
+                    map {
+                        unless ( defined $spec{$_} ) {    # case $attr => undef
+                            qq{no $_};
+                        }
+                        elsif ( length $spec{$_} ) {      # case $attr => $value
+                            qq{$_ "$spec{$_}"};
+                        }
+                        else {                            # case $attr=> ''
+                            qq{empty $_};
+                        }
+                      }                # case $attr => undef
+                      sort keys %spec  # sort keys to get deterministic messages
+                  )
+                : ''
+              )
+              . '.  The first one was used.'
+        );
+    }
+
+    return $self->{current_form} = $forms[0];
 }
 
 =head1 FIELD METHODS
