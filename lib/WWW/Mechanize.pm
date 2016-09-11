@@ -1456,13 +1456,7 @@ sub form_with {
 
     my @forms = $self->forms or return;
     foreach my $attr ( keys %spec ) {
-        @forms = grep {
-            my $expected_value = $spec{$attr};
-            my $actual_value   = $_->attr($attr);
-            defined $expected_value
-              ? defined $actual_value && $actual_value eq $expected_value
-              : !defined $actual_value;
-        } @forms or return;
+        @forms = grep _equal( $spec{$attr}, $_->attr($attr) ), @forms or return;
     }
     if ( @forms > 1 ) {    # Warn if several forms matched.
         # For ->form_with( method => 'POST', action => '', id => undef ) we get:
@@ -1495,6 +1489,15 @@ sub form_with {
 
     return $self->{current_form} = $forms[0];
 }
+
+# NOT an object method!
+# Expects two values and returns true only when either
+# both are defined and eq(ual) or when both are not defined.
+sub _equal {
+    my ( $x, $y ) = @_;
+    defined $x ? defined $y && $x eq $y : !defined $y;
+}
+
 
 =head1 FIELD METHODS
 
