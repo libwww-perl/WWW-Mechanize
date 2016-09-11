@@ -1464,9 +1464,7 @@ sub form_with {
               : !defined $actual_value;
         } @forms or return;
     }
-
     if ( @forms > 1 ) {    # Warn if several forms matched.
-
         # For ->form_with( method => 'POST', action => '', id => undef ) we get:
         # >>There are 2 forms with empty action and no id and method "POST".
         # The first one was used.<<
@@ -1480,11 +1478,11 @@ sub form_with {
                         unless ( defined $spec{$_} ) {    # case $attr => undef
                             qq{no $_};
                         }
-                        elsif ( length $spec{$_} ) {      # case $attr => $value
-                            qq{$_ "$spec{$_}"};
-                        }
-                        else {                            # case $attr=> ''
+                        elsif ( $spec{$_} eq '' ) {       # case $attr=> ''
                             qq{empty $_};
+                        }
+                        else {                            # case $attr => $value
+                            qq{$_ "$spec{$_}"};
                         }
                       }                # case $attr => undef
                       sort keys %spec  # sort keys to get deterministic messages

@@ -180,7 +180,7 @@ __DATA__
     <tr><td>B1</td><td>B2</td><td>B3</td></tr>
     <tr><td>C1</td><td>C2</td><td>C3</td></tr>
   </table>
-  <form name="f" action="/formsubmit" class="test">
+  <form name="f" action="/formsubmit" class="test" foo="">
     <input type="hidden" name="session" value="%s"/>
     <input type="text" name="query" value="%s"/>
     <input type="submit" name="submit" value="Go" id="0" />
@@ -189,7 +189,7 @@ __DATA__
     <input type="checkbox" name="cat" value="cat_baz" %s />
     <input type="file" name="upload" value="README" />
   </form>
-  <form id="pounder" action="/formsubmit" class="test">
+  <form id="pounder" action="/formsubmit" class="test" foo="">
     <input type="text" name="query" value="%s"/>
   </form>
 </p>
