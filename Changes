@@ -4,6 +4,8 @@ Mech now has its own mailing list at Google Groups:
 http://groups.google.com/group/www-mechanize-users
 
 {{$NEXT}}
+
+1.79      2016-09-16 23:53:48-04:00 America/Toronto
 ========================================
 [ENHANCEMENTS]
 - Added form_with() method. (Martin Sluka)
