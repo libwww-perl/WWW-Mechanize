@@ -6,7 +6,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 # VERSION
 
-version 1.78
+version 1.79
 
 # SYNOPSIS
 
@@ -720,6 +720,20 @@ for later used with Mech's form methods such as `["field()"](#field)` and `["cli
 Returns undef if no form is found.
 
 Note that this functionality requires libwww-perl 5.69 or higher.
+
+## $mech->form\_with( $attr1 => $value1, $attr2 => $value2, ... )
+
+Searches for forms with arbitrary attribute/value pairs within the &lt;form>
+tag.
+(Currently does not work for attribute `action` due to implementation details
+of [HTML::Form](https://metacpan.org/pod/HTML::Form).)
+When given more than one pair, all criteria must match.
+Using `undef` as value means that the attribute in question may not be present.
+
+If it is found, the form is returned as an [HTML::Form](https://metacpan.org/pod/HTML::Form) object and set internally
+for later used with Mech's form methods such as `["field()"](#field)` and `["click()"](#click)`.
+
+Returns undef if no form is found.
 
 # FIELD METHODS
 
