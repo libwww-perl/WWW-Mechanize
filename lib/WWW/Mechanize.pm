@@ -2042,10 +2042,11 @@ sub submit_form {
         $self->form_number( $form_number ) or die "There is no form numbered $form_number";
     }
     elsif ( my $form_name = $args{form_name} ) {
-        $self->form_name( $form_name ) or die qq{There is no form named "$form_name"};
+        $self->form_with( name => $form_name ) or die qq{There is no form named "$form_name"};
     }
     elsif ( my $form_id = $args{form_id} ) {
-        $self->form_id( $form_id ) or die qq{There is no form with ID "$form_id"};
+        defined( my $form = $self->form_with( id => $form_id ) )
+            or $self->warn(qq{ There is no form with ID "$form_id"});
     }
     else {
         # No form selector was used.
