@@ -1392,6 +1392,28 @@ sub form_id {
 }
 
 
+=head2 $mech->all_forms_with_fields( @fields )
+
+Selects a form by passing in a list of field names it must contain.  All matching forms (perhaps none) are returned as a list of L<HTML::Form> objects.
+
+=cut
+
+sub all_forms_with_fields {
+    my ($self, @fields) = @_;
+    die 'no fields provided' unless scalar @fields;
+
+    my @matches;
+    FORMS: for my $form (@{ $self->forms }) {
+        my @fields_in_form = $form->param();
+        for my $field (@fields) {
+            next FORMS unless grep { $_ eq $field } @fields_in_form;
+        }
+        push @matches, $form;
+    }
+    return @matches;
+}
+
+
 =head2 $mech->form_with_fields( @fields )
 
 Selects a form by passing in a list of field names it must contain.  If there
@@ -1411,15 +1433,7 @@ sub form_with_fields {
     my ($self, @fields) = @_;
     die 'no fields provided' unless scalar @fields;
 
-    my @matches;
-    FORMS: for my $form (@{ $self->forms }) {
-        my @fields_in_form = $form->param();
-        for my $field (@fields) {
-            next FORMS unless grep { $_ eq $field } @fields_in_form;
-        }
-        push @matches, $form;
-    }
-
+    my @matches = $self->all_forms_with_fields(@fields);
     my $nmatches = @matches;
     if ( $nmatches > 0 ) {
         if ( $nmatches > 1 ) {
@@ -1433,6 +1447,29 @@ sub form_with_fields {
     }
 }
 
+
+=head2 $mech->all_forms_with( $attr1 => $value1, $attr2 => $value2, ... )
+
+Searches for forms with arbitrary attribute/value pairs within the E<lt>formE<gt>
+tag.
+(Currently does not work for attribute C<action> due to implementation details
+of L<HTML::Form>.)
+When given more than one pair, all criteria must match.
+Using C<undef> as value means that the attribute in question may not be present.
+
+All matching forms (perhaps none) are returned as a list of L<HTML::Form> objects.
+
+=cut
+
+sub all_forms_with {
+    my ( $self, %spec ) = @_;
+
+    my @forms = $self->forms;
+    foreach my $attr ( keys %spec ) {
+        @forms = grep _equal( $spec{$attr}, $_->attr($attr) ), @forms or return;
+    }
+    return @forms;
+}
 
 =head2 $mech->form_with( $attr1 => $value1, $attr2 => $value2, ... )
 
@@ -1454,10 +1491,8 @@ Returns undef if no form is found.
 sub form_with {
     my ( $self, %spec ) = @_;
 
-    my @forms = $self->forms or return;
-    foreach my $attr ( keys %spec ) {
-        @forms = grep _equal( $spec{$attr}, $_->attr($attr) ), @forms or return;
-    }
+    return if not $self->forms;
+    my @forms = $self->all_forms_with(%spec);
     if ( @forms > 1 ) {    # Warn if several forms matched.
         # For ->form_with( method => 'POST', action => '', id => undef ) we get:
         # >>There are 2 forms with empty action and no id and method "POST".
