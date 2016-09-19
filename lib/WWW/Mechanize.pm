@@ -121,6 +121,7 @@ use warnings;
 
 our $VERSION = 1.79;
 
+use Tie::RefHash;
 use HTTP::Request 1.30;
 use LWP::UserAgent 5.827;
 use HTML::Form 1.00;
@@ -2063,23 +2064,53 @@ sub submit_form {
         }
     }
 
+    my @filtered_sets;
     if ( $args{with_fields} ) {
         $fields || die q{must submit some 'fields' with with_fields};
-        $self->form_with_fields(keys %{$fields}) or die "There is no form with the requested fields";
+        my @got = $self->all_forms_with_fields(keys %{$fields});
+        die "There is no form with the requested fields" if not @got;
+        push @filtered_sets, \@got;
     }
-    elsif ( my $form_number = $args{form_number} ) {
-        $self->form_number( $form_number ) or die "There is no form numbered $form_number";
+    if ( my $form_number = $args{form_number} ) {
+        my $got = $self->form_number( $form_number );
+        die "There is no form numbered $form_number" if not $got;
+        push @filtered_sets, [ $got ];
     }
-    elsif ( my $form_name = $args{form_name} ) {
-        $self->form_with( name => $form_name ) or die qq{There is no form named "$form_name"};
+    if ( my $form_name = $args{form_name} ) {
+        my @got = $self->all_forms_with( name => $form_name );
+        die qq{There is no form named "$form_name"} if not @got;
+        push @filtered_sets, \@got;
     }
-    elsif ( my $form_id = $args{form_id} ) {
-        defined( my $form = $self->form_with( id => $form_id ) )
-            or $self->warn(qq{ There is no form with ID "$form_id"});
+    if ( my $form_id = $args{form_id} ) {
+        my @got = $self->all_forms_with( id => $form_id );
+        $self->warn(qq{ There is no form with ID "$form_id"}) if not @got;
+        push @filtered_sets, \@got;
     }
-    else {
+
+    if (not @filtered_sets) {
         # No form selector was used.
         # Maybe a form was set separately, or we'll default to the first form.
+    }
+    else {
+        # Need to intersect to apply all the various filters.
+        # Assume that each filtered set only has a given form object once.
+        # So we can count occurrences.
+        #
+        tie my %c, 'Tie::RefHash' or die;
+        foreach (@filtered_sets) {
+            foreach (@$_) {
+                ++$c{$_};
+            }
+        }
+        my $expected_count = scalar @filtered_sets;
+        my @matched = grep { $c{$_} == $expected_count } keys %c;
+        if (not @matched) {
+            die "There is no form that satisfies all the criteria";
+        }
+        if (@matched > 1) {
+            die "More than one form satisfies all the criteria";
+        }
+        $self->{current_form} = $matched[0];
     }
 
     $self->set_fields( %{$fields} ) if $fields;
