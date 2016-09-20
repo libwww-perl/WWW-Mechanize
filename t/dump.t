@@ -73,6 +73,26 @@ POST http://localhost/ [2nd_form]
   1b=                            (text)
   submit=Submit                  (submit)
 
+POST http://localhost/ (multipart/form-data) [3rd_form_ambiguous]
+  3a=                            (text)
+  3b=                            (text)
+  submit=Submit                  (submit)
+
+POST http://localhost/ (multipart/form-data) [3rd_form_ambiguous]
+  3c=                            (text)
+  3d=                            (text)
+  submit=Submit                  (submit)
+
+POST http://localhost/ (multipart/form-data) [4th_form_1]
+  4a=                            (text)
+  4b=                            (text)
+  submit=Submit                  (submit)
+
+POST http://localhost/ (multipart/form-data) [4th_form_2]
+  4a=                            (text)
+  4b=                            (text)
+  submit=Submit                  (submit)
+
 EXPECTED
 
 subtest "dump_text test", \&dump_tests, 'dump_text', 't/image-parse.html', <<'EXPECTED';
