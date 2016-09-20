@@ -36,6 +36,24 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
 }
 
 {
+    my $w; local $mech->{onwarn} = sub { warn $w if defined $w; $w = $_[0] };
+    my $form = $mech->form_with_fields('4a', '4b');
+
+    isa_ok( $form, 'HTML::Form' );
+    is($form->attr('name'), '4th_form_1', 'fourth form matches');
+    is($w, 'There are 2 forms with the named fields.  The first one was used.', 'warning on ambiguous match');
+}
+
+{
+    my @forms = $mech->all_forms_with( name => '3rd_form_ambiguous' );
+    is( scalar @forms, 2 );
+    isa_ok( $forms[0], 'HTML::Form' );
+    isa_ok( $forms[1], 'HTML::Form' );
+    is($forms[0]->attr('name'), '3rd_form_ambiguous', 'first result of 3rd_form_ambiguous');
+    is($forms[0]->attr('name'), '3rd_form_ambiguous', 'second result of 3rd_form_ambiguous');
+}
+
+{
     $mech->get($uri);
     eval { $mech->submit_form(
             with_fields => { '1b' => '', 'opt[2]' => '' },
