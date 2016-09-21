@@ -81,16 +81,19 @@ POST http://localhost/ (multipart/form-data) [3rd_form_ambiguous]
 POST http://localhost/ (multipart/form-data) [3rd_form_ambiguous]
   3c=                            (text)
   3d=                            (text)
+  x=                             (text)
   submit=Submit                  (submit)
 
 POST http://localhost/ (multipart/form-data) [4th_form_1]
   4a=                            (text)
   4b=                            (text)
+  x=                             (text)
   submit=Submit                  (submit)
 
 POST http://localhost/ (multipart/form-data) [4th_form_2]
   4a=                            (text)
   4b=                            (text)
+  x=                             (text)
   submit=Submit                  (submit)
 
 EXPECTED
