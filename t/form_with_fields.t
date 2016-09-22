@@ -4,6 +4,8 @@ use warnings;
 use strict;
 use Test::More 'no_plan';
 use Test::Fatal;
+use Test::Warnings ':all';
+use Test::Deep;
 use URI::file ();
 
 BEGIN {
@@ -28,7 +30,12 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
 }
 
 {
-    my $form = $mech->form_with_fields(qw/1b/);
+    my $form;
+    cmp_deeply(
+        [ warnings { $form = $mech->form_with_fields(qw/1b/) } ],
+        [ re(qr/There are 2 forms with the named fields.  The first one was used./) ],
+        'warning on ambiguous match (1)',
+    );
     isa_ok( $form, 'HTML::Form' );
     is($form->attr('name'), '1st_form', 'first form matches');
 }
@@ -40,12 +47,14 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
 }
 
 {
-    my $w; local $mech->{onwarn} = sub { warn $w if defined $w; $w = $_[0] };
-    my $form = $mech->form_with_fields('4a', '4b');
-
+    my $form;
+    cmp_deeply(
+        [ warnings { $form = $mech->form_with_fields('4a', '4b') } ],
+        [ re(qr/There are 2 forms with the named fields.  The first one was used./) ],
+        'warning on ambiguous match (2)',
+    );
     isa_ok( $form, 'HTML::Form' );
     is($form->attr('name'), '4th_form_1', 'fourth form matches');
-    is($w, 'There are 2 forms with the named fields.  The first one was used.', 'warning on ambiguous match');
 }
 
 {
