@@ -3,6 +3,7 @@
 use warnings;
 use strict;
 use Test::More 'no_plan';
+use Test::Fatal;
 use URI::file ();
 
 BEGIN {
@@ -19,8 +20,11 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
 
 {
     my $test = 'dies with no input';
-    eval{  my $form = $mech->form_with_fields(); };
-    ok($@,$test);
+    like(
+        exception { my $form = $mech->form_with_fields(); },
+        qr/no fields provided/,
+        $test,
+    );
 }
 
 {
@@ -55,50 +59,81 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
 
 {
     $mech->get($uri);
-    eval { $mech->submit_form(
-            with_fields => { '1b' => '', 'opt[2]' => '' },
-        ); };
-    is($@,'', ' submit_form( with_fields => %data ) ' );
+    like(
+        exception {
+            $mech->submit_form(
+                with_fields => { 'xx' => '' },
+            );
+        },
+        qr/There is no form with the requested fields/,
+        'submit_form with no match (1)',
+    );
 }
 
 {
     $mech->get($uri);
-    eval {
-        $mech->submit_form(
-            form_name => '1st_form',
-            fields => {
-                '1c' => 'madeup_field',
-            },
-        );
-    };
-    is($@, '', 'submit_form with invalid field and without strict option succeeds');
+    like(
+        exception {
+            $mech->submit_form(
+                with_fields => { '1a' => '' },
+                form_number => 2,
+            );
+        },
+        qr/There is no form that satisfies all the criteria/,
+        'submit_form with no match (2)',
+    );
 }
 
 {
     $mech->get($uri);
-    eval {
-        $mech->submit_form(
-            form_name => '1st_form',
-            fields => {
-                '1c' => 'madeup_field',
-            },
-            strict => 1,
-        );
-    };
-    like($@, qr/^No such field \'1c\'/, 'submit_form with invalid field and strict option fails');
+    like(
+        exception {
+            $mech->submit_form(
+                form_number => 2,
+                form_name => '3rd_form_ambiguous',
+            );
+        },
+        qr/There is no form that satisfies all the criteria/,
+        'submit_form with no match (3)',
+    );
 }
 
 {
     $mech->get($uri);
-    eval {
-        $mech->submit_form(
-            form_name => '1st_form',
-            fields => {
-                '1a' => 'value1',
-                '1b' => 'value2',
-            },
-            strict => 1,
-        );
-    };
-    is($@, '', 'submit_form with valid fields and strict option succeeds');
+    like(
+        exception {
+            $mech->submit_form(
+                form_name => '3rd_form_ambiguous',
+            );
+        },
+        qr/More than one form satisfies all the criteria/,
+        'submit_form with more than one match',
+    );
+}
+
+{
+    $mech->get($uri);
+    is(
+        exception {
+            $mech->submit_form(
+                with_fields => { 'x' => '' },
+                form_name => '3rd_form_ambiguous',
+            );
+        },
+        undef,
+        'submit_form with intersection of two criteria',
+    );
+}
+
+{
+    $mech->get($uri);
+    is(
+        exception {
+            $mech->submit_form(
+                with_fields => { '1b' => '', 'opt[2]' => '' },
+            );
+        },
+        undef,
+        ' submit_form( with_fields => %data ) ',
+    );
 }
