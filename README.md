@@ -708,6 +708,10 @@ set internally for later use with Mech's form methods such as
 If no form is found it returns `undef`.  This will also trigger a warning,
 unless `quiet` is enabled.
 
+## $mech->all\_forms\_with\_fields( @fields )
+
+Selects a form by passing in a list of field names it must contain.  All matching forms (perhaps none) are returned as a list of [HTML::Form](https://metacpan.org/pod/HTML::Form) objects.
+
 ## $mech->form\_with\_fields( @fields )
 
 Selects a form by passing in a list of field names it must contain.  If there
@@ -720,6 +724,17 @@ for later used with Mech's form methods such as `["field()"](#field)` and `["cli
 Returns undef if no form is found.
 
 Note that this functionality requires libwww-perl 5.69 or higher.
+
+## $mech->all\_forms\_with( $attr1 => $value1, $attr2 => $value2, ... )
+
+Searches for forms with arbitrary attribute/value pairs within the &lt;form>
+tag.
+(Currently does not work for attribute `action` due to implementation details
+of [HTML::Form](https://metacpan.org/pod/HTML::Form).)
+When given more than one pair, all criteria must match.
+Using `undef` as value means that the attribute in question may not be present.
+
+All matching forms (perhaps none) are returned as a list of [HTML::Form](https://metacpan.org/pod/HTML::Form) objects.
 
 ## $mech->form\_with( $attr1 => $value1, $attr2 => $value2, ... )
 
