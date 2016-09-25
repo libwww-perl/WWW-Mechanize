@@ -4,6 +4,8 @@ Mech now has its own mailing list at Google Groups:
 http://groups.google.com/group/www-mechanize-users
 
 {{$NEXT}}
+
+1.80      2016-09-24 22:38:27-04:00 America/Toronto
 ========================================
 [FIXED]
 - Fixes behaviour of submit_form() when multiple filters have been supplied (Ed
