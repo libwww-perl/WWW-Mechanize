@@ -1,6 +1,6 @@
 use warnings;
 use strict;
-use Test::More tests => 14;
+use Test::More tests => 15;
 
 use lib qw( t t/local );
 use LocalServer;
@@ -45,6 +45,10 @@ RELOAD: {
     isa_ok( $r, 'HTTP::Response' );
     ok( $agent->is_html, 'Valid HTML' );
     ok( $agent->title, 'WWW::Mechanize test page' );
+    my $cookie_before = $agent->history(0)->{req}->header('Cookie');
+    $agent->reload;
+    my $cookie_after = $agent->history(0)->{req}->header('Cookie');
+    is( $cookie_after, $cookie_before, 'cookies are not multiplied' );
 }
 
 SKIP: {
