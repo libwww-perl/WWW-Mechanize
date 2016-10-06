@@ -4,6 +4,8 @@ Mech now has its own mailing list at Google Groups:
 http://groups.google.com/group/www-mechanize-users
 
 {{$NEXT}}
+
+1.81      2016-10-06 08:52:44-04:00 America/Toronto
 ========================================
 [FIXED]
 -  Work around bug in HTTP::Cookies that is triggered on reload().  See
