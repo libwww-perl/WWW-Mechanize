@@ -146,3 +146,54 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
         ' submit_form( with_fields => %data ) ',
     );
 }
+
+{
+    $mech->get($uri);
+    is(
+        exception {
+            $mech->submit_form(
+                form_name => '1st_form',
+                fields => {
+                    '1c' => 'madeup_field',
+                },
+            );
+        },
+        undef,
+        'submit_form with invalid field and without strict_forms option succeeds',
+    );
+}
+
+{
+    $mech->get($uri);
+    like(
+        exception {
+            $mech->submit_form(
+                form_name => '1st_form',
+                fields => {
+                    '1c' => 'madeup_field',
+                },
+                strict_forms => 1,
+            );
+        },
+        qr/^No such field '1c'/,
+        'submit_form with invalid field and strict_forms option fails',
+    );
+}
+
+{
+    $mech->get($uri);
+    is(
+        exception {
+            $mech->submit_form(
+                form_name => '1st_form',
+                fields => {
+                    '1a' => 'value1',
+                    '1b' => 'value2',
+                },
+                strict_forms => 1,
+            );
+        },
+        undef,
+        'submit_form with valid fields and strict_forms option succeeds',
+    );
+}
