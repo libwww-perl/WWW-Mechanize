@@ -31,6 +31,7 @@ on 'test' => sub {
   requires "Test::Deep" => "0";
   requires "Test::Fatal" => "0";
   requires "Test::More" => "0";
+  requires "Test::Needs" => "0";
   requires "Test::Output" => "0";
   requires "Test::RequiresInternet" => "0";
   requires "Test::Warnings" => "0";

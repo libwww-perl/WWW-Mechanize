@@ -5,9 +5,10 @@ use strict;
 
 use constant LANGUAGES => qw( en it ja es nl pl );
 
-use Test::RequiresInternet( 'wikipedia.org' => 80 );
+use Test::RequiresInternet( 'wikipedia.org' => 443 );
+use Test::Needs 'LWP::Protocol::https';
 use Test::More;
-use WWW::Mechanize;
+use WWW::Mechanize ();
 
 use lib 't';
 
@@ -16,22 +17,17 @@ BEGIN {
 }
 
 my $mech = WWW::Mechanize->new;
-eval 'use LWP::Protocol::https';
 
-SKIP: {
-    skip 'LWP::Protocol::https required for Wikipedia test', 12 if $@;
-    isa_ok( $mech, 'WWW::Mechanize', 'Created object' );
-    $mech->agent_alias('Windows IE 6');    # Wikipedia 403s out obvious bots
+$mech->agent_alias('Windows IE 6');    # Wikipedia 403s out obvious bots
 
-    for my $lang (LANGUAGES) {
-        my $start = "http://$lang.wikipedia.org/";
+for my $lang (LANGUAGES) {
+    my $start = "https://$lang.wikipedia.org/";
 
-        $mech->get($start);
+    $mech->get($start);
 
-        ok( $mech->success, "Got $start" );
-        my @links = $mech->links();
-        cmp_ok( scalar @links, '>', 50, "Over 50 links on $start" );
-    }
+    ok( $mech->success, "Got $start" );
+    my @links = $mech->links();
+    cmp_ok( scalar @links, '>', 50, "Over 50 links on $start" );
 }
 
 SKIP: {
