@@ -83,6 +83,8 @@ if ( -e $uri ) {
 
 @actions = (\&dump_forms) unless @actions;
 
+binmode(STDOUT, ':utf8');
+
 my $mech = WWW::Mechanize->new();
 if ( defined $agent ) {
     $mech->agent( $agent );
