@@ -6,7 +6,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 # VERSION
 
-version 1.81
+version 1.82
 
 # SYNOPSIS
 
@@ -965,6 +965,12 @@ are a list of key/value pairs, all of which are optional.
 - `x => x, y => y`
 
     Sets the x or y values for `["click()"](#click)`
+
+- `strict_forms => bool`
+
+    Sets the HTML::Form strict flag which causes form submission to croak if any of the passed
+    fields don't exist on the page, and/or a value doesn't exist in a select element.
+    By default HTML::Form defaults this value to false.
 
 If no form is selected, the first form found is used.
 
