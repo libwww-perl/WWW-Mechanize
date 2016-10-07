@@ -6,6 +6,7 @@ http://groups.google.com/group/www-mechanize-users
 {{$NEXT}}
 [FIXED]
 - Set STDOUT to be utf8 in mech-dump. Fixes issue GH#36
+- Added --version option to mech-dump
 
 1.82      2016-10-06 23:00:30-04:00 America/Toronto
 [ENHANCEMENTS]

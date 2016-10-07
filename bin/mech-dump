@@ -33,6 +33,7 @@ GetOptions(
     'agent-alias=s' => \$agent_alias,
     'cookie-file=s' => \$cookie_filename,
     help            => sub { pod2usage(1); },
+    version         => sub { print STDERR $WWW::Mechanize::VERSION, "\n"; exit 0; },
 ) or pod2usage(2);
 
 =head1 SYNOPSIS
