@@ -7,6 +7,11 @@ http://groups.google.com/group/www-mechanize-users
 [ENHANCEMENTS]
 - Added strict_forms flag to submit_form() which sets the HTML::Form strict flag (Gareth Tunley)
 
+[FIXED]
+- Fixed tests which tried to access HTTPS urls when LWP::Protocol::https wasn't
+  installed (Olaf Alders).  Reported by Slaven Rezić.  See
+  https://github.com/libwww-perl/WWW-Mechanize/issues/54
+
 1.81      2016-10-06 08:52:44-04:00 America/Toronto
 ========================================
 [FIXED]
