@@ -119,7 +119,7 @@ Frequently asked questions.  Make sure you read here FIRST.
 use strict;
 use warnings;
 
-our $VERSION = 1.82;
+our $VERSION = 1.83;
 
 use Tie::RefHash;
 use HTTP::Request 1.30;

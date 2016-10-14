@@ -4,8 +4,13 @@ Mech now has its own mailing list at Google Groups:
 http://groups.google.com/group/www-mechanize-users
 
 {{$NEXT}}
+========================================
+[FIXED]
+- Moved live tests to be author tests. Run using dzil test --author. (Steve
+  Scaffidi)
 
 1.82      2016-10-06 23:00:30-04:00 America/Toronto
+========================================
 [ENHANCEMENTS]
 - Added strict_forms flag to submit_form() which sets the HTML::Form strict flag (Gareth Tunley)
 
