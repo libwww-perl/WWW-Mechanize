@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 
 # PODNAME: mech-dump
 # ABSTRACT: Dumps information about a web page
