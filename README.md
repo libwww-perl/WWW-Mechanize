@@ -721,7 +721,7 @@ and a warning is generated.
 If it is found, the form is returned as an [HTML::Form](https://metacpan.org/pod/HTML::Form) object and set internally
 for later used with Mech's form methods such as `["field()"](#field)` and `["click()"](#click)`.
 
-Returns undef if no form is found.
+Returns undef and emits a warning if no form is found.
 
 Note that this functionality requires libwww-perl 5.69 or higher.
 
