@@ -54,6 +54,7 @@ http://www.cpan.org/area
 http://nowhere.org/
 http://nowhere.org/padded
 blongo.html
+http://www.yahoo.com/
 EXPECTED
 
 subtest "dump_images test", \&dump_tests, 'dump_images', 't/image-parse.html', <<'EXPECTED';
