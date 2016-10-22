@@ -2916,6 +2916,9 @@ sub _link_from_token {
         if ( $onClick && ($onClick =~ /^window\.open\(\s*'([^']+)'/) ) {
             $url = $1;
         }
+        elsif( $url && $url =~ /^javascript\:\s*(?:void\(\s*)?window\.open\(\s*'([^']+)'/s ){
+            $url = $1;
+        }
     } # a
 
     # Of the tags we extract from, only 'AREA' has an alt tag
