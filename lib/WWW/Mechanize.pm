@@ -612,7 +612,7 @@ HTTP headers.
 
 sub uri {
     my $self = shift;
-    return $self->response->request->uri;
+    return $self->response ? $self->response->request->uri : undef;
 }
 
 sub res {           my $self = shift; return $self->{res}; }

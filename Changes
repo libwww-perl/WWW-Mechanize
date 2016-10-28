@@ -7,6 +7,7 @@ http://groups.google.com/group/www-mechanize-users
 [FIXED]
 - Set STDOUT to be utf8 in mech-dump. Fixes issue GH#36
 - Added --version option to mech-dump
+- Don't die on uri() when there has been no request. Fixes issue GH#60
 
 1.83      2016-10-14 16:45:30-04:00 America/Toronto
 ========================================
