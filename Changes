@@ -9,6 +9,7 @@ http://groups.google.com/group/www-mechanize-users
 - Added --version option to mech-dump
 - Don't die on uri() when there has been no request. Fixes issue GH#60
 - Remove old information from the cookbook. Fixes issue GH#28
+- Documentation correction. Fixes issue GH#65
 
 1.83      2016-10-14 16:45:30-04:00 America/Toronto
 ========================================

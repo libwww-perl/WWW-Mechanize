@@ -171,7 +171,7 @@ you the trouble of manually checking yourself.  Any errors found
 are errors, not warnings.
 
 The default value is ON, unless it's being subclassed, in which
-case it is OFF.  This means that standalone L<WWW::Mechanize>instances
+case it is OFF.  This means that standalone L<WWW::Mechanize> instances
 have autocheck turned on, which is protective for the vast majority
 of Mech users who don't bother checking the return value of get()
 and post() and can't figure why their code fails. However, if
