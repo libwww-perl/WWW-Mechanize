@@ -2,36 +2,9 @@ package WWW::Mechanize;
 
 #ABSTRACT: Handy web browsing in a Perl object
 
-
 =head1 SYNOPSIS
 
-C<WWW::Mechanize>, or Mech for short, is a Perl module for stateful
-programmatic web browsing, used for automating interaction with
-websites.
-
-Features include:
-
-=over 4
-
-=item * All HTTP methods
-
-=item * High-level hyperlink and HTML form support, without having to parse HTML yourself
-
-=item * SSL support
-
-=item * Automatic cookies
-
-=item * Custom HTTP headers
-
-=item * Automatic handling of redirections
-
-=item * Proxies
-
-=item * HTTP authentication
-
-=back
-
-Mech supports performing a sequence of page fetches including
+WWW::Mechanize supports performing a sequence of page fetches including
 following links and submitting forms. Each fetched page is parsed
 and its links and forms are extracted. A link or a form can be
 selected, form fields can be filled and the next page can be fetched.
@@ -61,6 +34,33 @@ be queried and revisited.
         button    => 'Search Now'
     );
 
+=head1 DESCRIPTION
+
+C<WWW::Mechanize>, or Mech for short, is a Perl module for stateful
+programmatic web browsing, used for automating interaction with
+websites.
+
+Features include:
+
+=over 4
+
+=item * All HTTP methods
+
+=item * High-level hyperlink and HTML form support, without having to parse HTML yourself
+
+=item * SSL support
+
+=item * Automatic cookies
+
+=item * Custom HTTP headers
+
+=item * Automatic handling of redirections
+
+=item * Proxies
+
+=item * HTTP authentication
+
+=back
 
 Mech is well suited for use in testing web applications.  If you use
 one of the Test::*, like L<Test::HTML::Lint> modules, you can check the
