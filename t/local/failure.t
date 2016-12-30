@@ -10,7 +10,7 @@ BEGIN {
     delete @ENV{ qw( IFS CDPATH ENV BASH_ENV ) };
 }
 
-my $NONEXISTENT = 'blahblahblah.xx-only-testing.foo';
+my $NONEXISTENT = 'blahblahblah.xx-only-testing.foo.';
 my @results = gethostbyname( $NONEXISTENT );
 if ( @results ) {
     my ($name,$aliases,$addrtype,$length,@addrs) = @results;
