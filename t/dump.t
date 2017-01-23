@@ -1,4 +1,4 @@
-#!perl -T
+#!perl
 
 use warnings;
 use strict;
@@ -8,12 +8,9 @@ use URI::file;
 use File::Temp qw/tempdir/;
 use File::Spec;
 
-
-
 BEGIN {
     use_ok( 'WWW::Mechanize' );
 }
-
 
 my $dir = tempdir( CLEANUP => 1 );
 
@@ -29,7 +26,8 @@ subtest "dump_headers", sub {
 };
 
 
-subtest "dump_links test", \&dump_tests, 'dump_links', 't/find_link.html', <<'EXPECTED';
+subtest "dump_links test", sub {
+    dump_tests('dump_links', 't/find_link.html', <<'EXPECTED');
 http://www.drphil.com/
 HTTP://WWW.UPCASE.COM/
 styles.css
@@ -56,14 +54,18 @@ http://nowhere.org/padded
 blongo.html
 http://www.yahoo.com/
 EXPECTED
+};
 
-subtest "dump_images test", \&dump_tests, 'dump_images', 't/image-parse.html', <<'EXPECTED';
+subtest "dump_images test", sub {
+    dump_tests('dump_images', 't/image-parse.html', <<'EXPECTED');
 wango.jpg
 bongo.gif
 linked.gif
 EXPECTED
+};
 
-subtest "dump_forms test", \&dump_tests, 'dump_forms', 't/form_with_fields.html', <<'EXPECTED';
+subtest "dump_forms test", sub {
+    dump_tests('dump_forms', 't/form_with_fields.html', <<'EXPECTED');
 POST http://localhost/ (multipart/form-data) [1st_form]
   1a=                            (text)
   1b=                            (text)
@@ -98,10 +100,13 @@ POST http://localhost/ (multipart/form-data) [4th_form_2]
   submit=Submit                  (submit)
 
 EXPECTED
+};
 
-subtest "dump_text test", \&dump_tests, 'dump_text', 't/image-parse.html', <<'EXPECTED';
+subtest "dump_text test", sub {
+    dump_tests('dump_text', 't/image-parse.html', <<'EXPECTED');
 Testing image extractionblargle And now, the dreaded wango  CNN   BBC Blongo!
 EXPECTED
+};
 
 sub dump_tests {
 	my ($method, $fp, $expected) = @_;
@@ -111,12 +116,10 @@ sub dump_tests {
 };
 
 sub create_mech {
-
 	my $filepath = shift;
 	my $mech     = WWW::Mechanize->new( cookie_jar => undef );
 	isa_ok( $mech, 'WWW::Mechanize' );
-
-	my $uri = URI::file->new_abs( $filepath )->as_string;
+	my $uri = URI::file->new($filepath)->abs(URI::file->cwd)->as_string;
 
 	$mech->get( $uri );
 	ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
@@ -127,19 +130,22 @@ sub create_mech {
 
 sub fh_test {
 	my ($mech, $method, $expected) = @_;
+    unless($method && $expected) {
+        diag("No method/expected value found");
+        return;
+    }
 	my ($content);
 	open my $fh, '>', \$content or die ($!);
 
 	$mech->$method( $fh );
 
 	close $fh;
-	
+
 	if (ref $expected eq 'Regexp') {
 		like( $content, $expected, 'Dump has valid values');
 		stdout_like( sub {$mech->$method()}, $expected, 'Valid STDOUT');
-	} else { 	 
+	} else {
 		is( $content, $expected, 'Dump has valid values');
 		stdout_is  ( sub {$mech->$method()}, $expected, 'Valid STDOUT');
 	}
 }
-
