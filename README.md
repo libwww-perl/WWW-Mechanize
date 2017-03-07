@@ -6,26 +6,11 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 # VERSION
 
-version 1.83
+version 1.84
 
 # SYNOPSIS
 
-`WWW::Mechanize`, or Mech for short, is a Perl module for stateful
-programmatic web browsing, used for automating interaction with
-websites.
-
-Features include:
-
-- All HTTP methods
-- High-level hyperlink and HTML form support, without having to parse HTML yourself
-- SSL support
-- Automatic cookies
-- Custom HTTP headers
-- Automatic handling of redirections
-- Proxies
-- HTTP authentication
-
-Mech supports performing a sequence of page fetches including
+WWW::Mechanize supports performing a sequence of page fetches including
 following links and submitting forms. Each fetched page is parsed
 and its links and forms are extracted. A link or a form can be
 selected, form fields can be filled and the next page can be fetched.
@@ -54,6 +39,23 @@ be queried and revisited.
         fields    => { query  => 'pot of gold', },
         button    => 'Search Now'
     );
+
+# DESCRIPTION
+
+`WWW::Mechanize`, or Mech for short, is a Perl module for stateful
+programmatic web browsing, used for automating interaction with
+websites.
+
+Features include:
+
+- All HTTP methods
+- High-level hyperlink and HTML form support, without having to parse HTML yourself
+- SSL support
+- Automatic cookies
+- Custom HTTP headers
+- Automatic handling of redirections
+- Proxies
+- HTTP authentication
 
 Mech is well suited for use in testing web applications.  If you use
 one of the Test::\*, like [Test::HTML::Lint](https://metacpan.org/pod/Test::HTML::Lint) modules, you can check the
@@ -138,7 +140,7 @@ parms that [LWP::UserAgent](https://metacpan.org/pod/LWP::UserAgent) recognizes.
     are errors, not warnings.
 
     The default value is ON, unless it's being subclassed, in which
-    case it is OFF.  This means that standalone [WWW::Mechanize](https://metacpan.org/pod/WWW::Mechanize)instances
+    case it is OFF.  This means that standalone [WWW::Mechanize](https://metacpan.org/pod/WWW::Mechanize) instances
     have autocheck turned on, which is protective for the vast majority
     of Mech users who don't bother checking the return value of get()
     and post() and can't figure why their code fails. However, if

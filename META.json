@@ -1,0 +1,136 @@
+{
+   "abstract" : "Handy web browsing in a Perl object",
+   "author" : [
+      "Andy Lester <andy at petdance.com>"
+   ],
+   "dynamic_config" : 0,
+   "generated_by" : "Dist::Zilla version 6.008, CPAN::Meta::Converter version 2.150005",
+   "license" : [
+      "perl_5"
+   ],
+   "meta-spec" : {
+      "url" : "http://search.cpan.org/perldoc?CPAN::Meta::Spec",
+      "version" : 2
+   },
+   "name" : "WWW-Mechanize",
+   "no_index" : {
+      "directory" : [
+         "examples",
+         "t",
+         "xt"
+      ]
+   },
+   "prereqs" : {
+      "configure" : {
+         "requires" : {
+            "ExtUtils::MakeMaker" : "0"
+         },
+         "suggests" : {
+            "JSON::PP" : "2.27300"
+         }
+      },
+      "develop" : {
+         "requires" : {
+            "Pod::Coverage::TrustPod" : "0",
+            "Test::Code::TidyAll" : "0.50",
+            "Test::More" : "0.88",
+            "Test::Pod::Coverage" : "1.08"
+         }
+      },
+      "runtime" : {
+         "requires" : {
+            "Carp" : "0",
+            "Getopt::Long" : "0",
+            "HTML::Form" : "1.00",
+            "HTML::HeadParser" : "0",
+            "HTML::TokeParser" : "0",
+            "HTML::TreeBuilder" : "0",
+            "HTTP::Cookies" : "0",
+            "HTTP::Request" : "1.30",
+            "HTTP::Request::Common" : "0",
+            "LWP::UserAgent" : "5.827",
+            "Pod::Usage" : "0",
+            "Tie::RefHash" : "0",
+            "URI::URL" : "0",
+            "URI::file" : "0",
+            "base" : "0",
+            "strict" : "0",
+            "warnings" : "0"
+         }
+      },
+      "test" : {
+         "requires" : {
+            "CGI" : "4.32",
+            "Encode" : "0",
+            "Exporter" : "0",
+            "File::Spec" : "0",
+            "File::Temp" : "0",
+            "FindBin" : "0",
+            "HTTP::Daemon" : "0",
+            "HTTP::Response" : "0",
+            "HTTP::Server::Simple::CGI" : "0",
+            "LWP" : "0",
+            "LWP::Simple" : "0",
+            "Test::Deep" : "0",
+            "Test::Fatal" : "0",
+            "Test::More" : "0",
+            "Test::Needs" : "0",
+            "Test::Output" : "0",
+            "Test::RequiresInternet" : "0",
+            "Test::Warnings" : "0",
+            "URI" : "0",
+            "URI::Escape" : "0",
+            "bytes" : "0",
+            "constant" : "0",
+            "lib" : "0",
+            "vars" : "0"
+         }
+      }
+   },
+   "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/libwww-perl/WWW-Mechanize/issues"
+      },
+      "homepage" : "https://github.com/libwww-perl/WWW-Mechanize",
+      "repository" : {
+         "type" : "git",
+         "url" : "https://github.com/libwww-perl/WWW-Mechanize.git",
+         "web" : "https://github.com/libwww-perl/WWW-Mechanize"
+      }
+   },
+   "version" : "1.84",
+   "x_contributors" : [
+      "Alexandr Ciornii <alexchorny@gmail.com>",
+      "Andy Lester <andy@petdance.com>",
+      "Chase Whitener <capoeirab@cpan.org>",
+      "dakkar <dakkar@thenautilus.net>",
+      "David Precious <davidp@preshweb.co.uk>",
+      "David Steinbrunner <dsteinbrunner@pobox.com>",
+      "Ed Avis <eda@waniasset.com>",
+      "Flavio Poletti <flavio@polettix.it>",
+      "Florian Schlichting <fsfs@debian.org>",
+      "Gabor Szabo <szabgab@gmail.com>",
+      "Gareth Tunley <gjtunley@gmail.com>",
+      "Jason May <jasonmay@bestpractical.com>",
+      "Jesse Vincent <jesse@bestpractical.com>",
+      "Karen Etheridge <ether@cpan.org>",
+      "Kirrily 'Skud' Robert <skud@infotrope.net>",
+      "Lars D\u026a\u1d07\u1d04\u1d0b\u1d0f\u1d21 \u8fea\u62c9\u65af <daxim@cpan.org>",
+      "Mark Stosberg <mark@summersault.com>",
+      "Martin H. Sluka <martin@sluka.de>",
+      "Matt S Trout <mst@shadowcat.co.uk>",
+      "Max Maischein <corion@cpan.org>",
+      "Neil Bowers <neil@bowers.com>",
+      "Olaf Alders <olaf@wundersolutions.com>",
+      "Ricardo Signes <rjbs@cpan.org>",
+      "Schuyler Langdon <schuyler@velargo.com>",
+      "Steve Scaffidi <stephen@scaffidi.net>",
+      "sunnavy <sunnavy@bestpractical.com>",
+      "Varadinsky <varadinsky@yahoo.com>",
+      "Ville Skytt\u00e4 <ville.skytta@iki.fi>",
+      "Zefram <zefram@fysh.org>"
+   ],
+   "x_serialization_backend" : "Cpanel::JSON::XS version 3.0225"
+}
+
