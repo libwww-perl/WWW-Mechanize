@@ -12,6 +12,7 @@ use Pod::Usage;
 use HTTP::Cookies;
 my @actions;
 my $absolute;
+my $all;
 
 my $user;
 my $pass;
@@ -26,7 +27,7 @@ GetOptions(
     forms           => sub { push( @actions, \&dump_forms ) },
     links           => sub { push( @actions, \&dump_links ) },
     images          => sub { push( @actions, \&dump_images ) },
-    all             => sub { push( @actions, \&dump_headers, \&dump_forms, \&dump_links, \&dump_images ) },
+    all             => sub { $all++; push( @actions, \&dump_headers, \&dump_forms, \&dump_links, \&dump_images ) },
     text            => sub { push( @actions, \&dump_text ) },
     absolute        => \$absolute,
     'agent=s'       => \$agent,
@@ -122,24 +123,28 @@ while ( my $action = shift @actions ) {
 
 sub dump_headers {
     my $mech = shift;
+    print "--> Headers:\n" if $all;
     $mech->dump_headers( undef );
     return;
 }
 
 sub dump_forms {
     my $mech = shift;
+    print "--> Forms:\n" if $all;
     $mech->dump_forms( undef, $absolute );
     return;
 }
 
 sub dump_links {
     my $mech = shift;
+    print "--> Links:\n" if $all;
     $mech->dump_links( undef, $absolute );
     return;
 }
 
 sub dump_images {
     my $mech = shift;
+    print "--> Images:\n" if $all;
     $mech->dump_images( undef, $absolute );
     return;
 }
