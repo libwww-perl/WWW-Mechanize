@@ -9,6 +9,7 @@ requires "HTTP::Request" => "1.30";
 requires "HTTP::Request::Common" => "0";
 requires "LWP::UserAgent" => "5.827";
 requires "Pod::Usage" => "0";
+requires "Scalar::Util" => "0";
 requires "Tie::RefHash" => "0";
 requires "URI::URL" => "0";
 requires "URI::file" => "0";
