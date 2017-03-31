@@ -2715,11 +2715,11 @@ sub _taintedness {
     # will almost always work on the first try.
     # (Unless, of course, taint checking has been turned off!)
     $_taintbrush = substr("$0$^X", 0, 0);
-    return $_taintbrush if _is_tainted( $_taintbrush );
+    return $_taintbrush if tainted( $_taintbrush );
 
     # Let's try again. Maybe somebody cleaned those.
     $_taintbrush = substr(join('', grep { defined } @ARGV, %ENV), 0, 0);
-    return $_taintbrush if _is_tainted( $_taintbrush );
+    return $_taintbrush if tainted( $_taintbrush );
 
     # If those don't work, go try to open some file from some unsafe
     # source and get data from them.  That data is tainted.
@@ -2729,7 +2729,7 @@ sub _taintedness {
             my $data;
             if ( defined sysread $fh, $data, 1 ) {
                 $_taintbrush = substr( $data, 0, 0 );
-                last if _is_tainted( $_taintbrush );
+                last if tainted( $_taintbrush );
             }
         }
     }
@@ -2739,12 +2739,6 @@ sub _taintedness {
 
     return $_taintbrush;
 }
-
-sub _is_tainted {
-    no warnings qw(void uninitialized);
-
-    return tainted($_[0]);
-} # _is_tainted
 
 
 =head2 $mech->_modify_request( $req )
