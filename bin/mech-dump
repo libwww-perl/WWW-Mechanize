@@ -18,6 +18,7 @@ my $pass;
 my $agent;
 my $agent_alias;
 my $cookie_filename;
+my $mime_type;
 
 GetOptions(
     'user=s'        => \$user,
@@ -32,6 +33,7 @@ GetOptions(
     'agent=s'       => \$agent,
     'agent-alias=s' => \$agent_alias,
     'cookie-file=s' => \$cookie_filename,
+    'type|T=s'      => \$mime_type,
     help            => sub { pod2usage(1); },
     version         => sub { print STDERR $WWW::Mechanize::VERSION, "\n"; exit 0; },
 ) or pod2usage(2);
@@ -64,6 +66,8 @@ Options:
                                * Mac Mozilla
                                * Linux Mozilla
                                * Linux Konqueror
+
+    --type|T=type          Specify the content-type
 
     --absolute             Show URLs as absolute, even if relative in the page
     --help                 Show this message
@@ -112,7 +116,10 @@ if (!$response->is_success and defined ($response->www_authenticate)) {
     $response = $mech->get( $uri );
     $response->is_success or die "Can't fetch $uri with username and password\n", $response->status_line, "\n";
 }
-$mech->is_html or die qq{$uri returns type "}, $mech->ct, qq{", not "text/html"\n};
+unless ( defined $mime_type ) {
+    $mime_type = "text/html";
+}
+($mech->ct eq $mime_type) or die qq{$uri returns type "}, $mech->ct, qq{", not "$mime_type"\n};
 
 while ( my $action = shift @actions ) {
     $action->( $mech );
