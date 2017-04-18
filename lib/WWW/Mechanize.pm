@@ -656,7 +656,7 @@ sub title {
 Returns the content that the mech uses internally for the last page
 fetched. Ordinarily this is the same as
 C<< $mech->response()->decoded_content() >>,
-but this may differ for HTML documents if L</update_html> is
+but this may differ for HTML documents if L<< update_html|/$mech->update_html( $html ) >> is
 overloaded (in which case the value passed to the base-class
 implementation of same will be returned), and/or extra named arguments
 are passed to I<content()>:
