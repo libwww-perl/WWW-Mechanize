@@ -402,6 +402,29 @@ sub get {
     return $self->SUPER::get( $uri->as_string, @_ );
 }
 
+=head2 $mech->post( $uri, content => $content )
+
+POSTs I<$content> to $uri.  Returns an L<HTTP::Response> object.
+I<$uri> can be a well-formed URI string, a L<URI> object, or a
+L<WWW::Mechanize::Link> object.
+
+=cut
+
+sub post {
+    my $self = shift;
+    my $uri = shift;
+
+    $uri = $uri->url if ref($uri) eq 'WWW::Mechanize::Link';
+
+    $uri = $self->base
+            ? URI->new_abs( $uri, $self->base )
+            : URI->new( $uri );
+
+    # It appears we are returning a super-class method,
+    # but it in turn calls the request() method here in Mechanize
+    return $self->SUPER::post( $uri->as_string, @_ );
+}
+
 =head2 $mech->put( $uri, content => $content )
 
 PUTs I<$content> to $uri.  Returns an L<HTTP::Response> object.
@@ -2621,10 +2644,6 @@ This is not meant to be an inclusive list.  LWP::UA may have added
 others.
 
 =head2 $mech->head()
-
-Inherited from L<LWP::UserAgent>.
-
-=head2 $mech->post()
 
 Inherited from L<LWP::UserAgent>.
 
