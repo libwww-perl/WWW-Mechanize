@@ -1701,11 +1701,12 @@ sub all_forms_with_fields {
 }
 
 
-=head2 $mech->form_with_fields( @fields )
+=head2 $mech->form_with_fields( @fields, [$nth] )
 
-Selects a form by passing in a list of field names it must contain.  If there
-is more than one form on the page with that matches, then the first one is used,
-and a warning is generated.
+Selects a form by passing in a list of field names it must contain.  The nth-match
+wanted may be specified and either that match is returned or undef.  Otherwise,
+if not nth-match is specified, if there is more than one form on the page with that
+matches, then the first one is used, and a warning is generated.
 
 If it is found, the form is returned as an L<HTML::Form> object and set internally
 for later used with Mech's form methods such as
@@ -1722,7 +1723,15 @@ sub form_with_fields {
     my ($self, @fields) = @_;
     die 'no fields provided' unless scalar @fields;
 
+    my $nth;
+    if ( @fields > 1 && $fields[$#fields] !~ /\D/ ) {
+      $nth = pop @fields;
+    }
+
     my @matches = $self->all_forms_with_fields(@fields);
+    if ( $nth ) {
+      @matches = ( @matches >= $nth ) ? splice(@matches, $nth-1, 1) : ();
+    }
     my $nmatches = @matches;
     if ( $nmatches > 0 ) {
         if ( $nmatches > 1 ) {
@@ -1731,7 +1740,8 @@ sub form_with_fields {
         return $self->{current_form} = $matches[0];
     }
     else {
-        $self->warn( qq{There is no form with the requested fields} );
+        $self->warn( $nth ? qq{There is no match \#$nth form with the requested fields}
+                          : qq{There is no form with the requested fields} );
         return undef;
     }
 }
@@ -1760,7 +1770,7 @@ sub all_forms_with {
     return @forms;
 }
 
-=head2 $mech->form_with( $attr1 => $value1, $attr2 => $value2, ... )
+=head2 $mech->form_with( $attr1 => $value1, $attr2 => $value2, ['nth' => # ], ... )
 
 Searches for forms with arbitrary attribute/value pairs within the E<lt>formE<gt>
 tag.
@@ -1775,6 +1785,8 @@ for later used with Mech's form methods such as
 C<L<< field()|/"$mech->field( $name, $value, $number )" >>> and
 C<L<< click()|/"$mech->click( $button [, $x, $y] )" >>>.
 
+The nth-match to return may be specified with 'nth' attribute.
+
 Returns undef if no form is found.
 
 
@@ -1784,7 +1796,11 @@ sub form_with {
     my ( $self, %spec ) = @_;
 
     return if not $self->forms;
+    my $nth = delete $spec{nth};
     my @forms = $self->all_forms_with(%spec);
+    if ( $nth ) {
+      @forms = ( @forms >= $nth ) ? splice(@forms, $nth-1, 1) : ();
+    }
     if ( @forms > 1 ) {    # Warn if several forms matched.
         # For ->form_with( method => 'POST', action => '', id => undef ) we get:
         # >>There are 2 forms with empty action and no id and method "POST".
