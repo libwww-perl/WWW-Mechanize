@@ -1981,7 +1981,7 @@ sub click_button {
 
 =head2 $mech->submit()
 
-Submits the page, without specifying a button to click.  Actually,
+Submits the current form, without specifying a button to click.  Actually,
 no button is clicked at all.
 
 Returns an L<HTTP::Response> object.
