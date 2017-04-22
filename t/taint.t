@@ -10,7 +10,6 @@ BEGIN {
     plan tests=>6;
 }
 
-BEGIN { delete @ENV{ qw( http_proxy HTTP_PROXY ) }; }
 BEGIN {
     use_ok( 'WWW::Mechanize' );
 }
@@ -21,8 +20,7 @@ isa_ok( $mech, 'WWW::Mechanize', 'Created object' );
 $mech->get( 'file:t/google.html' );
 
 # Make sure taint checking is on correctly
-my @keys = keys %ENV;
-tainted_ok( $ENV{ $keys[0] }, 'ENV taints OK' );
+tainted_ok( $^X, 'Interpreter Variable taints OK' );
 
 is( $mech->title, 'Google', 'Correct title' );
 untainted_ok( $mech->title, 'Title should not be tainted' );
