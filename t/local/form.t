@@ -45,6 +45,10 @@ isa_ok( $form_with, 'HTML::Form', 'form_with - can select the form without id' )
 is( $mech->current_form, $form_number_1,
     'form_with - form without id is now the current form' );
 
+my $form_number_2 = $mech->form_number(2);
+$form_with = $mech->form_with( class => 'test', foo => '', bar => undef, nth => 2 );
+is( $form_with, $form_number_2, 'Can select nth form with ambiguous criteria' );
+
 is( scalar @warnings, 0, 'no warnings so far' );
 $mech->quiet(0);
 $form_with = $mech->form_with( class => 'test', foo => '', bar => undef );
