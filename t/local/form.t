@@ -1,6 +1,6 @@
 use warnings;
 use strict;
-use Test::More tests => 19;
+use Test::More tests => 20;
 
 use lib 't/local';
 use LocalServer;
@@ -40,6 +40,10 @@ my $form_with = $mech->form_with( class => 'test', id => undef );
 isa_ok( $form_with, 'HTML::Form', 'Can select the form without id' );
 is( $mech->current_form, $form_number_1,
     'Form without id is now the current form' );
+
+my $form_number_2 = $mech->form_number(2);
+$form_with = $mech->form_with( class => 'test', foo => '', bar => undef, nth => 2 );
+is( $form_with, $form_number_2, 'Can select nth form with ambiguous criteria' );
 
 is( scalar @warnings, 0, 'no warnings so far' );
 $mech->quiet(0);
