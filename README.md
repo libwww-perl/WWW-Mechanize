@@ -917,7 +917,7 @@ the keys.
 
 ## $mech->submit()
 
-Submits the page, without specifying a button to click.  Actually,
+Submits the current form, without specifying a button to click.  Actually,
 no button is clicked at all.
 
 Returns an [HTTP::Response](https://metacpan.org/pod/HTTP::Response) object.
