@@ -2408,7 +2408,24 @@ sub dump_images {
 =head2 $mech->dump_forms( [$fh] )
 
 Prints a dump of the forms on the current page to I<$fh>.  If I<$fh>
-is not specified or is undef, it dumps to STDOUT.
+is not specified or is undef, it dumps to STDOUT. Running the following:
+
+    my $mech = WWW::Mechanize->new();
+    $mech->get("https://www.google.com/");
+    $mech->dump_forms;
+
+will print:
+
+    GET https://www.google.com/search [f]
+      ie=ISO-8859-1                  (hidden readonly)
+      hl=en                          (hidden readonly)
+      source=hp                      (hidden readonly)
+      biw=                           (hidden readonly)
+      bih=                           (hidden readonly)
+      q=                             (text)
+      btnG=Google Search             (submit)
+      btnI=I'm Feeling Lucky         (submit)
+      gbv=1                          (hidden readonly)
 
 =cut
 
