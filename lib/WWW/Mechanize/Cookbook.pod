@@ -64,6 +64,13 @@ Find all links that have the word "download" in them.
     my @links = $mech->find_all_links(
         tag => "a", text_regex => qr/\bdownload\b/i );
 
+=head1 ADVANCED
+
+=head2 See what will be sent without actually sending anything
+
+    $mech->add_handler("request_send", sub { shift->dump; exit; });
+    $mech->get("http://www.example.com");
+
 =head1 SEE ALSO
 
 L<WWW::Mechanize>
