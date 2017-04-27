@@ -188,6 +188,12 @@ __DATA__
   <form id="searchbox" action="/google-cli">
     <input type="text" name="query" value="%s"/>
   </form>
+  <form name="mf" id="multiform" action="/formsubmit" class="test mf1" foo="">
+    <input type="text1" name="query" value="%s"/>
+  </form>
+  <form name="mf" id="multiform" action="/formsubmit" class="test mf2" foo="">
+    <input type="text2" name="query" value="%s"/>
+  </form>
 </p>
 </body>
 </html>

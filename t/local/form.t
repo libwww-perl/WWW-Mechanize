@@ -36,9 +36,30 @@ my $form_name_f = $mech->form_name('f');
 isa_ok( $form_name_f, 'HTML::Form', 'form_name - can select the form' );
 ok( !$mech->form_name('bargle-snark'), 'form_name - cannot select non-existent form' );
 
+$form_name_f = $mech->form_name('mf');
+isa_ok( $form_name_f, 'HTML::Form', 'Can select the form' );
+
+$form_name_f = $mech->form_name('mf', 1);
+isa_ok( $form_name_f, 'HTML::Form', 'Can select the 1st multiform' );
+
+$form_name_f = $mech->form_name('mf', 2);
+isa_ok( $form_name_f, 'HTML::Form', 'Can select the 2nd multiform' );
+ok( !$mech->form_name('mf', 3), 'cannot select non-existent multiform' );
+
 my $form_id_pounder = $mech->form_id('pounder');
+
 isa_ok( $form_id_pounder, 'HTML::Form', 'form_id - can select the form' );
-ok( !$mech->form_id('bargle-snark'), 'form_id - cannot select non-existent form' );
+ok( !$mech->form_id('bargle-snark'), 'form_id - cannot select non-existent multiform' );
+
+$form_id_pounder = $mech->form_id('multiform');
+isa_ok( $form_id_pounder, 'HTML::Form', 'form_id - can select the multiform' );
+
+$form_id_pounder = $mech->form_id('multiform', 1);
+isa_ok( $form_id_pounder, 'HTML::Form', 'v select the 1st multiform' );
+
+$form_id_pounder = $mech->form_id('multiform' ,2);
+isa_ok( $form_id_pounder, 'HTML::Form', 'form_id - can select the 2nd multiform' );
+ok( !$mech->form_id('multiform', 3), 'form_id - cannot select non-existent multiform' );
 
 my $form_with = $mech->form_with( class => 'test', id => undef );
 isa_ok( $form_with, 'HTML::Form', 'form_with - can select the form without id' );
