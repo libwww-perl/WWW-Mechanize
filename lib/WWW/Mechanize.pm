@@ -1369,11 +1369,14 @@ sub form_number {
     return;
 }
 
-=head2 $mech->form_name( $name )
+=head2 $mech->form_name( $name [, $nth] )
 
-Selects a form by name.  If there is more than one form on the page
-with that name, then the first one is used, and a warning is
-generated.
+Selects a form by name.  More than one form could match the name passed in.
+By default, the first match will be returned, but if you want the 2nd or
+3rd or nth match, pass the match # you want as the final parameter.
+
+If $nth parameter is not passed, and there is more than one form on the page
+with that name, then the first one is used, and a warning is generated.
 
 If it is found, the form is returned as an L<HTML::Form> object and
 set internally for later use with Mech's form methods such as
@@ -1384,13 +1387,17 @@ Returns undef if no form is found.
 =cut
 
 sub form_name {
-    my ($self, $form) = @_;
-    return $self->form_with( name => $form );
+    my ($self, $form, $nth) = @_;
+    return $self->form_with( name => $form, $nth ? ( nth => $nth ) : () );
 }
 
-=head2 $mech->form_id( $name )
+=head2 $mech->form_id( $name [, $nth] )
 
-Selects a form by ID.  If there is more than one form on the page
+Selects a form by ID.  More than one form could match the ID passed in.
+By default, the first match will be returned, but if you want the 2nd or
+3rd or nth match, pass the match # you want as the final parameter.
+
+If $nth parameter is not passed, and there is more than one form on the page
 with that ID, then the first one is used, and a warning is generated.
 
 If it is found, the form is returned as an L<HTML::Form> object and
@@ -1403,8 +1410,8 @@ unless C<quiet> is enabled.
 =cut
 
 sub form_id {
-    my ($self, $formid) = @_;
-    defined( my $form = $self->form_with( id => $formid ) )
+    my ($self, $formid, $nth) = @_;
+    defined( my $form = $self->form_with( id => $formid, $nth ? ( nth => $nth ) : () ) )
       or $self->warn(qq{ There is no form with ID "$formid"});
     return $form;
 }
