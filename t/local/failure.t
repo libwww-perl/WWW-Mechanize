@@ -38,7 +38,7 @@ GOOD_PAGE: {
     my @links = $mech->links;
     is( scalar @links, 10, '10 links, please' );
     my @forms = $mech->forms;
-    is( scalar @forms, 2, 'Two form' );
+    is( scalar @forms, 4, 'Four form' );
 }
 
 BAD_PAGE: {
