@@ -1703,10 +1703,14 @@ sub all_forms_with_fields {
 
 =head2 $mech->form_with_fields( @fields, [$nth] )
 
-Selects a form by passing in a list of field names it must contain.  The nth-match
-wanted may be specified and either that match is returned or undef.  Otherwise,
-if not nth-match is specified, if there is more than one form on the page with that
-matches, then the first one is used, and a warning is generated.
+Selects a form by passing in a list of field names it must contain. More than
+one form could match the fields passed in. By default, the first match will be
+returned, but if you want the 2nd or 3rd or nth match, pass the match # you
+want as the final parameter.
+
+If the nth-match is specified, either that match is returned or undef if not
+found. Otherwise, if nth-match is not specified and more than one form on the
+page matches, then the first one is used, and a warning is generated.
 
 If it is found, the form is returned as an L<HTML::Form> object and set internally
 for later used with Mech's form methods such as
@@ -1780,12 +1784,14 @@ instead.)
 When given more than one pair, all criteria must match.
 Using C<undef> as value means that the attribute in question must not be present.
 
+More than one form could match the criteria passed in. By default, the first match
+will be returned, but if you want the 2nd or 3rd or nth match, pass the match # you
+want with the key 'nth'.
+
 If it is found, the form is returned as an L<HTML::Form> object and set internally
 for later used with Mech's form methods such as
 C<L<< field()|/"$mech->field( $name, $value, $number )" >>> and
 C<L<< click()|/"$mech->click( $button [, $x, $y] )" >>>.
-
-The nth-match to return may be specified with 'nth' attribute.
 
 Returns undef if no form is found.
 
