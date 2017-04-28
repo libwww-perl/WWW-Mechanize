@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-use Test::More tests => 6;
+use Test::More 0.96 tests => 6;
 use Test::Output;
 use URI::file;
 use File::Temp qw/tempdir/;

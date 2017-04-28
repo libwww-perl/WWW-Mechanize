@@ -4,7 +4,7 @@ use strict;
 use lib 't/local';
 
 use LocalServer;
-use Test::More;
+use Test::More 0.96;
 
 BEGIN {
     delete @ENV{ qw( IFS CDPATH ENV BASH_ENV ) };
