@@ -14,13 +14,14 @@ requires "Tie::RefHash" => "0";
 requires "URI::URL" => "0";
 requires "URI::file" => "0";
 requires "base" => "0";
+requires "perl" => "5.006";
 requires "strict" => "0";
 requires "warnings" => "0";
 
 on 'test' => sub {
   requires "CGI" => "4.32";
-  requires "Encode" => "0";
   requires "Exporter" => "0";
+  requires "ExtUtils::MakeMaker" => "0";
   requires "File::Spec" => "0";
   requires "File::Temp" => "0";
   requires "FindBin" => "0";
@@ -32,16 +33,17 @@ on 'test' => sub {
   requires "Test::Deep" => "0";
   requires "Test::Fatal" => "0";
   requires "Test::More" => "0.96";
-  requires "Test::Needs" => "0";
   requires "Test::Output" => "0";
-  requires "Test::RequiresInternet" => "0";
   requires "Test::Warnings" => "0";
   requires "URI" => "0";
   requires "URI::Escape" => "0";
   requires "bytes" => "0";
-  requires "constant" => "0";
   requires "lib" => "0";
   requires "vars" => "0";
+};
+
+on 'test' => sub {
+  recommends "CPAN::Meta" => "2.120900";
 };
 
 on 'configure' => sub {
@@ -53,8 +55,13 @@ on 'configure' => sub {
 };
 
 on 'develop' => sub {
+  requires "Encode" => "0";
   requires "Pod::Coverage::TrustPod" => "0";
   requires "Test::Code::TidyAll" => "0.50";
   requires "Test::More" => "0.88";
+  requires "Test::Needs" => "0";
   requires "Test::Pod::Coverage" => "1.08";
+  requires "Test::RequiresInternet" => "0";
+  requires "constant" => "0";
+  requires "lib" => "0";
 };

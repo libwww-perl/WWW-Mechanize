@@ -1,9 +1,27 @@
 Revision history for WWW::Mechanize
 
 {{$NEXT}}
+
+1.85      2017-06-28 22:06:00Z
+========================================
     [FIXED]
     - use 127.0.0.1 instead of 'localhost' in a test to avoid the test hanging
       due to ipv6 issues (GH#31)
+    - Remove private logic for taint checking (Dave Doyle)
+    - Fix Pod (simbabque)
+    - Bump Test::More prereq to get working subtest support (Karen Etheridge)
+    - Fix intermittent failures of taint.t (GH#108) (Kivanc Yazan)
+    - Fix kwalitee issues (GH#107) (Kivanc Yazan)
+
+    [ENHANCEMENTS]
+    - Print section titles if mech-dump --all is invoked (GH#81) (Сергей
+      Романов)
+    - Add cookbook docs on dumping a req without sending it (#115) (Grigor
+      Karavardanyan)
+    - Document that submit only submits current form (GH#114) (nawglan)
+    - Add Travis testing on Perl 5.26 (Karen Etheridge)
+    - Remove obsolete and unincremented $VERSIONs in test modules (Karen
+      Etheridge)
 
 1.84      2017-03-07 13:34:57-05:00 America/Toronto
 [ENHANCEMENTS]

@@ -6,7 +6,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 # VERSION
 
-version 1.84
+version 1.85
 
 # SYNOPSIS
 
@@ -358,7 +358,7 @@ Returns the contents of the `<TITLE>` tag, as parsed by
 Returns the content that the mech uses internally for the last page
 fetched. Ordinarily this is the same as
 `$mech->response()->decoded_content()`,
-but this may differ for HTML documents if ["update\_html"](#update_html) is
+but this may differ for HTML documents if [update\_html](#mech-update_html-html) is
 overloaded (in which case the value passed to the base-class
 implementation of same will be returned), and/or extra named arguments
 are passed to _content()_:
