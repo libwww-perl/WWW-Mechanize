@@ -115,7 +115,7 @@ sub spawn {
 
   # What is this code supposed to fix?
   my $lhurl = URI::URL->new( $url );
-  $lhurl->host( 'localhost' );
+  $lhurl->host( '127.0.0.1' );
   $self->{_server_url} = $lhurl;
   
   $self->{_fh} = $server;
