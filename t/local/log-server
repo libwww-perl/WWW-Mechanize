@@ -4,8 +4,6 @@ use strict;
 use HTTP::Daemon;
 use CGI 4.08;
 use Getopt::Long;
-use vars qw($VERSION);
-$VERSION = '0.55';
 
 $|++;
 

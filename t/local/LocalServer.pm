@@ -18,9 +18,6 @@ use File::Temp;
 use URI::URL qw();
 use Carp qw(carp croak);
 
-use vars qw($VERSION);
-$VERSION = '0.55';
-
 =head1 SYNOPSIS
 
   use LWP::Simple qw(get);
