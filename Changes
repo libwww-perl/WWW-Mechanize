@@ -1,6 +1,9 @@
 Revision history for WWW::Mechanize
 
 {{$NEXT}}
+    [FIXED]
+    - use 127.0.0.1 instead of 'localhost' in a test script to avoid the test
+      hanging due to ipv6 issues (GH#31, see also changes in 1.85)
 
 1.85      2017-06-28 22:06:00Z
 ========================================
