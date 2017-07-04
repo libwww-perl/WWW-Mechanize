@@ -58,6 +58,28 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
 }
 
 {
+    my $form = $mech->form_with_fields('4a', '4b', 1);
+    isa_ok( $form, 'HTML::Form' );
+    is($form->attr('name'), '4th_form_1', 'fourth form match 1 matches');
+}
+
+{
+    my $form = $mech->form_with_fields('4a', '4b', 2);
+    isa_ok( $form, 'HTML::Form' );
+    is($form->attr('name'), '4th_form_2', 'fourth form match 2 matches');
+}
+
+{
+    my $form;
+    cmp_deeply(
+        [ warnings { $form = $mech->form_with_fields('4a', '4b', 3) } ],
+        [ re(qr/There is no match #3 form with the requested fields/) ],
+        'warning on unmatched nth form',
+    );
+    is( $form, undef, 'undef on unmatched nth form' );
+}
+
+{
     my @forms = $mech->all_forms_with( name => '3rd_form_ambiguous' );
     is( scalar @forms, 2 );
     isa_ok( $forms[0], 'HTML::Form' );
