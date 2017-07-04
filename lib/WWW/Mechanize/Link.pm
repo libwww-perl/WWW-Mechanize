@@ -3,6 +3,8 @@ package WWW::Mechanize::Link;
 use strict;
 use warnings;
 
+our $VERSION = '1.86';
+
 #ABSTRACT: Link object for WWW::Mechanize
 
 =head1 SYNOPSIS
