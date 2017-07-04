@@ -118,6 +118,4 @@ L<WWW::Mechanize> and L<WWW::Mechanize::Image>
 
 =cut
 
-# vi:et:sw=4 ts=4
-
 1;
