@@ -97,15 +97,15 @@
    "provides" : {
       "WWW::Mechanize" : {
          "file" : "lib/WWW/Mechanize.pm",
-         "version" : "1.85"
+         "version" : "1.86"
       },
       "WWW::Mechanize::Image" : {
          "file" : "lib/WWW/Mechanize/Image.pm",
-         "version" : "1.85"
+         "version" : "1.86"
       },
       "WWW::Mechanize::Link" : {
          "file" : "lib/WWW/Mechanize/Link.pm",
-         "version" : "1.85"
+         "version" : "1.86"
       }
    },
    "release_status" : "stable",
@@ -120,7 +120,7 @@
          "web" : "https://github.com/libwww-perl/WWW-Mechanize"
       }
    },
-   "version" : "1.85",
+   "version" : "1.86",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.026000"
@@ -164,19 +164,49 @@
             "version" : "6.009"
          },
          {
-            "class" : "Dist::Zilla::Plugin::CPANFile",
-            "name" : "@Author::OALDERS/CPANFile",
+            "class" : "Dist::Zilla::Plugin::ConfirmRelease",
+            "name" : "@Author::OALDERS/ConfirmRelease",
             "version" : "6.009"
          },
          {
-            "class" : "Dist::Zilla::Plugin::ConfirmRelease",
-            "name" : "@Author::OALDERS/ConfirmRelease",
+            "class" : "Dist::Zilla::Plugin::MakeMaker",
+            "config" : {
+               "Dist::Zilla::Role::TestRunner" : {
+                  "default_jobs" : 1
+               }
+            },
+            "name" : "@Author::OALDERS/MakeMaker",
+            "version" : "6.009"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::CPANFile",
+            "name" : "@Author::OALDERS/CPANFile",
             "version" : "6.009"
          },
          {
             "class" : "Dist::Zilla::Plugin::ContributorsFile",
             "name" : "@Author::OALDERS/ContributorsFile",
             "version" : "0.3.0"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::InstallGuide",
+            "name" : "@Author::OALDERS/InstallGuide",
+            "version" : "1.200007"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::MetaJSON",
+            "name" : "@Author::OALDERS/MetaJSON",
+            "version" : "6.009"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::MetaYAML",
+            "name" : "@Author::OALDERS/MetaYAML",
+            "version" : "6.009"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::License",
+            "name" : "@Author::OALDERS/License",
+            "version" : "6.009"
          },
          {
             "class" : "Dist::Zilla::Plugin::CopyFilesFromBuild",
@@ -315,7 +345,7 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v1.85",
+                  "tag" : "v1.86",
                   "tag_format" : "v%v",
                   "tag_message" : "v%v"
                },
@@ -348,26 +378,6 @@
             "version" : "2.042"
          },
          {
-            "class" : "Dist::Zilla::Plugin::InstallGuide",
-            "name" : "@Author::OALDERS/InstallGuide",
-            "version" : "1.200007"
-         },
-         {
-            "class" : "Dist::Zilla::Plugin::License",
-            "name" : "@Author::OALDERS/License",
-            "version" : "6.009"
-         },
-         {
-            "class" : "Dist::Zilla::Plugin::MakeMaker",
-            "config" : {
-               "Dist::Zilla::Role::TestRunner" : {
-                  "default_jobs" : 1
-               }
-            },
-            "name" : "@Author::OALDERS/MakeMaker",
-            "version" : "6.009"
-         },
-         {
             "class" : "Dist::Zilla::Plugin::Manifest",
             "name" : "@Author::OALDERS/Manifest",
             "version" : "6.009"
@@ -383,11 +393,6 @@
             "version" : "0.13"
          },
          {
-            "class" : "Dist::Zilla::Plugin::MetaJSON",
-            "name" : "@Author::OALDERS/MetaJSON",
-            "version" : "6.009"
-         },
-         {
             "class" : "Dist::Zilla::Plugin::MetaNoIndex",
             "name" : "@Author::OALDERS/MetaNoIndex",
             "version" : "6.009"
@@ -395,11 +400,6 @@
          {
             "class" : "Dist::Zilla::Plugin::MetaResources",
             "name" : "@Author::OALDERS/MetaResources",
-            "version" : "6.009"
-         },
-         {
-            "class" : "Dist::Zilla::Plugin::MetaYAML",
-            "name" : "@Author::OALDERS/MetaYAML",
             "version" : "6.009"
          },
          {
