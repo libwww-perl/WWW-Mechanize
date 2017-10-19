@@ -1349,6 +1349,8 @@ selected.
 
 If it is found, the form is returned as an L<HTML::Form> object and set internally
 for later use with Mech's form methods such as C<L</field()>> and C<L</click()>>.
+When called in a list context, the number of the found form is also returned as
+a second value.
 
 Emits a warning and returns undef if no form is found.
 
@@ -1363,10 +1365,12 @@ sub form_number {
     my $forms = $self->forms;
     if ( $forms->[$form-1] ) {
         $self->{current_form} = $forms->[$form-1];
-        return $self->{current_form};
+        return wantarray
+          ? ($self->{current_form}, $form)
+          : $self->{current_form};
     }
 
-    return;
+    return wantarray ? () : undef;
 }
 
 =head2 $mech->form_name( $name )

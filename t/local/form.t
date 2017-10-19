@@ -1,6 +1,6 @@
 use warnings;
 use strict;
-use Test::More tests => 19;
+use Test::More tests => 21;
 
 use lib 't/local';
 use LocalServer;
@@ -20,6 +20,10 @@ $mech->quiet(1);
 $mech->get($server->url);
 ok( $mech->success, 'Got a page' ) or die;
 is( $mech->uri, $server->url, 'Got page' );
+
+my ($form, $number) = $mech->form_number(1);
+isa_ok( $form, 'HTML::Form', 'Can select the first form in list context call');
+is( $number, 1, 'Form number is correct' );
 
 my $form_number_1 = $mech->form_number(1);
 isa_ok( $form_number_1, 'HTML::Form', 'Can select the first form');
