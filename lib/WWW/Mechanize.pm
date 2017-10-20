@@ -280,6 +280,9 @@ sub new {
     return $self;
 }
 
+# overriding LWP::UA's static method
+sub _agent { "WWW-Mechanize/$VERSION" }
+
 =head2 $mech->agent_alias( $alias )
 
 Sets the user agent string to the expanded version from a table of actual user strings.
