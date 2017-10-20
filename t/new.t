@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-use Test::More tests => 14;
+use Test::More tests => 15;
 
 BEGIN {
     use_ok( 'WWW::Mechanize' );
@@ -28,6 +28,8 @@ NO_AGENT: {
 
     $m->agent( 'foo/bar v1.23' );
     is( $m->agent, 'foo/bar v1.23', 'Can set the agent' );
+
+    like( $m->_agent, qr/WWW-Mechanize/, '_agent() is static' );
 }
 
 USER_AGENT: {
