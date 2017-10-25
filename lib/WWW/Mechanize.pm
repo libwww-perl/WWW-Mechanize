@@ -1090,6 +1090,7 @@ sub find_all_links {
 find_all_inputs() returns an array of all the input controls in the
 current form whose properties match all of the regexes passed in.
 The controls returned are all descended from HTML::Form::Input.
+See L<HTML::Form/INPUTS> for details.
 
 If no criteria are passed, all inputs will be returned.
 
