@@ -440,7 +440,7 @@ sub _SUPER_put {
 =head2 $mech->reload()
 
 Acts like the reload button in a browser: repeats the current
-request. The history (as per the L</back> method) is not altered.
+request. The history (as per the L<< back()|/$mech->back() >> method) is not altered.
 
 Returns the L<HTTP::Response> object from the reload, or C<undef>
 if there's no current request.
@@ -520,8 +520,10 @@ sub history_count {
 =head2 $mech->history($n)
 
 This returns the I<n>th item in history.  The 0th item is the most recent
-request and response, which would be acted on by methods like C<find_link()>.
-The 1th item is the state you'd return to if you called C<back()>.
+request and response, which would be acted on by methods like
+C<L<< find_link()|"$mech->find_link( ... )" >>>.
+The 1th item is the state you'd return to if you called
+C<L<< back()|/$mech->back() >>>.
 
 The maximum useful value for C<$n> is C<< $mech->history_count - 1 >>.
 Requests beyond that bound will return C<undef>.
@@ -798,7 +800,7 @@ sub links {
 =head2 $mech->follow_link(...)
 
 Follows a specified link on the page.  You specify the match to be
-found using the same parms that C<L<find_link()>> uses.
+found using the same parms that C<L<< find_link()|"$mech->find_link( ... )" >>> uses.
 
 Here some examples:
 
@@ -927,8 +929,7 @@ more than one tag, as in:
 
     $mech->find_link( tag_regex => qr/^(a|frame)$/ );
 
-The tags and attributes looked at are defined below, at
-L<< $mech->find_link() : link format >>.
+The tags and attributes looked at are defined below.
 
 =back
 
@@ -1072,7 +1073,8 @@ sub _clean_keys {
 =head2 $mech->find_all_links( ... )
 
 Returns all the links on the current page that match the criteria.  The
-method for specifying link criteria is the same as in C<L</find_link()>>.
+method for specifying link criteria is the same as in
+C<L<< find_link()|"$mech->find_link( ... )" >>>.
 Each of the links returned is a L<WWW::Mechanize::Link> object.
 
 In list context, C<find_all_links()> returns a list of the links.
@@ -1297,7 +1299,8 @@ sub _match_any_image_parms {
 =head2 $mech->find_all_images( ... )
 
 Returns all the images on the current page that match the criteria.  The
-method for specifying image criteria is the same as in C<L</find_image()>>.
+method for specifying image criteria is the same as in
+C<L<< find_image()|"$mech->find_image()" >>>.
 Each of the images returned is a L<WWW::Mechanize::Image> object.
 
 In list context, C<find_all_images()> returns a list of the images.
@@ -1348,11 +1351,14 @@ sub current_form {
 =head2 $mech->form_number($number)
 
 Selects the I<number>th form on the page as the target for subsequent
-calls to C<L</field()>> and C<L</click()>>.  Also returns the form that was
-selected.
+calls to C<L<< field()|"$mech->field( $name, $value, $number )" >>>
+and C<L<< click()|"$mech->click( $button [, $x, $y] )" >>>.
+Also returns the form that was selected.
 
 If it is found, the form is returned as an L<HTML::Form> object and set internally
-for later use with Mech's form methods such as C<L</field()>> and C<L</click()>>.
+for later use with Mech's form methods such as
+C<L<< field()|"$mech->field( $name, $value, $number )" >>> and
+C<L<< click()|"$mech->click( $button [, $x, $y] )" >>>.
 When called in a list context, the number of the found form is also returned as
 a second value.
 
@@ -1385,7 +1391,8 @@ generated.
 
 If it is found, the form is returned as an L<HTML::Form> object and
 set internally for later use with Mech's form methods such as
-C<L</field()>> and C<L</click()>>.
+C<L<< field()|"$mech->field( $name, $value, $number )" >>> and
+C<L<< click()|"$mech->click( $button [, $x, $y] )" >>>.
 
 Returns undef if no form is found.
 
@@ -1403,7 +1410,8 @@ with that ID, then the first one is used, and a warning is generated.
 
 If it is found, the form is returned as an L<HTML::Form> object and
 set internally for later use with Mech's form methods such as
-C<L</field()>> and C<L</click()>>.
+C<L<< field()|"$mech->field( $name, $value, $number )" >>> and
+C<L<< click()|"$mech->click( $button [, $x, $y] )" >>>.
 
 If no form is found it returns C<undef>.  This will also trigger a warning,
 unless C<quiet> is enabled.
@@ -1447,7 +1455,9 @@ is more than one form on the page with that matches, then the first one is used,
 and a warning is generated.
 
 If it is found, the form is returned as an L<HTML::Form> object and set internally
-for later used with Mech's form methods such as C<L</field()>> and C<L</click()>>.
+for later used with Mech's form methods such as
+C<L<< field()|"$mech->field( $name, $value, $number )" >>> and
+C<L<< click()|"$mech->click( $button [, $x, $y] )" >>>.
 
 Returns undef and emits a warning if no form is found.
 
@@ -1507,7 +1517,9 @@ When given more than one pair, all criteria must match.
 Using C<undef> as value means that the attribute in question may not be present.
 
 If it is found, the form is returned as an L<HTML::Form> object and set internally
-for later used with Mech's form methods such as C<L</field()>> and C<L</click()>>.
+for later used with Mech's form methods such as
+C<L<< field()|"$mech->field( $name, $value, $number )" >>> and
+C<L<< click()|"$mech->click( $button [, $x, $y] )" >>>.
 
 Returns undef if no form is found.
 
@@ -1569,9 +1581,10 @@ These methods allow you to set the values of fields in a given form.
 =head2 $mech->field( $name, \@values, $number )
 
 Given the name of a field, set its value to the value specified.
-This applies to the current form (as set by the L</form_name()> or
-L</form_number()> method or defaulting to the first form on the
-page).
+This applies to the current form (as set by the
+C<L<< form_name()|"$mech->form_name( $name )" >>> or
+C<L<< form_number()|"$mech->form_number($number)" >>>
+method or defaulting to the first form on the page).
 
 The optional I<$number> parameter is used to distinguish between two fields
 with the same name.  The fields are numbered from 1.
@@ -1615,7 +1628,7 @@ without clearing the others.  However, if you pass an array reference,
 then all previously selected values will be cleared.
 
 Returns true on successfully setting the value. On failure, returns
-false and calls C<< $self>warn() >> with an error message.
+false and calls C<< $self->warn() >> with an error message.
 
 =cut
 
@@ -2009,8 +2022,8 @@ sub submit {
 =head2 $mech->submit_form( ... )
 
 This method lets you select a form from the previously fetched page,
-fill in its fields, and submit it. It combines the form_number/form_name,
-set_fields and click methods into one higher level call. Its arguments
+fill in its fields, and submit it. It combines the C<form_number>/C<form_name>,
+C<set_fields> and C<click> methods into one higher level call. Its arguments
 are a list of key/value pairs, all of which are optional.
 
 =over 4
@@ -2032,24 +2045,27 @@ If you choose this, the form_number, form_name, form_id and fields options will 
 
 =item * C<< form_number => n >>
 
-Selects the I<n>th form (calls C<L</form_number()>>).  If this parm is not
+Selects the I<n>th form (calls
+C<L<< form_number()|"$mech->form_number($number)" >>>.  If this parm is not
 specified, the currently-selected form is used.
 
 =item * C<< form_name => name >>
 
-Selects the form named I<name> (calls C<L</form_name()>>)
+Selects the form named I<name> (calls
+C<L<< form_name()|"$mech->form_name( $name )" >>>)
 
 =item * C<< form_id => ID >>
 
-Selects the form with ID I<ID> (calls C<L</form_id()>>)
+Selects the form with ID I<ID> (calls
+C<L<< form_id()|"$mech->form_id( $name )" >>>)>>)
 
 =item * C<< button => button >>
 
-Clicks on button I<button> (calls C<L</click()>>)
+Clicks on button I<button> (calls C<L<< click()|"$mech->click( $button [, $x, $y] )" >>>)
 
 =item * C<< x => x, y => y >>
 
-Sets the x or y values for C<L</click()>>
+Sets the x or y values for C<L<< click()|"$mech->click( $button [, $x, $y] )" >>>
 
 =item * C<< strict_forms => bool >>
 
@@ -2061,7 +2077,8 @@ By default HTML::Form defaults this value to false.
 
 If no form is selected, the first form found is used.
 
-If I<button> is not passed, then the C<L</submit()>> method is used instead.
+If I<button> is not passed, then the C<L<< submit()|"$mech->submit()" >>>
+method is used instead.
 
 If you want to submit a file and get its content from a scalar rather
 than a file in the filesystem, you can use:
@@ -2682,7 +2699,9 @@ know about them.
 
 Updates all internal variables in $mech as if $request was just
 performed, and returns $response. The page stack is B<not> altered by
-this method, it is up to caller (e.g. L</request>) to do that.
+this method, it is up to caller (e.g.
+C<L<< request|"$mech->request( $request [, $arg [, $size]])" >>>)
+to do that.
 
 =cut
 
@@ -3172,8 +3191,8 @@ listings.
 
 Randal Schwartz's article on scraping Yahoo News for images.  It's
 already out of date: He manually walks the list of links hunting
-for matches, which wouldn't have been necessary if the C<find_link()>
-method existed at press time.
+for matches, which wouldn't have been necessary if the
+C<L<< find_link()|"$mech->find_link( ... )" >>> method existed at press time.
 
 =item * L<http://www.perladvent.org/2002/16th/>
 
