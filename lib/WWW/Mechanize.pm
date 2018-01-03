@@ -3198,7 +3198,7 @@ C<L<< find_link()|"$mech->find_link( ... )" >>> method existed at press time.
 
 WWW::Mechanize on the Perl Advent Calendar, by Mark Fowler.
 
-=item * L<http://www.linux-magazin.de/Ausgaben/2004/03/Datenruessel/%28language%29/ger-DE>
+=item * L<http://www.linux-magazin.de/ausgaben/2004/03/datenruessel/>
 
 Michael Schilli's article on Mech and L<WWW::Mechanize::Shell> for the
 German magazine I<Linux Magazin>.

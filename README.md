@@ -1370,7 +1370,7 @@ The book was also positively reviewed on Slashdot:
 
     WWW::Mechanize on the Perl Advent Calendar, by Mark Fowler.
 
-- [http://www.linux-magazin.de/Ausgaben/2004/03/Datenruessel/%28language%29/ger-DE](http://www.linux-magazin.de/Ausgaben/2004/03/Datenruessel/%28language%29/ger-DE)
+- [http://www.linux-magazin.de/ausgaben/2004/03/datenruessel/](http://www.linux-magazin.de/ausgaben/2004/03/datenruessel/)
 
     Michael Schilli's article on Mech and [WWW::Mechanize::Shell](https://metacpan.org/pod/WWW::Mechanize::Shell) for the
     German magazine _Linux Magazin_.
