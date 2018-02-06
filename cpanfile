@@ -65,3 +65,7 @@ on 'develop' => sub {
   requires "constant" => "0";
   requires "lib" => "0";
 };
+
+on 'develop' => sub {
+  recommends "Dist::Zilla::PluginBundle::Git::VersionManager" => "0.005";
+};
