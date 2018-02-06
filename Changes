@@ -1,8 +1,23 @@
 Revision history for WWW::Mechanize
 
 {{$NEXT}}
+========================================
+    [FIXED]
+    - Fix typo in contributor name (GH#241) (Philippe Bruhat (BooK))
+    - Fix link to Michael Schilli's article in Linux magazine (GH#240) (Bernhard Wagner)
+    - Fix some section links (GH#238) (Evan Zacks)
+    - Override _agent() method. (GH#236) (Сергей Романов)
+    - Link to appropriate section of HTML::Form (GH#237) (Evan Zacks)
+    - Make version consistent in .pm files (GH#231) (Olaf Alders)
+
+    [ENHANCEMENTS]
+    - Return form number in list context. (GH#235) (Сергей Романов)
+    - Overload 'post' in order to set 'base'. (GH#111) (Stuart A Johnston)
+    - Allow multiple file paths/uris in mech-dump; fixes issue 72 (GH#113) (Nik LaBelle)
+    - Add docs for the output of dump_forms (GH#112) (John Beppu)
 
 1.86      2017-07-04 15:48:46Z
+========================================
     [FIXED]
     - use 127.0.0.1 instead of 'localhost' in a test script to avoid the test
       hanging due to ipv6 issues (GH#31, see also changes in 1.85)
@@ -29,6 +44,7 @@ Revision history for WWW::Mechanize
       Etheridge)
 
 1.84      2017-03-07 13:34:57-05:00 America/Toronto
+========================================
 [ENHANCEMENTS]
 - Parse url (href attribute) for js window.open  GH#11
 
