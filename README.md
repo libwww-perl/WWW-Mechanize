@@ -6,7 +6,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 # VERSION
 
-version 1.86
+version 1.87
 
 # SYNOPSIS
 
@@ -251,6 +251,12 @@ appropriately.
 stored in a file instead of the response object, some Mech functions
 that expect it to be there won't work as expected. Use with caution.
 
+## $mech->post( $uri, content => $content )
+
+POSTs _$content_ to $uri.  Returns an [HTTP::Response](https://metacpan.org/pod/HTTP::Response) object.
+_$uri_ can be a well-formed URI string, a [URI](https://metacpan.org/pod/URI) object, or a
+[WWW::Mechanize::Link](https://metacpan.org/pod/WWW::Mechanize::Link) object.
+
 ## $mech->put( $uri, content => $content )
 
 PUTs _$content_ to $uri.  Returns an [HTTP::Response](https://metacpan.org/pod/HTTP::Response) object.
@@ -260,7 +266,7 @@ _$uri_ can be a well-formed URI string, a [URI](https://metacpan.org/pod/URI) ob
 ## $mech->reload()
 
 Acts like the reload button in a browser: repeats the current
-request. The history (as per the ["back"](#back) method) is not altered.
+request. The history (as per the [back()](#mech-back) method) is not altered.
 
 Returns the [HTTP::Response](https://metacpan.org/pod/HTTP::Response) object from the reload, or `undef`
 if there's no current request.
@@ -281,8 +287,10 @@ include the most recently made request.
 ## $mech->history($n)
 
 This returns the _n_th item in history.  The 0th item is the most recent
-request and response, which would be acted on by methods like `find_link()`.
-The 1th item is the state you'd return to if you called `back()`.
+request and response, which would be acted on by methods like
+`[find_link()](#mech-find_link)`.
+The 1th item is the state you'd return to if you called
+`[back()](#mech-back)`.
 
 The maximum useful value for `$n` is `$mech->history_count - 1`.
 Requests beyond that bound will return `undef`.
@@ -417,7 +425,7 @@ links.  In scalar context, returns an array reference of all links.
 ## $mech->follow\_link(...)
 
 Follows a specified link on the page.  You specify the match to be
-found using the same parms that `[find_link()](https://metacpan.org/pod/find_link\(\))` uses.
+found using the same parms that `[find_link()](#mech-find_link)` uses.
 
 Here some examples:
 
@@ -516,8 +524,7 @@ key/value pairs:
 
         $mech->find_link( tag_regex => qr/^(a|frame)$/ );
 
-    The tags and attributes looked at are defined below, at
-    ["$mech->find\_link() : link format"](#mech-find_link-link-format).
+    The tags and attributes looked at are defined below.
 
 If `n` is not specified, it defaults to 1.  Therefore, if you don't
 specify any parms, this method defaults to finding the first link on the
@@ -544,7 +551,8 @@ The links come from the following:
 ## $mech->find\_all\_links( ... )
 
 Returns all the links on the current page that match the criteria.  The
-method for specifying link criteria is the same as in `["find_link()"](#find_link)`.
+method for specifying link criteria is the same as in
+`[find_link()](#mech-find_link)`.
 Each of the links returned is a [WWW::Mechanize::Link](https://metacpan.org/pod/WWW::Mechanize::Link) object.
 
 In list context, `find_all_links()` returns a list of the links.
@@ -558,6 +566,7 @@ page.
 find\_all\_inputs() returns an array of all the input controls in the
 current form whose properties match all of the regexes passed in.
 The controls returned are all descended from HTML::Form::Input.
+See ["INPUTS" in HTML::Form](https://metacpan.org/pod/HTML::Form#INPUTS) for details.
 
 If no criteria are passed, all inputs will be returned.
 
@@ -653,7 +662,8 @@ The return value is a reference to an array containing a
 ## $mech->find\_all\_images( ... )
 
 Returns all the images on the current page that match the criteria.  The
-method for specifying image criteria is the same as in `["find_image()"](#find_image)`.
+method for specifying image criteria is the same as in
+`[find_image()](#mech-find_image)`.
 Each of the images returned is a [WWW::Mechanize::Image](https://metacpan.org/pod/WWW::Mechanize::Image) object.
 
 In list context, `find_all_images()` returns a list of the images.
@@ -676,11 +686,16 @@ context, returns an array reference of all forms.
 ## $mech->form\_number($number)
 
 Selects the _number_th form on the page as the target for subsequent
-calls to `["field()"](#field)` and `["click()"](#click)`.  Also returns the form that was
-selected.
+calls to `[field()](#mech-field-name-value-number)`
+and `[click()](#mech-click-button-x-y)`.
+Also returns the form that was selected.
 
 If it is found, the form is returned as an [HTML::Form](https://metacpan.org/pod/HTML::Form) object and set internally
-for later use with Mech's form methods such as `["field()"](#field)` and `["click()"](#click)`.
+for later use with Mech's form methods such as
+`[field()](#mech-field-name-value-number)` and
+`[click()](#mech-click-button-x-y)`.
+When called in a list context, the number of the found form is also returned as
+a second value.
 
 Emits a warning and returns undef if no form is found.
 
@@ -694,7 +709,8 @@ generated.
 
 If it is found, the form is returned as an [HTML::Form](https://metacpan.org/pod/HTML::Form) object and
 set internally for later use with Mech's form methods such as
-`["field()"](#field)` and `["click()"](#click)`.
+`[field()](#mech-field-name-value-number)` and
+`[click()](#mech-click-button-x-y)`.
 
 Returns undef if no form is found.
 
@@ -705,7 +721,8 @@ with that ID, then the first one is used, and a warning is generated.
 
 If it is found, the form is returned as an [HTML::Form](https://metacpan.org/pod/HTML::Form) object and
 set internally for later use with Mech's form methods such as
-`["field()"](#field)` and `["click()"](#click)`.
+`[field()](#mech-field-name-value-number)` and
+`[click()](#mech-click-button-x-y)`.
 
 If no form is found it returns `undef`.  This will also trigger a warning,
 unless `quiet` is enabled.
@@ -721,7 +738,9 @@ is more than one form on the page with that matches, then the first one is used,
 and a warning is generated.
 
 If it is found, the form is returned as an [HTML::Form](https://metacpan.org/pod/HTML::Form) object and set internally
-for later used with Mech's form methods such as `["field()"](#field)` and `["click()"](#click)`.
+for later used with Mech's form methods such as
+`[field()](#mech-field-name-value-number)` and
+`[click()](#mech-click-button-x-y)`.
 
 Returns undef and emits a warning if no form is found.
 
@@ -748,7 +767,9 @@ When given more than one pair, all criteria must match.
 Using `undef` as value means that the attribute in question may not be present.
 
 If it is found, the form is returned as an [HTML::Form](https://metacpan.org/pod/HTML::Form) object and set internally
-for later used with Mech's form methods such as `["field()"](#field)` and `["click()"](#click)`.
+for later used with Mech's form methods such as
+`[field()](#mech-field-name-value-number)` and
+`[click()](#mech-click-button-x-y)`.
 
 Returns undef if no form is found.
 
@@ -761,9 +782,10 @@ These methods allow you to set the values of fields in a given form.
 ## $mech->field( $name, \\@values, $number )
 
 Given the name of a field, set its value to the value specified.
-This applies to the current form (as set by the ["form\_name()"](#form_name) or
-["form\_number()"](#form_number) method or defaulting to the first form on the
-page).
+This applies to the current form (as set by the
+`[form_name()](#mech-form_name-name)` or
+`[form_number()](#mech-form_number-number)`
+method or defaulting to the first form on the page).
 
 The optional _$number_ parameter is used to distinguish between two fields
 with the same name.  The fields are numbered from 1.
@@ -787,7 +809,7 @@ without clearing the others.  However, if you pass an array reference,
 then all previously selected values will be cleared.
 
 Returns true on successfully setting the value. On failure, returns
-false and calls `$self>warn()` with an error message.
+false and calls `$self->warn()` with an error message.
 
 ## $mech->set\_fields( $name => $value ... )
 
@@ -928,8 +950,8 @@ longer so.
 ## $mech->submit\_form( ... )
 
 This method lets you select a form from the previously fetched page,
-fill in its fields, and submit it. It combines the form\_number/form\_name,
-set\_fields and click methods into one higher level call. Its arguments
+fill in its fields, and submit it. It combines the `form_number`/`form_name`,
+`set_fields` and `click` methods into one higher level call. Its arguments
 are a list of key/value pairs, all of which are optional.
 
 - `fields => \%fields`
@@ -949,24 +971,27 @@ are a list of key/value pairs, all of which are optional.
 
 - `form_number => n`
 
-    Selects the _n_th form (calls `["form_number()"](#form_number)`).  If this parm is not
+    Selects the _n_th form (calls
+    `[form_number()](#mech-form_number-number)`.  If this parm is not
     specified, the currently-selected form is used.
 
 - `form_name => name`
 
-    Selects the form named _name_ (calls `["form_name()"](#form_name)`)
+    Selects the form named _name_ (calls
+    `[form_name()](#mech-form_name-name)`)
 
 - `form_id => ID`
 
-    Selects the form with ID _ID_ (calls `["form_id()"](#form_id)`)
+    Selects the form with ID _ID_ (calls
+    `[form_id()](#mech-form_id-name)`)>>)
 
 - `button => button`
 
-    Clicks on button _button_ (calls `["click()"](#click)`)
+    Clicks on button _button_ (calls `[click()](#mech-click-button-x-y)`)
 
 - `x => x, y => y`
 
-    Sets the x or y values for `["click()"](#click)`
+    Sets the x or y values for `[click()](#mech-click-button-x-y)`
 
 - `strict_forms => bool`
 
@@ -976,7 +1001,8 @@ are a list of key/value pairs, all of which are optional.
 
 If no form is selected, the first form found is used.
 
-If _button_ is not passed, then the `["submit()"](#submit)` method is used instead.
+If _button_ is not passed, then the `[submit()](#mech-submit)`
+method is used instead.
 
 If you want to submit a file and get its content from a scalar rather
 than a file in the filesystem, you can use:
@@ -1102,7 +1128,24 @@ If _$absolute_ is true, links displayed are absolute, not relative.
 ## $mech->dump\_forms( \[$fh\] )
 
 Prints a dump of the forms on the current page to _$fh_.  If _$fh_
-is not specified or is undef, it dumps to STDOUT.
+is not specified or is undef, it dumps to STDOUT. Running the following:
+
+    my $mech = WWW::Mechanize->new();
+    $mech->get("https://www.google.com/");
+    $mech->dump_forms;
+
+will print:
+
+    GET https://www.google.com/search [f]
+      ie=ISO-8859-1                  (hidden readonly)
+      hl=en                          (hidden readonly)
+      source=hp                      (hidden readonly)
+      biw=                           (hidden readonly)
+      bih=                           (hidden readonly)
+      q=                             (text)
+      btnG=Google Search             (submit)
+      btnI=I'm Feeling Lucky         (submit)
+      gbv=1                          (hidden readonly)
 
 ## $mech->dump\_text( \[$fh\] )
 
@@ -1200,10 +1243,6 @@ others.
 
 Inherited from [LWP::UserAgent](https://metacpan.org/pod/LWP::UserAgent).
 
-## $mech->post()
-
-Inherited from [LWP::UserAgent](https://metacpan.org/pod/LWP::UserAgent).
-
 ## $mech->mirror()
 
 Inherited from [LWP::UserAgent](https://metacpan.org/pod/LWP::UserAgent).
@@ -1233,7 +1272,9 @@ know about them.
 
 Updates all internal variables in $mech as if $request was just
 performed, and returns $response. The page stack is **not** altered by
-this method, it is up to caller (e.g. ["request"](#request)) to do that.
+this method, it is up to caller (e.g.
+`[request](#mech-request-request-arg-size)`)
+to do that.
 
 ## $mech->\_modify\_request( $req )
 
@@ -1363,8 +1404,8 @@ The book was also positively reviewed on Slashdot:
 
     Randal Schwartz's article on scraping Yahoo News for images.  It's
     already out of date: He manually walks the list of links hunting
-    for matches, which wouldn't have been necessary if the `find_link()`
-    method existed at press time.
+    for matches, which wouldn't have been necessary if the
+    `[find_link()](#mech-find_link)` method existed at press time.
 
 - [http://www.perladvent.org/2002/16th/](http://www.perladvent.org/2002/16th/)
 

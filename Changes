@@ -1,6 +1,6 @@
 Revision history for WWW::Mechanize
 
-{{$NEXT}}
+1.87      2018-02-07 22:04:16Z
 ========================================
     [FIXED]
     - Fix typo in contributor name (GH#241) (Philippe Bruhat (BooK))
