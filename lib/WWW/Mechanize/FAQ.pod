@@ -370,12 +370,12 @@ than you think! etc, etc, etc. A couple of places to start:
 
 =item 2 Check the URL with C<< $mech->uri() >> to see where you ended up
 
-=item 3 Try debugging with C<< LWP::Debug >>.
+=item 3 Try debugging with C<< LWP::ConsoleLogger >>.
 
 =back
 
 If things are really strange, turn on debugging with
-C<< use LWP::Debug qw(+); >>
+C<< use LWP::ConsoleLogger::Everywhere; >>
 Just put this in the main program. This causes LWP to print out a trace
 of the HTTP traffic between client and server and can be used to figure
 out what is happening at the protocol level.
