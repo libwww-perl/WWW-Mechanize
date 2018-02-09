@@ -100,15 +100,14 @@ for that. Please check L<WWW::Mechanize::FAQ/"JavaScript"> for more.
 
 =item * L<https://github.com/libwww-perl/WWW-Mechanize/issues>
 
-The queue for bugs & enhancements in WWW::Mechanize and
-Test::WWW::Mechanize.  Please note that the queue at L<http://rt.cpan.org>
-is no longer maintained.
+The queue for bugs & enhancements in WWW::Mechanize.  Please note that the
+queue at L<http://rt.cpan.org> is no longer maintained.
 
-=item * L<http://search.cpan.org/dist/WWW-Mechanize/>
+=item * L<https://metacpan.org/pod/WWW::Mechanize>
 
 The CPAN documentation page for Mechanize.
 
-=item * L<http://search.cpan.org/dist/WWW-Mechanize/lib/WWW/Mechanize/FAQ.pod>
+=item * L<https://metacpan.org/pod/distribution/WWW-Mechanize/lib/WWW/Mechanize/FAQ.pod>
 
 Frequently asked questions.  Make sure you read here FIRST.
 
