@@ -8,6 +8,10 @@ communities at:
 
 =over
 
+=item * StackOverflow L<https://stackoverflow.com/questions/tagged/www-mechanize>
+
+=item * #lwp on irc.perl.org
+
 =item * L<http://perlmonks.org>
 
 =item * The libwww-perl mailing list at L<http://lists.perl.org>
