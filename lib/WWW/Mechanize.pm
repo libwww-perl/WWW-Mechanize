@@ -2063,7 +2063,10 @@ the name or number of the form to do this.
 
 (calls C<L</form_with_fields()>> and C<L</set_fields()>>).
 
-If you choose this, the form_number, form_name, form_id and fields options will be ignored.
+If you choose C<with_fields>, the C<fields> option will be ignored. The
+C<form_number>, C<form_name> and C<form_id> options will still be used.  An
+exception will be thrown unless exactly one form matches all of the provided
+criteria.
 
 =item * C<< form_number => n >>
 
