@@ -1866,8 +1866,8 @@ sub tick {
         $index++;
     } # while
 
-    # got self far?  Didn't find anything
-    $self->warn( qq{No checkbox "$name" for value "$value" in form} );
+    # got this far?  Didn't find anything
+    $self->die( qq{No checkbox "$name" for value "$value" in form} );
 } # tick()
 
 =head2 $mech->untick($name, $value)
