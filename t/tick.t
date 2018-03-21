@@ -2,7 +2,9 @@
 
 use warnings;
 use strict;
-use Test::More tests => 5;
+
+use Test::Fatal qw( exception );
+use Test::More;
 use URI::file;
 
 delete @ENV{qw(PATH IFS CDPATH ENV BASH_ENV)};  # Placates taint-unsafe Cwd.pm in 5.6.1
@@ -35,3 +37,10 @@ EOT
 
 is( $reqstring, $wanted, 'Proper posting' );
 
+like(
+    exception { $mech->tick( 'not_there', 1 ) },
+    qr{No checkbox "not_there" for value "1" in form},
+    'dies if checkbox not found'
+);
+
+done_testing();
