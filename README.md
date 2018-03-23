@@ -6,7 +6,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 # VERSION
 
-version 1.87
+version 1.88
 
 # SYNOPSIS
 
@@ -17,7 +17,7 @@ selected, form fields can be filled and the next page can be fetched.
 Mech also stores a history of the URLs you've visited, which can
 be queried and revisited.
 
-    use WWW::Mechanize;
+    use WWW::Mechanize ();
     my $mech = WWW::Mechanize->new();
 
     $mech->get( $url );
@@ -93,15 +93,14 @@ for that. Please check ["JavaScript" in WWW::Mechanize::FAQ](https://metacpan.or
 
 - [https://github.com/libwww-perl/WWW-Mechanize/issues](https://github.com/libwww-perl/WWW-Mechanize/issues)
 
-    The queue for bugs & enhancements in WWW::Mechanize and
-    Test::WWW::Mechanize.  Please note that the queue at [http://rt.cpan.org](http://rt.cpan.org)
-    is no longer maintained.
+    The queue for bugs & enhancements in WWW::Mechanize.  Please note that the
+    queue at [http://rt.cpan.org](http://rt.cpan.org) is no longer maintained.
 
-- [http://search.cpan.org/dist/WWW-Mechanize/](http://search.cpan.org/dist/WWW-Mechanize/)
+- [https://metacpan.org/pod/WWW::Mechanize](https://metacpan.org/pod/WWW::Mechanize)
 
     The CPAN documentation page for Mechanize.
 
-- [http://search.cpan.org/dist/WWW-Mechanize/lib/WWW/Mechanize/FAQ.pod](http://search.cpan.org/dist/WWW-Mechanize/lib/WWW/Mechanize/FAQ.pod)
+- [https://metacpan.org/pod/distribution/WWW-Mechanize/lib/WWW/Mechanize/FAQ.pod](https://metacpan.org/pod/distribution/WWW-Mechanize/lib/WWW/Mechanize/FAQ.pod)
 
     Frequently asked questions.  Make sure you read here FIRST.
 
@@ -967,7 +966,10 @@ are a list of key/value pairs, all of which are optional.
 
     (calls `["form_with_fields()"](#form_with_fields)` and `["set_fields()"](#set_fields)`).
 
-    If you choose this, the form\_number, form\_name, form\_id and fields options will be ignored.
+    If you choose `with_fields`, the `fields` option will be ignored. The
+    `form_number`, `form_name` and `form_id` options will still be used.  An
+    exception will be thrown unless exactly one form matches all of the provided
+    criteria.
 
 - `form_number => n`
 
@@ -1320,6 +1322,63 @@ Defaults to calling `CORE::warn`, but may be overridden by setting
 Centralized error method.  Defaults to calling `CORE::die`, but
 may be overridden by setting `onerror` in the constructor.
 
+# BEST PRACTICES
+
+The default settings can get you up and running quickly, but there are settings
+you can change in order to make your life easier.
+
+- autocheck
+
+    `autocheck` can save you the overhead of checking status codes for success.
+    You may outgrow it as your needs get more sophisticated, but it's a safe option
+    to start with.
+
+        my $agent = WWW::Mechanize->new( autocheck => 1 );
+
+- cookie\_jar
+
+    You are encouraged to install [Mozilla::PublicSuffix](https://metacpan.org/pod/Mozilla::PublicSuffix) and use
+    [HTTP::CookieJar::LWP](https://metacpan.org/pod/HTTP::CookieJar::LWP) as your cookie jar.  [HTTP::CookieJar::LWP](https://metacpan.org/pod/HTTP::CookieJar::LWP) provides a
+    better security model matching that of current Web browsers when
+    [Mozilla::PublicSuffix](https://metacpan.org/pod/Mozilla::PublicSuffix) is installed.
+
+        use HTTP::CookieJar::LWP ();
+
+        my $jar = HTTP::CookieJar::LWP->new;
+        my $agent = WWW::Mechanize->new( cookie_jar => $jar );
+
+- protocols\_allowed
+
+    This option is inherited directly from [LWP::UserAgent](https://metacpan.org/pod/LWP::UserAgent).  It allows you to
+    whitelist the protocols you're willing to allow.
+
+        my $agent = WWW::Mechanize->new(
+            protocols_allowed => [ 'http', 'https' ]
+        );
+
+    This will prevent you from inadvertently following URLs like
+    `file:///etc/passwd`
+
+- protocols\_forbidden
+
+    This option is also inherited directly from [LWP::UserAgent](https://metacpan.org/pod/LWP::UserAgent).  It allows you to
+    blacklist the protocols you're unwilling to allow.
+
+        my $agent = WWW::Mechanize->new(
+            protocols_forbidden => [ 'file', 'mailto', 'ssh', ]
+        );
+
+    This will prevent you from inadvertently following URLs like
+    `file:///etc/passwd`
+
+- strict\_forms
+
+    Consider supplying the `strict_forms` argument as a rule when you are using
+    `submit_form`.  This will perform a helpful sanity check on the form fields
+    you are submitting, which can save you a lot of debugging time.
+
+        $agent->submit_form( fields => { foo => 'bar' } , strict_forms => 1 );
+
 # WWW::MECHANIZE'S GIT REPOSITORY
 
 WWW::Mechanize is hosted at GitHub.
@@ -1511,3 +1570,15 @@ This software is copyright (c) 2004-2016 by Andy Lester.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
+
+# POD ERRORS
+
+Hey! **The above document had some coding errors, which are explained below:**
+
+- Around line 1407:
+
+    Unknown directive: =over4
+
+- Around line 1409:
+
+    '=item' outside of any '=over'

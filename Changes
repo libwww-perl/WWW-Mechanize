@@ -1,6 +1,14 @@
 Revision history for WWW::Mechanize
 
-{{$NEXT}}
+1.88      2018-03-23 15:37:25Z
+========================================
+    [FIXED]
+    - tick() now dies if checkbox is not found (GH#248) (Olaf Alders)
+
+    [DOCUMENTATION]
+    - Clarify behaviour of submit_form when with_fields is supplied as an arg (GH#247) (Olaf Alders)
+    - Document some "Best Practices" (GH#246) (Olaf Alders)
+    - Update links in Pod. Suggest LWP::ConsoleLogger rather than LWP::Debug (GH#244) (Olaf Alders)
 
 1.87      2018-02-07 22:04:16Z
 ========================================
