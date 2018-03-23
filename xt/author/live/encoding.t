@@ -5,7 +5,7 @@ use constant PAIRS => {
     'https://www.tripadvisor.com/'
         => 'utf-8',
     'http://www.liveinternet.ru/users/dashdi/blog'
-        => '(?:cp|windows-)1251',
+        => 'UTF-8',
 };
 
 use Encode;
