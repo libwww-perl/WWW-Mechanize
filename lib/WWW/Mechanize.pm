@@ -1608,6 +1608,24 @@ C<L<< form_name()|"$mech->form_name( $name )" >>> or
 C<L<< form_number()|"$mech->form_number($number)" >>>
 method or defaulting to the first form on the page).
 
+If the field is of type "file", its value should be an arrayref. Example:
+
+    $mech->field( $file_input, ['/tmp/file.txt'] );
+
+Value examples for "file" inputs, followed by explanation of what each
+index mean:
+
+    ['/tmp/file.txt']
+    ['/tmp/file.txt', 'filename.txt']
+    ['/tmp/file.txt', 'filename.txt', @headers]
+    ['/tmp/file.txt', 'filename.txt', Content => 'some content']
+    [undef,           'filename.txt', Content => 'content here']
+
+Index 0 is the filepath that will be read from disk. Index 1 is the
+filename which will be used in the HTTP request body; if not given,
+filepath (index 0) is used instead. If "Content => 'content here'" is
+informed as shown, then filepath will be ignored.
+
 The optional I<$number> parameter is used to distinguish between two fields
 with the same name.  The fields are numbered from 1.
 
@@ -1623,7 +1641,16 @@ sub field {
     }
     else {
         if ( ref($value) eq 'ARRAY' ) {
-            $form->param($name, $value);
+            my $input = $form->find_input($name);
+
+            if ( $input->type eq 'file' ) {
+                $input->file( shift @$value );
+                $input->filename( shift @$value );
+                $input->headers( @$value );
+            }
+            else {
+                $form->param($name, $value);
+            }
         }
         else {
             $form->value($name => $value);
@@ -1738,6 +1765,19 @@ which has the field value and its number as the 2 elements.
         # set the second foo field
         $mech->set_fields( $name => [ 'foo', 2 ] );
 
+The value of a field of type "file" should be an arrayref as described
+in C<L<< field()|$mech->field( $name, $value, $number ) >>>. Examples:
+
+        $mech->set_fields( $file_field => ['/tmp/file.txt'] );
+        $mech->set_fields( $file_field => ['/tmp/file.txt', 'filename.txt'] );
+
+The value for a "file" input can also be an arrayref containing an
+arrayref and a number, as documented in
+C<L<< submit_form()|$mech->submit_form( ... ) >>>.
+The number will be used to find the field in the form. Example:
+
+        $mech->set_fields( $file_field => [['/tmp/file.txt'], 1] );
+
 The fields are numbered from 1.
 
 This applies to the current form.
@@ -1751,13 +1791,20 @@ sub set_fields {
     my $form = $self->current_form or $self->die( 'No form defined' );
 
     while ( my ( $field, $value ) = each %fields ) {
+        my $number = 1;
+
         if ( ref $value eq 'ARRAY' ) {
-            $form->find_input( $field, undef,
-                         $value->[1])->value($value->[0] );
+            my $input = $form->find_input($field);
+            # Honor &submit_form's documentation, that says that a
+            # "file" input's value can be in the form of
+            # "[[$filepath, $filename], 1]".
+            if ( $input->type ne 'file' ||
+                 ($input->type eq 'file' && ref($value->[0]) eq 'ARRAY') ) {
+                ($value, $number) = ($value->[0], $value->[1]);
+            }
         }
-        else {
-            $form->value($field => $value);
-        }
+
+        $self->field($field, $value, $number);
     } # while
 } # set_fields()
 
