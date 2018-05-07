@@ -3118,7 +3118,7 @@ __END__
 The default settings can get you up and running quickly, but there are settings
 you can change in order to make your life easier.
 
-=over4
+=over 4
 
 =item autocheck
 
