@@ -223,6 +223,30 @@ history.
 
 =back
 
+In addition, WWW::Mechanize also allows you to globally enable
+strict and verbose mode for form handling, which is done with L<HTML::Form>.
+
+=over 4
+
+=item * C<< strict_forms => [0|1] >>
+
+Globally sets the HTML::Form strict flag which causes form submission to
+croak if any of the passed fields don't exist on the page, and/or a value
+doesn't exist in a select element. This can still be disabled in individual
+calls to C<L<< submit_form()|"$mech->submit_form( ... )" >>>.
+
+Default is off.
+
+=item * C<< verbose_forms => [0|1] >>
+
+Globally sets the HTML::Form verbose flag which causes form submission to
+warn about any bad HTML form constructs found. This cannot be disabled
+later.
+
+Default is off.
+
+=back
+
 To support forms, WWW::Mechanize's constructor pushes POST
 on to the agent's C<requests_redirectable> list (see also
 L<LWP::UserAgent>.)
@@ -238,13 +262,15 @@ sub new {
     );
 
     my %mech_parms = (
-        autocheck   => ($class eq 'WWW::Mechanize' ? 1 : 0),
-        onwarn      => \&WWW::Mechanize::_warn,
-        onerror     => \&WWW::Mechanize::_die,
-        quiet       => 0,
-        stack_depth => 8675309,     # Arbitrarily humongous stack
-        headers     => {},
-        noproxy     => 0,
+        autocheck     => ($class eq 'WWW::Mechanize' ? 1 : 0),
+        onwarn        => \&WWW::Mechanize::_warn,
+        onerror       => \&WWW::Mechanize::_die,
+        quiet         => 0,
+        stack_depth   => 8675309,     # Arbitrarily humongous stack
+        headers       => {},
+        noproxy       => 0,
+        strict_forms  => 0,           # pass-through to HTML::Form
+        verbose_forms => 0,           # pass-through to HTML::Form
     );
 
     my %passed_parms = @_;
@@ -2153,7 +2179,11 @@ Sets the x or y values for C<L<< click()|"$mech->click( $button [, $x, $y] )" >>
 
 Sets the HTML::Form strict flag which causes form submission to croak if any of the passed
 fields don't exist on the page, and/or a value doesn't exist in a select element.
-By default HTML::Form defaults this value to false.
+By default HTML::Form sets this value to false.
+
+This behavior can also be turned on globally by passing C<< strict_forms => 1>> to
+C<<WWW::Mechanize->new>>. If you do that, you can still disable it for individual calls
+by passing C<< strict_forms => 0>> here.
 
 =back
 
@@ -3077,7 +3107,12 @@ sub _link_from_token {
 sub _extract_forms {
     my $self = shift;
 
-    my @forms = HTML::Form->parse( $self->content, $self->base );
+    my @forms = HTML::Form->parse(
+        $self->content,
+        base    => $self->base,
+        strict  => $self->{strict_forms},
+        verbose => $self->{verbose_forms},
+    );
     $self->{forms} = \@forms;
     for my $form ( @forms ) {
         for my $input ($form->inputs) {
