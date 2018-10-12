@@ -1,6 +1,9 @@
 Revision history for WWW::Mechanize
 
 {{$NEXT}}
+    [ENHANCEMENTS]
+    - Add support to find_image() and find_all_images() via 'id'
+      and 'class' (GH#242) (Julien Fiegehenn)
 
 1.88      2018-03-23 15:37:25Z
 ========================================
