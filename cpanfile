@@ -55,6 +55,7 @@ on 'configure' => sub {
 };
 
 on 'develop' => sub {
+  requires "Code::TidyAll::Plugin::SortLines::Naturally" => "0.000003";
   requires "Encode" => "0";
   requires "Pod::Coverage::TrustPod" => "0";
   requires "Test::Code::TidyAll" => "0.50";
@@ -67,5 +68,5 @@ on 'develop' => sub {
 };
 
 on 'develop' => sub {
-  recommends "Dist::Zilla::PluginBundle::Git::VersionManager" => "0.005";
+  recommends "Dist::Zilla::PluginBundle::Git::VersionManager" => "0.007";
 };
