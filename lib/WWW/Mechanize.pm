@@ -3259,9 +3259,14 @@ C<file:///etc/passwd>
 
 =item strict_forms
 
-Consider supplying the C<strict_forms> argument as a rule when you are using
-C<submit_form>.  This will perform a helpful sanity check on the form fields
-you are submitting, which can save you a lot of debugging time.
+Consider turning on the C<strict_forms> option when you create a new Mech.
+This will perform a helpful sanity check on form fields every time you are
+submitting a form, which can save you a lot of debugging time.
+
+    my $agent = WWW::Mechanize->new( strict_forms => 1 );
+
+If you do not want to have this option globally, you can still turn it on for
+individual forms.
 
     $agent->submit_form( fields => { foo => 'bar' } , strict_forms => 1 );
 
