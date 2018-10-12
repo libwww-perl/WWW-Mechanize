@@ -3,7 +3,7 @@
 use warnings;
 use strict;
 
-use Test::More tests=>15;
+use Test::More tests => 30;
 use URI::file;
 
 BEGIN {
@@ -20,7 +20,7 @@ $mech->get( $uri );
 ok( $mech->success, "Fetched $uri" ) or die 'Can\'t get test page';
 
 my @images = $mech->images;
-is( scalar @images, 3, 'Only two images' );
+is( scalar @images, 7, 'Only seven images' );
 
 my $first = $images[0];
 is( $first->tag, 'img', 'img tag' );
@@ -38,3 +38,24 @@ my $third = $images[2];
 is( $third->url, 'linked.gif', 'Got the third image' );
 is( $third->tag, 'img', 'input tag' );
 is( $third->alt, undef, 'alt' );
+
+my $fourth = $images[3];
+is( $fourth->url, 'hacktober.jpg', 'Got the fourth image' );
+is( $fourth->tag, 'img', 'input tag' );
+is( $fourth->alt, undef, 'alt' );
+is( $fourth->attrs->{id}, 'first-hacktober-image', 'id' );
+is( $fourth->attrs->{class}, 'my-class-1', 'class' );
+
+my $fifth = $images[4];
+is( $fifth->url, 'hacktober.jpg', 'Got the fifth image' );
+is( $fifth->tag, 'img', 'input tag' );
+is( $fifth->alt, undef, 'alt' );
+is( $fifth->attrs->{id}, undef, 'id' );
+is( $fifth->attrs->{class}, 'my-class-2 foo', 'class' );
+
+my $sixth = $images[5];
+is( $sixth->url, 'hacktober.jpg', 'Got the sixth image' );
+is( $sixth->tag, 'img', 'input tag' );
+is( $sixth->alt, undef, 'alt' );
+is( $sixth->attrs->{id}, undef, 'id' );
+is( $sixth->attrs->{class}, 'my-class-3 foo bar', 'class' );

@@ -61,6 +61,10 @@ subtest "dump_images test", sub {
 wango.jpg
 bongo.gif
 linked.gif
+hacktober.jpg
+hacktober.jpg
+hacktober.jpg
+http://example.org/abs.tif
 EXPECTED
 };
 

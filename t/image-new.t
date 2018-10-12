@@ -3,7 +3,7 @@
 use warnings;
 use strict;
 
-use Test::More tests=>10;
+use Test::More tests => 12;
 
 BEGIN {
     use_ok( 'WWW::Mechanize::Image' );
@@ -18,6 +18,7 @@ my $link = WWW::Mechanize::Image->new( {
     tag  => 'a',
     height => 2112,
     width => 5150,
+    attrs  => { id => 'id', class => 'foo bar' },
 } );
 
 is( $link->url, 'url.html', 'url() works' );
@@ -27,5 +28,7 @@ is( $link->alt, 'alt', 'alt() works' );
 is( $link->tag, 'a', 'tag() works' );
 is( $link->height, 2112, 'height works' );
 is( $link->width, 5150, 'width works' );
+is( $link->attrs->{id}, 'id', 'attrs/id works' );
+is( $link->attrs->{class}, 'foo bar', 'attrs/class works' );
 is( $link->url_abs, 'http://base.example.com/url.html', 'url_abs works' );
 isa_ok( $link->URI, 'URI::URL', 'Returns an object' );

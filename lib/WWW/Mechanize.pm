@@ -1211,7 +1211,7 @@ key/value pairs:
 
 =over 4
 
-=item * C<< alt => 'string' >> and C<< alt_regex => qr/regex/, >>
+=item * C<< alt => 'string' >> and C<< alt_regex => qr/regex/ >>
 
 C<alt> matches the ALT attribute of the image against I<string>, which must be an
 exact match. To select a image with an ALT tag that is exactly "download", use
@@ -1224,7 +1224,7 @@ anywhere in it, regardless of case, use
 
     $mech->find_image( alt_regex => qr/download/i );
 
-=item * C<< url => 'string', >> and C<< url_regex => qr/regex/, >>
+=item * C<< url => 'string' >> and C<< url_regex => qr/regex/ >>
 
 Matches the URL of the image against I<string> or I<regex>, as appropriate.
 The URL may be a relative URL, like F<foo/bar.html>, depending on how
@@ -1246,6 +1246,45 @@ more than one tag, as in:
 
 The tags supported are C<< <img> >> and C<< <input> >>.
 
+=item * C<< id => string >> and C<< id_regex => regex >>
+
+C<id> matches the id attribute of the image against I<string>, which must
+be an exact match. To select an image with the exact id "download-image", use
+
+    $mech->find_image( id => 'download-image' );
+
+C<id_regex> matches the id attribute of the image against a regular
+expression. To select the first image with an id that contains "download"
+anywhere in it, use
+
+    $mech->find_image( id_regex => qr/download/ );
+    
+=item * C<< classs => string >> and C<< class_regex => regex >>
+
+C<class> matches the class attribute of the image against I<string>, which must
+be an exact match. To select an image with the exact class "img-fuid", use
+
+    $mech->find_image( class => 'img-fluid' );
+    
+To select an image with the class attribute "rounded float-left", use
+
+    $mech->find_image( class => 'rounded float-left' );
+
+Note that the classes have to be matched as a complete string, in the exact
+order they appear in the website's source code.
+
+C<class_regex> matches the class attribute of the image against a regular
+expression. Use this if you want a partial class name, or if an image has
+several classes, but you only care about one.
+
+To select the first image with the class "rounded", where there are multiple
+images that might also have either class "float-left" or "float-right", use
+
+    $mech->find_image( class_regex => qr/\brounded\b/ );
+
+Selecting an image with multiple classes where you do not care about the
+order they appear in the website's source code is not currently supported.
+    
 =back
 
 If C<n> is not specified, it defaults to 1.  Therefore, if you don't
@@ -1269,7 +1308,7 @@ sub find_image {
 
     my $wantall = ( $parms{n} eq 'all' );
 
-    $self->_clean_keys( \%parms, qr/^(n|(alt|url|url_abs|tag)(_regex)?)$/ );
+    $self->_clean_keys( \%parms, qr/^(?:n|(?:alt|url|url_abs|tag|id|class)(?:_regex)?)$/ );
 
     my @images = $self->images or return;
 
@@ -1312,6 +1351,10 @@ sub _match_any_image_parms {
     return if defined $p->{alt_regex}     && !(defined($image->alt) && $image->alt =~ $p->{alt_regex} );
     return if defined $p->{tag}           && !($image->tag && $image->tag eq $p->{tag} );
     return if defined $p->{tag_regex}     && !($image->tag && $image->tag =~ $p->{tag_regex} );
+    return if defined $p->{id}            && !($image->attrs && $image->attrs->{id} && $image->attrs->{id} eq $p->{id} );
+    return if defined $p->{id_regex}      && !($image->attrs && $image->attrs->{id} && $image->attrs->{id} =~ $p->{id_regex} );
+    return if defined $p->{class}         && !($image->attrs && $image->attrs->{class} && $image->attrs->{class} eq $p->{class} );
+    return if defined $p->{class_regex}   && !($image->attrs && $image->attrs->{class} && $image->attrs->{class} =~ $p->{class_regex} );
 
     # Success: everything that was defined passed.
     return 1;
@@ -2954,6 +2997,7 @@ sub _image_from_token {
             height  => $attrs->{height},
             width   => $attrs->{width},
             alt     => $attrs->{alt},
+            attrs   => $attrs,
         });
 }
 
