@@ -34,6 +34,21 @@ be queried and revisited.
         button    => 'Search Now'
     );
 
+    # enable strict form processing to catch typos and non-existant form fields
+    my $strict_mech = WWW::Mechanize->new( strict_forms => 1);
+
+    $strict_mech->get( $url );
+
+    # this method call will die, saving you lots of time looking for the bug
+    $strict_mech->submit_form(
+        form_number => 3,
+        fields      => {
+            usernaem     => 'mungo',           # typo in field name
+            password     => 'lost-and-alone',
+            extra_field  => 123,               # field does not exist
+        }
+    );
+
 =head1 DESCRIPTION
 
 C<WWW::Mechanize>, or Mech for short, is a Perl module for stateful
