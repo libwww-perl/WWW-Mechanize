@@ -9,9 +9,23 @@ perl:
   - "5.14"
   - "5.12"
   - "5.10"
+  - blead
+  - dev
+sudo: false
 before_install:
-  - git clone git://github.com/travis-perl/helpers ~/travis-perl-helpers
-  - source ~/travis-perl-helpers/init
-  - build-perl
-  - perl -V
+  - eval $(curl https://travis-perl.github.io/init) --auto
   - cpanm Test::Memory::Cycle Test::Taint
+matrix:
+  allow_failures:
+    -
+      perl: blead
+    -
+      perl: dev
+    -
+      env: AUTHOR_TESTING=0 COVERAGE=1
+      perl: '5.26'
+  fast_finish: 'true'
+  include:
+    -
+      env: AUTHOR_TESTING=0 COVERAGE=1
+      perl: '5.26'
