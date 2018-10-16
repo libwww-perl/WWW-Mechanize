@@ -63,7 +63,7 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
     isa_ok( $forms[0], 'HTML::Form' );
     isa_ok( $forms[1], 'HTML::Form' );
     is($forms[0]->attr('name'), '3rd_form_ambiguous', 'first result of 3rd_form_ambiguous');
-    is($forms[0]->attr('name'), '3rd_form_ambiguous', 'second result of 3rd_form_ambiguous');
+    is($forms[1]->attr('name'), '3rd_form_ambiguous', 'second result of 3rd_form_ambiguous');
 }
 
 {
