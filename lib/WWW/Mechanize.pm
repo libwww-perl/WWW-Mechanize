@@ -246,7 +246,7 @@ strict and verbose mode for form handling, which is done with L<HTML::Form>.
 =item * C<< strict_forms => [0|1] >>
 
 Globally sets the HTML::Form strict flag which causes form submission to
-croak if any of the passed fields don't exist on the page, and/or a value
+croak if any of the passed fields don't exist in the form, and/or a value
 doesn't exist in a select element. This can still be disabled in individual
 calls to C<L<< submit_form()|"$mech->submit_form( ... )" >>>.
 
