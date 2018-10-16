@@ -518,6 +518,20 @@ sub back {
     return 1;
 }
 
+=head2 $mech->clear_history()
+
+This deletes all the history entries and returns true.
+
+=cut
+
+sub clear_history {
+    my $self = shift;
+
+    delete $self->{page_stack};
+
+    return 1;
+}
+
 =head2 $mech->history_count()
 
 This returns the number of items in the browser history.  This number I<does>
