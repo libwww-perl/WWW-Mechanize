@@ -1,5 +1,7 @@
 Revision history for WWW::Mechanize
 
+{{$NEXT}}
+
 1.89      2018-10-18 19:13:34Z
     [ENHANCEMENTS]
     - Add support to find_image() and find_all_images() via 'id'

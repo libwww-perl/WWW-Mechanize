@@ -133,7 +133,7 @@ Frequently asked questions.  Make sure you read here FIRST.
 use strict;
 use warnings;
 
-our $VERSION = '1.89';
+our $VERSION = '1.90';
 
 use Tie::RefHash;
 use HTTP::Request 1.30;
