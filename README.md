@@ -6,7 +6,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 # VERSION
 
-version 1.88
+version 1.89
 
 # SYNOPSIS
 
@@ -38,6 +38,21 @@ be queried and revisited.
         form_name => 'search',
         fields    => { query  => 'pot of gold', },
         button    => 'Search Now'
+    );
+
+    # Enable strict form processing to catch typos and non-existant form fields.
+    my $strict_mech = WWW::Mechanize->new( strict_forms => 1);
+
+    $strict_mech->get( $url );
+
+    # This method call will die, saving you lots of time looking for the bug.
+    $strict_mech->submit_form(
+        form_number => 3,
+        fields      => {
+            usernaem     => 'mungo',           # typo in field name
+            password     => 'lost-and-alone',
+            extra_field  => 123,               # field does not exist
+        }
     );
 
 # DESCRIPTION
@@ -189,6 +204,26 @@ parms that [LWP::UserAgent](https://metacpan.org/pod/LWP::UserAgent) recognizes.
     number, say 5 or 10.  Setting this to zero means Mech will keep no
     history.
 
+In addition, WWW::Mechanize also allows you to globally enable
+strict and verbose mode for form handling, which is done with [HTML::Form](https://metacpan.org/pod/HTML::Form).
+
+- `strict_forms => [0|1]`
+
+    Globally sets the HTML::Form strict flag which causes form submission to
+    croak if any of the passed fields don't exist in the form, and/or a value
+    doesn't exist in a select element. This can still be disabled in individual
+    calls to `[submit_form()](#mech-submit_form)`.
+
+    Default is off.
+
+- `verbose_forms => [0|1]`
+
+    Globally sets the HTML::Form verbose flag which causes form submission to
+    warn about any bad HTML form constructs found. This cannot be disabled
+    later.
+
+    Default is off.
+
 To support forms, WWW::Mechanize's constructor pushes POST
 on to the agent's `requests_redirectable` list (see also
 [LWP::UserAgent](https://metacpan.org/pod/LWP::UserAgent).)
@@ -277,6 +312,10 @@ the previous page.  Won't go back past the first page. (Really, what
 would it do if it could?)
 
 Returns true if it could go back, or false if not.
+
+## $mech->clear\_history()
+
+This deletes all the history entries and returns true.
 
 ## $mech->history\_count()
 
@@ -610,7 +649,7 @@ to find an image it returns undef.
 You can select which image to find by passing in one or more of these
 key/value pairs:
 
-- `alt => 'string'` and `alt_regex => qr/regex/,`
+- `alt => 'string'` and `alt_regex => qr/regex/`
 
     `alt` matches the ALT attribute of the image against _string_, which must be an
     exact match. To select a image with an ALT tag that is exactly "download", use
@@ -623,7 +662,7 @@ key/value pairs:
 
         $mech->find_image( alt_regex => qr/download/i );
 
-- `url => 'string',` and `url_regex => qr/regex/,`
+- `url => 'string'` and `url_regex => qr/regex/`
 
     Matches the URL of the image against _string_ or _regex_, as appropriate.
     The URL may be a relative URL, like `foo/bar.html`, depending on how
@@ -644,6 +683,45 @@ key/value pairs:
         $mech->find_image( tag_regex => qr/^(img|input)$/ );
 
     The tags supported are `<img>` and `<input>`.
+
+- `id => string` and `id_regex => regex`
+
+    `id` matches the id attribute of the image against _string_, which must
+    be an exact match. To select an image with the exact id "download-image", use
+
+        $mech->find_image( id => 'download-image' );
+
+    `id_regex` matches the id attribute of the image against a regular
+    expression. To select the first image with an id that contains "download"
+    anywhere in it, use
+
+        $mech->find_image( id_regex => qr/download/ );
+
+- `classs => string` and `class_regex => regex`
+
+    `class` matches the class attribute of the image against _string_, which must
+    be an exact match. To select an image with the exact class "img-fuid", use
+
+        $mech->find_image( class => 'img-fluid' );
+
+    To select an image with the class attribute "rounded float-left", use
+
+        $mech->find_image( class => 'rounded float-left' );
+
+    Note that the classes have to be matched as a complete string, in the exact
+    order they appear in the website's source code.
+
+    `class_regex` matches the class attribute of the image against a regular
+    expression. Use this if you want a partial class name, or if an image has
+    several classes, but you only care about one.
+
+    To select the first image with the class "rounded", where there are multiple
+    images that might also have either class "float-left" or "float-right", use
+
+        $mech->find_image( class_regex => qr/\brounded\b/ );
+
+    Selecting an image with multiple classes where you do not care about the
+    order they appear in the website's source code is not currently supported.
 
 If `n` is not specified, it defaults to 1.  Therefore, if you don't
 specify any parms, this method defaults to finding the first image on the
@@ -999,7 +1077,11 @@ are a list of key/value pairs, all of which are optional.
 
     Sets the HTML::Form strict flag which causes form submission to croak if any of the passed
     fields don't exist on the page, and/or a value doesn't exist in a select element.
-    By default HTML::Form defaults this value to false.
+    By default HTML::Form sets this value to false.
+
+    This behavior can also be turned on globally by passing `` strict_forms => 1>> to
+    `<WWW::Mechanize-`new>>. If you do that, you can still disable it for individual calls
+    by passing `strict_forms => 0>> here.` ``
 
 If no form is selected, the first form found is used.
 
@@ -1373,9 +1455,14 @@ you can change in order to make your life easier.
 
 - strict\_forms
 
-    Consider supplying the `strict_forms` argument as a rule when you are using
-    `submit_form`.  This will perform a helpful sanity check on the form fields
-    you are submitting, which can save you a lot of debugging time.
+    Consider turning on the `strict_forms` option when you create a new Mech.
+    This will perform a helpful sanity check on form fields every time you are
+    submitting a form, which can save you a lot of debugging time.
+
+        my $agent = WWW::Mechanize->new( strict_forms => 1 );
+
+    If you do not want to have this option globally, you can still turn it on for
+    individual forms.
 
         $agent->submit_form( fields => { foo => 'bar' } , strict_forms => 1 );
 
@@ -1575,10 +1662,6 @@ the same terms as the Perl 5 programming language system itself.
 
 Hey! **The above document had some coding errors, which are explained below:**
 
-- Around line 1407:
+- Around line 1157:
 
-    Unknown directive: =over4
-
-- Around line 1409:
-
-    '=item' outside of any '=over'
+    Unterminated C< C< ... > > sequence

@@ -1,9 +1,11 @@
 Revision history for WWW::Mechanize
 
-{{$NEXT}}
+1.89      2018-10-18 19:13:34Z
     [ENHANCEMENTS]
     - Add support to find_image() and find_all_images() via 'id'
       and 'class' (GH#242) (Julien Fiegehenn)
+    - Pass strict/verbose constructor args to HTML::Form (GH#256) (Julien Fiegehenn)
+    - Add ability to clear history and tests for history (GH#259) (mschae94)
 
 1.88      2018-03-23 15:37:25Z
 ========================================
