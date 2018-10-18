@@ -57,6 +57,7 @@ on 'configure' => sub {
 on 'develop' => sub {
   requires "Code::TidyAll::Plugin::SortLines::Naturally" => "0.000003";
   requires "Encode" => "0";
+  requires "Perl::Tidy" => "20180220";
   requires "Pod::Coverage::TrustPod" => "0";
   requires "Test::Code::TidyAll" => "0.50";
   requires "Test::More" => "0.88";
