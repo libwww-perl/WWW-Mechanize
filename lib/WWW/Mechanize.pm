@@ -248,7 +248,7 @@ strict and verbose mode for form handling, which is done with L<HTML::Form>.
 Globally sets the HTML::Form strict flag which causes form submission to
 croak if any of the passed fields don't exist in the form, and/or a value
 doesn't exist in a select element. This can still be disabled in individual
-calls to C<L<< submit_form()|"$mech->submit_form( ... )" >>>.
+calls to L<C<< submit_form()|"$mech->submit_form( ... )" >>>.
 
 Default is off.
 
@@ -2196,15 +2196,15 @@ Sets the HTML::Form strict flag which causes form submission to croak if any of 
 fields don't exist on the page, and/or a value doesn't exist in a select element.
 By default HTML::Form sets this value to false.
 
-This behavior can also be turned on globally by passing C<< strict_forms => 1>> to
+This behavior can also be turned on globally by passing C<< strict_forms => 1 >> to
 C<<WWW::Mechanize->new>>. If you do that, you can still disable it for individual calls
-by passing C<< strict_forms => 0>> here.
+by passing C<< strict_forms => 0 >> here.
 
 =back
 
 If no form is selected, the first form found is used.
 
-If I<button> is not passed, then the C<L<< submit()|"$mech->submit()" >>>
+If I<button> is not passed, then the L<C<< submit()|"$mech->submit()" >>>
 method is used instead.
 
 If you want to submit a file and get its content from a scalar rather
