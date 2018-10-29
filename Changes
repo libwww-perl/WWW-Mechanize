@@ -1,6 +1,8 @@
 Revision history for WWW::Mechanize
 
 {{$NEXT}}
+    [DOCUMENTATION]
+    - Fix broken Pod
 
 1.89      2018-10-18 19:13:34Z
     [ENHANCEMENTS]
