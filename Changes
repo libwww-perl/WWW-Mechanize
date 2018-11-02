@@ -4,6 +4,10 @@ Revision history for WWW::Mechanize
     [DOCUMENTATION]
     - Fix broken Pod
 
+    [ENHANCEMENTS]
+    - Upgrade to HTML::TreeBuilder version 5 to get support for weak references in
+      HTML::Element (GH#251) (Julien Fiegehenn)
+
 1.89      2018-10-18 19:13:34Z
     [ENHANCEMENTS]
     - Add support to find_image() and find_all_images() via 'id'

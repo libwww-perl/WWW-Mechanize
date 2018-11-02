@@ -40,8 +40,8 @@ $mech->update_html($html);
 =cut
 
 SKIP: {
-    eval 'use HTML::TreeBuilder';
-    skip 'HTML::TreeBuilder not installed', 2 if $@;
+    eval 'use HTML::TreeBuilder 5';
+    skip 'HTML::TreeBuilder version 5 not installed', 2 if $@;
 
     my $text = $mech->content(format => 'text');
     like( $text, qr/Fine/, 'Found Fine' );
