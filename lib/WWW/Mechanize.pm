@@ -748,9 +748,9 @@ are passed to I<content()>:
 =item I<< $mech->content( format => 'text' ) >>
 
 Returns a text-only version of the page, with all HTML markup
-stripped. This feature requires I<HTML::TreeBuilder> to be installed,
-or a fatal error will be thrown. This works only if the contents are
-HTML.
+stripped. This feature requires I<HTML::TreeBuilder> version 5 or higher
+to be installed, or a fatal error will be thrown. This works only if
+the contents are HTML.
 
 =item I<< $mech->content( base_href => [$base_href|undef] ) >>
 
@@ -822,7 +822,7 @@ sub content {
 =head2 $mech->text()
 
 Returns the text of the current HTML content.  If the content isn't
-HTML, $mech will die.
+HTML, C<$mech> will die.
 
 The text is extracted by parsing the content, and then the extracted
 text is cached, so don't worry about performance of calling this
@@ -834,13 +834,16 @@ sub text {
     my $self = shift;
 
     if ( not defined $self->{text} ) {
-        require HTML::TreeBuilder;
+        unless ( exists $INC{'HTML::TreeBuilder'} ) {
+            require HTML::TreeBuilder;
+            HTML::TreeBuilder->VERSION(5);
+            HTML::TreeBuilder->import('-weak');
+        }
         my $tree = HTML::TreeBuilder->new();
         $tree->parse( $self->content );
         $tree->eof();
         $tree->elementify(); # just for safety
         $self->{text} = $tree->as_text();
-        $tree->delete;
     }
 
     return $self->{text};
