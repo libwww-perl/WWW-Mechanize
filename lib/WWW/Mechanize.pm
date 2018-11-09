@@ -2197,7 +2197,7 @@ fields don't exist on the page, and/or a value doesn't exist in a select element
 By default HTML::Form sets this value to false.
 
 This behavior can also be turned on globally by passing C<< strict_forms => 1 >> to
-C<<WWW::Mechanize->new>>. If you do that, you can still disable it for individual calls
+C<< WWW::Mechanize->new >>. If you do that, you can still disable it for individual calls
 by passing C<< strict_forms => 0 >> here.
 
 =back
