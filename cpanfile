@@ -61,6 +61,7 @@ on 'develop' => sub {
   requires "Test::Code::TidyAll" => "0.50";
   requires "Test::More" => "0.88";
   requires "Test::Needs" => "0";
+  requires "Test::Pod" => "1.41";
   requires "Test::Pod::Coverage" => "1.08";
   requires "Test::RequiresInternet" => "0";
   requires "constant" => "0";
