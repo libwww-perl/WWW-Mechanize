@@ -1,5 +1,7 @@
 Revision history for WWW::Mechanize
 
+{{$NEXT}}
+
 1.90      2018-11-12 18:02:03Z
     [DOCUMENTATION]
     - Pod fixes (GH#261) (Julien Fiegehenn)
