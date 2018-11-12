@@ -40,6 +40,7 @@
             "Test::Code::TidyAll" : "0.50",
             "Test::More" : "0.88",
             "Test::Needs" : "0",
+            "Test::Pod" : "1.41",
             "Test::Pod::Coverage" : "1.08",
             "Test::RequiresInternet" : "0",
             "constant" : "0",
@@ -53,13 +54,13 @@
             "HTML::Form" : "1.00",
             "HTML::HeadParser" : "0",
             "HTML::TokeParser" : "0",
-            "HTML::TreeBuilder" : "0",
+            "HTML::TreeBuilder" : "5",
             "HTTP::Cookies" : "0",
             "HTTP::Request" : "1.30",
             "HTTP::Request::Common" : "0",
             "LWP::UserAgent" : "5.827",
             "Pod::Usage" : "0",
-            "Scalar::Util" : "0",
+            "Scalar::Util" : "1.14",
             "Tie::RefHash" : "0",
             "URI::URL" : "0",
             "URI::file" : "0",
@@ -85,6 +86,8 @@
             "HTTP::Server::Simple::CGI" : "0",
             "LWP" : "0",
             "LWP::Simple" : "0",
+            "Perl::Critic" : "0",
+            "Perl::Tidy" : "0",
             "Test::Deep" : "0",
             "Test::Fatal" : "0",
             "Test::More" : "0.96",
@@ -101,15 +104,15 @@
    "provides" : {
       "WWW::Mechanize" : {
          "file" : "lib/WWW/Mechanize.pm",
-         "version" : "1.89"
+         "version" : "1.90"
       },
       "WWW::Mechanize::Image" : {
          "file" : "lib/WWW/Mechanize/Image.pm",
-         "version" : "1.89"
+         "version" : "1.90"
       },
       "WWW::Mechanize::Link" : {
          "file" : "lib/WWW/Mechanize/Link.pm",
-         "version" : "1.89"
+         "version" : "1.90"
       }
    },
    "release_status" : "stable",
@@ -124,7 +127,7 @@
          "web" : "https://github.com/libwww-perl/WWW-Mechanize"
       }
    },
-   "version" : "1.89",
+   "version" : "1.90",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.026001"
@@ -584,7 +587,7 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v1.89",
+                  "tag" : "v1.90",
                   "tag_format" : "v%v",
                   "tag_message" : "v%v"
                },
@@ -680,6 +683,11 @@
             },
             "name" : "RunExtraTests",
             "version" : "0.029"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::PodSyntaxTests",
+            "name" : "PodSyntaxTests",
+            "version" : "6.012"
          },
          {
             "class" : "Dist::Zilla::Plugin::Prereqs",
@@ -835,6 +843,7 @@
       "Matthew Chae <mschae@cpan.org>",
       "Matt S Trout <mst@shadowcat.co.uk>",
       "Max Maischein <corion@cpan.org>",
+      "Mohammad S Anwar <mohammad.anwar@yahoo.com>",
       "Neil Bowers <neil@bowers.com>",
       "Nik LaBelle <nalabelle@gmail.com>",
       "Olaf Alders <olaf@wundersolutions.com>",

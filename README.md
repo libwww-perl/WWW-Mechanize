@@ -6,7 +6,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 # VERSION
 
-version 1.89
+version 1.90
 
 # SYNOPSIS
 
@@ -212,7 +212,7 @@ strict and verbose mode for form handling, which is done with [HTML::Form](https
     Globally sets the HTML::Form strict flag which causes form submission to
     croak if any of the passed fields don't exist in the form, and/or a value
     doesn't exist in a select element. This can still be disabled in individual
-    calls to `[submit_form()](#mech-submit_form)`.
+    calls to [`submit_form()|"$mech->submit_form( ... )"`](https://metacpan.org/pod/submit_form\(\)|&#x22;$mech->submit_form\(&#x20;...&#x20;\)&#x22;).
 
     Default is off.
 
@@ -412,9 +412,9 @@ are passed to _content()_:
 - _$mech->content( format => 'text' )_
 
     Returns a text-only version of the page, with all HTML markup
-    stripped. This feature requires _HTML::TreeBuilder_ to be installed,
-    or a fatal error will be thrown. This works only if the contents are
-    HTML.
+    stripped. This feature requires _HTML::TreeBuilder_ version 5 or higher
+    to be installed, or a fatal error will be thrown. This works only if
+    the contents are HTML.
 
 - _$mech->content( base\_href => \[$base\_href|undef\] )_
 
@@ -446,7 +446,7 @@ specified and the text is HTML, in which case an error will be triggered.
 ## $mech->text()
 
 Returns the text of the current HTML content.  If the content isn't
-HTML, $mech will die.
+HTML, `$mech` will die.
 
 The text is extracted by parsing the content, and then the extracted
 text is cached, so don't worry about performance of calling this
@@ -1079,13 +1079,13 @@ are a list of key/value pairs, all of which are optional.
     fields don't exist on the page, and/or a value doesn't exist in a select element.
     By default HTML::Form sets this value to false.
 
-    This behavior can also be turned on globally by passing `` strict_forms => 1>> to
-    `<WWW::Mechanize-`new>>. If you do that, you can still disable it for individual calls
-    by passing `strict_forms => 0>> here.` ``
+    This behavior can also be turned on globally by passing `strict_forms => 1` to
+    `WWW::Mechanize->new`. If you do that, you can still disable it for individual calls
+    by passing `strict_forms => 0` here.
 
 If no form is selected, the first form found is used.
 
-If _button_ is not passed, then the `[submit()](#mech-submit)`
+If _button_ is not passed, then the [`submit()|"$mech->submit()"`](https://metacpan.org/pod/submit\(\)|&#x22;$mech->submit\(\)&#x22;)
 method is used instead.
 
 If you want to submit a file and get its content from a scalar rather
@@ -1657,11 +1657,3 @@ This software is copyright (c) 2004-2016 by Andy Lester.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
-
-# POD ERRORS
-
-Hey! **The above document had some coding errors, which are explained below:**
-
-- Around line 1157:
-
-    Unterminated C< C< ... > > sequence
