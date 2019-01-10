@@ -34,8 +34,13 @@
             "Dist::Zilla::PluginBundle::Git::VersionManager" : "0.007"
          },
          "requires" : {
+            "Code::TidyAll" : "0.71",
             "Code::TidyAll::Plugin::SortLines::Naturally" : "0.000003",
+            "Code::TidyAll::Plugin::Test::Vars" : "0.04",
             "Encode" : "0",
+            "Parallel::ForkManager" : "1.19",
+            "Perl::Critic" : "1.132",
+            "Perl::Tidy" : "20180220",
             "Pod::Coverage::TrustPod" : "0",
             "Test::Code::TidyAll" : "0.50",
             "Test::More" : "0.88",
@@ -43,6 +48,7 @@
             "Test::Pod" : "1.41",
             "Test::Pod::Coverage" : "1.08",
             "Test::RequiresInternet" : "0",
+            "Test::Vars" : "0.014",
             "constant" : "0",
             "lib" : "0"
          }
@@ -86,8 +92,6 @@
             "HTTP::Server::Simple::CGI" : "0",
             "LWP" : "0",
             "LWP::Simple" : "0",
-            "Perl::Critic" : "0",
-            "Perl::Tidy" : "0",
             "Test::Deep" : "0",
             "Test::Fatal" : "0",
             "Test::More" : "0.96",
@@ -104,15 +108,15 @@
    "provides" : {
       "WWW::Mechanize" : {
          "file" : "lib/WWW/Mechanize.pm",
-         "version" : "1.90"
+         "version" : "1.91"
       },
       "WWW::Mechanize::Image" : {
          "file" : "lib/WWW/Mechanize/Image.pm",
-         "version" : "1.90"
+         "version" : "1.91"
       },
       "WWW::Mechanize::Link" : {
          "file" : "lib/WWW/Mechanize/Link.pm",
-         "version" : "1.90"
+         "version" : "1.91"
       }
    },
    "release_status" : "stable",
@@ -127,7 +131,7 @@
          "web" : "https://github.com/libwww-perl/WWW-Mechanize"
       }
    },
-   "version" : "1.90",
+   "version" : "1.91",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.026001"
@@ -233,17 +237,17 @@
          {
             "class" : "Dist::Zilla::Plugin::InstallGuide",
             "name" : "@Author::OALDERS/InstallGuide",
-            "version" : "1.200011"
+            "version" : "1.200012"
          },
          {
             "class" : "Dist::Zilla::Plugin::Prereqs",
             "config" : {
                "Dist::Zilla::Plugin::Prereqs" : {
-                  "phase" : "runtime",
+                  "phase" : "develop",
                   "type" : "requires"
                }
             },
-            "name" : "@Author::OALDERS/Prereqs",
+            "name" : "@Author::OALDERS/Modules for use with tidyall",
             "version" : "6.012"
          },
          {
@@ -254,6 +258,11 @@
          {
             "class" : "Dist::Zilla::Plugin::PodCoverageTests",
             "name" : "@Author::OALDERS/PodCoverageTests",
+            "version" : "6.012"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::PodSyntaxTests",
+            "name" : "@Author::OALDERS/PodSyntaxTests",
             "version" : "6.012"
          },
          {
@@ -451,7 +460,7 @@
                   "changelog" : "Changes"
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.19.1",
+                  "git_version" : "2.20.1",
                   "repo_root" : "."
                }
             },
@@ -462,7 +471,7 @@
             "class" : "Dist::Zilla::Plugin::Git::Contributors",
             "config" : {
                "Dist::Zilla::Plugin::Git::Contributors" : {
-                  "git_version" : "2.19.1",
+                  "git_version" : "2.20.1",
                   "include_authors" : 0,
                   "include_releaser" : 1,
                   "order_by" : "name",
@@ -570,7 +579,7 @@
                   "changelog" : "Changes"
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.19.1",
+                  "git_version" : "2.20.1",
                   "repo_root" : "."
                },
                "Dist::Zilla::Role::Git::StringFormatter" : {
@@ -587,12 +596,12 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v1.90",
+                  "tag" : "v1.91",
                   "tag_format" : "v%v",
                   "tag_message" : "v%v"
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.19.1",
+                  "git_version" : "2.20.1",
                   "repo_root" : "."
                },
                "Dist::Zilla::Role::Git::StringFormatter" : {
@@ -642,7 +651,7 @@
                   "changelog" : "Changes"
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.19.1",
+                  "git_version" : "2.20.1",
                   "repo_root" : "."
                },
                "Dist::Zilla::Role::Git::StringFormatter" : {
@@ -662,7 +671,7 @@
                   "remotes_must_exist" : 1
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.19.1",
+                  "git_version" : "2.20.1",
                   "repo_root" : "."
                }
             },
@@ -683,11 +692,6 @@
             },
             "name" : "RunExtraTests",
             "version" : "0.029"
-         },
-         {
-            "class" : "Dist::Zilla::Plugin::PodSyntaxTests",
-            "name" : "PodSyntaxTests",
-            "version" : "6.012"
          },
          {
             "class" : "Dist::Zilla::Plugin::Prereqs",
@@ -815,6 +819,7 @@
    },
    "x_contributors" : [
       "Alexandr Ciornii <alexchorny@gmail.com>",
+      "Andrew Grangaard <granny-github@ofb.net>",
       "Andy Lester <andy@petdance.com>",
       "Bernhard Wagner <gitcommit@bernhardwagner.net>",
       "Chase Whitener <capoeirab@cpan.org>",

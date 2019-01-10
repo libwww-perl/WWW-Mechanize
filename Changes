@@ -1,6 +1,12 @@
 Revision history for WWW::Mechanize
 
-{{$NEXT}}
+1.91      2019-01-10 18:44:33Z
+    [ENHANCEMENTS]
+
+    - Don't install Perl::Critic and Perl::Tidy to run user tests (GH#268)
+      (Julien Fiegehenn)
+    - Remove redundant PodSyntaxTests (GH#265) (Andrew Grangaard)
+    - Add test dependency for Perl::Tidy (GH#263) (Julien Fiegehenn)
 
 1.90      2018-11-12 18:02:03Z
     [DOCUMENTATION]

@@ -30,8 +30,6 @@ on 'test' => sub {
   requires "HTTP::Server::Simple::CGI" => "0";
   requires "LWP" => "0";
   requires "LWP::Simple" => "0";
-  requires "Perl::Critic" => "0";
-  requires "Perl::Tidy" => "0";
   requires "Test::Deep" => "0";
   requires "Test::Fatal" => "0";
   requires "Test::More" => "0.96";
@@ -57,8 +55,13 @@ on 'configure' => sub {
 };
 
 on 'develop' => sub {
+  requires "Code::TidyAll" => "0.71";
   requires "Code::TidyAll::Plugin::SortLines::Naturally" => "0.000003";
+  requires "Code::TidyAll::Plugin::Test::Vars" => "0.04";
   requires "Encode" => "0";
+  requires "Parallel::ForkManager" => "1.19";
+  requires "Perl::Critic" => "1.132";
+  requires "Perl::Tidy" => "20180220";
   requires "Pod::Coverage::TrustPod" => "0";
   requires "Test::Code::TidyAll" => "0.50";
   requires "Test::More" => "0.88";
@@ -66,6 +69,7 @@ on 'develop' => sub {
   requires "Test::Pod" => "1.41";
   requires "Test::Pod::Coverage" => "1.08";
   requires "Test::RequiresInternet" => "0";
+  requires "Test::Vars" => "0.014";
   requires "constant" => "0";
   requires "lib" => "0";
 };
