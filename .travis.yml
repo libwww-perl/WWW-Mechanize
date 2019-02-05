@@ -1,32 +1,48 @@
+---
+addons:
+  apt:
+    packages:
+      - aspell
+      - aspell-en
 language: perl
 perl:
-  - "5.28"
-  - "5.26"
-  - "5.24"
-  - "5.22"
-  - "5.20"
-  - "5.18"
-  - "5.16"
-  - "5.14"
-  - "5.12"
-  - "5.10"
   - blead
   - dev
-sudo: false
-before_install:
-  - eval $(curl https://travis-perl.github.io/init) --auto
-  - cpanm Test::Memory::Cycle Test::Taint || true
+  - '5.28'
+  - '5.26'
+  - '5.24'
+  - '5.22'
+  - '5.20'
+  - '5.18'
+  - '5.16'
+  - '5.14'
+  - '5.12'
+  - '5.10'
+cache:
+  directories:
+    - $HOME/perl5
 matrix:
   allow_failures:
-    -
-      perl: blead
-    -
-      perl: dev
-    -
-      env: AUTHOR_TESTING=0 COVERAGE=1
-      perl: '5.26'
-  fast_finish: 'true'
+    - perl: blead
+    - perl: dev
+    - env: AUTHOR_TESTING=0 COVERAGE=1
+      perl: '5.28'
+  fast_finish: 1
   include:
-    -
-      env: AUTHOR_TESTING=0 COVERAGE=1
-      perl: '5.26'
+    - env: AUTHOR_TESTING=0 COVERAGE=1
+      perl: '5.28'
+    - env: AUTHOR_TESTING=1 AUTOMATED_TESTING=1 RELEASE_TESTING=1 COVERAGE=0
+      perl: '5.28'
+env:
+  global:
+    - AUTHOR_TESTING=1
+    - RELEASE_TESTING=1
+before_install:
+  - eval $(curl https://travis-perl.github.io/init) --auto --always-upgrade-modules
+  - cpanm Test::Memory::Cycle Test::Taint || true
+### __app_cisetup__
+# ---
+# force_threaded_perls: 0
+# perl_caching: 1
+
+### __app_cisetup__
