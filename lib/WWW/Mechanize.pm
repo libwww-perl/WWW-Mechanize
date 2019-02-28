@@ -912,9 +912,11 @@ or
 
 =back
 
-Returns the result of the GET method (an HTTP::Response object) if
-a link was found. If the page has no links, or the specified link
-couldn't be found, returns undef.
+Returns the result of the C<GET> method (an L<HTTP::Response> object) if a link
+was found.
+
+If the page has no links, or the specified link couldn't be found, returns
+C<undef>.  If C<autocheck> is enabled an exception will be thrown instead.
 
 =cut
 
