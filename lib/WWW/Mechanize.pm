@@ -2164,7 +2164,8 @@ and data setting in one operation. It selects the first form that contains all
 fields mentioned in C<\%fields>.  This is nice because you don't need to know
 the name or number of the form to do this.
 
-(calls C<L</form_with_fields()>> and C<L</set_fields()>>).
+(calls C<L<< form_with_fields()|"$mech->form_with_fields( @fields )" >>> and
+       C<L<< set_fields()|"$mech->set_fields( $name => $value ... )" >>>).
 
 If you choose C<with_fields>, the C<fields> option will be ignored. The
 C<form_number>, C<form_name> and C<form_id> options will still be used.  An
@@ -2209,7 +2210,7 @@ by passing C<< strict_forms => 0 >> here.
 
 If no form is selected, the first form found is used.
 
-If I<button> is not passed, then the L<C<< submit()|"$mech->submit()" >>>
+If I<button> is not passed, then the C<L<< submit()|"$mech->submit()" >>>
 method is used instead.
 
 If you want to submit a file and get its content from a scalar rather
