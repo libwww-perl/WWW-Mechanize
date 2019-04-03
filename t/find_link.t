@@ -2,7 +2,8 @@
 
 use warnings;
 use strict;
-use Test::More tests => 65;
+
+use Test::More;
 use URI::file;
 
 BEGIN {
@@ -154,3 +155,9 @@ $x = $mech->find_link( text_regex => qr/click/i);
 isa_ok( $x, 'WWW::Mechanize::Link' );
 is( $x->[0], 'http://www.yahoo.com/', 'Got js url link' );
 is( $x->url, 'http://www.yahoo.com/', 'Got js url link' );
+
+$mech->get( URI::file->new_abs('t/refresh.html') );
+my $link = $mech->find_link( tag => 'meta' );
+is( $link->url, 'http://www.mysite.com/', 'got link from meta tag via tag search' );
+
+done_testing();
