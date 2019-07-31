@@ -7,7 +7,7 @@ $|++;
 
 my $d = HTTP::Daemon->new or die;
 my $lhurl = URI::URL->new( $d->url );
-$lhurl->host( "127.0.0.1" );
+$lhurl->host( 'localhost' );
 print $lhurl->as_string, "\n";
 
 $counter = 5;
