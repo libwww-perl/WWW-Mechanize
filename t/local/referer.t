@@ -19,7 +19,7 @@ my $agent = WWW::Mechanize->new();
 isa_ok( $agent, 'WWW::Mechanize' );
 
 SKIP: {
-    eval { require HTTP::Daemon; };
+    eval { require HTTP::Daemon; HTTP::Daemon->VERSION(6.05); };
     skip 'HTTP::Daemon required to test the referrer header',10 if $@;
 
     # We want to be safe from non-resolving local host names
