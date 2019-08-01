@@ -8,6 +8,7 @@ language: perl
 perl:
   - blead
   - dev
+  - '5.30'
   - '5.28'
   - '5.26'
   - '5.24'
