@@ -2,8 +2,8 @@ use strict;
 use warnings;
 
 use constant PAIRS => {
-    'https://www.tripadvisor.com/'                 => 'utf-8',
-    'http://www.liveinternet.ru/users/dashdi/blog' => 'cp1251',
+    'https://www.tripadvisor.com/'     => 'utf-8',
+    'https://www.liveinternet.ru/top/' => 'cp1251',
 };
 
 use Encode;
@@ -11,7 +11,7 @@ use Test::More;
 use Test::Needs 'LWP::Protocol::https';
 use Test::RequiresInternet(
     'www.tripadvisor.com' => 443,
-    'www.liveinternet.ru' => 80
+    'www.liveinternet.ru' => 443
 );
 use WWW::Mechanize;
 
