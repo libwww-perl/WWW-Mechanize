@@ -5,6 +5,7 @@ addons:
       - aspell
       - aspell-en
 language: perl
+dist: trusty
 perl:
   - blead
   - dev
