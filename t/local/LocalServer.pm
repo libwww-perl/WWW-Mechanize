@@ -113,11 +113,7 @@ sub spawn {
   die "Couldn't read back local server url"
       unless $url;
 
-  # What is this code supposed to fix?
-  my $lhurl = URI::URL->new( $url );
-  $lhurl->host( 'localhost' );
-  $self->{_server_url} = $lhurl;
-  
+  $self->{_server_url} = URI::URL->new($url);
   $self->{_fh} = $server;
   $self->{_pid} = $pid;
 
