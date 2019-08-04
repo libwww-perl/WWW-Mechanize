@@ -2,12 +2,19 @@
 
 use HTTP::Daemon 6.05;
 use URI::URL;
+use Socket ();
 
 $|++;
 
 my $d = HTTP::Daemon->new or die;
 my $lhurl = URI::URL->new( $d->url );
-$lhurl->host( 'localhost' );
+if ($d->sockdomain == Socket::AF_INET) {
+    $lhurl->host( '127.0.0.1' );
+} elsif ($d->sockdomain == Socket::AF_INET6) {
+    $lhurl->host( '[::1]' );
+} else {
+    die "unexpected sockdomain: " . $d->sockdomain;
+}
 print $lhurl->as_string, "\n";
 
 $counter = 5;
