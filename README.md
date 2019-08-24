@@ -6,7 +6,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 # VERSION
 
-version 1.91
+version 1.92
 
 # SYNOPSIS
 
@@ -491,9 +491,11 @@ Here some examples:
 
         $mech->follow_link( url => 'http://example.com/page' );
 
-Returns the result of the GET method (an HTTP::Response object) if
-a link was found. If the page has no links, or the specified link
-couldn't be found, returns undef.
+Returns the result of the `GET` method (an [HTTP::Response](https://metacpan.org/pod/HTTP::Response) object) if a link
+was found.
+
+If the page has no links, or the specified link couldn't be found, returns
+`undef`.  If `autocheck` is enabled an exception will be thrown instead.
 
 ## $mech->find\_link( ... )
 
@@ -1042,7 +1044,8 @@ are a list of key/value pairs, all of which are optional.
     fields mentioned in `\%fields`.  This is nice because you don't need to know
     the name or number of the form to do this.
 
-    (calls `["form_with_fields()"](#form_with_fields)` and `["set_fields()"](#set_fields)`).
+    (calls `[form_with_fields()](#mech-form_with_fields-fields)` and
+           `[set_fields()](#mech-set_fields-name-value)`).
 
     If you choose `with_fields`, the `fields` option will be ignored. The
     `form_number`, `form_name` and `form_id` options will still be used.  An
@@ -1085,7 +1088,7 @@ are a list of key/value pairs, all of which are optional.
 
 If no form is selected, the first form found is used.
 
-If _button_ is not passed, then the [`submit()|"$mech->submit()"`](https://metacpan.org/pod/submit\(\)|&#x22;$mech->submit\(\)&#x22;)
+If _button_ is not passed, then the `[submit()](#mech-submit)`
 method is used instead.
 
 If you want to submit a file and get its content from a scalar rather
