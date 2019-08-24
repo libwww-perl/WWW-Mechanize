@@ -1,8 +1,19 @@
 Revision history for WWW::Mechanize
 
 {{$NEXT}}
+    [FIXED]
+    - Test requires HTTP::Daemon 6.05+ and uses 127.0.0.1 or [::1] according to
+      server's sockdomain (GH#280) (Shoichi Kaji)
+    - Install LWP::Protocol::https and fix xt/author/live/encoding.t (GH#277)
+      (Shoichi Kaji)
+    - Set dist trusty for old Perls on Travis (GH#279) (Shoichi Kaji)
+    - Fixed pod errors as reported by CPANTS. (GH#273) (Mohammad S Anwar)
+
+    [DOCUMENTATION]
+    - Document that follow_link will die on failure with autocheck enabled (GH#271) (Olaf Alders)
+
     [TESTS]
-    - Add a test for finding a link in a meta refresh tag
+    - Add a test for finding a link in a meta refresh tag (GH#275) (Olaf Alders)
 
 1.91      2019-01-10 18:44:33Z
     [ENHANCEMENTS]
