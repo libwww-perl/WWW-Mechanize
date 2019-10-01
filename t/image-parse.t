@@ -3,7 +3,7 @@
 use warnings;
 use strict;
 
-use Test::More tests => 30;
+use Test::More tests => 33;
 use URI::file;
 
 BEGIN {
@@ -20,7 +20,7 @@ $mech->get( $uri );
 ok( $mech->success, "Fetched $uri" ) or die 'Can\'t get test page';
 
 my @images = $mech->images;
-is( scalar @images, 7, 'Only seven images' );
+is( scalar @images, 8, 'Only eight images' );
 
 my $first = $images[0];
 is( $first->tag, 'img', 'img tag' );
@@ -59,3 +59,9 @@ is( $sixth->tag, 'img', 'input tag' );
 is( $sixth->alt, undef, 'alt' );
 is( $sixth->attrs->{id}, undef, 'id' );
 is( $sixth->attrs->{class}, 'my-class-3 foo bar', 'class' );
+
+# regression github #269
+my $seventh = $images[7];
+is( $seventh->attrs->{id}, 'no-src-regression-269', 'Got the sevenths image');
+is( $seventh->url, undef, 'it has no URL');
+is( $seventh->attrs->{'data-image'}, 'hacktober.jpg', 'it has an extra attribute');

@@ -65,6 +65,7 @@ hacktober.jpg
 hacktober.jpg
 hacktober.jpg
 http://example.org/abs.tif
+
 EXPECTED
 };
 

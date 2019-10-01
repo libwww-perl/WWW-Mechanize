@@ -42,7 +42,7 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
             hacktober.jpg
             hacktober.jpg
             http://example.org/abs.tif
-        ) ],
+        ), undef ],
         '... and all seven are in the right order'
     );
 
@@ -109,6 +109,7 @@ my $image4 = [ url => 'hacktober.jpg', attrs => superhashof( { id => 'first-hack
 my $image5 = [ url => 'hacktober.jpg', attrs => superhashof( { class => re('my-class-2') } ) ];
 my $image6 = [ url => 'hacktober.jpg', attrs => superhashof( { class => re('my-class-3') } ) ];
 my $image7 = [ url => 'http://example.org/abs.tif', attrs => superhashof( { id => 'absolute' } ) ];
+my $image8 = [ url => undef, tag => 'img', attrs => superhashof( { 'data-image' => "hacktober.jpg", id => "no-src-regression-269" } ) ];
 
 my $tests = [
     {
@@ -188,6 +189,7 @@ my $tests = [
             $image5,
             $image6,
             $image7,
+            $image8,
         ],
     },
     {
@@ -214,6 +216,7 @@ my $tests = [
            $image5,
            $image6,
            $image7,
+           $image8,
         ],
     },
     {
@@ -234,6 +237,7 @@ my $tests = [
         expected_single => $image4,
         expected_all    => [
             $image4,
+            $image8,
         ],
     },
     {
