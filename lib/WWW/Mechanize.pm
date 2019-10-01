@@ -2548,6 +2548,9 @@ is not specified or is undef, it dumps to STDOUT.
 
 If I<$absolute> is true, links displayed are absolute, not relative.
 
+The output will include empty lines for images that have no C<src> attribute
+and therefore no C<<->url>>.
+
 =cut
 
 sub dump_images {
