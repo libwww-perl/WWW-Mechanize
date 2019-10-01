@@ -1403,10 +1403,10 @@ sub _match_any_image_parms {
     # No conditions, anything matches
     return 1 unless keys %$p;
 
-    return if defined $p->{url}           && !($image->url eq $p->{url} );
-    return if defined $p->{url_regex}     && !($image->url =~ $p->{url_regex} );
-    return if defined $p->{url_abs}       && !($image->url_abs eq $p->{url_abs} );
-    return if defined $p->{url_abs_regex} && !($image->url_abs =~ $p->{url_abs_regex} );
+    return if defined $p->{url}           && !(defined($image->url) && $image->url eq $p->{url} );
+    return if defined $p->{url_regex}     && !(defined($image->url) && $image->url =~ $p->{url_regex} );
+    return if defined $p->{url_abs}       && !(defined($image->url_abs) && $image->url_abs eq $p->{url_abs} );
+    return if defined $p->{url_abs_regex} && !(defined($image->url_abs) && $image->url_abs =~ $p->{url_abs_regex} );
     return if defined $p->{alt}           && !(defined($image->alt) && $image->alt eq $p->{alt} );
     return if defined $p->{alt_regex}     && !(defined($image->alt) && $image->alt =~ $p->{alt_regex} );
     return if defined $p->{tag}           && !($image->tag && $image->tag eq $p->{tag} );
