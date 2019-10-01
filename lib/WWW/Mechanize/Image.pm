@@ -51,35 +51,37 @@ sub new {
 
 =head1 Accessors
 
-=head2 $link->url()
+=head2 $image->url()
 
-URL from the link
+Image URL from the C<src> attribute of the source tag.
 
-=head2 $link->base()
+May be C<undef> if source tag has no C<src> attribute.
+
+=head2 $image->base()
 
 Base URL to which the links are relative.
 
-=head2 $link->name()
+=head2 $image->name()
 
 Name for the field from the NAME attribute, if any.
 
-=head2 $link->tag()
+=head2 $image->tag()
 
 Tag name (either "image" or "input")
 
-=head2 $link->height()
+=head2 $image->height()
 
 Image height
 
-=head2 $link->width()
+=head2 $image->width()
 
 Image width
 
-=head2 $link->alt()
+=head2 $image->alt()
 
 ALT attribute from the source tag, if any.
 
-=head2 $link->attrs()
+=head2 $image->attrs()
 
 Hash ref of all the attributes and attribute values in the tag.
 
@@ -94,7 +96,7 @@ sub width   { return ($_[0])->{width}; }
 sub alt     { return ($_[0])->{alt}; }
 sub attrs   { return ($_[0])->{attrs}; }
 
-=head2 $link->URI()
+=head2 $image->URI()
 
 Returns the URL as a L<URI::URL> object.
 
@@ -109,7 +111,7 @@ sub URI {
     return $URI;
 }
 
-=head2 $link->url_abs()
+=head2 $image->url_abs()
 
 Returns the URL as an absolute URL string.
 
