@@ -248,7 +248,7 @@ strict and verbose mode for form handling, which is done with L<HTML::Form>.
 Globally sets the HTML::Form strict flag which causes form submission to
 croak if any of the passed fields don't exist in the form, and/or a value
 doesn't exist in a select element. This can still be disabled in individual
-calls to L<C<< submit_form()|"$mech->submit_form( ... )" >>>.
+calls to C<L<< submit_form()|"$mech->submit_form( ... )" >>>.
 
 Default is off.
 
@@ -2186,7 +2186,7 @@ C<L<< form_name()|"$mech->form_name( $name )" >>>)
 =item * C<< form_id => ID >>
 
 Selects the form with ID I<ID> (calls
-C<L<< form_id()|"$mech->form_id( $name )" >>>)>>)
+C<L<< form_id()|"$mech->form_id( $name )" >>>)
 
 =item * C<< button => button >>
 
