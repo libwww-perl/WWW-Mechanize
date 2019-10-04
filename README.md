@@ -6,7 +6,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 # VERSION
 
-version 1.92
+version 1.93
 
 # SYNOPSIS
 
@@ -212,7 +212,7 @@ strict and verbose mode for form handling, which is done with [HTML::Form](https
     Globally sets the HTML::Form strict flag which causes form submission to
     croak if any of the passed fields don't exist in the form, and/or a value
     doesn't exist in a select element. This can still be disabled in individual
-    calls to [`submit_form()|"$mech->submit_form( ... )"`](https://metacpan.org/pod/submit_form\(\)|&#x22;$mech->submit_form\(&#x20;...&#x20;\)&#x22;).
+    calls to `[submit_form()](#mech-submit_form)`.
 
     Default is off.
 
@@ -1066,7 +1066,7 @@ are a list of key/value pairs, all of which are optional.
 - `form_id => ID`
 
     Selects the form with ID _ID_ (calls
-    `[form_id()](#mech-form_id-name)`)>>)
+    `[form_id()](#mech-form_id-name)`)
 
 - `button => button`
 
@@ -1211,6 +1211,9 @@ Prints a dump of the images on the current page to _$fh_.  If _$fh_
 is not specified or is undef, it dumps to STDOUT.
 
 If _$absolute_ is true, links displayed are absolute, not relative.
+
+The output will include empty lines for images that have no `src` attribute
+and therefore no `<-`url>>.
 
 ## $mech->dump\_forms( \[$fh\] )
 

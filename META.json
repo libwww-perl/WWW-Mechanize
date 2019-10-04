@@ -109,15 +109,15 @@
    "provides" : {
       "WWW::Mechanize" : {
          "file" : "lib/WWW/Mechanize.pm",
-         "version" : "1.92"
+         "version" : "1.93"
       },
       "WWW::Mechanize::Image" : {
          "file" : "lib/WWW/Mechanize/Image.pm",
-         "version" : "1.92"
+         "version" : "1.93"
       },
       "WWW::Mechanize::Link" : {
          "file" : "lib/WWW/Mechanize/Link.pm",
-         "version" : "1.92"
+         "version" : "1.93"
       }
    },
    "release_status" : "stable",
@@ -132,7 +132,7 @@
          "web" : "https://github.com/libwww-perl/WWW-Mechanize"
       }
    },
-   "version" : "1.92",
+   "version" : "1.93",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.026001"
@@ -239,8 +239,8 @@
             "class" : "Dist::Zilla::Plugin::InstallGuide",
             "config" : {
                "Dist::Zilla::Role::ModuleMetadata" : {
-                  "Module::Metadata" : "1.000033",
-                  "version" : "0.004"
+                  "Module::Metadata" : "1.000036",
+                  "version" : "0.006"
                }
             },
             "name" : "@Author::OALDERS/InstallGuide",
@@ -522,7 +522,7 @@
          {
             "class" : "Dist::Zilla::Plugin::CheckIssues",
             "name" : "@Author::OALDERS/CheckIssues",
-            "version" : "0.010"
+            "version" : "0.011"
          },
          {
             "class" : "Dist::Zilla::Plugin::ConfirmRelease",
@@ -619,7 +619,7 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v1.92",
+                  "tag" : "v1.93",
                   "tag_format" : "v%V",
                   "tag_message" : "v%V"
                },
@@ -769,8 +769,8 @@
                   "meta_noindex" : 1
                },
                "Dist::Zilla::Role::ModuleMetadata" : {
-                  "Module::Metadata" : "1.000033",
-                  "version" : "0.004"
+                  "Module::Metadata" : "1.000036",
+                  "version" : "0.006"
                }
             },
             "name" : "MetaProvides::Package",
@@ -889,6 +889,6 @@
       "Zefram <zefram@fysh.org>"
    ],
    "x_generated_by_perl" : "v5.26.1",
-   "x_serialization_backend" : "Cpanel::JSON::XS version 4.04"
+   "x_serialization_backend" : "Cpanel::JSON::XS version 4.10"
 }
 
