@@ -1,5 +1,7 @@
 Revision history for WWW::Mechanize
 
+{{$NEXT}}
+
 1.93      2019-10-04 21:06:49Z
     [FIXED]
     - Allow images to not have a src attribute (GH#282) (Julien Fiegehenn)
