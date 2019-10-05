@@ -2719,7 +2719,7 @@ would overload I<update_html> in a subclass thusly:
 
 If you do this, then the mech will use the tidied-up HTML instead of
 the original both when parsing for its own needs, and for returning to
-you through L</content>.
+you through C<L<< content()|"$mech->content(...)" >>>.
 
 Overloading this method is also the recommended way of implementing
 extra validation steps (e.g. link checkers) for every HTML page
