@@ -83,7 +83,7 @@ my @uris = @ARGV or die "Must specify a URL or file to check.  See --help for de
 
 binmode(STDOUT, ':utf8');
 
-my $mech = WWW::Mechanize->new();
+my $mech = WWW::Mechanize->new( autocheck => 0 );
 if ( defined $agent ) {
     $mech->agent( $agent );
 }
