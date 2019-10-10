@@ -1,6 +1,12 @@
 Revision history for WWW::Mechanize
 
-{{$NEXT}}
+1.94      2019-10-10 13:12:28Z
+    [FIXED]
+    - Issue #182: Don't autocheck for mech-dump so basic auth works (GH#285)
+      (Julien Fiegehenn)
+
+    [DOCUMENTATION]
+    - Fix pod error reported by CPANTS. (GH#284) (Mohammad S Anwar)
 
 1.93      2019-10-04 21:06:49Z
     [FIXED]

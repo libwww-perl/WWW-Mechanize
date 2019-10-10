@@ -109,15 +109,15 @@
    "provides" : {
       "WWW::Mechanize" : {
          "file" : "lib/WWW/Mechanize.pm",
-         "version" : "1.93"
+         "version" : "1.94"
       },
       "WWW::Mechanize::Image" : {
          "file" : "lib/WWW/Mechanize/Image.pm",
-         "version" : "1.93"
+         "version" : "1.94"
       },
       "WWW::Mechanize::Link" : {
          "file" : "lib/WWW/Mechanize/Link.pm",
-         "version" : "1.93"
+         "version" : "1.94"
       }
    },
    "release_status" : "stable",
@@ -132,7 +132,7 @@
          "web" : "https://github.com/libwww-perl/WWW-Mechanize"
       }
    },
-   "version" : "1.93",
+   "version" : "1.94",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.026001"
@@ -502,8 +502,8 @@
             "class" : "Dist::Zilla::Plugin::StaticInstall",
             "config" : {
                "Dist::Zilla::Plugin::StaticInstall" : {
-                  "dry_run" : 1,
-                  "mode" : "auto"
+                  "dry_run" : 0,
+                  "mode" : "on"
                }
             },
             "name" : "@Author::OALDERS/StaticInstall",
@@ -619,7 +619,7 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v1.93",
+                  "tag" : "v1.94",
                   "tag_format" : "v%V",
                   "tag_message" : "v%V"
                },
@@ -862,6 +862,7 @@
       "Jason May <jasonmay@bestpractical.com>",
       "Jesse Vincent <jesse@bestpractical.com>",
       "John Beppu <john.beppu@gmail.com>",
+      "Julien Fiegehenn <simbabque@cpan.org>",
       "Karen Etheridge <ether@cpan.org>",
       "Kirrily 'Skud' Robert <skud@infotrope.net>",
       "Kivanc Yazan <kivancyazan@gmail.com>",
@@ -880,7 +881,6 @@
       "Schuyler Langdon <schuyler@velargo.com>",
       "Sergey Romanov <sromanov-dev@yandex.ru>",
       "Shoichi Kaji <skaji@cpan.org>",
-      "simbabque <simbabque@cpan.org>",
       "Steve Scaffidi <stephen@scaffidi.net>",
       "Stuart Johnston <saj_git@thecommune.net>",
       "sunnavy <sunnavy@bestpractical.com>",
@@ -889,6 +889,7 @@
       "Zefram <zefram@fysh.org>"
    ],
    "x_generated_by_perl" : "v5.26.1",
-   "x_serialization_backend" : "Cpanel::JSON::XS version 4.10"
+   "x_serialization_backend" : "Cpanel::JSON::XS version 4.10",
+   "x_static_install" : 1
 }
 
