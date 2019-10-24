@@ -2227,8 +2227,7 @@ sub submit_form {
 
     for ( keys %args ) {
         if ( !/^(form_(number|name|fields|id)|(with_)?fields|button|x|y|strict_forms)$/ ) {
-            # XXX Why not die here?
-            $self->warn( qq{Unknown submit_form parameter "$_"} );
+            $self->die( qq{Unknown submit_form parameter "$_"} );
         }
     }
 
