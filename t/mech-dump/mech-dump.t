@@ -14,9 +14,9 @@ BEGIN {
 plan skip_all => 'Not installing mech-dump' if -e File::Spec->catfile( qw( t SKIP-MECH-DUMP ) );
 plan tests => 4;
 
-my $exe = File::Spec->catfile( qw( blib script mech-dump ) );
+my $exe = File::Spec->catfile( qw( script mech-dump ) );
 if ( $^O eq 'VMS' ) {
-    $exe = qq[mcr $^X "-mblib" $exe];
+    $exe = qq[mcr $^X -Ilib $exe];
 }
 
 # Simply use a file: uri instead of the filename to make this test
@@ -25,7 +25,7 @@ my $source = 'file:t/google.html t/find_inputs.html';
 
 my $perl;
 $perl = $1 if $^X =~ /^(.+)$/;
-my $command = "$perl -Mblib $exe --forms $source";
+my $command = "$perl -Ilib $exe --forms $source";
 
 my $actual = `$command`;
 
