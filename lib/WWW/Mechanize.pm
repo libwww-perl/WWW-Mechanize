@@ -2264,7 +2264,7 @@ sub submit_form {
     }
     if ( my $form_id = $args{form_id} ) {
         my @got = $self->all_forms_with( id => $form_id );
-        $self->warn(qq{ There is no form with ID "$form_id"}) if not @got;
+        $self->die(qq{There is no form with ID "$form_id"}) if not @got;
         push @filtered_sets, \@got;
     }
 
