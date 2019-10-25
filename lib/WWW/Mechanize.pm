@@ -2248,17 +2248,17 @@ sub submit_form {
     if ( $args{with_fields} ) {
         $fields || die q{must submit some 'fields' with with_fields};
         my @got = $self->all_forms_with_fields(keys %{$fields});
-        die "There is no form with the requested fields" if not @got;
+        $self->die("There is no form with the requested fields") if not @got;
         push @filtered_sets, \@got;
     }
     if ( my $form_number = $args{form_number} ) {
         my $got = $self->form_number( $form_number );
-        die "There is no form numbered $form_number" if not $got;
+        $self->die("There is no form numbered $form_number") if not $got;
         push @filtered_sets, [ $got ];
     }
     if ( my $form_name = $args{form_name} ) {
         my @got = $self->all_forms_with( name => $form_name );
-        die qq{There is no form named "$form_name"} if not @got;
+        $self->die(qq{There is no form named "$form_name"}) if not @got;
         push @filtered_sets, \@got;
     }
     if ( my $form_id = $args{form_id} ) {
@@ -2285,10 +2285,10 @@ sub submit_form {
         my $expected_count = scalar @filtered_sets;
         my @matched = grep { $c{$_} == $expected_count } keys %c;
         if (not @matched) {
-            die "There is no form that satisfies all the criteria";
+            $self->die('There is no form that satisfies all the criteria');
         }
         if (@matched > 1) {
-            die "More than one form satisfies all the criteria";
+            $self->die('More than one form satisfies all the criteria');
         }
         $self->{current_form} = $matched[0];
     }

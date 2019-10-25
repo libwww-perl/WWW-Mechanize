@@ -40,4 +40,55 @@ $mech->get($uri);
     );
 }
 
+{
+    $mech->get($uri);
+    like(
+        exception {
+            $mech->submit_form(
+                form_number => 99,
+            );
+        },
+        qr/There is no form numbered 99/,
+        'submit_form with invalid form number',
+    );
+}
+{
+    $mech->get($uri);
+    like(
+        exception {
+            $mech->submit_form(
+                form_name => 99,
+            );
+        },
+        qr/There is no form named "99"/,
+        'submit_form with invalid form name',
+    );
+}
+
+{
+    $mech->get($uri);
+    like(
+        exception {
+            $mech->submit_form(
+                with_fields => [ 'foo', 'bar' ],
+            );
+        },
+        qr/with_fields arg to submit_form must be a hashref/,
+        'submit_form with invalid arg value for with_fields',
+    );
+}
+
+{
+    $mech->get($uri);
+    like(
+        exception {
+            $mech->submit_form(
+                fields => [ 'foo', 'bar' ],
+            );
+        },
+        qr/fields arg to submit_form must be a hashref/,
+        'submit_form with invalid arg value for fields',
+    );
+}
+
 done_testing();
