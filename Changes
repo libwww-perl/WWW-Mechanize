@@ -1,6 +1,8 @@
 Revision history for WWW::Mechanize
 
 {{$NEXT}}
+    [FIXED]
+   - die if submit_form() called with invalid form_id (GH#287) (Olaf Alders)
 
 1.94      2019-10-10 13:12:28Z
     [FIXED]
