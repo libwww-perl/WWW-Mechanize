@@ -2238,7 +2238,7 @@ sub submit_form {
                 $fields = $args{$_};
             }
             else {
-                die "$_ arg to submit_form must be a hashref";
+                $self->die("$_ arg to submit_form must be a hashref");
             }
             last;
         }
