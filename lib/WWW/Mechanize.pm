@@ -427,6 +427,7 @@ appropriately.
 B<NOTE:> Because C<:content_file> causes the page contents to be
 stored in a file instead of the response object, some Mech functions
 that expect it to be there won't work as expected. Use with caution.
+Also local (file:) names containing "?" need to have it URL encoded: "%3F".
 
 =cut
 
