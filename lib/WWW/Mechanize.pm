@@ -1318,14 +1318,14 @@ expression. To select the first image with an id that contains "download"
 anywhere in it, use
 
     $mech->find_image( id_regex => qr/download/ );
-    
+
 =item * C<< classs => string >> and C<< class_regex => regex >>
 
 C<class> matches the class attribute of the image against I<string>, which must
 be an exact match. To select an image with the exact class "img-fuid", use
 
     $mech->find_image( class => 'img-fluid' );
-    
+
 To select an image with the class attribute "rounded float-left", use
 
     $mech->find_image( class => 'rounded float-left' );
@@ -1344,7 +1344,7 @@ images that might also have either class "float-left" or "float-right", use
 
 Selecting an image with multiple classes where you do not care about the
 order they appear in the website's source code is not currently supported.
-    
+
 =back
 
 If C<n> is not specified, it defaults to 1.  Therefore, if you don't

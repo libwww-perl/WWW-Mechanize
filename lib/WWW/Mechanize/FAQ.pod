@@ -120,7 +120,7 @@ Use the mech-dump utility, optionally installed with Mechanize.
     GET http://search.cpan.org/search
       query=
       mode=all                        (option)  [*all|module|dist|author]
-      <NONAME>=CPAN Search            (submit) 
+      <NONAME>=CPAN Search            (submit)
 
 =head2 How do I get Mech to handle authentication?
 

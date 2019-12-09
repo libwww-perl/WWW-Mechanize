@@ -51,7 +51,7 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
         [ $mech->images ],
         'images() and find_all_images() return the same thing in list context'
     );
-    
+
     my $images     = $mech->images;
     my $all_images = $mech->find_all_images;
     cmp_deeply(
