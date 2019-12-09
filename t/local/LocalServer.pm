@@ -186,7 +186,7 @@ as a string.
 
 sub get_log {
   my ($self) = @_;
-  
+
   my $log = get( $self->get_server_log );
   $self->stop;
   return $log;

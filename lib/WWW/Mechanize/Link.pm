@@ -74,7 +74,7 @@ Base URL to which the links are relative.
 
 =head2 $link->attrs()
 
-Returns hash ref of all the attributes and attribute values in the tag. 
+Returns hash ref of all the attributes and attribute values in the tag.
 
 =cut
 

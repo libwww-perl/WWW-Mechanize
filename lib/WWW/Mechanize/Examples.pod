@@ -224,7 +224,7 @@ mailman's web interface.
     # listmod - fast alternative to mailman list interface
     #
     # usage: listmod crew XXXXXXXX
-    # 
+    #
 
     die "usage: $0 <listname> <password>\n" unless @ARGV == 2;
     my ($listname, $password) = @ARGV;
@@ -259,7 +259,7 @@ mailman's web interface.
 
         # show item info
         my $sender = unescape($item);
-        my ($subject) = [$f->find_input("senderbanp-$item")->value_names]->[1] 
+        my ($subject) = [$f->find_input("senderbanp-$item")->value_names]->[1]
             =~ /Subject:\s+(.+?)\s+Size:/g;
 
         # prompt user
@@ -319,13 +319,13 @@ Last I checked, it didn't work because their HTML didn't match, but it's
 still good as sample code.
 
     #!/usr/bin/perl -w
-    
+
     use strict;
-    
+
     use WWW::Mechanize;
     use Getopt::Long;
     use Text::Wrap;
-    
+
     my $match = undef;
     my $random = undef;
     GetOptions(
@@ -510,12 +510,12 @@ with a results page.
     $mech->field('category_id',1); # adjust as needed
     $mech->field('text',$entry->{btext});
     $mech->field('status',2); # publish, or 1 = draft
-    $results = $mech->submit(); 
+    $results = $mech->submit();
 
     # if we're ok with this entry being datestamped "NOW" (no {date} in %entry)
     # we're done. Otherwise, time to be tricksy
     # MT returns a 302 redirect from this form. the redirect itself contains a <body onload=""> handler
-    # which takes the user to an editable version of the form where the create date can be edited	
+    # which takes the user to an editable version of the form where the create date can be edited
     # MT date format of YYYY-MM-DD HH:MI:SS is the only one that won't error out
 
     if ($entry->{date} && $entry->{date} =~ /^\d{4}-\d{2}-\d{2}\s+\d{2}:\d{2}:\d{2}/) {
@@ -535,11 +535,11 @@ with a results page.
 Randal submitted this bot that walks the despair.com site sucking down
 all the pictures.
 
-    use strict; 
+    use strict;
     $|++;
 
     use WWW::Mechanize;
-    use File::Basename; 
+    use File::Basename;
 
     my $m = WWW::Mechanize->new;
 
@@ -548,12 +548,12 @@ all the pictures.
     my @top_links = @{$m->links};
 
     for my $top_link_num (0..$#top_links) {
-        next unless $top_links[$top_link_num][0] =~ /^http:/; 
+        next unless $top_links[$top_link_num][0] =~ /^http:/;
 
         $m->follow_link( n=>$top_link_num ) or die "can't follow $top_link_num";
 
         print $m->uri, "\n";
-        for my $image (grep m{^http://store4}, map $_->[0], @{$m->links}) { 
+        for my $image (grep m{^http://store4}, map $_->[0], @{$m->links}) {
             my $local = basename $image;
             print " $image...", $m->mirror($image, $local)->message, "\n"
         }
