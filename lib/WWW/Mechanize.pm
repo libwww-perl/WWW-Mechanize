@@ -1616,7 +1616,7 @@ tag.
 (Currently does not work for attribute C<action> due to implementation details
 of L<HTML::Form>.)
 When given more than one pair, all criteria must match.
-Using C<undef> as value means that the attribute in question may not be present.
+Using C<undef> as value means that the attribute in question must not be present.
 
 All matching forms (perhaps none) are returned as a list of L<HTML::Form> objects.
 
@@ -1639,7 +1639,7 @@ tag.
 (Currently does not work for attribute C<action> due to implementation details
 of L<HTML::Form>.)
 When given more than one pair, all criteria must match.
-Using C<undef> as value means that the attribute in question may not be present.
+Using C<undef> as value means that the attribute in question must not be present.
 
 If it is found, the form is returned as an L<HTML::Form> object and set internally
 for later used with Mech's form methods such as
