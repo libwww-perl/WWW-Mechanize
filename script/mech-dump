@@ -134,7 +134,7 @@ sub dump_headers {
 sub dump_forms {
     my $mech = shift;
     print "--> Forms:\n" if $all;
-    $mech->dump_forms( undef, $absolute );
+    $mech->dump_forms( undef );
     return;
 }
 
