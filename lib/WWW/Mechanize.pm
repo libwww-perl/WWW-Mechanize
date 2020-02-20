@@ -1953,7 +1953,7 @@ sub tick {
     my $set = @_ ? shift : 1;  # default to 1 if not passed
 
     # loop though all the inputs
-    my $index = 0;
+    my $index = 1;
     while ( my $input = $self->current_form->find_input( $name, 'checkbox', $index ) ) {
         # Can't guarantee that the first element will be undef and the second
         # element will be the right name
