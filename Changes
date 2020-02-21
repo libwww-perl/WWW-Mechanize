@@ -1,10 +1,16 @@
 Revision history for WWW::Mechanize
 
-{{$NEXT}}
+{{$NEXT}} [FIXED]
+    - HTML::Form::find_input() has a 1-based index (GH#293) (Olaf Alders)
+    - Fix invocation of dump_forms in mech-dump (GH#288) (積丹尼 Dan Jacobson)
+    - make xt/author/eol.t pass (GH#291) (Shoichi Kaji)
+    [DOCUMENTATION]
+    - Fix documentation of use of undef in form_with() and all_forms_with()
+      (GH#289) (積丹尼 Dan Jacobson)
 
 1.95      2019-10-28 13:07:45Z
     [FIXED]
-   - die if submit_form() called with invalid form_id (GH#287) (Olaf Alders)
+    - die if submit_form() called with invalid form_id (GH#287) (Olaf Alders)
 
 1.94      2019-10-10 13:12:28Z
     [FIXED]
