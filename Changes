@@ -1,5 +1,7 @@
 Revision history for WWW::Mechanize
 
+{{$NEXT}}
+
 1.96      2020-02-21 02:23:40Z [FIXED]
     - HTML::Form::find_input() has a 1-based index (GH#293) (Olaf Alders)
     - Fix invocation of dump_forms in mech-dump (GH#288) (積丹尼 Dan Jacobson)
