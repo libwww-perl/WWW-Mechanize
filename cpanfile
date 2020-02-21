@@ -65,13 +65,17 @@ on 'develop' => sub {
   requires "Perl::Tidy" => "20180220";
   requires "Pod::Coverage::TrustPod" => "0";
   requires "Test::Code::TidyAll" => "0.50";
+  requires "Test::EOL" => "0";
   requires "Test::Memory::Cycle" => "1.06";
+  requires "Test::Mojibake" => "0";
   requires "Test::More" => "0.88";
   requires "Test::Needs" => "0";
   requires "Test::Pod" => "1.41";
   requires "Test::Pod::Coverage" => "1.08";
+  requires "Test::Portability::Files" => "0";
   requires "Test::RequiresInternet" => "0";
   requires "Test::Vars" => "0.014";
+  requires "Test::Version" => "1";
   requires "constant" => "0";
   requires "lib" => "0";
 };

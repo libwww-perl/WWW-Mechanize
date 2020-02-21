@@ -44,13 +44,17 @@
             "Perl::Tidy" : "20180220",
             "Pod::Coverage::TrustPod" : "0",
             "Test::Code::TidyAll" : "0.50",
+            "Test::EOL" : "0",
             "Test::Memory::Cycle" : "1.06",
+            "Test::Mojibake" : "0",
             "Test::More" : "0.88",
             "Test::Needs" : "0",
             "Test::Pod" : "1.41",
             "Test::Pod::Coverage" : "1.08",
+            "Test::Portability::Files" : "0",
             "Test::RequiresInternet" : "0",
             "Test::Vars" : "0.014",
+            "Test::Version" : "1",
             "constant" : "0",
             "lib" : "0"
          }
@@ -110,15 +114,15 @@
    "provides" : {
       "WWW::Mechanize" : {
          "file" : "lib/WWW/Mechanize.pm",
-         "version" : "1.95"
+         "version" : "1.96"
       },
       "WWW::Mechanize::Image" : {
          "file" : "lib/WWW/Mechanize/Image.pm",
-         "version" : "1.95"
+         "version" : "1.96"
       },
       "WWW::Mechanize::Link" : {
          "file" : "lib/WWW/Mechanize/Link.pm",
-         "version" : "1.95"
+         "version" : "1.96"
       }
    },
    "release_status" : "stable",
@@ -133,10 +137,10 @@
          "web" : "https://github.com/libwww-perl/WWW-Mechanize"
       }
    },
-   "version" : "1.95",
+   "version" : "1.96",
    "x_Dist_Zilla" : {
       "perl" : {
-         "version" : "5.030000"
+         "version" : "5.026001"
       },
       "plugins" : [
          {
@@ -172,9 +176,9 @@
             "version" : "0.055"
          },
          {
-            "class" : "Dist::Zilla::Plugin::MAXMIND::TidyAll",
-            "name" : "@Author::OALDERS/MAXMIND::TidyAll",
-            "version" : "0.13"
+            "class" : "Dist::Zilla::Plugin::OALDERS::TidyAll",
+            "name" : "@Author::OALDERS/OALDERS::TidyAll",
+            "version" : "0.000026"
          },
          {
             "class" : "Dist::Zilla::Plugin::AutoPrereqs",
@@ -264,6 +268,11 @@
             "version" : "6.012"
          },
          {
+            "class" : "Dist::Zilla::Plugin::MojibakeTests",
+            "name" : "@Author::OALDERS/MojibakeTests",
+            "version" : "0.8"
+         },
+         {
             "class" : "Dist::Zilla::Plugin::PodCoverageTests",
             "name" : "@Author::OALDERS/PodCoverageTests",
             "version" : "6.012"
@@ -272,6 +281,32 @@
             "class" : "Dist::Zilla::Plugin::PodSyntaxTests",
             "name" : "@Author::OALDERS/PodSyntaxTests",
             "version" : "6.012"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Test::EOL",
+            "config" : {
+               "Dist::Zilla::Plugin::Test::EOL" : {
+                  "filename" : "xt/author/eol.t",
+                  "finder" : [
+                     ":ExecFiles",
+                     ":InstallModules",
+                     ":TestFiles"
+                  ],
+                  "trailing_whitespace" : 1
+               }
+            },
+            "name" : "@Author::OALDERS/Test::EOL",
+            "version" : "0.19"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Test::Portability",
+            "config" : {
+               "Dist::Zilla::Plugin::Test::Portability" : {
+                  "options" : ""
+               }
+            },
+            "name" : "@Author::OALDERS/Test::Portability",
+            "version" : "2.001000"
          },
          {
             "class" : "Dist::Zilla::Plugin::TestRelease",
@@ -287,6 +322,11 @@
             "class" : "Dist::Zilla::Plugin::Test::TidyAll",
             "name" : "@Author::OALDERS/Test::TidyAll",
             "version" : "0.04"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Test::Version",
+            "name" : "@Author::OALDERS/Test::Version",
+            "version" : "1.09"
          },
          {
             "class" : "Dist::Zilla::Plugin::RunExtraTests",
@@ -468,7 +508,7 @@
                   "changelog" : "Changes"
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.23.0",
+                  "git_version" : "2.25.0",
                   "repo_root" : "."
                }
             },
@@ -479,7 +519,7 @@
             "class" : "Dist::Zilla::Plugin::Git::Contributors",
             "config" : {
                "Dist::Zilla::Plugin::Git::Contributors" : {
-                  "git_version" : "2.23.0",
+                  "git_version" : "2.25.0",
                   "include_authors" : 0,
                   "include_releaser" : 1,
                   "order_by" : "name",
@@ -603,7 +643,7 @@
                   "changelog" : "Changes"
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.23.0",
+                  "git_version" : "2.25.0",
                   "repo_root" : "."
                },
                "Dist::Zilla::Role::Git::StringFormatter" : {
@@ -620,12 +660,12 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v1.95",
+                  "tag" : "v1.96",
                   "tag_format" : "v%V",
                   "tag_message" : "v%V"
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.23.0",
+                  "git_version" : "2.25.0",
                   "repo_root" : "."
                },
                "Dist::Zilla::Role::Git::StringFormatter" : {
@@ -675,7 +715,7 @@
                   "changelog" : "Changes"
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.23.0",
+                  "git_version" : "2.25.0",
                   "repo_root" : "."
                },
                "Dist::Zilla::Role::Git::StringFormatter" : {
@@ -695,7 +735,7 @@
                   "remotes_must_exist" : 1
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.23.0",
+                  "git_version" : "2.25.0",
                   "repo_root" : "."
                }
             },
@@ -887,10 +927,11 @@
       "sunnavy <sunnavy@bestpractical.com>",
       "Varadinsky <varadinsky@yahoo.com>",
       "Ville Skytt\u00e4 <ville.skytta@iki.fi>",
-      "Zefram <zefram@fysh.org>"
+      "Zefram <zefram@fysh.org>",
+      "\u7a4d\u4e39\u5c3c Dan Jacobson <jidanni@jidanni.org>"
    ],
-   "x_generated_by_perl" : "v5.30.0",
-   "x_serialization_backend" : "Cpanel::JSON::XS version 4.14",
+   "x_generated_by_perl" : "v5.26.1",
+   "x_serialization_backend" : "Cpanel::JSON::XS version 4.10",
    "x_static_install" : 1
 }
 
