@@ -68,6 +68,8 @@ hacktober.jpg
 http://example.org/abs.tif
 
 images/logo.png
+inner.jpg
+outer.jpg
 EXPECTED
 };
 

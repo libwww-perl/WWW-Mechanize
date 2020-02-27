@@ -20,7 +20,7 @@ $mech->get( $uri );
 ok( $mech->success, "Fetched $uri" ) or die 'Can\'t get test page';
 
 my @images = $mech->images;
-is( scalar @images, 10, 'Exactly ten images' );
+is( scalar @images, 12, 'Exactly twelve images' );
 
 my $first = $images[0];
 is( $first->url, '/Images/bg-gradient.png', 'Got the background style image' );
