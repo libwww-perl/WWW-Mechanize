@@ -33,17 +33,24 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
     );
 
     cmp_deeply(
-        [ map { $_->url } @images ],
-        [ qw(
-            /Images/bg-gradient.png
-            wango.jpg
-            bongo.gif
-            linked.gif
-            hacktober.jpg
-            hacktober.jpg
-            hacktober.jpg
-            http://example.org/abs.tif
-        ), undef, 'images/logo.png' ],
+        [map { $_->url } @images],
+        [   qw(
+              /Images/bg-gradient.png
+              wango.jpg
+              bongo.gif
+              linked.gif
+              hacktober.jpg
+              hacktober.jpg
+              hacktober.jpg
+              http://example.org/abs.tif
+              ),
+            undef,
+            qw(
+              images/logo.png
+              inner.jpg
+              outer.jpg
+              ),
+        ],
         '... and all ten are in the right order'
     );
 
@@ -113,6 +120,8 @@ my $image6 = [ url => 'hacktober.jpg', attrs => superhashof( { class => re('my-c
 my $image7 = [ url => 'http://example.org/abs.tif', attrs => superhashof( { id => 'absolute' } ) ];
 my $image8 = [ url => undef, tag => 'img', attrs => superhashof( { 'data-image' => "hacktober.jpg", id => "no-src-regression-269" } ) ];
 my $image9 = [ url => 'images/logo.png', tag => 'css' ];
+my $image10 = [ url => 'inner.jpg', tag => 'img' ];
+my $image11 = [ url => 'outer.jpg', tag => 'css' ];
 
 my $tests = [
     {
@@ -124,6 +133,7 @@ my $tests = [
         expected_all => [
             $image0,
             $image9,
+            $image11,
         ],
     },
     {
@@ -204,6 +214,7 @@ my $tests = [
             $image6,
             $image7,
             $image8,
+            $image10,
         ],
     },
     {
@@ -231,6 +242,7 @@ my $tests = [
            $image6,
            $image7,
            $image8,
+           $image10,
         ],
     },
     {
