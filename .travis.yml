@@ -26,14 +26,10 @@ matrix:
   allow_failures:
     - perl: blead
     - perl: dev
-    - env: AUTHOR_TESTING=0 COVERAGE=1
-      perl: '5.28'
   fast_finish: 1
   include:
-    - env: AUTHOR_TESTING=0 COVERAGE=1
-      perl: '5.28'
-    - env: AUTHOR_TESTING=1 AUTOMATED_TESTING=1 RELEASE_TESTING=1 COVERAGE=0
-      perl: '5.28'
+    - env: COVERAGE=1
+      perl: "5.30"
 env:
   global:
     - AUTHOR_TESTING=1
