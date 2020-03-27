@@ -36,7 +36,6 @@ env:
     - RELEASE_TESTING=1
 before_install:
   - eval $(curl https://travis-perl.github.io/init) --auto --always-upgrade-modules
-  - cpanm Test::Memory::Cycle Test::Taint || true
 ### __app_cisetup__
 # ---
 # force_threaded_perls: 0
