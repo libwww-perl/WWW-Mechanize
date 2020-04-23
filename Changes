@@ -631,7 +631,7 @@ Added Perl::Critic changes and a perlcriticrc file.
     Cat Okita for finding it.
 
 [INTERNALS]
-*   Made the order of parms to $mech->content() not relevant.
+*   Made the order of params to $mech->content() not relevant.
 
 
 1.21_03     Sat Oct  7 01:21:46 CDT 2006
@@ -721,7 +721,7 @@ Added Perl::Critic changes and a perlcriticrc file.
           return a URI object, but that it stringifies to the URI itself.
 
         [DOCUMENTATION]
-        * Fixed a misleading parm in the constructor.
+        * Fixed a misleading param in the constructor.
         * Document the return value of set_visible (RT#6071, MJD,
           Mark Stosberg)
         * Document that form_name and form_number return an HTML::Form
@@ -733,7 +733,7 @@ Added Perl::Critic changes and a perlcriticrc file.
 
 1.18    Thu Feb  2 00:11:26 CST 2006
         [TESTS]
-        * Makefile.PL now takes four new parms:
+        * Makefile.PL now takes four new params:
             * --live/nolive turns on/off the live tests
             * --local/nolocal turns on/off the local tests
             * --mech-dump/nomech-dump installs/doesn't the mech-dump program
@@ -1024,7 +1024,7 @@ Added Perl::Critic changes and a perlcriticrc file.
           can now take an arrayref of values, if appropriate. Thanks,
           Linda Lee Julien.
 
-        * Added url_abs and url_abs_regex parms to find_all_links().
+        * Added url_abs and url_abs_regex params to find_all_links().
 
         * URLs in META REFRESH tags are now treated as links.
 
@@ -1163,19 +1163,19 @@ Added Perl::Critic changes and a perlcriticrc file.
 
 0.62    October 7, 2003  8:46pm
         [THINGS THAT MIGHT BREAK YOUR CODE]
-        * The parms for find_link()'s url_regex and text_regex must now
+        * The params for find_link()'s url_regex and text_regex must now
           be actual regex objects, as in qr// objects.  They can't just
           be little text strings.  If this is a big bummer, let me know.
 
         [ENHANCEMENTS]
-        * Added autocheck parm, to tell your Mech object to die on
+        * Added autocheck param, to tell your Mech object to die on
           any error.  This saves you from having to check yourself.
           This closes RT #3056.
         * Renamed the internal _carp() method as warn().
         * Added a die() method.
         * Can now override the warn() and die() handlers in the
           constructor.
-        * find_link() now complains if it gets a *_regex parm that isn't
+        * find_link() now complains if it gets a *_regex param that isn't
           actually a regex.  See RT #3032.
 
         [FIXES]
@@ -1295,7 +1295,7 @@ Added Perl::Critic changes and a perlcriticrc file.
         * No longer loads Carp unless and until it's necessary.
 
         * submit_form() now uses the currently specified form if a
-          form_name or form_number parm is not specified. (RT #2768)
+          form_name or form_number param is not specified. (RT #2768)
 
         * Added a translate table of handy browser strings that the
           agent() method recognizes.  These strings may be one of the
@@ -1325,7 +1325,7 @@ Added Perl::Critic changes and a perlcriticrc file.
         [ENHANCEMENTS]
         * find_all_links() and find_link() can specify multiple
           text or url parameters, which will be anded together.
-          Before, there was a pecking order in which parm took
+          Before, there was a pecking order in which param took
           precedence, and any extras were ignored.  To find the
           first link with text of "news" and with "cnn.com" in the
           URL, use:
@@ -1369,7 +1369,7 @@ Added Perl::Critic changes and a perlcriticrc file.
         [ENHANCEMENTS]
         * mech-forms now handles local files.
         * Added t/mech-forms.t to test the app
-        * Added some parm-checking to submit_form()
+        * Added some param-checking to submit_form()
         * All the warns are now carps.  Thanks to MJD for pointing
           it out during his "Tricks Of The Wizards" talk.
 
@@ -1404,8 +1404,8 @@ Added Perl::Critic changes and a perlcriticrc file.
         * Added find_all_links() as the counterpart to find_link().
 
         [FIXES]
-        * get() wasn't passing through its parms to LWP::UserAgent::get(),
-          so you couldn't use the :content_file parm.  Now it
+        * get() wasn't passing through its params to LWP::UserAgent::get(),
+          so you couldn't use the :content_file param.  Now it
           behaves like a good little subclass.
 
 0.47    June 21, 2003
@@ -1414,7 +1414,7 @@ Added Perl::Critic changes and a perlcriticrc file.
           of all links that match the other criteria.  NOTE: Outdated!  See
           v0.48 for the preferred way.
         * find_link() and follow_link() now complain if you pass
-          invalid parms to them.
+          invalid params to them.
 
         [FIXES]
         * Tracks URI history properly after redirects.
