@@ -32,13 +32,13 @@ Creates and returns a new C<WWW::Mechanize::Image> object.
 
 sub new {
     my $class = shift;
-    my $parms = shift || {};
+    my $params = shift || {};
 
     my $self = bless {}, $class;
 
-    for my $parm ( qw( url base tag height width alt name attrs ) ) {
+    for my $param ( qw( url base tag height width alt name attrs ) ) {
         # Check for what we passed in, not whether it's defined
-        $self->{$parm} = $parms->{$parm} if exists $parms->{$parm};
+        $self->{$param} = $params->{$param} if exists $params->{$param};
     }
 
     # url and tag are always required

@@ -434,7 +434,7 @@ So try adding a C<sleep(5)> between logging in and actually doing anything
 Mech keeps a history of every page, and the state it was in.  It actually
 keeps a clone of the full Mech object at every step along the way.
 
-You can limit this stack size with the C<stack_depth> parm in the C<new()>
+You can limit this stack size with the C<stack_depth> param in the C<new()>
 constructor.  If you set stack_size to 0, Mech will not keep any history.
 
 =cut

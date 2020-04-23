@@ -25,12 +25,12 @@ OLD_API: {
     is( $link->base, 'http://base.example.com/', 'base() works' );
     is( $link->attrs->{alt}, 'alt text', 'attrs() works' );
 
-    # Order of the parms in the blessed array is important for backwards compatibility.
-    is( $link->[0], 'url.html', 'parm 0 is url' );
-    is( $link->[1], 'text', 'parm 1 is text' );
-    is( $link->[2], 'name', 'parm 2 is name' );
-    is( $link->[3], 'frame', 'parm 3 is tag' );
-    is( $link->[4], 'http://base.example.com/', 'parm 4 is base' );
+    # Order of the params in the blessed array is important for backwards compatibility.
+    is( $link->[0], 'url.html', 'param 0 is url' );
+    is( $link->[1], 'text', 'param 1 is text' );
+    is( $link->[2], 'name', 'param 2 is name' );
+    is( $link->[3], 'frame', 'param 3 is tag' );
+    is( $link->[4], 'http://base.example.com/', 'param 4 is base' );
 
     my $URI = $link->URI;
     isa_ok( $URI, 'URI::URL', 'URI is proper type' );

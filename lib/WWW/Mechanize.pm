@@ -158,13 +158,13 @@ the "agent".
 
     my $mech = WWW::Mechanize->new()
 
-The constructor for WWW::Mechanize overrides two of the parms to the
+The constructor for WWW::Mechanize overrides two of the params to the
 LWP::UserAgent constructor:
 
     agent => 'WWW-Mechanize/#.##'
     cookie_jar => {}    # an empty, memory-only HTTP::Cookies object
 
-You can override these overrides by passing parms to the constructor,
+You can override these overrides by passing params to the constructor,
 as in:
 
     my $mech = WWW::Mechanize->new( agent => 'wonderbot 1.01' );
@@ -174,8 +174,8 @@ bot accepting cookies, you have to explicitly disallow it, like so:
 
     my $mech = WWW::Mechanize->new( cookie_jar => undef );
 
-Here are the parms that WWW::Mechanize recognizes.  These do not include
-parms that L<LWP::UserAgent> recognizes.
+Here are the params that WWW::Mechanize recognizes.  These do not include
+params that L<LWP::UserAgent> recognizes.
 
 =over 4
 
@@ -271,12 +271,12 @@ L<LWP::UserAgent>.)
 sub new {
     my $class = shift;
 
-    my %parent_parms = (
+    my %parent_params = (
         agent       => "WWW-Mechanize/$VERSION",
         cookie_jar  => {},
     );
 
-    my %mech_parms = (
+    my %mech_params = (
         autocheck     => ($class eq 'WWW::Mechanize' ? 1 : 0),
         onwarn        => \&WWW::Mechanize::_warn,
         onerror       => \&WWW::Mechanize::_die,
@@ -288,27 +288,27 @@ sub new {
         verbose_forms => 0,           # pass-through to HTML::Form
     );
 
-    my %passed_parms = @_;
+    my %passed_params = @_;
 
-    # Keep the mech-specific parms before creating the object.
-    while ( my($key,$value) = each %passed_parms ) {
-        if ( exists $mech_parms{$key} ) {
-            $mech_parms{$key} = $value;
+    # Keep the mech-specific params before creating the object.
+    while ( my($key,$value) = each %passed_params ) {
+        if ( exists $mech_params{$key} ) {
+            $mech_params{$key} = $value;
         }
         else {
-            $parent_parms{$key} = $value;
+            $parent_params{$key} = $value;
         }
     }
 
-    my $self = $class->SUPER::new( %parent_parms );
+    my $self = $class->SUPER::new( %parent_params );
     bless $self, $class;
 
-    # Use the mech parms now that we have a mech object.
-    for my $parm ( keys %mech_parms ) {
-        $self->{$parm} = $mech_parms{$parm};
+    # Use the mech params now that we have a mech object.
+    for my $param ( keys %mech_params ) {
+        $self->{$param} = $mech_params{$param};
     }
     $self->{page_stack} = [];
-    $self->env_proxy() unless $mech_parms{noproxy};
+    $self->env_proxy() unless $mech_params{noproxy};
 
     # libwww-perl 5.800 (and before, I assume) has a problem where
     # $ua->{proxy} can be undef and clone() doesn't handle it.
@@ -421,7 +421,7 @@ L<LWP::UserAgent>.  This lets you do things like
 
     $mech->get( $uri, ':content_file' => $tempfile );
 
-and you can rest assured that the parms will get filtered down
+and you can rest assured that the params will get filtered down
 appropriately.
 
 B<NOTE:> Because C<:content_file> causes the page contents to be
@@ -786,25 +786,25 @@ specified and the text is HTML, in which case an error will be triggered.
 
 sub content {
     my $self = shift;
-    my %parms = @_;
+    my %params = @_;
 
     my $content = $self->{content};
-    if (delete $parms{raw}) {
+    if (delete $params{raw}) {
         $content = $self->response()->content();
     }
-    elsif (delete $parms{decoded_by_headers}) {
+    elsif (delete $params{decoded_by_headers}) {
         $content = $self->response()->decoded_content(charset => 'none');
     }
-    elsif (my $charset = delete $parms{charset}) {
+    elsif (my $charset = delete $params{charset}) {
         $content = $self->response()->decoded_content(charset => $charset);
     }
     elsif ( $self->is_html ) {
-        if ( exists $parms{base_href} ) {
-            my $base_href = (delete $parms{base_href}) || $self->base;
+        if ( exists $params{base_href} ) {
+            my $base_href = (delete $params{base_href}) || $self->base;
             $content=~s/<head>/<head>\n<base href="$base_href">/i;
         }
 
-        if ( my $format = delete $parms{format} ) {
+        if ( my $format = delete $params{format} ) {
             if ( $format eq 'text' ) {
                 $content = $self->text;
             }
@@ -813,7 +813,7 @@ sub content {
             }
         }
 
-        $self->_check_unhandled_parms( %parms );
+        $self->_check_unhandled_params( %params );
     }
 
     return $content;
@@ -849,11 +849,11 @@ sub text {
     return $self->{text};
 }
 
-sub _check_unhandled_parms {
+sub _check_unhandled_params {
     my $self  = shift;
-    my %parms = @_;
+    my %params = @_;
 
-    for my $cmd ( sort keys %parms ) {
+    for my $cmd ( sort keys %params ) {
         $self->die( qq{Unknown named argument "$cmd"} );
     }
 }
@@ -880,7 +880,7 @@ sub links {
 =head2 $mech->follow_link(...)
 
 Follows a specified link on the page.  You specify the match to be
-found using the same parms that C<L<< find_link()|"$mech->find_link( ... )" >>> uses.
+found using the same params that C<L<< find_link()|"$mech->find_link( ... )" >>> uses.
 
 Here some examples:
 
@@ -923,14 +923,14 @@ C<undef>.  If C<autocheck> is enabled an exception will be thrown instead.
 sub follow_link {
     my $self = shift;
     $self->die( qq{Needs to get key-value pairs of parameters.} ) if @_ % 2;
-    my %parms = ( n=>1, @_ );
+    my %params = ( n=>1, @_ );
 
-    if ( $parms{n} eq 'all' ) {
-        delete $parms{n};
+    if ( $params{n} eq 'all' ) {
+        delete $params{n};
         $self->warn( q{follow_link(n=>"all") is not valid} );
     }
 
-    my $link = $self->find_link(%parms);
+    my $link = $self->find_link(%params);
     if ( $link ) {
         return $self->get( $link->url );
     }
@@ -1016,7 +1016,7 @@ The tags and attributes looked at are defined below.
 =back
 
 If C<n> is not specified, it defaults to 1.  Therefore, if you don't
-specify any parms, this method defaults to finding the first link on the
+specify any params, this method defaults to finding the first link on the
 page.
 
 Note that you can specify multiple text or URL parameters, which
@@ -1050,24 +1050,24 @@ The links come from the following:
 
 sub find_link {
     my $self = shift;
-    my %parms = ( n=>1, @_ );
+    my %params = ( n=>1, @_ );
 
-    my $wantall = ( $parms{n} eq 'all' );
+    my $wantall = ( $params{n} eq 'all' );
 
-    $self->_clean_keys( \%parms, qr/^(n|(text|url|url_abs|name|tag|id|class)(_regex)?)$/ );
+    $self->_clean_keys( \%params, qr/^(n|(text|url|url_abs|name|tag|id|class)(_regex)?)$/ );
 
     my @links = $self->links or return;
 
     my $nmatches = 0;
     my @matches;
     for my $link ( @links ) {
-        if ( _match_any_link_parms($link,\%parms) ) {
+        if ( _match_any_link_params($link,\%params) ) {
             if ( $wantall ) {
                 push( @matches, $link );
             }
             else {
                 ++$nmatches;
-                return $link if $nmatches >= $parms{n};
+                return $link if $nmatches >= $params{n};
             }
         }
     } # for @links
@@ -1081,8 +1081,8 @@ sub find_link {
 } # find_link
 
 # Used by find_links to check for matches
-# The logic is such that ALL parm criteria that are given must match
-sub _match_any_link_parms {
+# The logic is such that ALL param criteria that are given must match
+sub _match_any_link_params {
     my $link = shift;
     my $p = shift;
 
@@ -1110,17 +1110,17 @@ sub _match_any_link_parms {
 
 }
 
-# Cleans the %parms parameter for the find_link and find_image methods.
+# Cleans the %params parameter for the find_link and find_image methods.
 sub _clean_keys {
     my $self = shift;
-    my $parms = shift;
+    my $params = shift;
     my $rx_keyname = shift;
 
-    for my $key ( keys %$parms ) {
-        my $val = $parms->{$key};
+    for my $key ( keys %$params ) {
+        my $val = $params->{$key};
         if ( $key !~ qr/$rx_keyname/ ) {
             $self->warn( qq{Unknown link-finding parameter "$key"} );
-            delete $parms->{$key};
+            delete $params->{$key};
             next;
         }
 
@@ -1130,23 +1130,23 @@ sub _clean_keys {
         if ( $key_regex ) {
             if ( !$val_regex ) {
                 $self->warn( qq{$val passed as $key is not a regex} );
-                delete $parms->{$key};
+                delete $params->{$key};
                 next;
             }
         }
         else {
             if ( $val_regex ) {
                 $self->warn( qq{$val passed as '$key' is a regex} );
-                delete $parms->{$key};
+                delete $params->{$key};
                 next;
             }
             if ( $val =~ /^\s|\s$/ ) {
                 $self->warn( qq{'$val' is space-padded and cannot succeed} );
-                delete $parms->{$key};
+                delete $params->{$key};
                 next;
             }
         }
-    } # for keys %parms
+    } # for keys %params
 
     return;
 } # _clean_keys()
@@ -1348,7 +1348,7 @@ order they appear in the website's source code is not currently supported.
 =back
 
 If C<n> is not specified, it defaults to 1.  Therefore, if you don't
-specify any parms, this method defaults to finding the first image on the
+specify any params, this method defaults to finding the first image on the
 page.
 
 Note that you can specify multiple ALT or URL parameters, which
@@ -1364,24 +1364,24 @@ L<WWW::Mechanize::Image> object for every image in C<< $self->content >>.
 
 sub find_image {
     my $self = shift;
-    my %parms = ( n=>1, @_ );
+    my %params = ( n=>1, @_ );
 
-    my $wantall = ( $parms{n} eq 'all' );
+    my $wantall = ( $params{n} eq 'all' );
 
-    $self->_clean_keys( \%parms, qr/^(?:n|(?:alt|url|url_abs|tag|id|class)(?:_regex)?)$/ );
+    $self->_clean_keys( \%params, qr/^(?:n|(?:alt|url|url_abs|tag|id|class)(?:_regex)?)$/ );
 
     my @images = $self->images or return;
 
     my $nmatches = 0;
     my @matches;
     for my $image ( @images ) {
-        if ( _match_any_image_parms($image,\%parms) ) {
+        if ( _match_any_image_params($image,\%params) ) {
             if ( $wantall ) {
                 push( @matches, $image );
             }
             else {
                 ++$nmatches;
-                return $image if $nmatches >= $parms{n};
+                return $image if $nmatches >= $params{n};
             }
         }
     } # for @images
@@ -1395,8 +1395,8 @@ sub find_image {
 }
 
 # Used by find_images to check for matches
-# The logic is such that ALL parm criteria that are given must match
-sub _match_any_image_parms {
+# The logic is such that ALL param criteria that are given must match
+sub _match_any_image_params {
     my $image = shift;
     my $p = shift;
 
@@ -2175,7 +2175,7 @@ criteria.
 =item * C<< form_number => n >>
 
 Selects the I<n>th form (calls
-C<L<< form_number()|"$mech->form_number($number)" >>>.  If this parm is not
+C<L<< form_number()|"$mech->form_number($number)" >>>.  If this param is not
 specified, the currently-selected form is used.
 
 =item * C<< form_name => name >>
