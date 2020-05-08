@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"[
+<!ATTLIST html
+	xmlns:xsi CDATA #FIXED "http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation CDATA #IMPLIED  > ]>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.w3.org/1999/xhtml
+	http://www.w3.org/2002/08/xhtml/xhtml1-strict.xsd">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Hello, World!</title>
+</head>
+<body>
+<p id="thelinks">
+
+<a
+href
+=
+"http://www.example.com/1"
+>
+One
+</a
+>
+<a id="Two" title="href="></a>
+<!--
+<a href="http://www.example.com/3">Three</a>
+-->
+<a title=' href="http://www.example.com/4">Four'
+href="http://www.example.com/5">Five</a>
+<!--BEGIN-->
+<script type="text/javascript">/*<![CDATA[
+</script>
+*/ console.log(' <a href="http://www.example.com/6">Six</a> '); /*
+<!--
+]]>*/</script>
+<a href="http://www.example.com/7"><![CDATA[Se]]><span
+>v&#101;</span>n</a>
+<script type="text/javascript">/*<![CDATA[
+-->
+]]>*/</script>
+<![CDATA[
+<a href="http://www.example.com/8">Eight</a>
+]]>
+
+<!--END--></p>
+</body>
+</html>
