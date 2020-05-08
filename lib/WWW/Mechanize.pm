@@ -260,6 +260,14 @@ later.
 
 Default is off.
 
+=item * C<< marked_sections => [0|1] >>
+
+Globally sets the HTML::Parser marked sections flag which causes HTML
+C<< CDATA[[ >> sections to be honoured. This cannot be disabled
+later.
+
+Default is on.
+
 =back
 
 To support forms, WWW::Mechanize's constructor pushes POST
@@ -277,15 +285,16 @@ sub new {
     );
 
     my %mech_params = (
-        autocheck     => ($class eq 'WWW::Mechanize' ? 1 : 0),
-        onwarn        => \&WWW::Mechanize::_warn,
-        onerror       => \&WWW::Mechanize::_die,
-        quiet         => 0,
-        stack_depth   => 8675309,     # Arbitrarily humongous stack
-        headers       => {},
-        noproxy       => 0,
-        strict_forms  => 0,           # pass-through to HTML::Form
-        verbose_forms => 0,           # pass-through to HTML::Form
+        autocheck       => ($class eq 'WWW::Mechanize' ? 1 : 0),
+        onwarn          => \&WWW::Mechanize::_warn,
+        onerror         => \&WWW::Mechanize::_die,
+        quiet           => 0,
+        stack_depth     => 8675309,     # Arbitrarily humongous stack
+        headers         => {},
+        noproxy         => 0,
+        strict_forms    => 0,           # pass-through to HTML::Form
+        verbose_forms   => 0,           # pass-through to HTML::Form
+        marked_sections => 1,
     );
 
     my %passed_params = @_;
@@ -3003,13 +3012,24 @@ my %link_tags = (
     meta   => 'content',
 );
 
+sub _new_parser {
+    my $self = shift;
+    my $content_ref = shift;
+
+    my $parser = HTML::TokeParser->new($content_ref);
+    $parser->marked_sections( $self->{marked_sections});
+    $parser->xml_mode( $$content_ref=~/^\s*<\?xml/ ); # NOT GENERALLY RELIABLE
+
+    return $parser;
+}
+
 sub _extract_links {
     my $self = shift;
 
 
     $self->{links} = [];
     if ( defined $self->{content} ) {
-        my $parser = HTML::TokeParser->new(\$self->{content});
+        my $parser = $self->_new_parser(\$self->{content});
         while ( my $token = $parser->get_tag( keys %link_tags ) ) {
             my $link = $self->_link_from_token( $token, $parser );
             push( @{$self->{links}}, $link ) if $link;
@@ -3035,7 +3055,7 @@ sub _extract_images {
             push( @{$self->{images}}, $self->_images_from_css($self->{content}) );
         }
         else {
-            my $parser = HTML::TokeParser->new(\$self->{content});
+            my $parser = $self->_new_parser(\$self->{content});
             while ( my $token = $parser->get_tag() ) {
                 my ($tag_name, $attrs) = @{$token};
                 next if $tag_name =~ m{^/};
