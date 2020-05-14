@@ -1,6 +1,6 @@
 Revision history for WWW::Mechanize
 
-{{$NEXT}}
+1.97      2020-05-14 00:46:53Z
     - Respect CDATA[[ sections when parsing HTML (GH#298) (Max Maischein)
     - extract image links also from css (GH#12) (Jozef Kutej) and (GH#297)
       (Julien Fiegehenn)

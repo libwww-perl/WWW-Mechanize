@@ -6,7 +6,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 # VERSION
 
-version 1.96
+version 1.97
 
 # SYNOPSIS
 
@@ -73,7 +73,7 @@ Features include:
 - HTTP authentication
 
 Mech is well suited for use in testing web applications.  If you use
-one of the Test::\*, like [Test::HTML::Lint](https://metacpan.org/pod/Test::HTML::Lint) modules, you can check the
+one of the Test::\*, like [Test::HTML::Lint](https://metacpan.org/pod/Test%3A%3AHTML%3A%3ALint) modules, you can check the
 fetched content and use that as input to a test call.
 
     use Test::More;
@@ -96,13 +96,13 @@ level wrappers around them.
     $mech->set_visible( @criteria );
     $mech->click( $button );
 
-[WWW::Mechanize](https://metacpan.org/pod/WWW::Mechanize) is a proper subclass of [LWP::UserAgent](https://metacpan.org/pod/LWP::UserAgent) and
-you can also use any of [LWP::UserAgent](https://metacpan.org/pod/LWP::UserAgent)'s methods.
+[WWW::Mechanize](https://metacpan.org/pod/WWW%3A%3AMechanize) is a proper subclass of [LWP::UserAgent](https://metacpan.org/pod/LWP%3A%3AUserAgent) and
+you can also use any of [LWP::UserAgent](https://metacpan.org/pod/LWP%3A%3AUserAgent)'s methods.
 
     $mech->add_header($name => $value);
 
 Please note that Mech does NOT support JavaScript, you need additional software
-for that. Please check ["JavaScript" in WWW::Mechanize::FAQ](https://metacpan.org/pod/WWW::Mechanize::FAQ#JavaScript) for more.
+for that. Please check ["JavaScript" in WWW::Mechanize::FAQ](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3AFAQ#JavaScript) for more.
 
 # IMPORTANT LINKS
 
@@ -128,13 +128,13 @@ the "agent".
 
     my $mech = WWW::Mechanize->new()
 
-The constructor for WWW::Mechanize overrides two of the parms to the
+The constructor for WWW::Mechanize overrides two of the params to the
 LWP::UserAgent constructor:
 
     agent => 'WWW-Mechanize/#.##'
     cookie_jar => {}    # an empty, memory-only HTTP::Cookies object
 
-You can override these overrides by passing parms to the constructor,
+You can override these overrides by passing params to the constructor,
 as in:
 
     my $mech = WWW::Mechanize->new( agent => 'wonderbot 1.01' );
@@ -144,8 +144,8 @@ bot accepting cookies, you have to explicitly disallow it, like so:
 
     my $mech = WWW::Mechanize->new( cookie_jar => undef );
 
-Here are the parms that WWW::Mechanize recognizes.  These do not include
-parms that [LWP::UserAgent](https://metacpan.org/pod/LWP::UserAgent) recognizes.
+Here are the params that WWW::Mechanize recognizes.  These do not include
+params that [LWP::UserAgent](https://metacpan.org/pod/LWP%3A%3AUserAgent) recognizes.
 
 - `autocheck => [0|1]`
 
@@ -154,19 +154,19 @@ parms that [LWP::UserAgent](https://metacpan.org/pod/LWP::UserAgent) recognizes.
     are errors, not warnings.
 
     The default value is ON, unless it's being subclassed, in which
-    case it is OFF.  This means that standalone [WWW::Mechanize](https://metacpan.org/pod/WWW::Mechanize) instances
+    case it is OFF.  This means that standalone [WWW::Mechanize](https://metacpan.org/pod/WWW%3A%3AMechanize) instances
     have autocheck turned on, which is protective for the vast majority
     of Mech users who don't bother checking the return value of get()
     and post() and can't figure why their code fails. However, if
-    [WWW::Mechanize](https://metacpan.org/pod/WWW::Mechanize) is subclassed, such as for [Test::WWW::Mechanize](https://metacpan.org/pod/Test::WWW::Mechanize)
-    or [Test::WWW::Mechanize::Catalyst](https://metacpan.org/pod/Test::WWW::Mechanize::Catalyst), this may not be an appropriate
+    [WWW::Mechanize](https://metacpan.org/pod/WWW%3A%3AMechanize) is subclassed, such as for [Test::WWW::Mechanize](https://metacpan.org/pod/Test%3A%3AWWW%3A%3AMechanize)
+    or [Test::WWW::Mechanize::Catalyst](https://metacpan.org/pod/Test%3A%3AWWW%3A%3AMechanize%3A%3ACatalyst), this may not be an appropriate
     default, so it's off.
 
 - `noproxy => [0|1]`
 
-    Turn off the automatic call to the [LWP::UserAgent](https://metacpan.org/pod/LWP::UserAgent) `env_proxy` function.
+    Turn off the automatic call to the [LWP::UserAgent](https://metacpan.org/pod/LWP%3A%3AUserAgent) `env_proxy` function.
 
-    This needs to be explicitly turned off if you're using [Crypt::SSLeay](https://metacpan.org/pod/Crypt::SSLeay) to
+    This needs to be explicitly turned off if you're using [Crypt::SSLeay](https://metacpan.org/pod/Crypt%3A%3ASSLeay) to
     access a https site via a proxy server.  Note: you still need to set your
     HTTPS\_PROXY environment variable as appropriate.
 
@@ -205,7 +205,7 @@ parms that [LWP::UserAgent](https://metacpan.org/pod/LWP::UserAgent) recognizes.
     history.
 
 In addition, WWW::Mechanize also allows you to globally enable
-strict and verbose mode for form handling, which is done with [HTML::Form](https://metacpan.org/pod/HTML::Form).
+strict and verbose mode for form handling, which is done with [HTML::Form](https://metacpan.org/pod/HTML%3A%3AForm).
 
 - `strict_forms => [0|1]`
 
@@ -224,9 +224,17 @@ strict and verbose mode for form handling, which is done with [HTML::Form](https
 
     Default is off.
 
+- `marked_sections => [0|1]`
+
+    Globally sets the HTML::Parser marked sections flag which causes HTML
+    `CDATA[[` sections to be honoured. This cannot be disabled
+    later.
+
+    Default is on.
+
 To support forms, WWW::Mechanize's constructor pushes POST
 on to the agent's `requests_redirectable` list (see also
-[LWP::UserAgent](https://metacpan.org/pod/LWP::UserAgent).)
+[LWP::UserAgent](https://metacpan.org/pod/LWP%3A%3AUserAgent).)
 
 ## $mech->agent\_alias( $alias )
 
@@ -265,20 +273,20 @@ Returns a list of all the agent aliases that Mech knows about.
 
 ## $mech->get( $uri )
 
-Given a URL/URI, fetches it.  Returns an [HTTP::Response](https://metacpan.org/pod/HTTP::Response) object.
+Given a URL/URI, fetches it.  Returns an [HTTP::Response](https://metacpan.org/pod/HTTP%3A%3AResponse) object.
 _$uri_ can be a well-formed URL string, a [URI](https://metacpan.org/pod/URI) object, or a
-[WWW::Mechanize::Link](https://metacpan.org/pod/WWW::Mechanize::Link) object.
+[WWW::Mechanize::Link](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3ALink) object.
 
 The results are stored internally in the agent object, but you don't
 know that.  Just use the accessors listed below.  Poking at the
 internals is deprecated and subject to change in the future.
 
 `get()` is a well-behaved overloaded version of the method in
-[LWP::UserAgent](https://metacpan.org/pod/LWP::UserAgent).  This lets you do things like
+[LWP::UserAgent](https://metacpan.org/pod/LWP%3A%3AUserAgent).  This lets you do things like
 
     $mech->get( $uri, ':content_file' => $tempfile );
 
-and you can rest assured that the parms will get filtered down
+and you can rest assured that the params will get filtered down
 appropriately.
 
 **NOTE:** Because `:content_file` causes the page contents to be
@@ -287,22 +295,22 @@ that expect it to be there won't work as expected. Use with caution.
 
 ## $mech->post( $uri, content => $content )
 
-POSTs _$content_ to $uri.  Returns an [HTTP::Response](https://metacpan.org/pod/HTTP::Response) object.
+POSTs _$content_ to $uri.  Returns an [HTTP::Response](https://metacpan.org/pod/HTTP%3A%3AResponse) object.
 _$uri_ can be a well-formed URI string, a [URI](https://metacpan.org/pod/URI) object, or a
-[WWW::Mechanize::Link](https://metacpan.org/pod/WWW::Mechanize::Link) object.
+[WWW::Mechanize::Link](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3ALink) object.
 
 ## $mech->put( $uri, content => $content )
 
-PUTs _$content_ to $uri.  Returns an [HTTP::Response](https://metacpan.org/pod/HTTP::Response) object.
+PUTs _$content_ to $uri.  Returns an [HTTP::Response](https://metacpan.org/pod/HTTP%3A%3AResponse) object.
 _$uri_ can be a well-formed URI string, a [URI](https://metacpan.org/pod/URI) object, or a
-[WWW::Mechanize::Link](https://metacpan.org/pod/WWW::Mechanize::Link) object.
+[WWW::Mechanize::Link](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3ALink) object.
 
 ## $mech->reload()
 
 Acts like the reload button in a browser: repeats the current
 request. The history (as per the [back()](#mech-back) method) is not altered.
 
-Returns the [HTTP::Response](https://metacpan.org/pod/HTTP::Response) object from the reload, or `undef`
+Returns the [HTTP::Response](https://metacpan.org/pod/HTTP%3A%3AResponse) object from the reload, or `undef`
 if there's no current request.
 
 ## $mech->back()
@@ -353,7 +361,7 @@ to the URI itself.
 
 ## $mech->response() / $mech->res()
 
-Return the current response as an [HTTP::Response](https://metacpan.org/pod/HTTP::Response) object.
+Return the current response as an [HTTP::Response](https://metacpan.org/pod/HTTP%3A%3AResponse) object.
 
 Synonym for `$mech->response()`
 
@@ -374,18 +382,18 @@ Returns the base URI for the current response
 
 When called in a list context, returns a list of the forms found in
 the last fetched page. In a scalar context, returns a reference to
-an array with those forms. The forms returned are all [HTML::Form](https://metacpan.org/pod/HTML::Form)
+an array with those forms. The forms returned are all [HTML::Form](https://metacpan.org/pod/HTML%3A%3AForm)
 objects.
 
 ## $mech->current\_form()
 
-Returns the current form as an [HTML::Form](https://metacpan.org/pod/HTML::Form) object.
+Returns the current form as an [HTML::Form](https://metacpan.org/pod/HTML%3A%3AForm) object.
 
 ## $mech->links()
 
 When called in a list context, returns a list of the links found in the
 last fetched page.  In a scalar context it returns a reference to an array
-with those links.  Each link is a [WWW::Mechanize::Link](https://metacpan.org/pod/WWW::Mechanize::Link) object.
+with those links.  Each link is a [WWW::Mechanize::Link](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3ALink) object.
 
 ## $mech->is\_html()
 
@@ -395,7 +403,7 @@ HTTP headers.
 ## $mech->title()
 
 Returns the contents of the `<TITLE>` tag, as parsed by
-[HTML::HeadParser](https://metacpan.org/pod/HTML::HeadParser).  Returns undef if the content is not HTML.
+[HTML::HeadParser](https://metacpan.org/pod/HTML%3A%3AHeadParser).  Returns undef if the content is not HTML.
 
 # CONTENT-HANDLING METHODS
 
@@ -421,7 +429,7 @@ are passed to _content()_:
     Returns the HTML document, modified to contain a
     `<base href="$base_href">` mark-up in the header.
     _$base\_href_ is `$mech->base()` if not specified. This is
-    handy to pass the HTML to e.g. [HTML::Display](https://metacpan.org/pod/HTML::Display). This works only if
+    handy to pass the HTML to e.g. [HTML::Display](https://metacpan.org/pod/HTML%3A%3ADisplay). This works only if
     the contents are HTML.
 
 - _$mech->content( raw => 1 )_
@@ -437,7 +445,7 @@ are passed to _content()_:
 - _$mech->content( charset => $charset )_
 
     Returns `$self->response()->decoded_content(charset => $charset)`
-    (see [HTTP::Response](https://metacpan.org/pod/HTTP::Response) for details).
+    (see [HTTP::Response](https://metacpan.org/pod/HTTP%3A%3AResponse) for details).
 
 To preserve backwards compatibility, additional parameters will be
 ignored unless none of `raw | decoded_by_headers | charset` is
@@ -463,7 +471,7 @@ links.  In scalar context, returns an array reference of all links.
 ## $mech->follow\_link(...)
 
 Follows a specified link on the page.  You specify the match to be
-found using the same parms that `[find_link()](#mech-find_link)` uses.
+found using the same params that `[find_link()](#mech-find_link)` uses.
 
 Here some examples:
 
@@ -491,7 +499,7 @@ Here some examples:
 
         $mech->follow_link( url => 'http://example.com/page' );
 
-Returns the result of the `GET` method (an [HTTP::Response](https://metacpan.org/pod/HTTP::Response) object) if a link
+Returns the result of the `GET` method (an [HTTP::Response](https://metacpan.org/pod/HTTP%3A%3AResponse) object) if a link
 was found.
 
 If the page has no links, or the specified link couldn't be found, returns
@@ -500,7 +508,7 @@ If the page has no links, or the specified link couldn't be found, returns
 ## $mech->find\_link( ... )
 
 Finds a link in the currently fetched page. It returns a
-[WWW::Mechanize::Link](https://metacpan.org/pod/WWW::Mechanize::Link) object which describes the link.  (You'll
+[WWW::Mechanize::Link](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3ALink) object which describes the link.  (You'll
 probably be most interested in the `url()` property.)  If it fails
 to find a link it returns undef.
 
@@ -567,7 +575,7 @@ key/value pairs:
     The tags and attributes looked at are defined below.
 
 If `n` is not specified, it defaults to 1.  Therefore, if you don't
-specify any parms, this method defaults to finding the first link on the
+specify any params, this method defaults to finding the first link on the
 page.
 
 Note that you can specify multiple text or URL parameters, which
@@ -577,7 +585,7 @@ text of "News" and with "cnn.com" in the URL, use:
     $mech->find_link( text => 'News', url_regex => qr/cnn\.com/ );
 
 The return value is a reference to an array containing a
-[WWW::Mechanize::Link](https://metacpan.org/pod/WWW::Mechanize::Link) object for every link in `$self->content`.
+[WWW::Mechanize::Link](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3ALink) object for every link in `$self->content`.
 
 The links come from the following:
 
@@ -593,7 +601,7 @@ The links come from the following:
 Returns all the links on the current page that match the criteria.  The
 method for specifying link criteria is the same as in
 `[find_link()](#mech-find_link)`.
-Each of the links returned is a [WWW::Mechanize::Link](https://metacpan.org/pod/WWW::Mechanize::Link) object.
+Each of the links returned is a [WWW::Mechanize::Link](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3ALink) object.
 
 In list context, `find_all_links()` returns a list of the links.
 Otherwise, it returns a reference to the list of links.
@@ -606,7 +614,7 @@ page.
 find\_all\_inputs() returns an array of all the input controls in the
 current form whose properties match all of the regexes passed in.
 The controls returned are all descended from HTML::Form::Input.
-See ["INPUTS" in HTML::Form](https://metacpan.org/pod/HTML::Form#INPUTS) for details.
+See ["INPUTS" in HTML::Form](https://metacpan.org/pod/HTML%3A%3AForm#INPUTS) for details.
 
 If no criteria are passed, all inputs will be returned.
 
@@ -645,7 +653,7 @@ images.  In scalar context, returns an array reference of all images.
 ## $mech->find\_image()
 
 Finds an image in the current page. It returns a
-[WWW::Mechanize::Image](https://metacpan.org/pod/WWW::Mechanize::Image) object which describes the image.  If it fails
+[WWW::Mechanize::Image](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3AImage) object which describes the image.  If it fails
 to find an image it returns undef.
 
 You can select which image to find by passing in one or more of these
@@ -726,7 +734,7 @@ key/value pairs:
     order they appear in the website's source code is not currently supported.
 
 If `n` is not specified, it defaults to 1.  Therefore, if you don't
-specify any parms, this method defaults to finding the first image on the
+specify any params, this method defaults to finding the first image on the
 page.
 
 Note that you can specify multiple ALT or URL parameters, which
@@ -736,14 +744,14 @@ ALT text of "News" and with "cnn.com" in the URL, use:
     $mech->find_image( image => 'News', url_regex => qr/cnn\.com/ );
 
 The return value is a reference to an array containing a
-[WWW::Mechanize::Image](https://metacpan.org/pod/WWW::Mechanize::Image) object for every image in `$self->content`.
+[WWW::Mechanize::Image](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3AImage) object for every image in `$self->content`.
 
 ## $mech->find\_all\_images( ... )
 
 Returns all the images on the current page that match the criteria.  The
 method for specifying image criteria is the same as in
 `[find_image()](#mech-find_image)`.
-Each of the images returned is a [WWW::Mechanize::Image](https://metacpan.org/pod/WWW::Mechanize::Image) object.
+Each of the images returned is a [WWW::Mechanize::Image](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3AImage) object.
 
 In list context, `find_all_images()` returns a list of the images.
 Otherwise, it returns a reference to the list of images.
@@ -758,7 +766,7 @@ below.
 
 ## $mech->forms
 
-Lists all the forms on the current page.  Each form is an [HTML::Form](https://metacpan.org/pod/HTML::Form)
+Lists all the forms on the current page.  Each form is an [HTML::Form](https://metacpan.org/pod/HTML%3A%3AForm)
 object.  In list context, returns a list of all forms.  In scalar
 context, returns an array reference of all forms.
 
@@ -769,7 +777,7 @@ calls to `[field()](#mech-field-name-value-number)`
 and `[click()](#mech-click-button-x-y)`.
 Also returns the form that was selected.
 
-If it is found, the form is returned as an [HTML::Form](https://metacpan.org/pod/HTML::Form) object and set internally
+If it is found, the form is returned as an [HTML::Form](https://metacpan.org/pod/HTML%3A%3AForm) object and set internally
 for later use with Mech's form methods such as
 `[field()](#mech-field-name-value-number)` and
 `[click()](#mech-click-button-x-y)`.
@@ -786,7 +794,7 @@ Selects a form by name.  If there is more than one form on the page
 with that name, then the first one is used, and a warning is
 generated.
 
-If it is found, the form is returned as an [HTML::Form](https://metacpan.org/pod/HTML::Form) object and
+If it is found, the form is returned as an [HTML::Form](https://metacpan.org/pod/HTML%3A%3AForm) object and
 set internally for later use with Mech's form methods such as
 `[field()](#mech-field-name-value-number)` and
 `[click()](#mech-click-button-x-y)`.
@@ -798,7 +806,7 @@ Returns undef if no form is found.
 Selects a form by ID.  If there is more than one form on the page
 with that ID, then the first one is used, and a warning is generated.
 
-If it is found, the form is returned as an [HTML::Form](https://metacpan.org/pod/HTML::Form) object and
+If it is found, the form is returned as an [HTML::Form](https://metacpan.org/pod/HTML%3A%3AForm) object and
 set internally for later use with Mech's form methods such as
 `[field()](#mech-field-name-value-number)` and
 `[click()](#mech-click-button-x-y)`.
@@ -808,7 +816,7 @@ unless `quiet` is enabled.
 
 ## $mech->all\_forms\_with\_fields( @fields )
 
-Selects a form by passing in a list of field names it must contain.  All matching forms (perhaps none) are returned as a list of [HTML::Form](https://metacpan.org/pod/HTML::Form) objects.
+Selects a form by passing in a list of field names it must contain.  All matching forms (perhaps none) are returned as a list of [HTML::Form](https://metacpan.org/pod/HTML%3A%3AForm) objects.
 
 ## $mech->form\_with\_fields( @fields )
 
@@ -816,7 +824,7 @@ Selects a form by passing in a list of field names it must contain.  If there
 is more than one form on the page with that matches, then the first one is used,
 and a warning is generated.
 
-If it is found, the form is returned as an [HTML::Form](https://metacpan.org/pod/HTML::Form) object and set internally
+If it is found, the form is returned as an [HTML::Form](https://metacpan.org/pod/HTML%3A%3AForm) object and set internally
 for later used with Mech's form methods such as
 `[field()](#mech-field-name-value-number)` and
 `[click()](#mech-click-button-x-y)`.
@@ -830,22 +838,22 @@ Note that this functionality requires libwww-perl 5.69 or higher.
 Searches for forms with arbitrary attribute/value pairs within the &lt;form>
 tag.
 (Currently does not work for attribute `action` due to implementation details
-of [HTML::Form](https://metacpan.org/pod/HTML::Form).)
+of [HTML::Form](https://metacpan.org/pod/HTML%3A%3AForm).)
 When given more than one pair, all criteria must match.
 Using `undef` as value means that the attribute in question must not be present.
 
-All matching forms (perhaps none) are returned as a list of [HTML::Form](https://metacpan.org/pod/HTML::Form) objects.
+All matching forms (perhaps none) are returned as a list of [HTML::Form](https://metacpan.org/pod/HTML%3A%3AForm) objects.
 
 ## $mech->form\_with( $attr1 => $value1, $attr2 => $value2, ... )
 
 Searches for forms with arbitrary attribute/value pairs within the &lt;form>
 tag.
 (Currently does not work for attribute `action` due to implementation details
-of [HTML::Form](https://metacpan.org/pod/HTML::Form).)
+of [HTML::Form](https://metacpan.org/pod/HTML%3A%3AForm).)
 When given more than one pair, all criteria must match.
 Using `undef` as value means that the attribute in question must not be present.
 
-If it is found, the form is returned as an [HTML::Form](https://metacpan.org/pod/HTML::Form) object and set internally
+If it is found, the form is returned as an [HTML::Form](https://metacpan.org/pod/HTML%3A%3AForm) object and set internally
 for later used with Mech's form methods such as
 `[field()](#mech-field-name-value-number)` and
 `[click()](#mech-click-button-x-y)`.
@@ -976,7 +984,7 @@ of the click.
 If there is only one button on the form, `$mech->click()` with
 no arguments simply clicks that one button.
 
-Returns an [HTTP::Response](https://metacpan.org/pod/HTTP::Response) object.
+Returns an [HTTP::Response](https://metacpan.org/pod/HTTP%3A%3AResponse) object.
 
 ## $mech->click\_button( ... )
 
@@ -1004,7 +1012,7 @@ the keys.
 - `input => $inputobject`
 
     Clicks on the button referenced by $inputobject, an instance of
-    [HTML::Form::SubmitInput](https://metacpan.org/pod/HTML::Form::SubmitInput) obtained e.g. from
+    [HTML::Form::SubmitInput](https://metacpan.org/pod/HTML%3A%3AForm%3A%3ASubmitInput) obtained e.g. from
 
         $mech->current_form()->find_input( undef, 'submit' )
 
@@ -1021,7 +1029,7 @@ the keys.
 Submits the current form, without specifying a button to click.  Actually,
 no button is clicked at all.
 
-Returns an [HTTP::Response](https://metacpan.org/pod/HTTP::Response) object.
+Returns an [HTTP::Response](https://metacpan.org/pod/HTTP%3A%3AResponse) object.
 
 This used to be a synonym for `$mech->click( 'submit' )`, but is no
 longer so.
@@ -1055,7 +1063,7 @@ are a list of key/value pairs, all of which are optional.
 - `form_number => n`
 
     Selects the _n_th form (calls
-    `[form_number()](#mech-form_number-number)`.  If this parm is not
+    `[form_number()](#mech-form_number-number)`.  If this param is not
     specified, the currently-selected form is used.
 
 - `form_name => name`
@@ -1096,7 +1104,7 @@ than a file in the filesystem, you can use:
 
     $mech->submit_form(with_fields => { logfile => [ [ undef, 'whatever', Content => $content ], 1 ] } );
 
-Returns an [HTTP::Response](https://metacpan.org/pod/HTTP::Response) object.
+Returns an [HTTP::Response](https://metacpan.org/pod/HTTP%3A%3AResponse) object.
 
 # MISCELLANEOUS METHODS
 
@@ -1251,7 +1259,7 @@ as the original mech.
 
 ## $mech->redirect\_ok()
 
-An overloaded version of `redirect_ok()` in [LWP::UserAgent](https://metacpan.org/pod/LWP::UserAgent).
+An overloaded version of `redirect_ok()` in [LWP::UserAgent](https://metacpan.org/pod/LWP%3A%3AUserAgent).
 This method is used to determine whether a redirection in the request
 should be followed.
 
@@ -1260,13 +1268,13 @@ Note that WWW::Mechanize's constructor pushes POST on to the agent's
 
 ## $mech->request( $request \[, $arg \[, $size\]\])
 
-Overloaded version of `request()` in [LWP::UserAgent](https://metacpan.org/pod/LWP::UserAgent).  Performs
+Overloaded version of `request()` in [LWP::UserAgent](https://metacpan.org/pod/LWP%3A%3AUserAgent).  Performs
 the actual request.  Normally, if you're using WWW::Mechanize, it's
 because you don't want to deal with this level of stuff anyway.
 
 Note that `$request` will be modified.
 
-Returns an [HTTP::Response](https://metacpan.org/pod/HTTP::Response) object.
+Returns an [HTTP::Response](https://metacpan.org/pod/HTTP%3A%3AResponse) object.
 
 ## $mech->update\_html( $html )
 
@@ -1308,7 +1316,7 @@ validation errors.
 Provide credentials to be used for HTTP Basic authentication for
 all sites and realms until further notice.
 
-The four argument form described in [LWP::UserAgent](https://metacpan.org/pod/LWP::UserAgent) is still
+The four argument form described in [LWP::UserAgent](https://metacpan.org/pod/LWP%3A%3AUserAgent) is still
 supported.
 
 ## $mech->get\_basic\_credentials( $realm, $uri, $isproxy )
@@ -1321,37 +1329,37 @@ Remove any credentials set up with `credentials()`.
 
 # INHERITED UNCHANGED LWP::UserAgent METHODS
 
-As a subclass of [LWP::UserAgent](https://metacpan.org/pod/LWP::UserAgent), WWW::Mechanize inherits all of
-[LWP::UserAgent](https://metacpan.org/pod/LWP::UserAgent)'s methods.  Many of which are overridden or
+As a subclass of [LWP::UserAgent](https://metacpan.org/pod/LWP%3A%3AUserAgent), WWW::Mechanize inherits all of
+[LWP::UserAgent](https://metacpan.org/pod/LWP%3A%3AUserAgent)'s methods.  Many of which are overridden or
 extended. The following methods are inherited unchanged. View the
-[LWP::UserAgent](https://metacpan.org/pod/LWP::UserAgent) documentation for their implementation descriptions.
+[LWP::UserAgent](https://metacpan.org/pod/LWP%3A%3AUserAgent) documentation for their implementation descriptions.
 
 This is not meant to be an inclusive list.  LWP::UA may have added
 others.
 
 ## $mech->head()
 
-Inherited from [LWP::UserAgent](https://metacpan.org/pod/LWP::UserAgent).
+Inherited from [LWP::UserAgent](https://metacpan.org/pod/LWP%3A%3AUserAgent).
 
 ## $mech->mirror()
 
-Inherited from [LWP::UserAgent](https://metacpan.org/pod/LWP::UserAgent).
+Inherited from [LWP::UserAgent](https://metacpan.org/pod/LWP%3A%3AUserAgent).
 
 ## $mech->simple\_request()
 
-Inherited from [LWP::UserAgent](https://metacpan.org/pod/LWP::UserAgent).
+Inherited from [LWP::UserAgent](https://metacpan.org/pod/LWP%3A%3AUserAgent).
 
 ## $mech->is\_protocol\_supported()
 
-Inherited from [LWP::UserAgent](https://metacpan.org/pod/LWP::UserAgent).
+Inherited from [LWP::UserAgent](https://metacpan.org/pod/LWP%3A%3AUserAgent).
 
 ## $mech->prepare\_request()
 
-Inherited from [LWP::UserAgent](https://metacpan.org/pod/LWP::UserAgent).
+Inherited from [LWP::UserAgent](https://metacpan.org/pod/LWP%3A%3AUserAgent).
 
 ## $mech->progress()
 
-Inherited from [LWP::UserAgent](https://metacpan.org/pod/LWP::UserAgent).
+Inherited from [LWP::UserAgent](https://metacpan.org/pod/LWP%3A%3AUserAgent).
 
 # INTERNAL-ONLY METHODS
 
@@ -1368,16 +1376,16 @@ to do that.
 
 ## $mech->\_modify\_request( $req )
 
-Modifies a [HTTP::Request](https://metacpan.org/pod/HTTP::Request) before the request is sent out,
+Modifies a [HTTP::Request](https://metacpan.org/pod/HTTP%3A%3ARequest) before the request is sent out,
 for both GET and POST requests.
 
 We add a `Referer` header, as well as header to note that we can accept gzip
-encoded content, if [Compress::Zlib](https://metacpan.org/pod/Compress::Zlib) is installed.
+encoded content, if [Compress::Zlib](https://metacpan.org/pod/Compress%3A%3AZlib) is installed.
 
 ## $mech->\_make\_request()
 
 Convenience method to make it easier for subclasses like
-[WWW::Mechanize::Cached](https://metacpan.org/pod/WWW::Mechanize::Cached) to intercept the request.
+[WWW::Mechanize::Cached](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3ACached) to intercept the request.
 
 ## $mech->\_reset\_page()
 
@@ -1386,7 +1394,7 @@ Resets the internal fields that track page parsed stuff.
 ## $mech->\_extract\_links()
 
 Extracts links from the content of a webpage, and populates the `{links}`
-property with [WWW::Mechanize::Link](https://metacpan.org/pod/WWW::Mechanize::Link) objects.
+property with [WWW::Mechanize::Link](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3ALink) objects.
 
 ## $mech->\_push\_page\_stack()
 
@@ -1425,10 +1433,10 @@ you can change in order to make your life easier.
 
 - cookie\_jar
 
-    You are encouraged to install [Mozilla::PublicSuffix](https://metacpan.org/pod/Mozilla::PublicSuffix) and use
-    [HTTP::CookieJar::LWP](https://metacpan.org/pod/HTTP::CookieJar::LWP) as your cookie jar.  [HTTP::CookieJar::LWP](https://metacpan.org/pod/HTTP::CookieJar::LWP) provides a
+    You are encouraged to install [Mozilla::PublicSuffix](https://metacpan.org/pod/Mozilla%3A%3APublicSuffix) and use
+    [HTTP::CookieJar::LWP](https://metacpan.org/pod/HTTP%3A%3ACookieJar%3A%3ALWP) as your cookie jar.  [HTTP::CookieJar::LWP](https://metacpan.org/pod/HTTP%3A%3ACookieJar%3A%3ALWP) provides a
     better security model matching that of current Web browsers when
-    [Mozilla::PublicSuffix](https://metacpan.org/pod/Mozilla::PublicSuffix) is installed.
+    [Mozilla::PublicSuffix](https://metacpan.org/pod/Mozilla%3A%3APublicSuffix) is installed.
 
         use HTTP::CookieJar::LWP ();
 
@@ -1437,7 +1445,7 @@ you can change in order to make your life easier.
 
 - protocols\_allowed
 
-    This option is inherited directly from [LWP::UserAgent](https://metacpan.org/pod/LWP::UserAgent).  It allows you to
+    This option is inherited directly from [LWP::UserAgent](https://metacpan.org/pod/LWP%3A%3AUserAgent).  It allows you to
     whitelist the protocols you're willing to allow.
 
         my $agent = WWW::Mechanize->new(
@@ -1449,7 +1457,7 @@ you can change in order to make your life easier.
 
 - protocols\_forbidden
 
-    This option is also inherited directly from [LWP::UserAgent](https://metacpan.org/pod/LWP::UserAgent).  It allows you to
+    This option is also inherited directly from [LWP::UserAgent](https://metacpan.org/pod/LWP%3A%3AUserAgent).  It allows you to
     blacklist the protocols you're unwilling to allow.
 
         my $agent = WWW::Mechanize->new(
@@ -1519,7 +1527,7 @@ The book was also positively reviewed on Slashdot:
     [http://perlmonks.org](http://perlmonks.org) is an excellent community of support, and
     many questions about Mech have already been answered there.
 
-- [WWW::Mechanize::Examples](https://metacpan.org/pod/WWW::Mechanize::Examples)
+- [WWW::Mechanize::Examples](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3AExamples)
 
     A random array of examples submitted by users, included with the
     Mechanize distribution.
@@ -1565,36 +1573,36 @@ The book was also positively reviewed on Slashdot:
 
 - [http://www.linux-magazin.de/ausgaben/2004/03/datenruessel/](http://www.linux-magazin.de/ausgaben/2004/03/datenruessel/)
 
-    Michael Schilli's article on Mech and [WWW::Mechanize::Shell](https://metacpan.org/pod/WWW::Mechanize::Shell) for the
+    Michael Schilli's article on Mech and [WWW::Mechanize::Shell](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3AShell) for the
     German magazine _Linux Magazin_.
 
 ## Other modules that use Mechanize
 
 Here are modules that use or subclass Mechanize.  Let me know of any others:
 
-- [Finance::Bank::LloydsTSB](https://metacpan.org/pod/Finance::Bank::LloydsTSB)
-- [HTTP::Recorder](https://metacpan.org/pod/HTTP::Recorder)
+- [Finance::Bank::LloydsTSB](https://metacpan.org/pod/Finance%3A%3ABank%3A%3ALloydsTSB)
+- [HTTP::Recorder](https://metacpan.org/pod/HTTP%3A%3ARecorder)
 
     Acts as a proxy for web interaction, and then generates WWW::Mechanize scripts.
 
-- [Win32::IE::Mechanize](https://metacpan.org/pod/Win32::IE::Mechanize)
+- [Win32::IE::Mechanize](https://metacpan.org/pod/Win32%3A%3AIE%3A%3AMechanize)
 
     Just like Mech, but using Microsoft Internet Explorer to do the work.
 
-- [WWW::Bugzilla](https://metacpan.org/pod/WWW::Bugzilla)
-- [WWW::CheckSite](https://metacpan.org/pod/WWW::CheckSite)
-- [WWW::Google::Groups](https://metacpan.org/pod/WWW::Google::Groups)
-- [WWW::Hotmail](https://metacpan.org/pod/WWW::Hotmail)
-- [WWW::Mechanize::Cached](https://metacpan.org/pod/WWW::Mechanize::Cached)
-- [WWW::Mechanize::Cached::GZip](https://metacpan.org/pod/WWW::Mechanize::Cached::GZip)
-- [WWW::Mechanize::FormFiller](https://metacpan.org/pod/WWW::Mechanize::FormFiller)
-- [WWW::Mechanize::Shell](https://metacpan.org/pod/WWW::Mechanize::Shell)
-- [WWW::Mechanize::Sleepy](https://metacpan.org/pod/WWW::Mechanize::Sleepy)
-- [WWW::Mechanize::SpamCop](https://metacpan.org/pod/WWW::Mechanize::SpamCop)
-- [WWW::Mechanize::Timed](https://metacpan.org/pod/WWW::Mechanize::Timed)
-- [WWW::SourceForge](https://metacpan.org/pod/WWW::SourceForge)
-- [WWW::Yahoo::Groups](https://metacpan.org/pod/WWW::Yahoo::Groups)
-- [WWW::Scripter](https://metacpan.org/pod/WWW::Scripter)
+- [WWW::Bugzilla](https://metacpan.org/pod/WWW%3A%3ABugzilla)
+- [WWW::CheckSite](https://metacpan.org/pod/WWW%3A%3ACheckSite)
+- [WWW::Google::Groups](https://metacpan.org/pod/WWW%3A%3AGoogle%3A%3AGroups)
+- [WWW::Hotmail](https://metacpan.org/pod/WWW%3A%3AHotmail)
+- [WWW::Mechanize::Cached](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3ACached)
+- [WWW::Mechanize::Cached::GZip](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3ACached%3A%3AGZip)
+- [WWW::Mechanize::FormFiller](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3AFormFiller)
+- [WWW::Mechanize::Shell](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3AShell)
+- [WWW::Mechanize::Sleepy](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3ASleepy)
+- [WWW::Mechanize::SpamCop](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3ASpamCop)
+- [WWW::Mechanize::Timed](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3ATimed)
+- [WWW::SourceForge](https://metacpan.org/pod/WWW%3A%3ASourceForge)
+- [WWW::Yahoo::Groups](https://metacpan.org/pod/WWW%3A%3AYahoo%3A%3AGroups)
+- [WWW::Scripter](https://metacpan.org/pod/WWW%3A%3AScripter)
 
 # ACKNOWLEDGEMENTS
 
@@ -1659,7 +1667,7 @@ Andy Lester &lt;andy at petdance.com>
 
 # COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2004-2016 by Andy Lester.
+This software is copyright (c) 2004 by Andy Lester.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
