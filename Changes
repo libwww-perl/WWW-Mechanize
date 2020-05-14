@@ -1,6 +1,10 @@
 Revision history for WWW::Mechanize
 
 {{$NEXT}}
+    - Respect CDATA[[ sections when parsing HTML (GH#298) (Max Maischein)
+    - extract image links also from css (GH#12) (Jozef Kutej) and (GH#297)
+      (Julien Fiegehenn)
+    - s/parm/param/ in documentation (GH#295) (Olaf Alders)
 
 1.96      2020-02-21 02:23:40Z [FIXED]
     - HTML::Form::find_input() has a 1-based index (GH#293) (Olaf Alders)
