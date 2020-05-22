@@ -11,12 +11,12 @@ BEGIN {
     HTTPS_PROXY https_proxy HTTP_PROXY_ALL http_proxy_all
   )};
 }
-use LWP::Simple;
-use FindBin;
-use File::Spec;
-use File::Temp;
-use URI::URL qw();
+
 use Carp qw(carp croak);
+use File::Temp ();
+use LWP::Simple qw( get );
+use Path::Tiny qw( path );
+use URI::URL qw();
 
 =head1 SYNOPSIS
 
@@ -101,7 +101,7 @@ sub spawn {
   $self->{logfile} = $logfile;
   my $web_page = delete $args{file} || "";
 
-  my $server_file = File::Spec->catfile( $FindBin::Bin,'log-server' );
+  my $server_file = path('t/local/log-server')->absolute;
   my @opts;
   push @opts, "-e" => qq{"} . delete($args{ eval }) . qq{"}
       if $args{ eval };
