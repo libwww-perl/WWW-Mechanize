@@ -1,11 +1,17 @@
-#!perl -T
+#!perl
 
 use warnings;
 use strict;
-use Test::More;
+
+use lib qw( t/local );
+
+use LocalServer ();
+use Path::Tiny qw( path );
 use Test::Deep;
 use Test::Fatal;
-use URI::file;
+use Test::More;
+use URI::file ();
+use WWW::Mechanize ();
 
 BEGIN {
     delete @ENV{qw(PATH IFS CDPATH ENV BASH_ENV)}
@@ -118,22 +124,20 @@ BEGIN {
 }
 
 {
+    my $html = path('t/history_2.html')->slurp;
+    my $server = LocalServer->spawn( html => $html );
     my $mech = WWW::Mechanize->new( cookie_jar => undef, autocheck => 0 );
-    isa_ok( $mech, 'WWW::Mechanize' );
+    $mech->get( $server->url );
 
-    my $uri = URI::file->new_abs('t/history_2.html')->as_string;
-
-    $mech->get($uri);
     ok(
         $mech->submit_form( form_name => "post_form" ),
         "Submit form using 'post' method"
     );
     is( $mech->history_count, 2, "... and it was recorded in the history" );
-    like(
-        $mech->history(0)->{req}->uri, qr/localhost/,
+    is(
+        $mech->history(0)->{req}->uri, $server->url,
         "... and the correct request was saved"
     );
-
 }
 
 {
