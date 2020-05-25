@@ -101,6 +101,7 @@
             "HTTP::Server::Simple::CGI" : "0",
             "LWP" : "0",
             "LWP::Simple" : "0",
+            "Path::Tiny" : "0",
             "Test::Deep" : "0",
             "Test::Fatal" : "0",
             "Test::More" : "0.96",
@@ -117,18 +118,18 @@
    "provides" : {
       "WWW::Mechanize" : {
          "file" : "lib/WWW/Mechanize.pm",
-         "version" : "1.97"
+         "version" : "1.98"
       },
       "WWW::Mechanize::Image" : {
          "file" : "lib/WWW/Mechanize/Image.pm",
-         "version" : "1.97"
+         "version" : "1.98"
       },
       "WWW::Mechanize::Link" : {
          "file" : "lib/WWW/Mechanize/Link.pm",
-         "version" : "1.97"
+         "version" : "1.98"
       }
    },
-   "release_status" : "stable",
+   "release_status" : "testing",
    "resources" : {
       "bugtracker" : {
          "web" : "https://github.com/libwww-perl/WWW-Mechanize/issues"
@@ -140,7 +141,7 @@
          "web" : "https://github.com/libwww-perl/WWW-Mechanize"
       }
    },
-   "version" : "1.97",
+   "version" : "1.98",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.030002"
@@ -247,7 +248,7 @@
             "class" : "Dist::Zilla::Plugin::InstallGuide",
             "config" : {
                "Dist::Zilla::Role::ModuleMetadata" : {
-                  "Module::Metadata" : "1.000036",
+                  "Module::Metadata" : "1.000037",
                   "version" : "0.006"
                }
             },
@@ -663,7 +664,7 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v1.97",
+                  "tag" : "v1.98",
                   "tag_format" : "v%V",
                   "tag_message" : "v%V"
                },
@@ -813,7 +814,7 @@
                   "meta_noindex" : 1
                },
                "Dist::Zilla::Role::ModuleMetadata" : {
-                  "Module::Metadata" : "1.000036",
+                  "Module::Metadata" : "1.000037",
                   "version" : "0.006"
                }
             },
@@ -879,7 +880,7 @@
       "zilla" : {
          "class" : "Dist::Zilla::Dist::Builder",
          "config" : {
-            "is_trial" : 0
+            "is_trial" : 1
          },
          "version" : "6.014"
       }

@@ -33,6 +33,7 @@ on 'test' => sub {
   requires "HTTP::Server::Simple::CGI" => "0";
   requires "LWP" => "0";
   requires "LWP::Simple" => "0";
+  requires "Path::Tiny" => "0";
   requires "Test::Deep" => "0";
   requires "Test::Fatal" => "0";
   requires "Test::More" => "0.96";
