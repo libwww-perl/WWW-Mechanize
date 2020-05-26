@@ -1,6 +1,7 @@
 Revision history for WWW::Mechanize
 
 {{$NEXT}}
+    - Bump HTTP::Daemon test dependency to 6.12 (GH#300) (Olaf Alders)
 
 1.98      2020-05-25 17:06:47Z (TRIAL RELEASE)
     - Don't make assumptions about port 80 in test (GH#299) (Olaf Alders)

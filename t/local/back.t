@@ -3,7 +3,6 @@ use strict;
 use Test::More tests => 47;
 use lib qw( t t/local );
 use LocalServer;
-use HTTP::Daemon 6.05;
 use HTTP::Response;
 
 
