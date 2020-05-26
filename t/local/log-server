@@ -1,6 +1,6 @@
 # Thanks to merlyn for nudging me and giving me this snippet!
 use strict;
-use HTTP::Daemon 6.05;
+use HTTP::Daemon ();
 use CGI 4.08;
 use Getopt::Long;
 use Socket ();
