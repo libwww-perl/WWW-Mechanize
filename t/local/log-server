@@ -14,13 +14,6 @@ GetOptions(
 my $d = HTTP::Daemon->new or die;
 
 my $url = URI->new($d->url);
-if ($d->sockdomain == Socket::AF_INET) {
-    $url->host( '127.0.0.1' );
-} elsif ($d->sockdomain == Socket::AF_INET6) {
-    $url->host( '[::1]' );
-} else {
-    die "unexpected sockdomain: " . $d->sockdomain;
-}
 print "$url\n";
 
 my ($filename,$logfile) = @ARGV[0,1];
