@@ -3,7 +3,6 @@ use strict;
 use HTTP::Daemon ();
 use CGI 4.08;
 use Getopt::Long;
-use Socket ();
 
 $|++;
 
@@ -13,8 +12,7 @@ GetOptions(
 
 my $d = HTTP::Daemon->new or die;
 
-my $url = URI->new($d->url);
-print "$url\n";
+print $d->url, "\n";
 
 my ($filename,$logfile) = @ARGV[0,1];
 if ($filename) {
