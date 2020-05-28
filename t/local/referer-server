@@ -1,14 +1,11 @@
 # Thanks to merlyn for nudging me and giving me this snippet!
 
 use HTTP::Daemon ();
-use URI::URL;
-use Socket ();
 
 $|++;
 
 my $d = HTTP::Daemon->new or die;
-my $lhurl = URI::URL->new( $d->url );
-print $lhurl->as_string, "\n";
+print $d->url, "\n";
 
 $counter = 5;
 while ($counter-- and my $c = $d->accept) {
