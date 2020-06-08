@@ -1,5 +1,7 @@
 Revision history for WWW::Mechanize
 
+{{$NEXT}}
+
 1.99      2020-06-08 15:35:04Z
     - Bump HTTP::Daemon test dependency to 6.12 (GH#300) (Olaf Alders)
 
