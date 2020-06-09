@@ -1,6 +1,7 @@
 Revision history for WWW::Mechanize
 
 {{$NEXT}}
+    - Require LWP::UserAgent 6.45 (GH#302) (Shoichi Kaji)
 
 1.99      2020-06-08 15:35:04Z
     - Bump HTTP::Daemon test dependency to 6.12 (GH#300) (Olaf Alders)
