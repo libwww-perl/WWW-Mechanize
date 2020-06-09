@@ -137,7 +137,7 @@ our $VERSION = '2.00';
 
 use Tie::RefHash;
 use HTTP::Request 1.30;
-use LWP::UserAgent 5.827;
+use LWP::UserAgent 6.45;
 use HTML::Form 1.00;
 use HTML::TokeParser;
 use Scalar::Util qw(tainted);
