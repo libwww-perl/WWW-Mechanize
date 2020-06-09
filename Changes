@@ -1,5 +1,7 @@
 Revision history for WWW::Mechanize
 
+{{$NEXT}}
+
 2.00      2020-06-09 19:09:53Z
     - Require LWP::UserAgent 6.45 (GH#302) (Shoichi Kaji)
 
