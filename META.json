@@ -73,7 +73,7 @@
             "HTTP::Cookies" : "0",
             "HTTP::Request" : "1.30",
             "HTTP::Request::Common" : "0",
-            "LWP::UserAgent" : "5.827",
+            "LWP::UserAgent" : "6.45",
             "Pod::Usage" : "0",
             "Scalar::Util" : "1.14",
             "Tie::RefHash" : "0",
@@ -118,15 +118,15 @@
    "provides" : {
       "WWW::Mechanize" : {
          "file" : "lib/WWW/Mechanize.pm",
-         "version" : "1.99"
+         "version" : "2.00"
       },
       "WWW::Mechanize::Image" : {
          "file" : "lib/WWW/Mechanize/Image.pm",
-         "version" : "1.99"
+         "version" : "2.00"
       },
       "WWW::Mechanize::Link" : {
          "file" : "lib/WWW/Mechanize/Link.pm",
-         "version" : "1.99"
+         "version" : "2.00"
       }
    },
    "release_status" : "stable",
@@ -141,7 +141,7 @@
          "web" : "https://github.com/libwww-perl/WWW-Mechanize"
       }
    },
-   "version" : "1.99",
+   "version" : "2.00",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.030002"
@@ -248,7 +248,7 @@
             "class" : "Dist::Zilla::Plugin::InstallGuide",
             "config" : {
                "Dist::Zilla::Role::ModuleMetadata" : {
-                  "Module::Metadata" : "1.000037",
+                  "Module::Metadata" : "1.000036",
                   "version" : "0.006"
                }
             },
@@ -664,7 +664,7 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v1.99",
+                  "tag" : "v2.00",
                   "tag_format" : "v%V",
                   "tag_message" : "v%V"
                },
@@ -814,7 +814,7 @@
                   "meta_noindex" : 1
                },
                "Dist::Zilla::Role::ModuleMetadata" : {
-                  "Module::Metadata" : "1.000037",
+                  "Module::Metadata" : "1.000036",
                   "version" : "0.006"
                }
             },
