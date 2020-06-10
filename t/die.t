@@ -2,33 +2,19 @@
 
 use warnings;
 use strict;
+
+use Test::Exception;
 use Test::More;
+use WWW::Mechanize ();
 
-BEGIN {
-    eval 'use Test::Exception';
-    plan skip_all => 'Test::Exception required to test die' if $@;
-    plan tests => 5;
+dies_ok {
+    WWW::Mechanize->new->die('OH NO!  ERROR!');
 }
+'Expecting to die';
 
-BEGIN {
-    use_ok( 'WWW::Mechanize' );
+lives_ok {
+    WWW::Mechanize->new( onerror => undef )->die('OH NO!  ERROR!');
 }
+'Not expecting to die';
 
-
-CHECK_DEATH: {
-    my $m = WWW::Mechanize->new;
-    isa_ok( $m, 'WWW::Mechanize' );
-
-    dies_ok {
-        $m->die( 'OH NO!  ERROR!' );
-    } 'Expecting to die';
-}
-
-CHECK_LIVING: {
-    my $m = WWW::Mechanize->new( onerror => undef );
-    isa_ok( $m, 'WWW::Mechanize' );
-
-    lives_ok {
-        $m->die( 'OH NO!  ERROR!' );
-    } 'Expecting to die';
-}
+done_testing();
