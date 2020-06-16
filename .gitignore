@@ -4,7 +4,7 @@
 cpanfile.snapshot
 /_eumm/
 !/.gitignore
-local
+/local
 /Makefile
 /Makefile.old
 /MANIFEST.bak
