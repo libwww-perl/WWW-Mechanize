@@ -608,7 +608,7 @@ sub history_count {
 This returns the I<n>th item in history.  The 0th item is the most recent
 request and response, which would be acted on by methods like
 C<L<< find_link()|"$mech->find_link( ... )" >>>.
-The 1th item is the state you'd return to if you called
+The 1st item is the state you'd return to if you called
 C<L<< back()|/$mech->back() >>>.
 
 The maximum useful value for C<$n> is C<< $mech->history_count - 1 >>.
@@ -962,8 +962,8 @@ You can take the URL part and pass it to the C<get()> method.  If
 that's your plan, you might as well use the C<follow_link()> method
 directly, since it does the C<get()> for you automatically.
 
-Note that C<< <FRAME SRC="..."> >> tags are parsed out of the the HTML
-and treated as links so this method works with them.
+Note that C<< <FRAME SRC="..."> >> tags are parsed out of the HTML and
+treated as links so this method works with them.
 
 You can select which link to find by passing in one or more of these
 key/value pairs:
