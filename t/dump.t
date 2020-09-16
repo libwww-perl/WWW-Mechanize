@@ -31,6 +31,7 @@ subtest "dump_links test", sub {
 http://www.drphil.com/
 HTTP://WWW.UPCASE.COM/
 styles.css
+foo.png
 http://blargle.com/
 http://a.cpan.org/
 http://b.cpan.org/
