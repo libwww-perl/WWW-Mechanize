@@ -156,6 +156,14 @@ isa_ok( $x, 'WWW::Mechanize::Link' );
 is( $x->[0], 'http://www.yahoo.com/', 'Got js url link' );
 is( $x->url, 'http://www.yahoo.com/', 'Got js url link' );
 
+$x = $mech->find_link( rel => 'icon' );
+isa_ok( $x, 'WWW::Mechanize::Link' );
+is( $x->[0], 'foo.png', 'Got icon url link' );
+
+$x = $mech->find_link( rel_regex => qr/sheet/i );
+isa_ok( $x, 'WWW::Mechanize::Link' );
+is( $x->[0], 'styles.css', 'Got stylesheet url link' );
+
 $mech->get( URI::file->new_abs('t/refresh.html') );
 my $link = $mech->find_link( tag => 'meta' );
 is( $link->url, 'http://www.mysite.com/', 'got link from meta tag via tag search' );

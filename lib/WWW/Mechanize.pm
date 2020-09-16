@@ -1002,6 +1002,12 @@ in the page.
 
 Matches the name of the link against I<string> or I<regex>, as appropriate.
 
+=item * C<< rel => string >> and C<< rel_regex => regex >>
+
+Matches the rel of the link against I<string> or I<regex>, as appropriate.
+This can be used to find stylesheets, favicons, or links the author of the
+page does not want bots to follow.
+
 =item * C<< id => string >> and C<< id_regex => regex >>
 
 Matches the attribute 'id' of the link against I<string> or
@@ -1063,7 +1069,7 @@ sub find_link {
 
     my $wantall = ( $params{n} eq 'all' );
 
-    $self->_clean_keys( \%params, qr/^(n|(text|url|url_abs|name|tag|id|class)(_regex)?)$/ );
+    $self->_clean_keys( \%params, qr/^(n|(text|url|url_abs|name|tag|id|class|rel)(_regex)?)$/ );
 
     my @links = $self->links or return;
 
@@ -1113,6 +1119,9 @@ sub _match_any_link_params {
     return if defined $p->{id_regex}      && !($link->attrs->{id} && $link->attrs->{id} =~ $p->{id_regex} );
     return if defined $p->{class}         && !($link->attrs->{class} && $link->attrs->{class} eq $p->{class} );
     return if defined $p->{class_regex}   && !($link->attrs->{class} && $link->attrs->{class} =~ $p->{class_regex} );
+
+    return if defined $p->{rel}         && !($link->attrs->{rel} && $link->attrs->{rel} eq $p->{rel} );
+    return if defined $p->{rel_regex}   && !($link->attrs->{rel} && $link->attrs->{rel} =~ $p->{rel_regex} );
 
     # Success: everything that was defined passed.
     return 1;
