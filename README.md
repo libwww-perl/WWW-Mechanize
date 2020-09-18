@@ -6,7 +6,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 # VERSION
 
-version 2.00
+version 2.01
 
 # SYNOPSIS
 
@@ -335,7 +335,7 @@ include the most recently made request.
 This returns the _n_th item in history.  The 0th item is the most recent
 request and response, which would be acted on by methods like
 `[find_link()](#mech-find_link)`.
-The 1th item is the state you'd return to if you called
+The 1st item is the state you'd return to if you called
 `[back()](#mech-back)`.
 
 The maximum useful value for `$n` is `$mech->history_count - 1`.
@@ -516,8 +516,8 @@ You can take the URL part and pass it to the `get()` method.  If
 that's your plan, you might as well use the `follow_link()` method
 directly, since it does the `get()` for you automatically.
 
-Note that `<FRAME SRC="...">` tags are parsed out of the the HTML
-and treated as links so this method works with them.
+Note that `<FRAME SRC="...">` tags are parsed out of the HTML and
+treated as links so this method works with them.
 
 You can select which link to find by passing in one or more of these
 key/value pairs:
@@ -553,6 +553,12 @@ key/value pairs:
 - `name => string` and `name_regex => regex`
 
     Matches the name of the link against _string_ or _regex_, as appropriate.
+
+- `rel => string` and `rel_regex => regex`
+
+    Matches the rel of the link against _string_ or _regex_, as appropriate.
+    This can be used to find stylesheets, favicons, or links the author of the
+    page does not want bots to follow.
 
 - `id => string` and `id_regex => regex`
 
