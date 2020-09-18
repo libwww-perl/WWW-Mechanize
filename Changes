@@ -1,7 +1,8 @@
 Revision history for WWW::Mechanize
 
 {{$NEXT}}
-    - add rel filter to find_link (Julien Fiegehenn)
+    - Add rel filter to find_link() (GH#305) (Julien Fiegehenn)
+    - Fix typos (GH#304) (Ferenc Erki)
 
 2.00      2020-06-09 19:09:53Z
     - Require LWP::UserAgent 6.45 (GH#302) (Shoichi Kaji)
