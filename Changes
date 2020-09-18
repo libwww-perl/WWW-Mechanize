@@ -1,5 +1,7 @@
 Revision history for WWW::Mechanize
 
+{{$NEXT}}
+
 2.01      2020-09-18 17:51:10Z
     - Add rel filter to find_link() (GH#305) (Julien Fiegehenn)
     - Fix typos (GH#304) (Ferenc Erki)
