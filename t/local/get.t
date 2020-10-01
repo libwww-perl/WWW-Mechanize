@@ -1,6 +1,6 @@
 use warnings;
 use strict;
-use Test::More tests => 32;
+use Test::More tests => 34;
 
 use lib qw( t t/local );
 use LocalServer;
@@ -69,3 +69,9 @@ SKIP: {
 
     memory_cycle_ok( $agent, 'Mech: no cycles' );
 }
+
+$agent->get('/foo/');
+ok( ! $agent->redirects, 'redirects is false before we have a redirect');
+$agent->get($server->redirect('/foo/'));
+is( scalar $agent->redirects, 1, 'redirects picks up a redirect');
+
