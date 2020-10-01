@@ -740,6 +740,23 @@ sub title {
     return $self->{title};
 }
 
+=head2 $mech->redirects()
+
+Convenience method to get the L<< redirects|HTTP::Response/$r->redirects >> from the most recent L<HTTP::Response>.
+
+Note that you can also use L<< is_redirect|HTTP::Response/$r->is_redirect >> to see if the most recent response was a redirect like this.
+
+    $mech->get($url);
+    do_stuff() if $mech->res->is_redirect;
+
+=cut
+
+sub redirects {
+    my $self = shift;
+
+    return $self->response->redirects;
+}
+
 =head1 CONTENT-HANDLING METHODS
 
 =head2 $mech->content(...)

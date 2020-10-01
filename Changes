@@ -1,6 +1,7 @@
 Revision history for WWW::Mechanize
 
 {{$NEXT}}
+    - Add redirects() as a short to HTTP::Response->redirects (GH#116) (Julien Fiegehenn)
 
 2.01      2020-09-18 17:51:10Z
     - Add rel filter to find_link() (GH#305) (Julien Fiegehenn)
