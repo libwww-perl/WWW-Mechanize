@@ -808,6 +808,9 @@ To preserve backwards compatibility, additional parameters will be
 ignored unless none of C<< raw | decoded_by_headers | charset >> is
 specified and the text is HTML, in which case an error will be triggered.
 
+A fresh instance of WWW::Mechanize will return C<undef> when C<< $mech->content() >>
+is called, because no content is present before a request has been made.
+
 =cut
 
 sub content {

@@ -5,6 +5,7 @@ Revision history for WWW::Mechanize
 
     [DOCUMENTATION]
     - Document that click_button() will die when it cannot find a button (GH#136) (Julien Fiegehenn)
+    - Document that content() returns undef before a request was made (GH#134) (Julien Fiegehenn)
 
     [TESTS]
     - Add a test for dump_forms() with multiselect (GH#133) (Julien Fiegehenn)
