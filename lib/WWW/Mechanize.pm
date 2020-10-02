@@ -2075,6 +2075,8 @@ its name, value, or index.  Its arguments are a list of key/value
 pairs.  Only one of name, number, input or value must be specified in
 the keys.
 
+Dies if no button is found.
+
 =over 4
 
 =item * C<< name => name >>
@@ -2100,7 +2102,7 @@ L<HTML::Form::SubmitInput> obtained e.g. from
 
     $mech->current_form()->find_input( undef, 'submit' )
 
-$inputobject must belong to the current form.
+C<$inputobject> must belong to the current form.
 
 =item * C<< x => x >>
 

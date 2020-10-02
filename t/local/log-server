@@ -178,6 +178,7 @@ __DATA__
     <input type="checkbox" name="cat" value="cat_bar" %s />
     <input type="checkbox" name="cat" value="cat_baz" %s />
     <input type="file" name="upload" value="README" />
+    <button type="submit" name="button_tag" value="Go" />
   </form>
   <form id="pounder" action="/formsubmit" class="test" foo="">
     <input type="text" name="query" value="%s"/>

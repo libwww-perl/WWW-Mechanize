@@ -39,7 +39,7 @@ subtest 'click by number' => sub {
     $mech->click_button(number => 1);
     test_click( $mech );
 
-    ok(! eval { $mech->click_button(number => 2); 1 }, 'Button number out of range');
+    ok(! eval { $mech->click_button(number => 3); 1 }, 'Button number out of range');
 };
 
 subtest 'click by name' => sub {
@@ -48,6 +48,11 @@ subtest 'click by name' => sub {
 
     ok(! eval { $mech->click_button(name => 'bogus'); 1 },
     'Button name unknown');
+};
+
+subtest 'click a <button> tag' => sub {
+    $mech->click_button(name => 'button_tag');
+    test_click( $mech, 'button_tag' );
 };
 
 CLICK_BY_OBJECT_REFERENCE: {
@@ -65,8 +70,9 @@ CLICK_BY_OBJECT_REFERENCE: {
 
 sub test_click {
     my $mech = shift;
+    my $name = shift || 'submit';
     like( $mech->uri, qr/formsubmit/, 'Clicking on button' );
-    like( $mech->uri, qr/submit=Go/,  'Correct button was pressed' );
+    like( $mech->uri, qr/$name=Go/,  'Correct button was pressed' );
     like( $mech->uri, qr/cat_foo/,    'Parameters got transmitted OK' );
     $mech->back;
 }
