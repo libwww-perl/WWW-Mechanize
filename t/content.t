@@ -1,6 +1,6 @@
 use warnings;
 use strict;
-use Test::More tests => 8;
+use Test::More tests => 9;
 
 =head1 NAME
 
@@ -33,6 +33,9 @@ my $mech = WWW::Mechanize->new();
 # Well actually there is no base (and therefore it does not belong to us
 # :-), so let's kludge a bit.
 $mech->{base} = 'http://example.com/';
+
+is($mech->content, undef, 'content starts out as undef');
+
 $mech->update_html($html);
 
 =head2 $mech->content(format => "text")
