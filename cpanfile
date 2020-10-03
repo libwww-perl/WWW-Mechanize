@@ -47,7 +47,6 @@ on 'test' => sub {
   requires "URI::Escape" => "0";
   requires "bytes" => "0";
   requires "lib" => "0";
-  requires "vars" => "0";
 };
 
 on 'test' => sub {

@@ -10,6 +10,7 @@ Revision history for WWW::Mechanize
     [TESTS]
     - Add a test for dump_forms() with multiselect (GH#133) (Julien Fiegehenn)
     - Add tests for select multiple (GH#132) (Michael G. Schwern) and (Julien Fiegehenn)
+    - Remove use of discouraged vars pragma (James Raspass)
 
 2.01      2020-09-18 17:51:10Z
     - Add rel filter to find_link() (GH#305) (Julien Fiegehenn)
