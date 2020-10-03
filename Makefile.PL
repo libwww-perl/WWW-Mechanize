@@ -65,7 +65,6 @@ my %WriteMakefileArgs = (
     "URI::Escape" => 0,
     "bytes" => 0,
     "lib" => 0,
-    "vars" => 0
   },
   "VERSION" => "2.02",
   "test" => {
@@ -117,7 +116,6 @@ my %FallbackPrereqs = (
   "bytes" => 0,
   "lib" => 0,
   "strict" => 0,
-  "vars" => 0,
   "warnings" => 0
 );
 

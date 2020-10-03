@@ -235,8 +235,7 @@ All other URLs will echo back the cookies and query parameters.
 
 =cut
 
-use vars qw(%urls);
-%urls = (
+my %urls = (
     'quit_server' => 'quit_server',
     'get_server_log' => 'get_server_log',
     'redirect' => 'redirect/%s',
