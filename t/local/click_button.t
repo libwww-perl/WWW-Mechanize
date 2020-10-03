@@ -52,7 +52,29 @@ subtest 'click by name' => sub {
 
 subtest 'click a <button> tag' => sub {
     $mech->click_button(name => 'button_tag');
-    test_click( $mech, 'button_tag' );
+    test_click( $mech, 'button_tag', 'Walk' );
+};
+
+subtest 'click by value' => sub {
+    # input tag
+    $mech->click_button(value => 'Go');
+    test_click( $mech );
+
+    # button tag
+    $mech->click_button(value => 'Walk');
+    test_click( $mech, 'button_tag', 'Walk' );
+
+    # image type
+    $mech->click_button(value => 'image');
+    {
+        like( $mech->uri, qr/formsubmit/, 'Clicking on button' );
+        like( $mech->uri, qr/image_input\.x=1/, 'Correct button was pressed' );
+        like( $mech->uri, qr/cat_foo/, 'Parameters got transmitted OK' );
+        unlike( $mech->uri, qr/Go/, 'Submit button was not transmitted' );
+    }
+
+    ok(! eval { $mech->click_button(value => 'bogus'); 1 },
+    'Button name unknown');
 };
 
 CLICK_BY_OBJECT_REFERENCE: {
@@ -71,9 +93,10 @@ CLICK_BY_OBJECT_REFERENCE: {
 sub test_click {
     my $mech = shift;
     my $name = shift || 'submit';
+    my $value = shift || 'Go';
     like( $mech->uri, qr/formsubmit/, 'Clicking on button' );
-    like( $mech->uri, qr/$name=Go/,  'Correct button was pressed' );
-    like( $mech->uri, qr/cat_foo/,    'Parameters got transmitted OK' );
+    like( $mech->uri, qr/$name=$value/, 'Correct button was pressed' );
+    like( $mech->uri, qr/cat_foo/, 'Parameters got transmitted OK' );
     $mech->back;
 }
 

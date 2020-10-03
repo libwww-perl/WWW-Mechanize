@@ -2074,9 +2074,8 @@ sub click {
 =head2 $mech->click_button( ... )
 
 Has the effect of clicking a button on the current form by specifying
-its name, value, or index.  Its arguments are a list of key/value
-pairs.  Only one of name, number, input or value must be specified in
-the keys.
+its attributes. The arguments are a list of key/value pairs. Only one
+of name, id, number, input or value must be specified in the keys.
 
 Dies if no button is found.
 
@@ -2092,7 +2091,8 @@ Clicks the button with the id I<id> in the current form.
 
 =item * C<< number => n >>
 
-Clicks the I<n>th button in the current form. Numbering starts at 1.
+Clicks the I<n>th button with type I<submit> in the current form.
+Numbering starts at 1.
 
 =item * C<< value => value >>
 
@@ -2145,6 +2145,7 @@ sub click_button {
         $request = $input->click( $form, $args{x}, $args{y} );
     }
     elsif ( $args{number} ) {
+        # changing this 'submit' to qw/submit button image/ will probably break people's code
         my $input = $form->find_input( undef, 'submit', $args{number} );
         $request = $input->click( $form, $args{x}, $args{y} );
     }
@@ -2152,14 +2153,13 @@ sub click_button {
         $request = $args{input}->click( $form, $args{x}, $args{y} );
     }
     elsif ( $args{value} ) {
-        my $i = 1;
-        while ( my $input = $form->find_input(undef, 'submit', $i) ) {
-            if ( $args{value} && ($args{value} eq $input->value) ) {
+        my @inputs = map { $form->find_input(undef, $_) } qw/submit button image/;
+        foreach  my $input ( @inputs ) {
+            if ( $input->value && ($args{value} eq $input->value) ) {
                 $request = $input->click( $form, $args{x}, $args{y} );
                 last;
             }
-            $i++;
-        } # while
+        } # foreach
     } # $args{value}
 
     return $self->request( $request );
