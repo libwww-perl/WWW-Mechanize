@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-use Test::More 0.96 tests => 6;
+use Test::More 0.96 tests => 7;
 use Test::Output;
 use URI::file;
 use File::Temp qw/tempdir/;
@@ -108,6 +108,25 @@ POST http://localhost/ (multipart/form-data) [4th_form_2]
   4b=                            (text)
   x=                             (text)
   submit=Submit                  (submit)
+
+EXPECTED
+};
+
+subtest "dump_forms multiselect", sub {
+    dump_tests('dump_forms', 't/form_133_regression.html', <<'EXPECTED');
+GET http://localhost/
+  select1=1                      (option)   [*1|2|3|4]
+  select2=1                      (option)   [*1|2|3|4]
+  select3=1                      (option)   [*1|2|3|4]
+  select4=1                      (option)   [*1|2|3|4]
+  multiselect1=<UNDEF>           (option)   [*<UNDEF>/off|1]
+  multiselect1=<UNDEF>           (option)   [*<UNDEF>/off|2]
+  multiselect1=<UNDEF>           (option)   [*<UNDEF>/off|3]
+  multiselect1=<UNDEF>           (option)   [*<UNDEF>/off|4]
+  multiselect2=<UNDEF>           (option)   [*<UNDEF>/off|1]
+  multiselect2=<UNDEF>           (option)   [*<UNDEF>/off|2]
+  multiselect2=<UNDEF>           (option)   [*<UNDEF>/off|3]
+  multiselect2=<UNDEF>           (option)   [*<UNDEF>/off|4]
 
 EXPECTED
 };
