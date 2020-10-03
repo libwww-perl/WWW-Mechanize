@@ -2,7 +2,7 @@
 
 use warnings;
 use strict;
-use Test::More tests => 8;
+use Test::More tests => 14;
 use URI::file;
 
 BEGIN {
@@ -28,3 +28,18 @@ is( $mech->value( 'bongo' ), 'bango', 'bongo changed' );
 $mech->set_visible( [ radio => 'wongo!' ], 'boingo' );
 is( $mech->value( 'wango' ), 'wongo!', 'wango changed' );
 is( $mech->value( 'dingo', 2 ), 'boingo', 'dingo changed' );
+
+for my $name (qw/__no_value __value_empty/) {
+    ok( ! $mech->value( $name ), "$name is empty" ) or diag $mech->field($name);
+    $mech->field( $name, 'foo');
+    is( $mech->value( $name ), 'foo', "$name changed" );
+}
+
+for my $name (qw/__value/) {
+    TODO: {
+        local $TODO = 'HTML::TokeParser does not understand how to parse this and returns a value where it should not have one';
+        ok( ! $mech->value( $name ), "$name is empty" ) or diag $mech->field($name);
+    }
+    $mech->field( $name, 'foo');
+    is( $mech->value( $name ), 'foo', "$name changed" );
+}

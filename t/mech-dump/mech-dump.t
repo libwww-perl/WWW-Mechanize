@@ -35,6 +35,7 @@ if ( $LWP::VERSION < 5.800 ) {
 GET file:/target-page [bob-the-form]
   hl=en                           (hidden)
   ie=ISO-8859-1                   (hidden)
+  notgoogle=                      (hidden readonly)
   q=
   btnG=Google Search              (submit)
   btnI=I'm Feeling Lucky          (submit)
@@ -62,6 +63,7 @@ EOF
 GET file:/target-page [bob-the-form]
   hl=en                          (hidden readonly)
   ie=ISO-8859-1                  (hidden readonly)
+  notgoogle=                     (hidden readonly)
   q=                             (text)
   btnG=Google Search             (submit)
   btnI=I'm Feeling Lucky         (submit)

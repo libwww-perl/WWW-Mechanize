@@ -3,7 +3,7 @@ Revision history for WWW::Mechanize
 {{$NEXT}}
     [ENHANCEMENTS]
     - Add redirects() as a short to HTTP::Response->redirects (GH#116) (Julien Fiegehenn)
-    - click_button( value => $foo) now also works for button tags and image buttons 
+    - click_button( value => $foo) now also works for button tags and image buttons
       (GH#131) (Spencer Christensen) and (Julien Fiegehenn)
 
     [DOCUMENTATION]
@@ -14,6 +14,7 @@ Revision history for WWW::Mechanize
     - Add a test for dump_forms() with multiselect (GH#133) (Julien Fiegehenn)
     - Add tests for select multiple (GH#132) (Michael G. Schwern) and (Julien Fiegehenn)
     - Remove use of discouraged vars pragma (James Raspass)
+    - Add tests for dump_forms() and field() with empty attributes (GH#125) (Julien Fiegehenn)
 
 2.01      2020-09-18 17:51:10Z
     - Add rel filter to find_link() (GH#305) (Julien Fiegehenn)

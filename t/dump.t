@@ -109,6 +109,13 @@ POST http://localhost/ (multipart/form-data) [4th_form_2]
   x=                             (text)
   submit=Submit                  (submit)
 
+POST https://localhost
+  5a=                            (hidden readonly)
+  5b=value                       (hidden readonly)
+  5c=                            (hidden readonly)
+  5d=foo                         (hidden readonly)
+  5e=value                       (hidden readonly)
+
 EXPECTED
 };
 
