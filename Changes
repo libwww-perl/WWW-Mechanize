@@ -1,7 +1,10 @@
 Revision history for WWW::Mechanize
 
 {{$NEXT}}
+    [ENHANCEMENTS]
     - Add redirects() as a short to HTTP::Response->redirects (GH#116) (Julien Fiegehenn)
+    - click_button( value => $foo) now also works for button tags and image buttons 
+      (GH#131) (Spencer Christensen) and (Julien Fiegehenn)
 
     [DOCUMENTATION]
     - Document that click_button() will die when it cannot find a button (GH#136) (Julien Fiegehenn)
