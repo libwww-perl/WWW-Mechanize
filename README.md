@@ -6,7 +6,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 # VERSION
 
-version 2.01
+version 2.02
 
 # SYNOPSIS
 
@@ -405,6 +405,15 @@ HTTP headers.
 Returns the contents of the `<TITLE>` tag, as parsed by
 [HTML::HeadParser](https://metacpan.org/pod/HTML%3A%3AHeadParser).  Returns undef if the content is not HTML.
 
+## $mech->redirects()
+
+Convenience method to get the [redirects](https://metacpan.org/pod/HTTP%3A%3AResponse#r-redirects) from the most recent [HTTP::Response](https://metacpan.org/pod/HTTP%3A%3AResponse).
+
+Note that you can also use [is\_redirect](https://metacpan.org/pod/HTTP%3A%3AResponse#r-is_redirect) to see if the most recent response was a redirect like this.
+
+    $mech->get($url);
+    do_stuff() if $mech->res->is_redirect;
+
 # CONTENT-HANDLING METHODS
 
 ## $mech->content(...)
@@ -450,6 +459,9 @@ are passed to _content()_:
 To preserve backwards compatibility, additional parameters will be
 ignored unless none of `raw | decoded_by_headers | charset` is
 specified and the text is HTML, in which case an error will be triggered.
+
+A fresh instance of WWW::Mechanize will return `undef` when `$mech->content()`
+is called, because no content is present before a request has been made.
 
 ## $mech->text()
 
@@ -995,9 +1007,10 @@ Returns an [HTTP::Response](https://metacpan.org/pod/HTTP%3A%3AResponse) object.
 ## $mech->click\_button( ... )
 
 Has the effect of clicking a button on the current form by specifying
-its name, value, or index.  Its arguments are a list of key/value
-pairs.  Only one of name, number, input or value must be specified in
-the keys.
+its attributes. The arguments are a list of key/value pairs. Only one
+of name, id, number, input or value must be specified in the keys.
+
+Dies if no button is found.
 
 - `name => name`
 
@@ -1009,7 +1022,8 @@ the keys.
 
 - `number => n`
 
-    Clicks the _n_th button in the current form. Numbering starts at 1.
+    Clicks the _n_th button with type _submit_ in the current form.
+    Numbering starts at 1.
 
 - `value => value`
 
@@ -1022,7 +1036,7 @@ the keys.
 
         $mech->current_form()->find_input( undef, 'submit' )
 
-    $inputobject must belong to the current form.
+    `$inputobject` must belong to the current form.
 
 - `x => x`
 - `y => y`

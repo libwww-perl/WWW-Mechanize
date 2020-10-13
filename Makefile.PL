@@ -64,7 +64,7 @@ my %WriteMakefileArgs = (
     "URI" => 0,
     "URI::Escape" => 0,
     "bytes" => 0,
-    "lib" => 0,
+    "lib" => 0
   },
   "VERSION" => "2.02",
   "test" => {
