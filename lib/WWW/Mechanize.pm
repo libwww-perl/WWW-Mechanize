@@ -2128,6 +2128,15 @@ sub click_button {
         }
     }
 
+    my %exclusive_options =
+      ( id => 1, input => 1, name => 1, number => 1, value => 1, );
+
+    my @present_exclusive_options = @exclusive_options{ keys %args };
+
+    if ( scalar @present_exclusive_options > 1 ) {
+        $self->die( 'click_button: More than one button selector is used' );
+    }
+
     for ($args{x}, $args{y}) {
         $_ = 1 unless defined;
     }
