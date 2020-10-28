@@ -5,6 +5,7 @@ use lib 't/local';
 
 use LocalServer;
 use Test::More 0.96;
+use Test::Exception;
 
 BEGIN {
     delete @ENV{ qw( IFS CDPATH ENV BASH_ENV ) };
@@ -89,6 +90,10 @@ CLICK_BY_OBJECT_REFERENCE: {
         diag $res->request->uri;
     };
 }
+
+subtest 'multiple button selectors' => sub {
+    dies_ok { $mech->click_button( id => 0, input => 1 ) } 'Dies when multiple button selectors are used';
+};
 
 sub test_click {
     my $mech = shift;
