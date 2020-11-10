@@ -1,6 +1,8 @@
 Revision history for WWW::Mechanize
 
 {{$NEXT}}
+    [FIXED]
+    - Validate exclusive button selectors (GH#314) (Ferenc Erki)
 
 2.02      2020-10-13 13:50:28Z
     [ENHANCEMENTS]
@@ -37,7 +39,8 @@ Revision history for WWW::Mechanize
       (Julien Fiegehenn)
     - s/parm/param/ in documentation (GH#295) (Olaf Alders)
 
-1.96      2020-02-21 02:23:40Z [FIXED]
+1.96      2020-02-21 02:23:40Z
+    [FIXED]
     - HTML::Form::find_input() has a 1-based index (GH#293) (Olaf Alders)
     - Fix invocation of dump_forms in mech-dump (GH#288) (積丹尼 Dan Jacobson)
     - make xt/author/eol.t pass (GH#291) (Shoichi Kaji)
