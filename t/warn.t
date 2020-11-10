@@ -2,17 +2,10 @@
 
 use warnings;
 use strict;
+
+use Test::Warn qw( warning_like );
 use Test::More;
-
-BEGIN {
-    eval 'use Test::Warn';
-    plan skip_all => 'Test::Warn required to test warn' if $@;
-    plan tests => 6;
-}
-
-BEGIN {
-    use_ok( 'WWW::Mechanize' );
-}
+use WWW::Mechanize ();
 
 my $m = WWW::Mechanize->new;
 isa_ok( $m, 'WWW::Mechanize' );
@@ -31,3 +24,5 @@ isa_ok( $hushed, 'WWW::Mechanize' );
 warning_like {
     $hushed->warn( 'Something bad' );
 } undef, 'Quiets correctly';
+
+done_testing();

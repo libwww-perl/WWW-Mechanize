@@ -2,17 +2,10 @@
 
 use warnings;
 use strict;
+
 use Test::More;
-
-BEGIN {
-    eval 'use Test::Warn';
-    plan skip_all => 'Test::Warn required to test warnings' if $@;
-    plan tests => 3;
-}
-
-BEGIN {
-    use_ok( 'WWW::Mechanize' );
-}
+use Test::Warn qw( warning_is );
+use WWW::Mechanize ();
 
 UNKNOWN_ALIAS: {
     my $m = WWW::Mechanize->new;
@@ -22,3 +15,5 @@ UNKNOWN_ALIAS: {
         $m->agent_alias( 'Blongo' );
     } 'Unknown agent alias "Blongo"', 'Unknown aliases squawk appropriately';
 }
+
+done_testing();
