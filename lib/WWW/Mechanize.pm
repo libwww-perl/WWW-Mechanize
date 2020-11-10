@@ -146,7 +146,7 @@ use base 'LWP::UserAgent';
 
 our $HAS_ZLIB;
 BEGIN {
-    $HAS_ZLIB = eval 'use Compress::Zlib (); 1;';
+    $HAS_ZLIB = eval {use Compress::Zlib (); 1;};
 }
 
 =head1 CONSTRUCTOR AND STARTUP
@@ -410,7 +410,8 @@ Returns a list of all the agent aliases that Mech knows about.
 =cut
 
 sub known_agent_aliases {
-    return sort keys %known_agents;
+    my @aliases = sort keys %known_agents;
+    return @aliases;
 }
 
 =head1 PAGE-FETCHING METHODS
