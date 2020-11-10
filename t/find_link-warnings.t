@@ -1,20 +1,12 @@
-#!perl -T
-
 use warnings;
 use strict;
+
 use Test::More;
-use URI::file;
+use Test::Warn qw( warning_like );
+use URI::file      ();
+use WWW::Mechanize ();
+
 BEGIN { delete @ENV{ qw( http_proxy HTTP_PROXY PATH IFS CDPATH ENV BASH_ENV) }; }
-
-BEGIN {
-    eval 'use Test::Warn;';
-    plan skip_all => "Test::Warn required to test $0" if $@;
-    plan tests => 19;
-}
-
-BEGIN {
-    use_ok( 'WWW::Mechanize' );
-}
 
 my $mech = WWW::Mechanize->new( cookie_jar => undef );
 isa_ok( $mech, 'WWW::Mechanize' );
@@ -60,3 +52,5 @@ SPACE_PADDED: {
         );
     }
 }
+
+done_testing();
