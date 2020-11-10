@@ -2128,8 +2128,13 @@ sub click_button {
         }
     }
 
-    my %exclusive_options =
-      ( id => 1, input => 1, name => 1, number => 1, value => 1, );
+    my %exclusive_options = (
+        id     => 1,
+        input  => 1,
+        name   => 1,
+        number => 1,
+        value  => 1,
+    );
 
     my @present_exclusive_options = @exclusive_options{ keys %args };
 
