@@ -1,6 +1,6 @@
 Revision history for WWW::Mechanize
 
-{{$NEXT}}
+2.03      2020-11-10 14:47:04Z
     [FIXED]
     - Validate exclusive button selectors (GH#314) (Ferenc Erki)
 
