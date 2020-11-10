@@ -139,7 +139,7 @@ use Tie::RefHash;
 use HTTP::Request 1.30;
 use LWP::UserAgent 6.45;
 use HTML::Form 1.00;
-use HTML::TokeParser;
+use HTML::TokeParser ();
 use Scalar::Util qw(tainted);
 
 use base 'LWP::UserAgent';
