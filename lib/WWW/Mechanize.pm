@@ -146,7 +146,7 @@ use base 'LWP::UserAgent';
 
 our $HAS_ZLIB;
 BEGIN {
-    $HAS_ZLIB = eval {use Compress::Zlib (); 1;};
+    $HAS_ZLIB = eval {require Compress::Zlib; 1;};
 }
 
 =head1 CONSTRUCTOR AND STARTUP
