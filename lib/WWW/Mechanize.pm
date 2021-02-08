@@ -893,7 +893,7 @@ sub _check_unhandled_params {
 =head2 $mech->links()
 
 Lists all the links on the current page.  Each link is a
-WWW::Mechanize::Link object. In list context, returns a list of all
+L<WWW::Mechanize::Link> object. In list context, returns a list of all
 links.  In scalar context, returns an array reference of all links.
 
 =cut
@@ -1285,7 +1285,7 @@ sub find_all_submits {
 =head2 $mech->images
 
 Lists all the images on the current page.  Each image is a
-WWW::Mechanize::Image object. In list context, returns a list of all
+L<WWW::Mechanize::Image> object. In list context, returns a list of all
 images.  In scalar context, returns an array reference of all images.
 
 =cut
