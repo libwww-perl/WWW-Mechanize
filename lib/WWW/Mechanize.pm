@@ -3553,8 +3553,6 @@ Just like Mech, but using Microsoft Internet Explorer to do the work.
 
 =item * L<WWW::Bugzilla>
 
-=item * L<WWW::CheckSite>
-
 =item * L<WWW::Google::Groups>
 
 =item * L<WWW::Hotmail>
