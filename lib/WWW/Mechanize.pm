@@ -1567,7 +1567,7 @@ sub form_name {
     return $self->form_with( name => $form );
 }
 
-=head2 $mech->form_id( $name )
+=head2 $mech->form_id( $id )
 
 Selects a form by ID.  If there is more than one form on the page
 with that ID, then the first one is used, and a warning is generated.
