@@ -7,11 +7,18 @@ $|++;
 my $d = HTTP::Daemon->new or die;
 print $d->url, "\n";
 
-$counter = 5;
+$counter = 6;
 while ($counter-- and my $c = $d->accept) {
     while (my $r = $c->get_request) {
-        my $ref = $r->headers->referer || "";
-        $c->send_response(HTTP::Response->new(200, "OK", undef, "Referer: '$ref'"));
+        my $location = ($r->uri->path || "/");
+        if ($location eq '/quit_server') {
+            $c->send_response(HTTP::Response->new(200, "OK", [Connection => 'close'], "quit"));
+            $counter = 0;
+            last;
+        } else {
+            my $ref = $r->headers->referer || "";
+            $c->send_response(HTTP::Response->new(200, "OK", undef, "Referer: '$ref'"));
+        }
     }
     $c->close;
     undef($c);
