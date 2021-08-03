@@ -429,10 +429,10 @@ internals is deprecated and subject to change in the future.
 C<get()> is a well-behaved overloaded version of the method in
 L<LWP::UserAgent>.  This lets you do things like
 
-    $mech->get( $uri, ':content_file' => $tempfile );
+    $mech->get( $uri, ':content_file' => $filename );
 
 and you can rest assured that the params will get filtered down
-appropriately.
+appropriately. See L<LWP::UserAgent/get> for more details.
 
 B<NOTE:> Because C<:content_file> causes the page contents to be
 stored in a file instead of the response object, some Mech functions
