@@ -1,6 +1,6 @@
 Revision history for WWW::Mechanize
 
-{{$NEXT}}
+2.04      2021-08-06 12:28:31Z
     [ENHANCEMENTS]
     - Add a head() method to allow relative URLs (GH#321) (Julien Fiegehenn)
 

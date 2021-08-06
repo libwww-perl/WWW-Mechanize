@@ -2,11 +2,9 @@
 
 WWW::Mechanize - Handy web browsing in a Perl object
 
-[![Build Status](https://travis-ci.org/libwww-perl/WWW-Mechanize.png?branch=master)](https://travis-ci.org/libwww-perl/WWW-Mechanize)
-
 # VERSION
 
-version 2.03
+version 2.04
 
 # SYNOPSIS
 
@@ -284,10 +282,10 @@ internals is deprecated and subject to change in the future.
 `get()` is a well-behaved overloaded version of the method in
 [LWP::UserAgent](https://metacpan.org/pod/LWP%3A%3AUserAgent).  This lets you do things like
 
-    $mech->get( $uri, ':content_file' => $tempfile );
+    $mech->get( $uri, ':content_file' => $filename );
 
 and you can rest assured that the params will get filtered down
-appropriately.
+appropriately. See ["get" in LWP::UserAgent](https://metacpan.org/pod/LWP%3A%3AUserAgent#get) for more details.
 
 **NOTE:** Because `:content_file` causes the page contents to be
 stored in a file instead of the response object, some Mech functions
@@ -295,13 +293,22 @@ that expect it to be there won't work as expected. Use with caution.
 
 ## $mech->post( $uri, content => $content )
 
-POSTs _$content_ to $uri.  Returns an [HTTP::Response](https://metacpan.org/pod/HTTP%3A%3AResponse) object.
+POSTs _$content_ to _$uri_.  Returns an [HTTP::Response](https://metacpan.org/pod/HTTP%3A%3AResponse) object.
 _$uri_ can be a well-formed URI string, a [URI](https://metacpan.org/pod/URI) object, or a
 [WWW::Mechanize::Link](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3ALink) object.
 
 ## $mech->put( $uri, content => $content )
 
-PUTs _$content_ to $uri.  Returns an [HTTP::Response](https://metacpan.org/pod/HTTP%3A%3AResponse) object.
+PUTs _$content_ to _$uri_.  Returns an [HTTP::Response](https://metacpan.org/pod/HTTP%3A%3AResponse) object.
+_$uri_ can be a well-formed URI string, a [URI](https://metacpan.org/pod/URI) object, or a
+[WWW::Mechanize::Link](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3ALink) object.
+
+    my $res = $mech->head( $uri );
+    my $res = $mech->head( $uri , $field_name => $value, ... );
+
+## $mech->head ($uri )
+
+Performs a HEAD request to _$uri_. Returns an [HTTP::Response](https://metacpan.org/pod/HTTP%3A%3AResponse) object.
 _$uri_ can be a well-formed URI string, a [URI](https://metacpan.org/pod/URI) object, or a
 [WWW::Mechanize::Link](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3ALink) object.
 
@@ -477,7 +484,7 @@ repeatedly.
 ## $mech->links()
 
 Lists all the links on the current page.  Each link is a
-WWW::Mechanize::Link object. In list context, returns a list of all
+[WWW::Mechanize::Link](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3ALink) object. In list context, returns a list of all
 links.  In scalar context, returns an array reference of all links.
 
 ## $mech->follow\_link(...)
@@ -665,7 +672,7 @@ ignoring other types of input controls like text and checkboxes.
 ## $mech->images
 
 Lists all the images on the current page.  Each image is a
-WWW::Mechanize::Image object. In list context, returns a list of all
+[WWW::Mechanize::Image](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3AImage) object. In list context, returns a list of all
 images.  In scalar context, returns an array reference of all images.
 
 ## $mech->find\_image()
@@ -819,7 +826,7 @@ set internally for later use with Mech's form methods such as
 
 Returns undef if no form is found.
 
-## $mech->form\_id( $name )
+## $mech->form\_id( $id )
 
 Selects a form by ID.  If there is more than one form on the page
 with that ID, then the first one is used, and a warning is generated.
@@ -1610,7 +1617,6 @@ Here are modules that use or subclass Mechanize.  Let me know of any others:
     Just like Mech, but using Microsoft Internet Explorer to do the work.
 
 - [WWW::Bugzilla](https://metacpan.org/pod/WWW%3A%3ABugzilla)
-- [WWW::CheckSite](https://metacpan.org/pod/WWW%3A%3ACheckSite)
 - [WWW::Google::Groups](https://metacpan.org/pod/WWW%3A%3AGoogle%3A%3AGroups)
 - [WWW::Hotmail](https://metacpan.org/pod/WWW%3A%3AHotmail)
 - [WWW::Mechanize::Cached](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3ACached)
