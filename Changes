@@ -1,6 +1,8 @@
 Revision history for WWW::Mechanize
 
 {{$NEXT}}
+    - Update docs for protocols_allowed and protocols_forbidden (GH#323) (Olaf
+      Alders)
 
 2.04      2021-08-06 12:28:31Z
     [ENHANCEMENTS]
