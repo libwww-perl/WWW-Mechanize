@@ -3411,8 +3411,8 @@ L<Mozilla::PublicSuffix> is installed.
 
 =item protocols_allowed
 
-This option is inherited directly from L<LWP::UserAgent>.  It allows you to
-whitelist the protocols you're willing to allow.
+This option is inherited directly from L<LWP::UserAgent>.  It may be used to
+allow arbitrary protocols.
 
     my $agent = WWW::Mechanize->new(
         protocols_allowed => [ 'http', 'https' ]
@@ -3423,8 +3423,8 @@ C<file:///etc/passwd>
 
 =item protocols_forbidden
 
-This option is also inherited directly from L<LWP::UserAgent>.  It allows you to
-blacklist the protocols you're unwilling to allow.
+This option is also inherited directly from L<LWP::UserAgent>.  It may be used
+to deny arbitrary protocols.
 
     my $agent = WWW::Mechanize->new(
         protocols_forbidden => [ 'file', 'mailto', 'ssh', ]
