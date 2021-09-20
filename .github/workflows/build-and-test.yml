@@ -16,7 +16,7 @@ jobs:
     name: Build distribution
     runs-on: ubuntu-latest
     container:
-      image: perldocker/perl-tester:5.32
+      image: perldocker/perl-tester:5.34
     steps:
       - uses: actions/checkout@v2
       - name: Run Tests
@@ -35,7 +35,7 @@ jobs:
     needs: build-job
     runs-on: ubuntu-latest
     container:
-      image: perldocker/perl-tester:5.32
+      image: perldocker/perl-tester:5.34
     steps:
       - uses: actions/checkout@v2 # codecov wants to be inside a Git repository
       - uses: actions/download-artifact@master
@@ -68,6 +68,7 @@ jobs:
           - "5.28"
           - "5.30"
           - "5.32"
+          - "5.34"
     steps:
       - uses: actions/checkout@v2
       - uses: actions/download-artifact@master
@@ -96,6 +97,7 @@ jobs:
           - "5.28"
           - "5.30"
           - "5.32"
+          - "5.34"
     steps:
       - name: Set Up Perl
         uses: shogo82148/actions-setup-perl@v1
@@ -128,6 +130,7 @@ jobs:
           - "5.26"
           - "5.28"
           - "5.30"
+          - "5.32"
     steps:
       - name: Set Up Perl
         uses: shogo82148/actions-setup-perl@v1
