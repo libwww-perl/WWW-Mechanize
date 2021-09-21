@@ -4,7 +4,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 # VERSION
 
-version 2.04
+version 2.05
 
 # SYNOPSIS
 
@@ -1472,8 +1472,8 @@ you can change in order to make your life easier.
 
 - protocols\_allowed
 
-    This option is inherited directly from [LWP::UserAgent](https://metacpan.org/pod/LWP%3A%3AUserAgent).  It allows you to
-    whitelist the protocols you're willing to allow.
+    This option is inherited directly from [LWP::UserAgent](https://metacpan.org/pod/LWP%3A%3AUserAgent).  It may be used to
+    allow arbitrary protocols.
 
         my $agent = WWW::Mechanize->new(
             protocols_allowed => [ 'http', 'https' ]
@@ -1484,8 +1484,8 @@ you can change in order to make your life easier.
 
 - protocols\_forbidden
 
-    This option is also inherited directly from [LWP::UserAgent](https://metacpan.org/pod/LWP%3A%3AUserAgent).  It allows you to
-    blacklist the protocols you're unwilling to allow.
+    This option is also inherited directly from [LWP::UserAgent](https://metacpan.org/pod/LWP%3A%3AUserAgent).  It may be used
+    to deny arbitrary protocols.
 
         my $agent = WWW::Mechanize->new(
             protocols_forbidden => [ 'file', 'mailto', 'ssh', ]
