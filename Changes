@@ -1,6 +1,8 @@
 Revision history for WWW::Mechanize
 
 {{$NEXT}}
+    [DOCUMENTATION]
+    - Document methods that don't work with :content_file (GH#219) (Julien Fiegehenn)
 
 2.05      2021-09-21 14:06:00Z
     - Update docs for protocols_allowed and protocols_forbidden (GH#323) (Olaf
