@@ -14,6 +14,7 @@ Revision history for WWW::Mechanize
 
     [DOCUMENTATION]
     - Document that form_id() accepts an id, not a name (GH#319) (Olaf Alders)
+    - Clarify documentation (GH#320) (Julien Fiegehenn)
 
 2.03      2020-11-10 14:47:04Z
     [FIXED]
@@ -110,8 +111,8 @@ Revision history for WWW::Mechanize
     - Fixed pod error as reported by CPANTS. (GH#264) (Mohammad S Anwar)
 
     [ENHANCEMENTS]
-    - Upgrade to HTML::TreeBuilder version 5 to get support for weak references in
-      HTML::Element (GH#251) (Julien Fiegehenn)
+    - Upgrade to HTML::TreeBuilder version 5 to get support for weak references
+      in HTML::Element (GH#251) (GH#262) (Julien Fiegehenn)
 
 1.89      2018-10-18 19:13:34Z
     [ENHANCEMENTS]
