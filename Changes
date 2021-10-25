@@ -1,6 +1,6 @@
 Revision history for WWW::Mechanize
 
-{{$NEXT}}
+2.06      2021-10-25 20:56:12Z
     [DOCUMENTATION]
     - Document methods that don't work with :content_file (GH#219) (Julien Fiegehenn)
 

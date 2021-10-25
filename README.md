@@ -4,7 +4,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 # VERSION
 
-version 2.05
+version 2.06
 
 # SYNOPSIS
 
@@ -290,6 +290,25 @@ appropriately. See ["get" in LWP::UserAgent](https://metacpan.org/pod/LWP%3A%3AU
 **NOTE:** Because `:content_file` causes the page contents to be
 stored in a file instead of the response object, some Mech functions
 that expect it to be there won't work as expected. Use with caution.
+
+Here is a non-complete list of methods that do not work as expected with
+`:content_file`:
+` [forms()](#mech-forms) `,
+` [current_form()](#mech-current_form) `,
+` [links()](#mech-links) `,
+` [title()](#mech-title) `,
+` [content(...)](#mech-content) `,
+` [text()](#mech-text) `,
+all [content-handling methods](#content-handling-methods),
+all [link methods](#link-methods),
+all [image methods](#image-methods),
+all [form methods](#form-methods),
+all [field methods](#field-methods),
+` [save_content(...)](#mech-save_content-filename-opts) `,
+` [dump_links(...)](#mech-dump_links-fh-absolute) `,
+` [dump_images(...)](#mech-dump_images-fh-absolute) `,
+` [dump_forms(...)](#mech-dump_forms-fh) `,
+` [dump_text(...)](#mech-dump_text-fh) `
 
 ## $mech->post( $uri, content => $content )
 
