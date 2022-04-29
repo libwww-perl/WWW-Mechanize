@@ -8,7 +8,7 @@ use WWW::Mechanize ();
 
 BEGIN { delete @ENV{ qw( http_proxy HTTP_PROXY PATH IFS CDPATH ENV BASH_ENV) }; }
 
-my $mech = WWW::Mechanize->new( cookie_jar => undef );
+my $mech = WWW::Mechanize->new( cookie_jar => undef, max_redirect => 0 );
 isa_ok( $mech, 'WWW::Mechanize' );
 
 my $uri = URI::file->new_abs( 't/find_link.html' )->as_string;
