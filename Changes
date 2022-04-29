@@ -1,6 +1,7 @@
 Revision history for WWW::Mechanize
 
 {{$NEXT}}
+    [FIXED]
     - Don't follow redirects in some tests (GH#326) (Olaf Alders)
 
 2.06      2021-10-25 20:56:12Z
@@ -8,6 +9,7 @@ Revision history for WWW::Mechanize
     - Document methods that don't work with :content_file (GH#219) (Julien Fiegehenn)
 
 2.05      2021-09-21 14:06:00Z
+    [DOCUMENTATION]
     - Update docs for protocols_allowed and protocols_forbidden (GH#323) (Olaf
       Alders)
 
