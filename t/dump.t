@@ -2,11 +2,12 @@
 
 use warnings;
 use strict;
+
+use File::Spec ();
+use File::Temp qw( tempdir );
 use Test::More 0.96 tests => 7;
-use Test::Output;
-use URI::file;
-use File::Temp qw/tempdir/;
-use File::Spec;
+use Test::Output qw( stdout_is stdout_like );
+use URI::file ();
 
 BEGIN {
     use_ok( 'WWW::Mechanize' );
