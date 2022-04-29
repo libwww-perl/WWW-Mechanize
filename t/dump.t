@@ -154,7 +154,7 @@ sub dump_tests {
 
 sub create_mech {
 	my $filepath = shift;
-	my $mech     = WWW::Mechanize->new( cookie_jar => undef );
+	my $mech     = WWW::Mechanize->new( cookie_jar => undef, max_redirect => 0 );
 	isa_ok( $mech, 'WWW::Mechanize' );
 	my $uri = URI::file->new($filepath)->abs(URI::file->cwd)->as_string;
 

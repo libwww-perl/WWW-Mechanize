@@ -1,6 +1,7 @@
 Revision history for WWW::Mechanize
 
 {{$NEXT}}
+    - Don't follow redirects in some tests (GH#326) (Olaf Alders)
 
 2.06      2021-10-25 20:56:12Z
     [DOCUMENTATION]
