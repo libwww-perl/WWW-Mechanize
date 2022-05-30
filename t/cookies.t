@@ -14,7 +14,7 @@ else {
 }
 
 use WWW::Mechanize;
-use URI::Escape qw( uri_unescape );
+use URI::Escape qw( uri_unescape uri_escape );
 
 use lib 't/';
 use TestServer;
@@ -22,36 +22,45 @@ use TestServer;
 my $ncookies = 0;
 
 sub send_cookies {
-    my $cgi = shift;
-    return if !ref $cgi;
+    my $req = shift;
 
     ++$ncookies;
+    my $cvalue = uri_escape("Cookie #$ncookies");
 
-    print
-        $cgi->header(
-            -cookie => $cgi->cookie(
-                -name    => 'my_cookie',
-                -value   => "Cookie #$ncookies",
-                -domain  => '127.0.0.1',
-                -path    => '/',
-                -expires => '+1h',
-                -secure  => 0,
-            )
-        ),
-        $cgi->start_html( -title => "Home of Cookie #$ncookies" ),
-        $cgi->h1( "Here is Cookie #$ncookies" ),
-        $cgi->end_html;
+    HTTP::Response->new(
+        200, 'OK',
+        [
+            'Content-Type' => 'text/html',
+            'Set-Cookie' => "my_cookie=$cvalue; Path=/; Domain=127.0.0.1; Expires=+1h;",
+        ],
+        <<"END_HTML",
+<html>
+<head>
+    <title>Home of Cookie #$ncookies</title>
+</head>
+<body>
+    <h1>Here is Cookie #$ncookies</h1>
+</body>
+</html>
+END_HTML
+    );
 }
 
 sub nosend_cookies {
-    my $cgi = shift;
-    return if !ref $cgi;
-
-    print
-        $cgi->header(),
-        $cgi->start_html( -title => 'No cookies sent' ),
-        $cgi->h1( 'No cookies sent' ),
-        $cgi->end_html;
+    HTTP::Response->new(
+        200, 'OK',
+        [ 'Content-Type' => 'text/html' ],
+        <<"END_HTML",
+<html>
+<head>
+    <title>No cookies sent</title>
+</head>
+<body>
+    <h1>No cookies sent</h1>
+</body>
+</html>
+END_HTML
+    );
 }
 
 my $server = TestServer->new();
@@ -63,8 +72,8 @@ my $pid = $server->background();
 
 my $root             = $server->root;
 
-my $cookiepage_url   = "$root/feedme";
-my $nocookiepage_url = "$root/nocookie";
+my $cookiepage_url   = $root . 'feedme';
+my $nocookiepage_url = $root . 'nocookie';
 
 my $mech = WWW::Mechanize->new( autocheck => 0 );
 isa_ok( $mech, 'WWW::Mechanize' );

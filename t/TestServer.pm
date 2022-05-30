@@ -1,56 +1,63 @@
 package TestServer;
-
-use warnings;
 use strict;
+use warnings;
 
-use Test::More;
-use HTTP::Server::Simple::CGI;
-use base qw( HTTP::Server::Simple::CGI );
-
-my $dispatch_table = {};
-
-=head1 OVERLOADED METHODS
-
-=cut
-
-our $pid;
+use HTTP::Daemon;
+use File::Spec;
 
 sub new {
-    die 'An instance of TestServer has already been started.' if $pid;
-
     my $class = shift;
     my $port  = shift;
 
-    if ( !$port ) {
-        $port = int(rand(20000)) + 20000;
-    }
-    my $self = $class->SUPER::new( $port );
-
-    my $root = $self->root;
+    my $self = bless {
+        port => $port,
+    }, $class;
 
     return $self;
+}
+
+sub start {
+    my $self = shift;
+    die "Already started!"
+        if $self->{daemon};
+
+    $self->{daemon} = HTTP::Daemon->new(
+        LocalAddr => $self->hostname,
+        ( $self->{port} ? ( port => $self->{port} ) : () ),
+    );
+
+    return $self->{daemon};
 }
 
 sub run {
     my $self = shift;
 
-    $pid = $self->SUPER::run(@_);
+    $self->start
+        if !$self->{daemon};
 
-    $SIG{__DIE__} = \&stop;
+    my $d = $self->{daemon};
 
-    return $pid;
+    while (my $c = $d->accept) {
+        while (my $r = $c->get_request) {
+            $self->handle_request($c, $r);
+        }
+        $c->close;
+        undef($c);
+    }
+
+    return;
 }
 
 sub handle_request {
     my $self = shift;
-    my $cgi  = shift;
+    my ($conn, $req) = @_;
 
-    my $path = $cgi->path_info();
-    my $handler = $dispatch_table->{$path};
+    my $path = $req->uri->path;
+    my $dispatch_table = $self->{dispatch_table};
 
-    if (ref($handler) eq "CODE") {
-        print "HTTP/1.0 200 OK\r\n";
-        $handler->($cgi);
+    if (my $handler = $dispatch_table->{$path}) {
+        my $res = $handler->($req);
+        $conn->send_response($res);
     }
     else {
         my $file = $path;
@@ -60,50 +67,60 @@ sub handle_request {
         $file =~ s/\s+//g;
 
         my $filename = "t/html/$file";
-        if ( -r $filename ) {
-            if (my $response=do { local (@ARGV, $/) = $filename; <> }) {
-                print "HTTP/1.0 200 OK\r\n";
-                print "Content-Type: text/html\r\nContent-Length: ", length($response), "\r\n\r\n", $response;
-                return;
-            }
+        if ( open my $fh, '<', $filename ) {
+            my $content = do { local $/; <$fh> };
+            print { $conn } "HTTP/1.0 200 OK\r\n";
+            print { $conn } "Content-Type: text/html\r\nContent-Length: ", length($content), "\r\n\r\n", $content;
+            return;
         }
         else {
-            print "HTTP/1.0 404 Not found\r\n";
-            print
-            $cgi->header,
-            $cgi->start_html('Not found'),
-            $cgi->h1('Not found'),
-            $cgi->end_html;
+            print { $conn } "HTTP/1.0 404 Not found\r\n";
+            print { $conn } "Content-Type: text/plain\r\n";
+            print { $conn } "\r\n";
+            print { $conn } "Not found\r\n";
+            return;
         }
     }
 }
 
-=head1 METHODS UNIQUE TO TestServer
-
-=cut
-
 sub set_dispatch {
     my $self = shift;
-    $dispatch_table = shift;
-
-    return;
+    $self->{dispatch_table} = shift;
+    return $self;
 }
 
 sub background {
     my $self = shift;
 
-    $pid = $self->SUPER::background()
-        or Carp::confess( q{Can't start the test server} );
+    my $pid = open my $fh, '-|';
 
-    sleep 1; # background() may come back prematurely, so give it a second to fire up
+    if (!defined $pid) {
+        die "Can't start the test server";
+    }
+    elsif (!$pid) {
+        my $daemon = $self->start;
+        print "TestServer started: " . $daemon->url . "\n";
+        open STDIN, '<', File::Spec->devnull;
+        open STDOUT, '>', File::Spec->devnull;
+        $self->run; # should never return
+        exit 1;
+    }
 
-    my $root = $self->root;
+    $self->{pid} = $pid;
 
-    diag( "Test server $root as PID $pid" );
+    my $status_line = <$fh>;
+    chomp $status_line;
+
+    if ($status_line =~ /\ATestServer started: (.*)\z/) {
+        $self->{root} = $1;
+        $self->{child_fh} = $fh;
+    }
+    else {
+        die "Error starting test server";
+    }
 
     return $pid;
 }
-
 
 sub hostname {
     my $self = shift;
@@ -113,19 +130,25 @@ sub hostname {
 
 sub root {
     my $self = shift;
-    my $port = $self->port;
-    my $hostname = $self->hostname;
-
-    return "http://$hostname:$port";
+    $self->{root};
 }
 
 sub stop {
-    if ( $pid ) {
-        kill( 9, $pid ) unless $^S;
-        undef $pid;
-    }
+    my $self = shift;
 
+    if (my $pid = delete $self->{pid}) {
+        kill 9, $pid;
+        waitpid $pid, 0;
+    }
+    if (my $fh = delete $self->{child_fh}) {
+        close $fh;
+    }
     return;
+}
+
+sub DESTROY {
+    my $self = shift;
+    $self->stop;
 }
 
 1;
