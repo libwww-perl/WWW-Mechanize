@@ -1,5 +1,7 @@
 Revision history for WWW::Mechanize
 
+{{$NEXT}}
+
 2.08      2022-05-30 17:32:33Z
     [TESTS]
     - Drop CGI and HTTP::Server::Simple::CGI test dependencies (GH#327) (Graham
