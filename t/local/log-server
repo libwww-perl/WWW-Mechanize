@@ -1,7 +1,8 @@
 # Thanks to merlyn for nudging me and giving me this snippet!
 use strict;
 use HTTP::Daemon ();
-use CGI 4.08;
+use URI;
+use URI::QueryParam;
 use Getopt::Long;
 
 $|++;
@@ -93,18 +94,18 @@ SERVERLOOP: {
                 "encoding $encoding"
             );
         } else {
-            my $q = CGI->new($r->uri->query);
+            my $uri = $r->uri;
 
             # Make sticky form fields
             my ($query,$session,%cat);
-            $query = defined $q->param('query') ? $q->param('query') : "(empty)";
-            $session = defined $q->param('session') ? $q->param('session') : 1;
-            %cat = map { $_ => 1 } (defined $q->param('cat') ? $q->multi_param('cat') : qw( cat_foo cat_bar ));
+            $query = defined $uri->query_param('query') ? $uri->query_param('query') : "(empty)";
+            $session = defined $uri->query_param('session') ? $uri->query_param('session') : 1;
+            %cat = map { $_ => 1 } (defined $uri->query_param('cat') ? $uri->query_param('cat') : qw( cat_foo cat_bar ));
             my @categories = map { $cat{$_} ? "checked" : "" } qw( cat_foo cat_bar cat_baz );
             (my $h = $r->headers->{host}) =~ s/:\d+//;
             my $rbody = sprintf $body,$location,$session,$query,@categories;
             $res = HTTP::Response->new(200, "OK", [
-                  "Set-Cookie" => $q->cookie(-name => 'log-server',-value=>'shazam2', -discard=>1,),
+                  "Set-Cookie" => 'log-server=shazam2; Path=/',
                   'Cache-Control' => 'no-cache',
                   'Pragma' => 'no-cache',
                   'Max-Age' => 0,
@@ -113,7 +114,7 @@ SERVERLOOP: {
               ], $rbody);
 
             $res->content_type(
-                $q->param('xml') ? 'application/xhtml+xml' : 'text/html'
+                $uri->query_param('xml') ? 'application/xhtml+xml' : 'text/html'
             );
 
             debug "Request " . ($r->uri->path || "/");
