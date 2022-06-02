@@ -85,7 +85,8 @@ can be used to add the headers that you need.
 =head2 Which modules work like Mechanize and have JavaScript support?
 
 In no particular order: L<Gtk2::WebKit::Mechanize>, L<Win32::IE::Mechanize>,
-L<WWW::Mechanize::Firefox>, L<WWW::Scripter>, L<WWW::Selenium>
+L<WWW::Mechanize::Firefox>, L<WWW::Mechanize::Chrome>, L<WWW::Scripter>,
+L<WWW::Selenium>
 
 =head1 How do I do X?
 
@@ -164,8 +165,8 @@ them with
 =head2 How do I get a list of HTTP headers and their values?
 
 All L<HTTP::Headers> methods work on a L<HTTP::Response> object which is
-returned by the I<get()>, I<reload()>, I<response()/res()>, I<click()>,
-I<submit_form()>, and I<request()> methods.
+returned by the C<get()>, C<reload()>, C<response()/res()>, C<click()>,
+C<submit_form()>, and C<request()> methods.
 
     my $mech = WWW::Mechanize->new( autocheck => 1 );
     $mech->get( 'http://my.site.com' );

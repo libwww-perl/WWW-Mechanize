@@ -1,6 +1,8 @@
 Revision history for WWW::Mechanize
 
 {{$NEXT}}
+    [DOCUMENTATION]
+    - Various POD fixes (Julien Fiegehenn)
 
 2.08      2022-05-30 17:32:33Z
     [TESTS]
