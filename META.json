@@ -119,15 +119,15 @@
    "provides" : {
       "WWW::Mechanize" : {
          "file" : "lib/WWW/Mechanize.pm",
-         "version" : "2.08"
+         "version" : "2.09"
       },
       "WWW::Mechanize::Image" : {
          "file" : "lib/WWW/Mechanize/Image.pm",
-         "version" : "2.08"
+         "version" : "2.09"
       },
       "WWW::Mechanize::Link" : {
          "file" : "lib/WWW/Mechanize/Link.pm",
-         "version" : "2.08"
+         "version" : "2.09"
       }
    },
    "release_status" : "stable",
@@ -142,7 +142,7 @@
          "web" : "https://github.com/libwww-perl/WWW-Mechanize"
       }
    },
-   "version" : "2.08",
+   "version" : "2.09",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.036000"
@@ -656,7 +656,7 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v2.08",
+                  "tag" : "v2.09",
                   "tag_format" : "v%V",
                   "tag_message" : "v%V"
                },

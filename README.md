@@ -4,7 +4,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 # VERSION
 
-version 2.08
+version 2.09
 
 # SYNOPSIS
 
@@ -83,7 +83,8 @@ traverse.
     $mech->back();
 
 If you want finer control over your page fetching, you can use
-these methods. `follow_link` and `submit_form` are just high
+these methods. `[follow_link()](#mech-follow_link)`
+and `[submit_form()](#mech-submit_form)` are just high
 level wrappers around them.
 
     $mech->find_link( n => $number );
@@ -237,7 +238,7 @@ on to the agent's `requests_redirectable` list (see also
 ## $mech->agent\_alias( $alias )
 
 Sets the user agent string to the expanded version from a table of actual user strings.
-_$alias_ can be one of the following:
+`$alias` can be one of the following:
 
 - Windows IE 6
 - Windows Mozilla
@@ -254,7 +255,9 @@ sets your User-Agent to
 
     Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1)
 
-The list of valid aliases can be returned from `known_agent_aliases()`.  The current list is:
+The list of valid aliases can be returned from
+`[known_agent_aliases()](#mech-known_agent_aliases)`.
+The current list is:
 
 - Windows IE 6
 - Windows Mozilla
@@ -263,16 +266,21 @@ The list of valid aliases can be returned from `known_agent_aliases()`.  The cur
 - Linux Mozilla
 - Linux Konqueror
 
-## known\_agent\_aliases()
+## $mech->known\_agent\_aliases()
 
 Returns a list of all the agent aliases that Mech knows about.
+This can also be called as a package or class method.
+
+    @aliases = WWW::Mechanize::known_agent_aliases();
+    @aliases = WWW::Mechanize->known_agent_aliases();
+    @aliases = $mech->known_agent_aliases();
 
 # PAGE-FETCHING METHODS
 
 ## $mech->get( $uri )
 
 Given a URL/URI, fetches it.  Returns an [HTTP::Response](https://metacpan.org/pod/HTTP%3A%3AResponse) object.
-_$uri_ can be a well-formed URL string, a [URI](https://metacpan.org/pod/URI) object, or a
+`$uri` can be a well-formed URL string, a [URI](https://metacpan.org/pod/URI) object, or a
 [WWW::Mechanize::Link](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3ALink) object.
 
 The results are stored internally in the agent object, but you don't
@@ -312,14 +320,14 @@ all [field methods](#field-methods),
 
 ## $mech->post( $uri, content => $content )
 
-POSTs _$content_ to _$uri_.  Returns an [HTTP::Response](https://metacpan.org/pod/HTTP%3A%3AResponse) object.
-_$uri_ can be a well-formed URI string, a [URI](https://metacpan.org/pod/URI) object, or a
+POSTs `$content` to `$uri`.  Returns an [HTTP::Response](https://metacpan.org/pod/HTTP%3A%3AResponse) object.
+`$uri` can be a well-formed URI string, a [URI](https://metacpan.org/pod/URI) object, or a
 [WWW::Mechanize::Link](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3ALink) object.
 
 ## $mech->put( $uri, content => $content )
 
-PUTs _$content_ to _$uri_.  Returns an [HTTP::Response](https://metacpan.org/pod/HTTP%3A%3AResponse) object.
-_$uri_ can be a well-formed URI string, a [URI](https://metacpan.org/pod/URI) object, or a
+PUTs `$content` to `$uri`.  Returns an [HTTP::Response](https://metacpan.org/pod/HTTP%3A%3AResponse) object.
+`$uri` can be a well-formed URI string, a [URI](https://metacpan.org/pod/URI) object, or a
 [WWW::Mechanize::Link](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3ALink) object.
 
     my $res = $mech->head( $uri );
@@ -327,8 +335,8 @@ _$uri_ can be a well-formed URI string, a [URI](https://metacpan.org/pod/URI) ob
 
 ## $mech->head ($uri )
 
-Performs a HEAD request to _$uri_. Returns an [HTTP::Response](https://metacpan.org/pod/HTTP%3A%3AResponse) object.
-_$uri_ can be a well-formed URI string, a [URI](https://metacpan.org/pod/URI) object, or a
+Performs a HEAD request to `$uri`. Returns an [HTTP::Response](https://metacpan.org/pod/HTTP%3A%3AResponse) object.
+`$uri` can be a well-formed URI string, a [URI](https://metacpan.org/pod/URI) object, or a
 [WWW::Mechanize::Link](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3ALink) object.
 
 ## $mech->reload()
@@ -389,7 +397,7 @@ to the URI itself.
 
 Return the current response as an [HTTP::Response](https://metacpan.org/pod/HTTP%3A%3AResponse) object.
 
-Synonym for `$mech->response()`
+Synonym for `$mech->response()`.
 
 ## $mech->status()
 
@@ -447,15 +455,15 @@ Note that you can also use [is\_redirect](https://metacpan.org/pod/HTTP%3A%3ARes
 Returns the content that the mech uses internally for the last page
 fetched. Ordinarily this is the same as
 `$mech->response()->decoded_content()`,
-but this may differ for HTML documents if [update\_html](#mech-update_html-html) is
+but this may differ for HTML documents if `[update_html](#mech-update_html-html)` is
 overloaded (in which case the value passed to the base-class
 implementation of same will be returned), and/or extra named arguments
-are passed to _content()_:
+are passed to `content()`:
 
 - _$mech->content( format => 'text' )_
 
     Returns a text-only version of the page, with all HTML markup
-    stripped. This feature requires _HTML::TreeBuilder_ version 5 or higher
+    stripped. This feature requires [HTML::TreeBuilder](https://metacpan.org/pod/HTML%3A%3ATreeBuilder) version 5 or higher
     to be installed, or a fatal error will be thrown. This works only if
     the contents are HTML.
 
@@ -463,7 +471,7 @@ are passed to _content()_:
 
     Returns the HTML document, modified to contain a
     `<base href="$base_href">` mark-up in the header.
-    _$base\_href_ is `$mech->base()` if not specified. This is
+    `$base_href` is `$mech->base()` if not specified. This is
     handy to pass the HTML to e.g. [HTML::Display](https://metacpan.org/pod/HTML%3A%3ADisplay). This works only if
     the contents are HTML.
 
@@ -547,12 +555,13 @@ If the page has no links, or the specified link couldn't be found, returns
 
 Finds a link in the currently fetched page. It returns a
 [WWW::Mechanize::Link](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3ALink) object which describes the link.  (You'll
-probably be most interested in the `url()` property.)  If it fails
-to find a link it returns undef.
+probably be most interested in the
+`[url()](https://metacpan.org/pod/%22WWW%3A%3AMechanize%3A%3ALink#link-url)` property.)
+If it fails to find a link it returns `undef`.
 
 You can take the URL part and pass it to the `get()` method.  If
-that's your plan, you might as well use the `follow_link()` method
-directly, since it does the `get()` for you automatically.
+that's your plan, you might as well use the `[follow_link()](#mech-follow_link)`
+method directly, since it does the `get()` for you automatically.
 
 Note that `<FRAME SRC="...">` tags are parsed out of the HTML and
 treated as links so this method works with them.
@@ -629,7 +638,8 @@ text of "News" and with "cnn.com" in the URL, use:
     $mech->find_link( text => 'News', url_regex => qr/cnn\.com/ );
 
 The return value is a reference to an array containing a
-[WWW::Mechanize::Link](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3ALink) object for every link in `$self->content`.
+[WWW::Mechanize::Link](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3ALink) object for every link in
+`[$self->content](#mech-content)`.
 
 The links come from the following:
 
@@ -655,7 +665,7 @@ page.
 
 ## $mech->find\_all\_inputs( ... criteria ... )
 
-find\_all\_inputs() returns an array of all the input controls in the
+`find_all_inputs()` returns an array of all the input controls in the
 current form whose properties match all of the regexes passed in.
 The controls returned are all descended from HTML::Form::Input.
 See ["INPUTS" in HTML::Form](https://metacpan.org/pod/HTML%3A%3AForm#INPUTS) for details.
@@ -682,7 +692,8 @@ You may use a regex or a literal string:
 
 ## $mech->find\_all\_submits( ... criteria ... )
 
-`find_all_submits()` does the same thing as `find_all_inputs()`
+`find_all_submits()` does the same thing as
+`[find_all_inputs()](#mech-find_all_inputs-criteria)`
 except that it only returns controls that are submit controls,
 ignoring other types of input controls like text and checkboxes.
 
@@ -788,7 +799,8 @@ ALT text of "News" and with "cnn.com" in the URL, use:
     $mech->find_image( image => 'News', url_regex => qr/cnn\.com/ );
 
 The return value is a reference to an array containing a
-[WWW::Mechanize::Image](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3AImage) object for every image in `$self->content`.
+[WWW::Mechanize::Image](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3AImage) object for every image in
+`[$mech->content](#mech-content)`.
 
 ## $mech->find\_all\_images( ... )
 
@@ -918,7 +930,7 @@ This applies to the current form (as set by the
 `[form_number()](#mech-form_number-number)`
 method or defaulting to the first form on the page).
 
-The optional _$number_ parameter is used to distinguish between two fields
+The optional `$number` parameter is used to distinguish between two fields
 with the same name.  The fields are numbered from 1.
 
 ## $mech->select($name, $value)
@@ -1011,7 +1023,7 @@ Causes the checkbox to be unticked.  Shorthand for
 Given the name of a field, return its value. This applies to the current
 form.
 
-The optional _$number_ parameter is used to distinguish between two fields
+The optional `$number` parameter is used to distinguish between two fields
 with the same name.  The fields are numbered from 1.
 
 If the field is of type file (file upload field), the value is always
@@ -1057,7 +1069,7 @@ Dies if no button is found.
 
 - `input => $inputobject`
 
-    Clicks on the button referenced by $inputobject, an instance of
+    Clicks on the button referenced by `$inputobject`, an instance of
     [HTML::Form::SubmitInput](https://metacpan.org/pod/HTML%3A%3AForm%3A%3ASubmitInput) obtained e.g. from
 
         $mech->current_form()->find_input( undef, 'submit' )
@@ -1120,7 +1132,7 @@ are a list of key/value pairs, all of which are optional.
 - `form_id => ID`
 
     Selects the form with ID _ID_ (calls
-    `[form_id()](#mech-form_id-name)`)
+    `[form_id()](#mech-form_id-id)`)
 
 - `button => button`
 
@@ -1201,15 +1213,15 @@ Allows you to suppress warnings to the screen.
 Get or set the page stack depth. Use this if you're doing a lot of page
 scraping and running out of memory.
 
-A value of 0 means "no history at all."  By default, the max stack depth
+A value of `0` means "no history at all."  By default, the max stack depth
 is humongously large, effectively keeping all history.
 
 ## $mech->save\_content( $filename, %opts )
 
-Dumps the contents of `$mech->content` into _$filename_.
-_$filename_ will be overwritten.  Dies if there are any errors.
+Dumps the contents of `[$mech->content](#mech-content)` into `$filename`.
+`$filename` will be overwritten.  Dies if there are any errors.
 
-If the content type does not begin with "text/", then the content
+If the content type does not begin with `"text/"`, then the content
 is saved in binary mode (i.e. `binmode()` is set on the output
 filehandle).
 
@@ -1227,7 +1239,7 @@ Additional arguments can be passed as _key_/_value_ pairs:
 
 - _$mech->save\_content( $filename, binmode => $binmode )_
 
-    Filehandle is set to binary mode. If `$binmode` begins with ':', it is
+    Filehandle is set to binary mode. If `$binmode` begins with `':'`, it is
     passed as a parameter to `binmode`:
 
         binmode $fh, $binmode;
@@ -1238,7 +1250,7 @@ Additional arguments can be passed as _key_/_value_ pairs:
 
 - _all other arguments_
 
-    are passed as-is to `$mech->content(%opts)`. In particular,
+    are passed as-is to `[$mech->content(%opts)](#mech-content)`. In particular,
     `decoded_by_headers` might come handy if you want to revert the effect
     of line compression performed by the web server but without further
     interpreting the contents (e.g. decoding it according to the charset).
@@ -1246,33 +1258,33 @@ Additional arguments can be passed as _key_/_value_ pairs:
 ## $mech->dump\_headers( \[$fh\] )
 
 Prints a dump of the HTTP response headers for the most recent
-response.  If _$fh_ is not specified or is undef, it dumps to
+response.  If `$fh` is not specified or is `undef`, it dumps to
 STDOUT.
 
-Unlike the rest of the dump\_\* methods, $fh can be a scalar. It
+Unlike the rest of the `dump_*` methods, `$fh` can be a scalar. It
 will be used as a file name.
 
 ## $mech->dump\_links( \[\[$fh\], $absolute\] )
 
-Prints a dump of the links on the current page to _$fh_.  If _$fh_
-is not specified or is undef, it dumps to STDOUT.
+Prints a dump of the links on the current page to `$fh`.  If `$fh`
+is not specified or is `undef`, it dumps to STDOUT.
 
-If _$absolute_ is true, links displayed are absolute, not relative.
+If `$absolute` is true, links displayed are absolute, not relative.
 
 ## $mech->dump\_images( \[\[$fh\], $absolute\] )
 
-Prints a dump of the images on the current page to _$fh_.  If _$fh_
-is not specified or is undef, it dumps to STDOUT.
+Prints a dump of the images on the current page to `$fh`.  If `$fh`
+is not specified or is `undef`, it dumps to STDOUT.
 
-If _$absolute_ is true, links displayed are absolute, not relative.
+If `$absolute` is true, links displayed are absolute, not relative.
 
 The output will include empty lines for images that have no `src` attribute
-and therefore no `<-`url>>.
+and therefore no URL.
 
 ## $mech->dump\_forms( \[$fh\] )
 
-Prints a dump of the forms on the current page to _$fh_.  If _$fh_
-is not specified or is undef, it dumps to STDOUT. Running the following:
+Prints a dump of the forms on the current page to `$fh`.  If `$fh`
+is not specified or is `undef`, it dumps to STDOUT. Running the following:
 
     my $mech = WWW::Mechanize->new();
     $mech->get("https://www.google.com/");
@@ -1293,8 +1305,8 @@ will print:
 
 ## $mech->dump\_text( \[$fh\] )
 
-Prints a dump of the text on the current page to _$fh_.  If _$fh_
-is not specified or is undef, it dumps to STDOUT.
+Prints a dump of the text on the current page to `$fh`.  If `$fh`
+is not specified or is `undef`, it dumps to STDOUT.
 
 # OVERRIDDEN LWP::UserAgent METHODS
 
@@ -1337,7 +1349,7 @@ update it so the links come out correctly:
 This method is also used internally by the mech itself to update its
 own HTML content when loading a page. This means that if you would
 like to _systematically_ perform the above HTML substitution, you
-would overload _update\_html_ in a subclass thusly:
+would overload `update_html` in a subclass thusly:
 
     package MyMech;
     use base 'WWW::Mechanize';
@@ -1354,7 +1366,8 @@ you through `[content()](#mech-content)`.
 
 Overloading this method is also the recommended way of implementing
 extra validation steps (e.g. link checkers) for every HTML page
-received.  ["warn"](#warn) and ["die"](#die) would then come in handy to signal
+received.  `[warn](#warn-messages)` and
+`[warn](#warn-messages)` would then come in handy to signal
 validation errors.
 
 ## $mech->credentials( $username, $password )
@@ -1414,7 +1427,7 @@ know about them.
 
 ## $mech->\_update\_page($request, $response)
 
-Updates all internal variables in $mech as if $request was just
+Updates all internal variables in `$mech` as if `$request` was just
 performed, and returns $response. The page stack is **not** altered by
 this method, it is up to caller (e.g.
 `[request](#mech-request-request-arg-size)`)
