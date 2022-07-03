@@ -2,6 +2,10 @@ Revision history for WWW::Mechanize
 
 {{$NEXT}}
 
+    [DOCUMENTATION]
+    - Explain that file URIs need url encoding (GH#329) (Julien Fiegehenn and
+      積丹尼 Dan Jacobson)
+
 2.09      2022-06-14 14:20:04Z
     [DOCUMENTATION]
     - Various POD fixes (Julien Fiegehenn)
