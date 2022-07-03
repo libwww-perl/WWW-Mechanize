@@ -1606,13 +1606,14 @@ sub form_number {
 
 =head2 $mech->form_action( $action )
 
-Selects a form by action, using a regex containing $action.
+Selects a form by action, using a regex containing C<$action>.
 If there is more than one form on the page matching that action,
 then the first one is used, and a warning is generated.
 
 If it is found, the form is returned as an L<HTML::Form> object and
 set internally for later use with Mech's form methods such as
-C<L</field()>> and C<L</click()>>.
+C<L<< field()|/"$mech->field( $name, $value, $number )" >>> and
+C<L<< click()|/"$mech->click( $button [, $x, $y] )" >>>.
 
 Returns C<undef> if no form is found.
 
@@ -1764,7 +1765,8 @@ sub all_forms_with {
 Searches for forms with arbitrary attribute/value pairs within the E<lt>formE<gt>
 tag.
 (Currently does not work for attribute C<action> due to implementation details
-of L<HTML::Form>.)
+of L<HTML::Form>. Use C<L<< form_action()|/"$mech->form_action( $action )" >>>
+instead.)
 When given more than one pair, all criteria must match.
 Using C<undef> as value means that the attribute in question must not be present.
 
