@@ -2076,6 +2076,11 @@ as the third optional argument will cause the checkbox to be unticked.
 The third value does not need to be set if you wish to merely tick the
 box.
 
+    $mech->tick('extra', 'cheese');
+    $mech->tick('extra', 'mushrooms');
+
+    $mech->tick('no_value', ''); # <input type="checkbox" name="no_value">
+
 =cut
 
 sub tick {
