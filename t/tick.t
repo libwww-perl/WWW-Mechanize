@@ -22,6 +22,8 @@ $mech->tick('foo','hello');
 $mech->tick('foo','bye');
 $mech->untick('foo','hello');
 
+$mech->tick('no_value', '');
+
 my $form = $mech->form_number(1);
 isa_ok( $form, 'HTML::Form' );
 
@@ -29,10 +31,10 @@ my $reqstring = $form->click->as_string;
 
 my $wanted = <<'EOT';
 POST http://localhost/
-Content-Length: 21
+Content-Length: 31
 Content-Type: application/x-www-form-urlencoded
 
-foo=bye&submit=Submit
+foo=bye&no_value=&submit=Submit
 EOT
 
 is( $reqstring, $wanted, 'Proper posting' );
