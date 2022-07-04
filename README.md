@@ -4,7 +4,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 # VERSION
 
-version 2.09
+version 2.10
 
 # SYNOPSIS
 
@@ -844,6 +844,19 @@ Emits a warning and returns undef if no form is found.
 
 The first form is number 1, not zero.
 
+## $mech->form\_action( $action )
+
+Selects a form by action, using a regex containing `$action`.
+If there is more than one form on the page matching that action,
+then the first one is used, and a warning is generated.
+
+If it is found, the form is returned as an [HTML::Form](https://metacpan.org/pod/HTML%3A%3AForm) object and
+set internally for later use with Mech's form methods such as
+`[field()](#mech-field-name-value-number)` and
+`[click()](#mech-click-button-x-y)`.
+
+Returns `undef` if no form is found.
+
 ## $mech->form\_name( $name )
 
 Selects a form by name.  If there is more than one form on the page
@@ -905,7 +918,8 @@ All matching forms (perhaps none) are returned as a list of [HTML::Form](https:/
 Searches for forms with arbitrary attribute/value pairs within the &lt;form>
 tag.
 (Currently does not work for attribute `action` due to implementation details
-of [HTML::Form](https://metacpan.org/pod/HTML%3A%3AForm).)
+of [HTML::Form](https://metacpan.org/pod/HTML%3A%3AForm). Use `[form_action()](#mech-form_action-action)`
+instead.)
 When given more than one pair, all criteria must match.
 Using `undef` as value means that the attribute in question must not be present.
 

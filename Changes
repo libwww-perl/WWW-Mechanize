@@ -1,6 +1,6 @@
 Revision history for WWW::Mechanize
 
-{{$NEXT}}
+2.10      2022-07-04 21:06:13Z
 
     [ENHANCEMENTS]
     - Added form_action($action) to look up forms by regex matching $action (GH#19)
