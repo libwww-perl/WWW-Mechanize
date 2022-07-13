@@ -58,13 +58,13 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
 }
 
 {
-    my $form = $mech->form_with_fields('4a', '4b', 1);
+    my $form = $mech->form_with_fields('4a', '4b', { n => 1 });
     isa_ok( $form, 'HTML::Form' );
     is($form->attr('name'), '4th_form_1', 'fourth form match 1 matches');
 }
 
 {
-    my $form = $mech->form_with_fields('4a', '4b', 2);
+    my $form = $mech->form_with_fields('4a', '4b', { n => 2 });
     isa_ok( $form, 'HTML::Form' );
     is($form->attr('name'), '4th_form_2', 'fourth form match 2 matches');
 }
@@ -72,7 +72,7 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
 {
     my $form;
     cmp_deeply(
-        [ warnings { $form = $mech->form_with_fields('4a', '4b', 3) } ],
+        [ warnings { $form = $mech->form_with_fields('4a', '4b', { n => 3 }) } ],
         [ re(qr/There is no match #3 form with the requested fields/) ],
         'warning on unmatched nth form',
     );

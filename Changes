@@ -2,7 +2,13 @@ Revision history for WWW::Mechanize
 
 {{$NEXT}}
 
+    [ENHANCEMENTS]
+    - form_name(), form_id(), form_with() and form_with_fields() can now all
+      return the nth instance of a form instead of always returning the first
+      instance (GH#110) (Jeff Culverhouse and Julien Fiegehenn)
+
 2.11      2022-07-17 17:25:39Z
+
     [FIXED]
     - tick() can now handle checkboxes without a value (GH#331) (Jordan M Adler
       and Julien Fiegehenn)
