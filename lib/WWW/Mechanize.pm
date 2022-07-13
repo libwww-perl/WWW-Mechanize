@@ -1636,13 +1636,21 @@ sub form_action {
     return;
 }
 
-=head2 $mech->form_name( $name [, $nth] )
+=head2 $mech->form_name( $name [, \%args ] )
 
-Selects a form by name.  More than one form could match the name passed in.
-By default, the first match will be returned, but if you want the 2nd or
-3rd or nth match, pass the match # you want as the final parameter.
+Selects a form by name.
 
-If $nth parameter is not passed, and there is more than one form on the page
+By default, the first form that has this name will be returned.
+
+    my $form = $mech->form_name("order_form");
+
+If you want the second, third or nth match, pass an optional arguments hash
+reference as the final parameter with a key C<n> to pick which instance you
+want.
+
+    my $third_product_form = $mech->form_name("buy_now", { n => 3 });
+
+If the C<n> parameter is not passed, and there is more than one form on the page
 with that name, then the first one is used, and a warning is generated.
 
 If it is found, the form is returned as an L<HTML::Form> object and
@@ -1650,22 +1658,31 @@ set internally for later use with Mech's form methods such as
 C<L<< field()|/"$mech->field( $name, $value, $number )" >>> and
 C<L<< click()|/"$mech->click( $button [, $x, $y] )" >>>.
 
-Returns undef if no form is found.
+Returns C<undef> if no form is found.
 
 =cut
 
 sub form_name {
-    my ($self, $form, $nth) = @_;
-    return $self->form_with( name => $form, $nth ? ( nth => $nth ) : () );
+    my ( $self, $name, $args ) = @_;
+    return $self->form_with( name => $name, $args || () );
 }
 
-=head2 $mech->form_id( $id [, $nth] )
+=head2 $mech->form_id( $id [, \%args ] )
 
-Selects a form by ID.  More than one form could match the ID passed in.
-By default, the first match will be returned, but if you want the 2nd or
-3rd or nth match, pass the match # you want as the final parameter.
+Selects a form by ID.
 
-If $nth parameter is not passed, and there is more than one form on the page
+By default, the first form that has this ID will be returned.
+
+    my $form = $mech->form_id("order_form");
+
+Although the HTML specification requires the ID to be unique within a page,
+some pages might not adhere to that. If you want the second, third or nth match,
+pass an optional arguments hash reference as the final parameter with a
+key C<n> to pick which instance you want.
+
+    my $third_product_form = $mech->form_id("buy_now", { n => 3 });
+
+If the C<n> parameter is not passed, and there is more than one form on the page
 with that ID, then the first one is used, and a warning is generated.
 
 If it is found, the form is returned as an L<HTML::Form> object and
@@ -1679,8 +1696,8 @@ unless C<quiet> is enabled.
 =cut
 
 sub form_id {
-    my ($self, $formid, $nth) = @_;
-    defined( my $form = $self->form_with( id => $formid, $nth ? ( nth => $nth ) : () ) )
+    my ( $self, $formid, $args ) = @_;
+    defined( my $form = $self->form_with( id => $formid, $args || () ) )
       or $self->warn(qq{ There is no form with ID "$formid"});
     return $form;
 }
@@ -1708,23 +1725,28 @@ sub all_forms_with_fields {
 }
 
 
-=head2 $mech->form_with_fields( @fields, [$nth] )
+=head2 $mech->form_with_fields( @fields, [ \%args ] )
 
-Selects a form by passing in a list of field names it must contain. More than
-one form could match the fields passed in. By default, the first match will be
-returned, but if you want the 2nd or 3rd or nth match, pass the match # you
-want as the final parameter.
+Selects a form by passing in a list of field names it must contain. By default,
+the first form that matches all of these field names will be returned.
 
-If the nth-match is specified, either that match is returned or undef if not
-found. Otherwise, if nth-match is not specified and more than one form on the
-page matches, then the first one is used, and a warning is generated.
+    my $form = $mech->form_with_fields( qw/sku quantity add_to_cart/ );
+
+If you want the second, third or nth match, pass an optional arguments hash
+reference as the final parameter with a key C<n> to pick which instance you
+want.
+
+    my $form = $mech->form_with_fields( 'sky', 'qty', { n => 2 } );
+
+If the C<n> parameter is not passed, and there is more than one form on the page
+with that ID, then the first one is used, and a warning is generated.
 
 If it is found, the form is returned as an L<HTML::Form> object and set internally
 for later used with Mech's form methods such as
 C<L<< field()|/"$mech->field( $name, $value, $number )" >>> and
 C<L<< click()|/"$mech->click( $button [, $x, $y] )" >>>.
 
-Returns undef and emits a warning if no form is found.
+Returns C<undef> and emits a warning if no form is found.
 
 Note that this functionality requires libwww-perl 5.69 or higher.
 
@@ -1735,13 +1757,13 @@ sub form_with_fields {
     die 'no fields provided' unless scalar @fields;
 
     my $nth;
-    if ( @fields > 1 && $fields[$#fields] !~ /\D/ ) {
-      $nth = pop @fields;
+    if ( @fields > 1 && ref $fields[-1] eq 'HASH' ) {
+        $nth = ( pop @fields )->{n};
     }
 
     my @matches = $self->all_forms_with_fields(@fields);
     if ( $nth ) {
-      @matches = ( @matches >= $nth ) ? splice(@matches, $nth-1, 1) : ();
+        @matches = ( @matches >= $nth ) ? ( $matches[ $nth - 1 ] ) : ();
     }
     my $nmatches = @matches;
     if ( $nmatches > 0 ) {
@@ -1781,7 +1803,7 @@ sub all_forms_with {
     return @forms;
 }
 
-=head2 $mech->form_with( $attr1 => $value1, $attr2 => $value2, ['nth' => # ], ... )
+=head2 $mech->form_with( $attr1 => $value1, $attr2 => $value2, ..., [ \%args ] )
 
 Searches for forms with arbitrary attribute/value pairs within the E<lt>formE<gt>
 tag.
@@ -1791,28 +1813,44 @@ instead.)
 When given more than one pair, all criteria must match.
 Using C<undef> as value means that the attribute in question must not be present.
 
-More than one form could match the criteria passed in. By default, the first match
-will be returned, but if you want the 2nd or 3rd or nth match, pass the match # you
-want with the key 'nth'.
+By default, the first form that matches all criteria will be returned.
+
+    my $form = $mech->form_with( name => 'order_form', method => 'POST' );
+
+If you want the second, third or nth match, pass an optional arguments hash
+reference as the final parameter with a key C<n> to pick which instance you
+want.
+
+    my $form = $mech->form_with( method => 'POST', { n => 4 } );
+
+If the C<n> parameter is not passed, and there is more than one form on the page
+matching these criteria, then the first one is used, and a warning is generated.
 
 If it is found, the form is returned as an L<HTML::Form> object and set internally
 for later used with Mech's form methods such as
 C<L<< field()|/"$mech->field( $name, $value, $number )" >>> and
 C<L<< click()|/"$mech->click( $button [, $x, $y] )" >>>.
 
-Returns undef if no form is found.
-
+Returns C<undef> if no form is found.
 
 =cut
 
 sub form_with {
-    my ( $self, %spec ) = @_;
+    my ( $self, @args ) = @_;
 
     return if not $self->forms;
-    my $nth = delete $spec{nth};
+
+    # Determine if we should return the nth instance
+    my $nth;
+    if ( @args % 2 && ref $args[-1] eq 'HASH' ) {
+        $nth = ( pop @args )->{n};
+    }
+
+    my %spec = @args;
+
     my @forms = $self->all_forms_with(%spec);
     if ( $nth ) {
-      @forms = ( @forms >= $nth ) ? splice(@forms, $nth-1, 1) : ();
+        @forms = ( @forms >= $nth ) ? $forms[ $nth - 1 ] : ();
     }
     if ( @forms > 1 ) {    # Warn if several forms matched.
         # For ->form_with( method => 'POST', action => '', id => undef ) we get:
@@ -1865,7 +1903,7 @@ These methods allow you to set the values of fields in a given form.
 
 Given the name of a field, set its value to the value specified.
 This applies to the current form (as set by the
-C<L<< form_name()|/"$mech->form_name( $name )" >>> or
+C<L<< form_name()|/"$mech->form_name( $name [, \%args ] )" >>> or
 C<L<< form_number()|/"$mech->form_number($number)" >>>
 method or defaulting to the first form on the page).
 
@@ -2402,12 +2440,12 @@ specified, the currently-selected form is used.
 =item * C<< form_name => name >>
 
 Selects the form named I<name> (calls
-C<L<< form_name()|/"$mech->form_name( $name )" >>>)
+C<L<< form_name()|/"$mech->form_name( $name [, \%args ] )" >>>)
 
 =item * C<< form_id => ID >>
 
 Selects the form with ID I<ID> (calls
-C<L<< form_id()|/"$mech->form_id( $id )" >>>)
+C<L<< form_id()|/"$mech->form_name( $name [, \%args ] )" >>>)
 
 =item * C<< button => button >>
 
