@@ -4,7 +4,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 # VERSION
 
-version 2.10
+version 2.11
 
 # SYNOPSIS
 
@@ -970,16 +970,29 @@ false and calls `$self->warn()` with an error message.
 
 ## $mech->set\_fields( $name => $value ... )
 
+## $mech->set\_fields( $name => \\@nvalue\_and\_instance\_number )
+
+## $mech->set\_fields( $name => \\$value\_instance\_number )
+
 This method sets multiple fields of the current form. It takes a list
 of field name and value pairs. If there is more than one field with
 the same name, the first one found is set. If you want to select which
 of the duplicate field to set, use a value which is an anonymous array
 which has the field value and its number as the 2 elements.
 
-        # set the second foo field
+        # set the second $name field to 'foo'
         $mech->set_fields( $name => [ 'foo', 2 ] );
 
 The fields are numbered from 1.
+
+For fields that have a predefined set of values, you may also provide a
+reference to an integer, if you don't know the options for the field, but you
+know you just want (e.g.) the first one.
+
+        # select the first value in the $name select box
+        $mech->set_fields( $name => \0 );
+        # select the last value in the $name select box
+        $mech->set_fields( $name => \-1 );
 
 This applies to the current form.
 
@@ -1023,9 +1036,17 @@ The possible field specifier types are: "text", "password", "hidden",
 ## $mech->tick( $name, $value \[, $set\] )
 
 "Ticks" the first checkbox that has both the name and value associated
-with it on the current form.  Dies if there is no named check box for
-that value.  Passing in a false value as the third optional argument
-will cause the checkbox to be unticked.
+with it on the current form.  If there is no value to the input, just
+pass an empty string as the value.  Dies if there is no named checkbox
+for the value given, if a value is given.  Passing in a false value
+as the third optional argument will cause the checkbox to be unticked.
+The third value does not need to be set if you wish to merely tick the
+box.
+
+    $mech->tick('extra', 'cheese');
+    $mech->tick('extra', 'mushrooms');
+
+    $mech->tick('no_value', ''); # <input type="checkbox" name="no_value">
 
 ## $mech->untick($name, $value)
 

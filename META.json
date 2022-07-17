@@ -119,15 +119,15 @@
    "provides" : {
       "WWW::Mechanize" : {
          "file" : "lib/WWW/Mechanize.pm",
-         "version" : "2.10"
+         "version" : "2.11"
       },
       "WWW::Mechanize::Image" : {
          "file" : "lib/WWW/Mechanize/Image.pm",
-         "version" : "2.10"
+         "version" : "2.11"
       },
       "WWW::Mechanize::Link" : {
          "file" : "lib/WWW/Mechanize/Link.pm",
-         "version" : "2.10"
+         "version" : "2.11"
       }
    },
    "release_status" : "stable",
@@ -142,10 +142,10 @@
          "web" : "https://github.com/libwww-perl/WWW-Mechanize"
       }
    },
-   "version" : "2.10",
+   "version" : "2.11",
    "x_Dist_Zilla" : {
       "perl" : {
-         "version" : "5.036000"
+         "version" : "5.028000"
       },
       "plugins" : [
          {
@@ -189,7 +189,7 @@
             "class" : "Dist::Zilla::Plugin::MakeMaker",
             "config" : {
                "Dist::Zilla::Role::TestRunner" : {
-                  "default_jobs" : "8"
+                  "default_jobs" : "5"
                }
             },
             "name" : "@Author::OALDERS/MakeMaker",
@@ -332,7 +332,7 @@
             "class" : "Dist::Zilla::Plugin::RunExtraTests",
             "config" : {
                "Dist::Zilla::Role::TestRunner" : {
-                  "default_jobs" : "8"
+                  "default_jobs" : "5"
                }
             },
             "name" : "@Author::OALDERS/RunExtraTests",
@@ -350,82 +350,82 @@
                      {
                         "class" : "Pod::Weaver::Plugin::EnsurePod5",
                         "name" : "@CorePrep/EnsurePod5",
-                        "version" : "4.018"
+                        "version" : "4.015"
                      },
                      {
                         "class" : "Pod::Weaver::Plugin::H1Nester",
                         "name" : "@CorePrep/H1Nester",
-                        "version" : "4.018"
+                        "version" : "4.015"
                      },
                      {
                         "class" : "Pod::Weaver::Plugin::SingleEncoding",
                         "name" : "@Default/SingleEncoding",
-                        "version" : "4.018"
+                        "version" : "4.015"
                      },
                      {
                         "class" : "Pod::Weaver::Section::Name",
                         "name" : "@Default/Name",
-                        "version" : "4.018"
+                        "version" : "4.015"
                      },
                      {
                         "class" : "Pod::Weaver::Section::Version",
                         "name" : "@Default/Version",
-                        "version" : "4.018"
+                        "version" : "4.015"
                      },
                      {
                         "class" : "Pod::Weaver::Section::Region",
                         "name" : "@Default/prelude",
-                        "version" : "4.018"
+                        "version" : "4.015"
                      },
                      {
                         "class" : "Pod::Weaver::Section::Generic",
                         "name" : "SYNOPSIS",
-                        "version" : "4.018"
+                        "version" : "4.015"
                      },
                      {
                         "class" : "Pod::Weaver::Section::Generic",
                         "name" : "DESCRIPTION",
-                        "version" : "4.018"
+                        "version" : "4.015"
                      },
                      {
                         "class" : "Pod::Weaver::Section::Generic",
                         "name" : "OVERVIEW",
-                        "version" : "4.018"
+                        "version" : "4.015"
                      },
                      {
                         "class" : "Pod::Weaver::Section::Collect",
                         "name" : "ATTRIBUTES",
-                        "version" : "4.018"
+                        "version" : "4.015"
                      },
                      {
                         "class" : "Pod::Weaver::Section::Collect",
                         "name" : "METHODS",
-                        "version" : "4.018"
+                        "version" : "4.015"
                      },
                      {
                         "class" : "Pod::Weaver::Section::Collect",
                         "name" : "FUNCTIONS",
-                        "version" : "4.018"
+                        "version" : "4.015"
                      },
                      {
                         "class" : "Pod::Weaver::Section::Leftovers",
                         "name" : "@Default/Leftovers",
-                        "version" : "4.018"
+                        "version" : "4.015"
                      },
                      {
                         "class" : "Pod::Weaver::Section::Region",
                         "name" : "@Default/postlude",
-                        "version" : "4.018"
+                        "version" : "4.015"
                      },
                      {
                         "class" : "Pod::Weaver::Section::Authors",
                         "name" : "@Default/Authors",
-                        "version" : "4.018"
+                        "version" : "4.015"
                      },
                      {
                         "class" : "Pod::Weaver::Section::Legal",
                         "name" : "@Default/Legal",
-                        "version" : "4.018"
+                        "version" : "4.015"
                      }
                   ]
                }
@@ -508,7 +508,7 @@
                   "changelog" : "Changes"
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.37.0",
+                  "git_version" : "2.34.1",
                   "repo_root" : "."
                }
             },
@@ -519,7 +519,7 @@
             "class" : "Dist::Zilla::Plugin::Git::Contributors",
             "config" : {
                "Dist::Zilla::Plugin::Git::Contributors" : {
-                  "git_version" : "2.37.0",
+                  "git_version" : "2.34.1",
                   "include_authors" : 0,
                   "include_releaser" : 1,
                   "order_by" : "name",
@@ -639,7 +639,7 @@
                   "changelog" : "Changes"
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.37.0",
+                  "git_version" : "2.34.1",
                   "repo_root" : "."
                },
                "Dist::Zilla::Role::Git::StringFormatter" : {
@@ -656,12 +656,12 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v2.10",
+                  "tag" : "v2.11",
                   "tag_format" : "v%V",
                   "tag_message" : "v%V"
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.37.0",
+                  "git_version" : "2.34.1",
                   "repo_root" : "."
                },
                "Dist::Zilla::Role::Git::StringFormatter" : {
@@ -712,7 +712,7 @@
                   "changelog" : "Changes"
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.37.0",
+                  "git_version" : "2.34.1",
                   "repo_root" : "."
                },
                "Dist::Zilla::Role::Git::StringFormatter" : {
@@ -732,7 +732,7 @@
                   "remotes_must_exist" : 1
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.37.0",
+                  "git_version" : "2.34.1",
                   "repo_root" : "."
                }
             },
@@ -748,7 +748,7 @@
             "class" : "Dist::Zilla::Plugin::RunExtraTests",
             "config" : {
                "Dist::Zilla::Role::TestRunner" : {
-                  "default_jobs" : "8"
+                  "default_jobs" : "5"
                }
             },
             "name" : "RunExtraTests",
@@ -894,6 +894,7 @@
       }
    },
    "x_contributors" : [
+      "Alastair Douglas <altreus@altre.us>",
       "Alexandr Ciornii <alexchorny@gmail.com>",
       "Andrew Grangaard <granny-github@ofb.net>",
       "Andy Lester <andy@petdance.com>",
@@ -910,13 +911,14 @@
       "Flavio Poletti <flavio@polettix.it>",
       "Florian Schlichting <fsfs@debian.org>",
       "Gabor Szabo <szabgab@gmail.com>",
-      "gjtunley@gmail.com <gjtunley@gmail.com>",
+      "Gareth Tunley <gjtunley@gmail.com>",
       "Graham Knop <haarg@haarg.org>",
       "gregor herrmann <gregoa@debian.org>",
       "Grigor Karavardanyan <k.grigor@yahoo.com>",
       "James Raspass <jraspass@gmail.com>",
       "Jason May <jasonmay@bestpractical.com>",
       "Jesse Vincent <jesse@bestpractical.com>",
+      "jmadler <jordan.m.adler@gmail.com>",
       "John Beppu <john.beppu@gmail.com>",
       "Jozef Kutej <jozef@kutej.net>",
       "Karen Etheridge <ether@cpan.org>",
@@ -947,8 +949,8 @@
       "Zefram <zefram@fysh.org>",
       "\u7a4d\u4e39\u5c3c Dan Jacobson <jidanni@jidanni.org>"
    ],
-   "x_generated_by_perl" : "v5.36.0",
-   "x_serialization_backend" : "Cpanel::JSON::XS version 4.29",
+   "x_generated_by_perl" : "v5.28.0",
+   "x_serialization_backend" : "Cpanel::JSON::XS version 4.04",
    "x_spdx_expression" : "Artistic-1.0-Perl OR GPL-1.0-or-later",
    "x_static_install" : 1
 }
