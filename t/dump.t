@@ -117,6 +117,11 @@ POST https://localhost
   5d=foo                         (hidden readonly)
   5e=value                       (hidden readonly)
 
+POST http://localhost/ [6th_form]
+  select=one                     (option)   [*one/Option 1|two/Option 2|three/Option 3]
+  radio=<UNDEF>                  (radio)    [foo|bar|baz]
+  submit=Submit                  (submit)
+
 EXPECTED
 };
 

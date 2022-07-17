@@ -200,8 +200,34 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
 
 {
     $mech->get($uri);
-    eval { $mech->submit_form(
-            with_fields => { 'select' => \1 },
-        ); };
-    is($@,'', ' submit_form( with_fields => %data_with_refs ) ' );
+    my $form = $mech->form_name('6th_form');
+
+    is(
+        exception {
+            $mech->submit_form(
+                with_fields => { 'select' => \1 },
+            );
+        },
+        undef,
+        'submit_form with valid field and ref to first value of select'
+    );
+
+    is $form->value('select'), 'two', '... and the second (index 1) value was set';
+}
+
+{
+    $mech->get($uri);
+    my $form = $mech->form_name('6th_form');
+
+    is(
+        exception {
+            $mech->submit_form(
+                with_fields => { 'radio' => \-1 },
+            );
+        },
+        undef,
+        'submit_form with valid field and ref to last value of radio'
+    );
+
+    is $form->value('radio'), 'baz', '... and the last (index -1) value was set';
 }
