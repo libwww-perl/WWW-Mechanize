@@ -1,5 +1,7 @@
 Revision history for WWW::Mechanize
 
+{{$NEXT}}
+
 2.11      2022-07-17 17:25:39Z
     [FIXED]
     - tick() can now handle checkboxes without a value (GH#331) (Jordan M Adler
