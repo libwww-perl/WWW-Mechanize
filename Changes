@@ -5,6 +5,11 @@ Revision history for WWW::Mechanize
     - tick() can now handle checkboxes without a value (GH#331) (Jordan M Adler
       and Julien Fiegehenn)
 
+    [ENHANCEMENTS]
+    - set_fields() and submit_form(with_fields => ...) can now set multiple
+      choice inputs (e.g. select and radio) to the nth value (GH29) (Alastair
+      Douglas and Julien Fiegehenn)
+
 2.10      2022-07-04 21:06:13Z
 
     [ENHANCEMENTS]

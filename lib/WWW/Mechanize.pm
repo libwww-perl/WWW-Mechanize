@@ -1961,16 +1961,29 @@ sub select {
 
 =head2 $mech->set_fields( $name => $value ... )
 
+=head2 $mech->set_fields( $name => \@nvalue_and_instance_number )
+
+=head2 $mech->set_fields( $name => \$value_instance_number )
+
 This method sets multiple fields of the current form. It takes a list
 of field name and value pairs. If there is more than one field with
 the same name, the first one found is set. If you want to select which
 of the duplicate field to set, use a value which is an anonymous array
 which has the field value and its number as the 2 elements.
 
-        # set the second foo field
+        # set the second $name field to 'foo'
         $mech->set_fields( $name => [ 'foo', 2 ] );
 
 The fields are numbered from 1.
+
+For fields that have a predefined set of values, you may also provide a
+reference to an integer, if you don't know the options for the field, but you
+know you just want (e.g.) the first one.
+
+        # select the first value in the $name select box
+        $mech->set_fields( $name => \0 );
+        # select the last value in the $name select box
+        $mech->set_fields( $name => \-1 );
 
 This applies to the current form.
 
@@ -1982,16 +1995,35 @@ sub set_fields {
 
     my $form = $self->current_form or $self->die( 'No form defined' );
 
-    while ( my ( $field, $value ) = each %fields ) {
+    FIELD:
+    for my $field ( keys %fields ) {
+        my $value = $fields{$field};
+
         if ( ref $value eq 'ARRAY' ) {
             $form->find_input( $field, undef,
                          $value->[1])->value($value->[0] );
         }
         else {
+            if ( ref $value eq 'SCALAR' ) {
+                my $input = $form->find_input( $field );
+
+                if ( not defined int $$value ) {
+                    warn "Only references to integers are supported. Using 0.";
+                    $$value = 0;
+                }
+
+                my @possible_values = $input->possible_values;
+                if ($#possible_values < $$value) {
+                    warn "Not enough options for $field to select index $$value";
+                    next FIELD;
+                }
+                $value = $possible_values[ $$value ];
+            }
+
             $form->value($field => $value);
         }
-    } # while
-} # set_fields()
+    }
+}
 
 =head2 $mech->set_visible( @criteria )
 
