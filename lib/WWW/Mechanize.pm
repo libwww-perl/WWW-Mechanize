@@ -2028,7 +2028,7 @@ sub select {
 
 =head2 $mech->set_fields( $name => $value ... )
 
-=head2 $mech->set_fields( $name => \@nvalue_and_instance_number )
+=head2 $mech->set_fields( $name => \@value_and_instance_number )
 
 =head2 $mech->set_fields( $name => \$value_instance_number )
 
