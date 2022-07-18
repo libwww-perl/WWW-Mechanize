@@ -7,6 +7,10 @@ Revision history for WWW::Mechanize
       return the nth instance of a form instead of always returning the first
       instance (GH#110) (Jeff Culverhouse and Julien Fiegehenn)
 
+    [TESTS]
+    - Tests using a local temporary server are now safe to use with HTTP/1.1
+      and keep-alive (GH #14) (Stanislaw Pusep and Julien Fiegehenn)
+
 2.11      2022-07-17 17:25:39Z
 
     [FIXED]
