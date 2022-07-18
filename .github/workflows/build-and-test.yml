@@ -47,6 +47,25 @@ jobs:
         run: cpan-install-dist-deps --with-develop && test-dist
         env:
           CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
+  http-one-one-regression-job:
+    name: HTTP/1.1 Keepalive Regression Test - see GH \# 14
+    needs: build-job
+    runs-on: ubuntu-latest
+    container:
+      image: perldocker/perl-tester:5.34
+    steps:
+      - uses: actions/download-artifact@master
+        with:
+          name: build_dir
+          path: .
+      - name: Install deps including curl and test
+        run: >
+          cpan-install-dist-deps --with-develop
+          && cpanm LWP::Protocol::Net::Curl
+      - name: test
+        run: test-dist
+        env:
+          PERL5OPT: -MLWP::Protocol::Net::Curl=http_version,2
   test-linux:
     name: "${{ matrix.perl-version }} on Linux"
     needs: build-job
