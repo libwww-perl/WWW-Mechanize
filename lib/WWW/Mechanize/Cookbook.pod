@@ -7,7 +7,7 @@ First, please note that many of these are possible just using
 L<LWP::UserAgent>.  Since C<WWW::Mechanize> is a subclass of
 L<LWP::UserAgent>, whatever works on C<LWP::UserAgent> should work
 on C<WWW::Mechanize>.  See the L<lwpcook> man page included with
-the L<libwww-perl> distribution.
+L<LWP>.
 
 =head1 BASICS
 

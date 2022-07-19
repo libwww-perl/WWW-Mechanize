@@ -1030,7 +1030,7 @@ sub follow_link {
 Finds a link in the currently fetched page. It returns a
 L<WWW::Mechanize::Link> object which describes the link.  (You'll
 probably be most interested in the
-C<L<< url()|"WWW::Mechanize::Link/$link->url()" >>> property.)
+C<L<< url()|WWW::Mechanize::Link/"$link->url()" >>> property.)
 If it fails to find a link it returns C<undef>.
 
 You can take the URL part and pass it to the C<get()> method.  If
@@ -2423,8 +2423,9 @@ and data setting in one operation. It selects the first form that contains all
 fields mentioned in C<\%fields>.  This is nice because you don't need to know
 the name or number of the form to do this.
 
-(calls C<L<< form_with_fields()|/"$mech->form_with_fields( @fields )" >>> and
-       C<L<< set_fields()|/"$mech->set_fields( $name => $value ... )" >>>).
+(calls
+C<L<< form_with_fields()|/"$mech->form_with_fields( @fields, [ \%args ] )" >>>
+and C<L<< set_fields()|/"$mech->set_fields( $name => $value ... )" >>>).
 
 If you choose C<with_fields>, the C<fields> option will be ignored. The
 C<form_number>, C<form_name> and C<form_id> options will still be used.  An
