@@ -19,7 +19,7 @@ jobs:
     container:
       image: perldocker/perl-tester:5.34
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Run Tests
         env:
           AUTHOR_TESTING: 1
@@ -27,7 +27,7 @@ jobs:
           EXTENDED_TESTING: 1
           RELEASE_TESTING: 1
         run: upgrade-perl-helpers && auto-build-and-test-dist
-      - uses: actions/upload-artifact@master
+      - uses: actions/upload-artifact@v3
         with:
           name: build_dir
           path: build_dir
@@ -36,10 +36,10 @@ jobs:
     needs: build-job
     runs-on: ubuntu-latest
     container:
-      image: perldocker/perl-tester:5.34
+      image: perldocker/perl-tester:5.3
     steps:
-      - uses: actions/checkout@v2 # codecov wants to be inside a Git repository
-      - uses: actions/download-artifact@master
+      - uses: actions/checkout@v3 # codecov wants to be inside a Git repository
+      - uses: actions/download-artifact@v3
         with:
           name: build_dir
           path: .
@@ -54,7 +54,7 @@ jobs:
     container:
       image: perldocker/perl-tester:5.34
     steps:
-      - uses: actions/download-artifact@master
+      - uses: actions/download-artifact@v3
         with:
           name: build_dir
           path: .
@@ -90,8 +90,8 @@ jobs:
           - "5.32"
           - "5.34"
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@master
+      - uses: actions/checkout@v3
+      - uses: actions/download-artifact@v3
         with:
           name: build_dir
           path: .
@@ -123,7 +123,7 @@ jobs:
         uses: shogo82148/actions-setup-perl@v1
         with:
           perl-version: ${{ matrix.perl-version }}
-      - uses: actions/download-artifact@master
+      - uses: actions/download-artifact@v3
         with:
           name: build_dir
           path: .
@@ -157,7 +157,7 @@ jobs:
         with:
           perl-version: ${{ matrix.perl-version }}
           distribution: strawberry # this option only used on Windows
-      - uses: actions/download-artifact@master
+      - uses: actions/download-artifact@v3
         with:
           name: build_dir
           path: .
