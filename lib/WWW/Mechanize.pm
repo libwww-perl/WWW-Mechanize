@@ -776,7 +776,7 @@ sub is_html {
 =head2 $mech->title()
 
 Returns the contents of the C<< <TITLE> >> tag, as parsed by
-L<HTML::HeadParser>.  Returns undef if the content is not HTML.
+L<HTML::HeadParser>.  Returns C<undef> if the content is not HTML.
 
 =cut
 
@@ -1359,7 +1359,7 @@ sub images {
 
 Finds an image in the current page. It returns a
 L<WWW::Mechanize::Image> object which describes the image.  If it fails
-to find an image it returns undef.
+to find an image it returns C<undef>.
 
 You can select which image to find by passing in one or more of these
 key/value pairs:
@@ -1583,7 +1583,7 @@ C<L<< click()|/"$mech->click( $button [, $x, $y] )" >>>.
 When called in a list context, the number of the found form is also returned as
 a second value.
 
-Emits a warning and returns undef if no form is found.
+Emits a warning and returns C<undef> if no form is found.
 
 The first form is number 1, not zero.
 
@@ -1646,7 +1646,7 @@ By default, the first form that has this name will be returned.
 
 If you want the second, third or nth match, pass an optional arguments hash
 reference as the final parameter with a key C<n> to pick which instance you
-want.
+want. The numbering starts at 1.
 
     my $third_product_form = $mech->form_name("buy_now", { n => 3 });
 
@@ -1678,7 +1678,7 @@ By default, the first form that has this ID will be returned.
 Although the HTML specification requires the ID to be unique within a page,
 some pages might not adhere to that. If you want the second, third or nth match,
 pass an optional arguments hash reference as the final parameter with a
-key C<n> to pick which instance you want.
+key C<n> to pick which instance you want. The numbering starts at 1.
 
     my $third_product_form = $mech->form_id("buy_now", { n => 3 });
 
@@ -1734,7 +1734,7 @@ the first form that matches all of these field names will be returned.
 
 If you want the second, third or nth match, pass an optional arguments hash
 reference as the final parameter with a key C<n> to pick which instance you
-want.
+want. The numbering starts at 1.
 
     my $form = $mech->form_with_fields( 'sky', 'qty', { n => 2 } );
 
@@ -1819,7 +1819,7 @@ By default, the first form that matches all criteria will be returned.
 
 If you want the second, third or nth match, pass an optional arguments hash
 reference as the final parameter with a key C<n> to pick which instance you
-want.
+want. The numbering starts at 1.
 
     my $form = $mech->form_with( method => 'POST', { n => 4 } );
 
