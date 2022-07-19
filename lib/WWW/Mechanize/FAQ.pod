@@ -84,7 +84,7 @@ can be used to add the headers that you need.
 
 =head2 Which modules work like Mechanize and have JavaScript support?
 
-In no particular order: L<Gtk2::WebKit::Mechanize>, L<Win32::IE::Mechanize>,
+In no particular order: L<Gtk2::WebKit::Mechanize>,
 L<WWW::Mechanize::Firefox>, L<WWW::Mechanize::Chrome>, L<WWW::Scripter>,
 L<WWW::Selenium>
 

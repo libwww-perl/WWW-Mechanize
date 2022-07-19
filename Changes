@@ -10,6 +10,8 @@ Revision history for WWW::Mechanize
     [TESTS]
     - Tests using a local temporary server are now safe to use with HTTP/1.1
       and keep-alive (GH #14) (Stanislaw Pusep and Julien Fiegehenn)
+    - We now use Test::Pod::LinkCheck to ensure there are no broken links in
+      our documentation (GH #337) (Julien Fiegehenn)
 
 2.11      2022-07-17 17:25:39Z
 
