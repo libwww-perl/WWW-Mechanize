@@ -50,6 +50,7 @@
             "Test::Needs" : "0",
             "Test::Pod" : "1.41",
             "Test::Pod::Coverage" : "1.08",
+            "Test::Pod::LinkCheck" : "0",
             "Test::Portability::Files" : "0",
             "Test::RequiresInternet" : "0",
             "Test::Vars" : "0.014",
@@ -119,15 +120,15 @@
    "provides" : {
       "WWW::Mechanize" : {
          "file" : "lib/WWW/Mechanize.pm",
-         "version" : "2.11"
+         "version" : "2.12"
       },
       "WWW::Mechanize::Image" : {
          "file" : "lib/WWW/Mechanize/Image.pm",
-         "version" : "2.11"
+         "version" : "2.12"
       },
       "WWW::Mechanize::Link" : {
          "file" : "lib/WWW/Mechanize/Link.pm",
-         "version" : "2.11"
+         "version" : "2.12"
       }
    },
    "release_status" : "stable",
@@ -142,7 +143,7 @@
          "web" : "https://github.com/libwww-perl/WWW-Mechanize"
       }
    },
-   "version" : "2.11",
+   "version" : "2.12",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.028000"
@@ -656,7 +657,7 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v2.11",
+                  "tag" : "v2.12",
                   "tag_format" : "v%V",
                   "tag_message" : "v%V"
                },
@@ -753,6 +754,11 @@
             },
             "name" : "RunExtraTests",
             "version" : "0.029"
+         },
+         {
+            "class" : "Dist::Zilla::Plugin::Test::Pod::LinkCheck",
+            "name" : "Test::Pod::LinkCheck",
+            "version" : "1.004"
          },
          {
             "class" : "Dist::Zilla::Plugin::Prereqs",
@@ -917,6 +923,7 @@
       "Grigor Karavardanyan <k.grigor@yahoo.com>",
       "James Raspass <jraspass@gmail.com>",
       "Jason May <jasonmay@bestpractical.com>",
+      "Jeff Culverhouse <jeff@graystorm.com>",
       "Jesse Vincent <jesse@bestpractical.com>",
       "jmadler <jordan.m.adler@gmail.com>",
       "John Beppu <john.beppu@gmail.com>",
@@ -941,6 +948,7 @@
       "Sergey Romanov <sromanov-dev@yandex.ru>",
       "Shoichi Kaji <skaji@cpan.org>",
       "simbabque <simbabque@cpan.org>",
+      "Stanislaw Pusep <creaktive@gmail.com>",
       "Steve Scaffidi <stephen@scaffidi.net>",
       "Stuart Johnston <saj_git@thecommune.net>",
       "sunnavy <sunnavy@bestpractical.com>",

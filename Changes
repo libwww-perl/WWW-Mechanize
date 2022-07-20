@@ -1,6 +1,6 @@
 Revision history for WWW::Mechanize
 
-{{$NEXT}}
+2.12      2022-07-20 06:45:40Z
 
     [ENHANCEMENTS]
     - form_name(), form_id(), form_with() and form_with_fields() can now all

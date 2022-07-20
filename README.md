@@ -4,7 +4,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 # VERSION
 
-version 2.11
+version 2.12
 
 # SYNOPSIS
 
@@ -437,7 +437,7 @@ HTTP headers.
 ## $mech->title()
 
 Returns the contents of the `<TITLE>` tag, as parsed by
-[HTML::HeadParser](https://metacpan.org/pod/HTML%3A%3AHeadParser).  Returns undef if the content is not HTML.
+[HTML::HeadParser](https://metacpan.org/pod/HTML%3A%3AHeadParser).  Returns `undef` if the content is not HTML.
 
 ## $mech->redirects()
 
@@ -556,7 +556,7 @@ If the page has no links, or the specified link couldn't be found, returns
 Finds a link in the currently fetched page. It returns a
 [WWW::Mechanize::Link](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3ALink) object which describes the link.  (You'll
 probably be most interested in the
-`[url()](https://metacpan.org/pod/%22WWW%3A%3AMechanize%3A%3ALink#link-url)` property.)
+`[url()](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3ALink#link-url)` property.)
 If it fails to find a link it returns `undef`.
 
 You can take the URL part and pass it to the `get()` method.  If
@@ -709,7 +709,7 @@ images.  In scalar context, returns an array reference of all images.
 
 Finds an image in the current page. It returns a
 [WWW::Mechanize::Image](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3AImage) object which describes the image.  If it fails
-to find an image it returns undef.
+to find an image it returns `undef`.
 
 You can select which image to find by passing in one or more of these
 key/value pairs:
@@ -840,7 +840,7 @@ for later use with Mech's form methods such as
 When called in a list context, the number of the found form is also returned as
 a second value.
 
-Emits a warning and returns undef if no form is found.
+Emits a warning and returns `undef` if no form is found.
 
 The first form is number 1, not zero.
 
@@ -857,22 +857,46 @@ set internally for later use with Mech's form methods such as
 
 Returns `undef` if no form is found.
 
-## $mech->form\_name( $name )
+## $mech->form\_name( $name \[, \\%args \] )
 
-Selects a form by name.  If there is more than one form on the page
-with that name, then the first one is used, and a warning is
-generated.
+Selects a form by name.
+
+By default, the first form that has this name will be returned.
+
+    my $form = $mech->form_name("order_form");
+
+If you want the second, third or nth match, pass an optional arguments hash
+reference as the final parameter with a key `n` to pick which instance you
+want. The numbering starts at 1.
+
+    my $third_product_form = $mech->form_name("buy_now", { n => 3 });
+
+If the `n` parameter is not passed, and there is more than one form on the page
+with that name, then the first one is used, and a warning is generated.
 
 If it is found, the form is returned as an [HTML::Form](https://metacpan.org/pod/HTML%3A%3AForm) object and
 set internally for later use with Mech's form methods such as
 `[field()](#mech-field-name-value-number)` and
 `[click()](#mech-click-button-x-y)`.
 
-Returns undef if no form is found.
+Returns `undef` if no form is found.
 
-## $mech->form\_id( $id )
+## $mech->form\_id( $id \[, \\%args \] )
 
-Selects a form by ID.  If there is more than one form on the page
+Selects a form by ID.
+
+By default, the first form that has this ID will be returned.
+
+    my $form = $mech->form_id("order_form");
+
+Although the HTML specification requires the ID to be unique within a page,
+some pages might not adhere to that. If you want the second, third or nth match,
+pass an optional arguments hash reference as the final parameter with a
+key `n` to pick which instance you want. The numbering starts at 1.
+
+    my $third_product_form = $mech->form_id("buy_now", { n => 3 });
+
+If the `n` parameter is not passed, and there is more than one form on the page
 with that ID, then the first one is used, and a warning is generated.
 
 If it is found, the form is returned as an [HTML::Form](https://metacpan.org/pod/HTML%3A%3AForm) object and
@@ -887,18 +911,28 @@ unless `quiet` is enabled.
 
 Selects a form by passing in a list of field names it must contain.  All matching forms (perhaps none) are returned as a list of [HTML::Form](https://metacpan.org/pod/HTML%3A%3AForm) objects.
 
-## $mech->form\_with\_fields( @fields )
+## $mech->form\_with\_fields( @fields, \[ \\%args \] )
 
-Selects a form by passing in a list of field names it must contain.  If there
-is more than one form on the page with that matches, then the first one is used,
-and a warning is generated.
+Selects a form by passing in a list of field names it must contain. By default,
+the first form that matches all of these field names will be returned.
+
+    my $form = $mech->form_with_fields( qw/sku quantity add_to_cart/ );
+
+If you want the second, third or nth match, pass an optional arguments hash
+reference as the final parameter with a key `n` to pick which instance you
+want. The numbering starts at 1.
+
+    my $form = $mech->form_with_fields( 'sky', 'qty', { n => 2 } );
+
+If the `n` parameter is not passed, and there is more than one form on the page
+with that ID, then the first one is used, and a warning is generated.
 
 If it is found, the form is returned as an [HTML::Form](https://metacpan.org/pod/HTML%3A%3AForm) object and set internally
 for later used with Mech's form methods such as
 `[field()](#mech-field-name-value-number)` and
 `[click()](#mech-click-button-x-y)`.
 
-Returns undef and emits a warning if no form is found.
+Returns `undef` and emits a warning if no form is found.
 
 Note that this functionality requires libwww-perl 5.69 or higher.
 
@@ -913,7 +947,7 @@ Using `undef` as value means that the attribute in question must not be present.
 
 All matching forms (perhaps none) are returned as a list of [HTML::Form](https://metacpan.org/pod/HTML%3A%3AForm) objects.
 
-## $mech->form\_with( $attr1 => $value1, $attr2 => $value2, ... )
+## $mech->form\_with( $attr1 => $value1, $attr2 => $value2, ..., \[ \\%args \] )
 
 Searches for forms with arbitrary attribute/value pairs within the &lt;form>
 tag.
@@ -923,12 +957,25 @@ instead.)
 When given more than one pair, all criteria must match.
 Using `undef` as value means that the attribute in question must not be present.
 
+By default, the first form that matches all criteria will be returned.
+
+    my $form = $mech->form_with( name => 'order_form', method => 'POST' );
+
+If you want the second, third or nth match, pass an optional arguments hash
+reference as the final parameter with a key `n` to pick which instance you
+want. The numbering starts at 1.
+
+    my $form = $mech->form_with( method => 'POST', { n => 4 } );
+
+If the `n` parameter is not passed, and there is more than one form on the page
+matching these criteria, then the first one is used, and a warning is generated.
+
 If it is found, the form is returned as an [HTML::Form](https://metacpan.org/pod/HTML%3A%3AForm) object and set internally
 for later used with Mech's form methods such as
 `[field()](#mech-field-name-value-number)` and
 `[click()](#mech-click-button-x-y)`.
 
-Returns undef if no form is found.
+Returns `undef` if no form is found.
 
 # FIELD METHODS
 
@@ -940,7 +987,7 @@ These methods allow you to set the values of fields in a given form.
 
 Given the name of a field, set its value to the value specified.
 This applies to the current form (as set by the
-`[form_name()](#mech-form_name-name)` or
+`[form_name()](#mech-form_name-name-args)` or
 `[form_number()](#mech-form_number-number)`
 method or defaulting to the first form on the page).
 
@@ -970,7 +1017,7 @@ false and calls `$self->warn()` with an error message.
 
 ## $mech->set\_fields( $name => $value ... )
 
-## $mech->set\_fields( $name => \\@nvalue\_and\_instance\_number )
+## $mech->set\_fields( $name => \\@value\_and\_instance\_number )
 
 ## $mech->set\_fields( $name => \\$value\_instance\_number )
 
@@ -1145,8 +1192,9 @@ are a list of key/value pairs, all of which are optional.
     fields mentioned in `\%fields`.  This is nice because you don't need to know
     the name or number of the form to do this.
 
-    (calls `[form_with_fields()](#mech-form_with_fields-fields)` and
-           `[set_fields()](#mech-set_fields-name-value)`).
+    (calls
+    `[form_with_fields()](#mech-form_with_fields-fields-args)`
+    and `[set_fields()](#mech-set_fields-name-value)`).
 
     If you choose `with_fields`, the `fields` option will be ignored. The
     `form_number`, `form_name` and `form_id` options will still be used.  An
@@ -1162,12 +1210,12 @@ are a list of key/value pairs, all of which are optional.
 - `form_name => name`
 
     Selects the form named _name_ (calls
-    `[form_name()](#mech-form_name-name)`)
+    `[form_name()](#mech-form_name-name-args)`)
 
 - `form_id => ID`
 
     Selects the form with ID _ID_ (calls
-    `[form_id()](#mech-form_id-id)`)
+    `[form_id()](#mech-form_name-name-args)`)
 
 - `button => button`
 
