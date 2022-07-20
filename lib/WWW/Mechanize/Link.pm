@@ -3,7 +3,7 @@ package WWW::Mechanize::Link;
 use strict;
 use warnings;
 
-our $VERSION = '2.12';
+our $VERSION = '2.13';
 
 #ABSTRACT: Link object for WWW::Mechanize
 
