@@ -21,7 +21,7 @@ if ( $^O eq 'VMS' ) {
 
 # Simply use a file: uri instead of the filename to make this test
 # more independent of what URI::* thinks.
-my $source = 'file:t/google.html t/find_inputs.html';
+my $source = 'file:t/google.html t/find_inputs.html t/html_file.txt';
 
 my $perl;
 $perl = $1 if $^X =~ /^(.+)$/;
@@ -57,6 +57,9 @@ POST http://localhost/ [3rd_form]
   YourSister=                    (text)
   YourSister=                    (text)
   submit=Submit                  (submit)
+
+GET http://localhost [text-form]
+  one=                           (text)
 EOF
 } else {
     $expected = <<'EOF';
@@ -85,6 +88,9 @@ POST http://localhost/ [3rd_form]
   YourSister=                    (text)
   YourSister=                    (text)
   submit=Submit                  (submit)
+
+GET http://localhost [text-form]
+  one=                           (text)
 EOF
 }
 
