@@ -25,7 +25,7 @@ my $source = 'file:t/google.html t/find_inputs.html t/html_file.txt';
 
 my $perl;
 $perl = $1 if $^X =~ /^(.+)$/;
-my $command = "$perl -Ilib $exe --forms $source";
+my $command = "$perl -Ilib $exe --forms --images --links $source";
 
 my $actual = `$command`;
 
@@ -39,6 +39,23 @@ GET file:/target-page [bob-the-form]
   q=
   btnG=Google Search              (submit)
   btnI=I'm Feeling Lucky          (submit)
+
+
+/images/logo.gif
+
+
+/imghp?hl=en&tab=wi&ie=UTF-8
+/grphp?hl=en&tab=wg&ie=UTF-8
+/dirhp?hl=en&tab=wd&ie=UTF-8
+/nwshp?hl=en&tab=wn&ie=UTF-8
+/advanced_search?hl=en
+/preferences?hl=en
+/language_tools?hl=en
+/tour/services/query.html
+/ads/
+/services/
+/options/
+/about.html
 
 POST http://localhost/ (multipart/form-data) [1st_form]
   1a=                            (text)
@@ -70,6 +87,23 @@ GET file:/target-page [bob-the-form]
   q=                             (text)
   btnG=Google Search             (submit)
   btnI=I'm Feeling Lucky         (submit)
+
+
+/images/logo.gif
+
+
+/imghp?hl=en&tab=wi&ie=UTF-8
+/grphp?hl=en&tab=wg&ie=UTF-8
+/dirhp?hl=en&tab=wd&ie=UTF-8
+/nwshp?hl=en&tab=wn&ie=UTF-8
+/advanced_search?hl=en
+/preferences?hl=en
+/language_tools?hl=en
+/tour/services/query.html
+/ads/
+/services/
+/options/
+/about.html
 
 POST http://localhost/ (multipart/form-data) [1st_form]
   1a=                            (text)
