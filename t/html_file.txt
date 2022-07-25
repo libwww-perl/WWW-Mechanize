@@ -1,0 +1,7 @@
+<html>
+    <body>
+        <form name="text-form" action="http://localhost">
+            <input type="text" name="one" />
+        </form>
+    </body>
+</html>

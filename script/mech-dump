@@ -72,6 +72,10 @@ Options:
 The order of the options specified is relevant.  Repeated options
 get repeated dumps.
 
+C<mech-dump> will only work on HTML documents when used on remote URLs, but
+will assume any local file you pass it is HTML. If it is not, there won't be
+any usable results.
+
 Proxy settings are specified through the environment (e.g. C<http_proxy=http://proxy.my.place/>).
 See L<LWP::UserAgent> for details.
 
@@ -101,9 +105,11 @@ else {
 
 $mech->env_proxy();
 foreach my $uri (@uris) {
+  my $no_ct_check;
   if ( -e $uri ) {
       require URI::file;
       $uri = URI::file->new_abs( $uri )->as_string;
+      $no_ct_check = 1; # we don't have to check the content type
   }
 
   my $response = $mech->get( $uri );
@@ -115,7 +121,10 @@ foreach my $uri (@uris) {
       $response = $mech->get( $uri );
       $response->is_success or die "Can't fetch $uri with username and password\n", $response->status_line, "\n";
   }
-  $mech->is_html or die qq{$uri returns type "}, $mech->ct, qq{", not "text/html"\n};
+
+  unless ($no_ct_check) {
+      $mech->is_html or die qq{$uri returns type "}, $mech->ct, qq{", not "text/html"\n};
+  }
 
   foreach my $action (@actions ) {
       $action->( $mech );
