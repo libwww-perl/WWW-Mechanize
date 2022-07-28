@@ -4,7 +4,8 @@ use warnings;
 use strict;
 
 use WWW::Mechanize;
-use Test::More tests => 14;
+use Test::More;
+use Test::Fatal;
 
 my $mech = WWW::Mechanize->new;
 isa_ok( $mech, 'WWW::Mechanize' );
@@ -17,6 +18,13 @@ my $uri = URI->new( 'http://localhost' );
 is $user, undef, 'default username is undefined at first';
 is $pass, undef, 'default password is undefined at first';
 
+like(
+    exception {
+        $mech->credentials("one", "two", "three");
+    },
+    qr/Invalid # of args for overridden credentials/,
+    'credentials dies with wrong number of args'
+);
 
 $mech->credentials("username", "password");
 
@@ -52,3 +60,5 @@ is $user, 'username',
    'cloned object still has username for get_basic_credentials';
 is $pass, 'password',
    'cloned object still has password for get_basic_credentials';
+
+done_testing;

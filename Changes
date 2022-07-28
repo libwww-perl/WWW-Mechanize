@@ -4,6 +4,8 @@ Revision history for WWW::Mechanize
     [ENHANCEMENTS]
     - mech_dump now treats all local files like HTML regardless of what it
       thinks their content types are (GH#63) (Julien Fiegehenn)
+    - We now consistently use our own die() method and therefore the onerror
+      handler wherever possible (GH#80) (Julien Fiegehenn)
 
 2.12      2022-07-20 06:45:40Z
 

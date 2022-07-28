@@ -1711,7 +1711,7 @@ Selects a form by passing in a list of field names it must contain.  All matchin
 
 sub all_forms_with_fields {
     my ($self, @fields) = @_;
-    die 'no fields provided' unless scalar @fields;
+    $self->die('no fields provided') unless scalar @fields;
 
     my @matches;
     FORMS: for my $form (@{ $self->forms }) {
@@ -1754,7 +1754,7 @@ Note that this functionality requires libwww-perl 5.69 or higher.
 
 sub form_with_fields {
     my ($self, @fields) = @_;
-    die 'no fields provided' unless scalar @fields;
+    $self->die('no fields provided') unless scalar @fields;
 
     my $nth;
     if ( @fields > 1 && ref $fields[-1] eq 'HASH' ) {
@@ -2506,7 +2506,6 @@ sub submit_form {
 
     my @filtered_sets;
     if ( $args{with_fields} ) {
-        $fields || die q{must submit some 'fields' with with_fields};
         my @got = $self->all_forms_with_fields(keys %{$fields});
         $self->die("There is no form with the requested fields") if not @got;
         push @filtered_sets, \@got;
@@ -2536,7 +2535,7 @@ sub submit_form {
         # Assume that each filtered set only has a given form object once.
         # So we can count occurrences.
         #
-        tie my %c, 'Tie::RefHash' or die;
+        tie my %c, 'Tie::RefHash' or $self->die('Cannot determine a form to use');
         foreach (@filtered_sets) {
             foreach (@$_) {
                 ++$c{$_};
@@ -2938,7 +2937,7 @@ sub request {
     my $self = shift;
     my $request = shift;
 
-    _die( '->request was called without a request parameter' )
+    $self->die( '->request was called without a request parameter' )
         unless $request;
 
     $request = $self->_modify_request( $request );
@@ -3171,7 +3170,7 @@ sub _taintedness {
     }
 
     # Sanity check
-    die "Our taintbrush should have zero length!" if length $_taintbrush;
+    die("Our taintbrush should have zero length!") if length $_taintbrush;
 
     return $_taintbrush;
 }

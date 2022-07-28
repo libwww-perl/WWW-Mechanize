@@ -19,3 +19,4 @@ tidyall.ERR
 /WWW-Mechanize-*/
 /WWW-Mechanize-*.tar.gz
 /.vscode
+/cover_db

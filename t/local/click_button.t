@@ -18,6 +18,8 @@ isa_ok( $mech, 'WWW::Mechanize', 'Created the object' );
 my $server = LocalServer->spawn();
 isa_ok( $server, 'LocalServer' );
 
+dies_ok { $mech->click_button( id => 0 ) } 'Dies without a form';
+
 my $response = $mech->get( $server->url );
 isa_ok( $response, 'HTTP::Response', 'Got back a response' );
 ok( $response->is_success, 'Got URL' ) or die q{Can't even fetch local url};

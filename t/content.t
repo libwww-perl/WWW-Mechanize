@@ -1,6 +1,7 @@
 use warnings;
 use strict;
-use Test::More tests => 9;
+use Test::More;
+use Test::Exception;
 
 =head1 NAME
 
@@ -51,6 +52,8 @@ SKIP: {
     unlike( $text, qr/html/i, 'Could not find "html"' );
 }
 
+dies_ok { $mech->content(format => 'no_such_format' ) } 'Unkown format';
+
 =head2 $mech->content(base_href => undef)
 
 =head2 $mech->content(base_href => $basehref)
@@ -78,6 +81,10 @@ is($content, 'this is a slightly decoded content', 'decoded_by_headers => 1');
 
 $content = $mech->content(charset => 'whatever');
 is($content, 'this is charset whatever', 'charset => ...');
+
+dies_ok { $mech->content(unhandled => 'param') } 'unhandled param';
+
+done_testing;
 
 package Test::MockResponse;
 
