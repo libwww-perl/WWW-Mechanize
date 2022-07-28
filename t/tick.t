@@ -5,7 +5,7 @@ use strict;
 
 use Test::Fatal qw( exception );
 use Test::More;
-use URI::file;
+use URI::file ();
 
 delete @ENV{qw(PATH IFS CDPATH ENV BASH_ENV)};  # Placates taint-unsafe Cwd.pm in 5.6.1
 use_ok( 'WWW::Mechanize' );

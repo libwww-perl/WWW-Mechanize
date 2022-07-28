@@ -4,7 +4,7 @@ use warnings;
 use strict;
 
 use Test::More;
-use URI::file;
+use URI::file ();
 
 BEGIN {
     delete @ENV{qw(PATH IFS CDPATH ENV BASH_ENV)};  # Placates taint-unsafe Cwd.pm in 5.6.1

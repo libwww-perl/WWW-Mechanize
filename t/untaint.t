@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use URI::file;
+use URI::file ();
 
 use Test::More;
 

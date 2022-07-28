@@ -7,8 +7,8 @@ use lib qw( t/local );
 
 use LocalServer ();
 use Path::Tiny qw( path );
-use Test::Deep;
-use Test::Fatal;
+use Test::Deep qw( all cmp_deeply isa methods re );
+use Test::Fatal qw( exception );
 use Test::More;
 use URI::file ();
 use WWW::Mechanize ();

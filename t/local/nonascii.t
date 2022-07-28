@@ -2,7 +2,7 @@ use warnings;
 use strict;
 use Test::More tests => 5;
 use lib 't/local';
-use LocalServer;
+use LocalServer ();
 
 BEGIN {
     delete @ENV{ qw( IFS CDPATH ENV BASH_ENV ) };

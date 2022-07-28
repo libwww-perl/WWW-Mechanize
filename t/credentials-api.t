@@ -2,9 +2,9 @@ use strict;
 use warnings;
 
 use Test::More tests => 4;
-use LWP::UserAgent;
-use WWW::Mechanize;
-use URI;
+use LWP::UserAgent ();
+use WWW::Mechanize ();
+use URI ();
 
 =pod
 

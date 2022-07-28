@@ -2,10 +2,10 @@ use warnings;
 use strict;
 use lib qw( t t/local );
 use Test::More tests => 13;
-use LocalServer;
+use LocalServer ();
 
 BEGIN {
-    use Tools;
+    use Tools qw( $canTMC memory_cycle_ok );
 }
 
 BEGIN {

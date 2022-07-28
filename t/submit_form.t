@@ -4,7 +4,7 @@ use warnings;
 use strict;
 
 use Test::More;
-use Test::Fatal;
+use Test::Fatal qw( exception );
 use Test::Warnings ':all';
 use URI::file      ();
 use WWW::Mechanize ();

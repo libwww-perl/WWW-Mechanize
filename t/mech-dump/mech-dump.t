@@ -4,8 +4,8 @@ use warnings;
 use strict;
 
 use Test::More;
-use File::Spec;
-use LWP;
+use File::Spec ();
+use LWP ();
 
 BEGIN {
     delete @ENV{ qw( IFS CDPATH ENV BASH_ENV PATH ) };

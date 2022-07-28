@@ -13,11 +13,11 @@ else {
     plan tests => 14;
 }
 
-use WWW::Mechanize;
-use URI::Escape qw( uri_unescape uri_escape );
+use WWW::Mechanize ();
+use URI::Escape qw( uri_escape uri_unescape );
 
 use lib 't/';
-use TestServer;
+use TestServer ();
 
 my $ncookies = 0;
 

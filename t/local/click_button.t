@@ -3,7 +3,7 @@ use strict;
 
 use lib 't/local';
 
-use LocalServer;
+use LocalServer ();
 use Test::More 0.96;
 use Test::Exception;
 

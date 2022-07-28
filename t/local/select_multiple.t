@@ -4,7 +4,7 @@ use Test::More;
 use Test::Exception;
 
 use lib 't/local';
-use LocalServer;
+use LocalServer ();
 
 BEGIN {
     use_ok( 'WWW::Mechanize' );

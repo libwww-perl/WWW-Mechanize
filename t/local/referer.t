@@ -1,12 +1,12 @@
 use warnings;
 use strict;
-use FindBin;
+use FindBin ();
 
 use Test::More tests => 14;
 
 BEGIN {
     use lib 't';
-    use Tools;
+    use Tools qw( $canTMC memory_cycle_ok );
 }
 
 BEGIN {
