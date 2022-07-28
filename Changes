@@ -7,6 +7,10 @@ Revision history for WWW::Mechanize
     - We now consistently use our own die() method and therefore the onerror
       handler wherever possible (GH#80) (Julien Fiegehenn)
 
+    [TESTS]
+    - Add tests for field() when working on a <textarea> (GH#220) (Julien
+      Fiegehenn)
+
 2.12      2022-07-20 06:45:40Z
 
     [ENHANCEMENTS]
