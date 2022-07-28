@@ -136,12 +136,11 @@ use warnings;
 
 our $VERSION = '2.13';
 
-use Tie::RefHash;
-use HTTP::Request 1.30;
-use LWP::UserAgent 6.45;
-use HTML::Form 1.00;
+use Tie::RefHash ();
+use HTTP::Request 1.30 ();
+use HTML::Form 1.00 ();
 use HTML::TokeParser ();
-use Scalar::Util qw(tainted);
+use Scalar::Util qw( tainted );
 
 use base 'LWP::UserAgent';
 
@@ -2535,7 +2534,7 @@ sub submit_form {
         # Assume that each filtered set only has a given form object once.
         # So we can count occurrences.
         #
-        tie my %c, 'Tie::RefHash' or $self->die('Cannot determine a form to use');
+        tie my %c, Tie::RefHash:: or $self->die('Cannot determine a form to use');
         foreach (@filtered_sets) {
             foreach (@$_) {
                 ++$c{$_};
