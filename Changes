@@ -1,6 +1,9 @@
 Revision history for WWW::Mechanize
 
 {{$NEXT}}
+    [ENHANCEMENTS]
+    - mech_dump now treats all local files like HTML regardless of what it
+      thinks their content types are (GH#63) (Julien Fiegehenn)
 
 2.12      2022-07-20 06:45:40Z
 
@@ -20,9 +23,6 @@ Revision history for WWW::Mechanize
     [FIXED]
     - tick() can now handle checkboxes without a value (GH#331) (Jordan M Adler
       and Julien Fiegehenn)
-    [ENHANCEMENTS]
-    - mech_dump now treats all local files like HTML regardless of what it
-      thinks their content types are (GH#63) (Julien Fiegehenn)
 
     [ENHANCEMENTS]
     - set_fields() and submit_form(with_fields => ...) can now set multiple
