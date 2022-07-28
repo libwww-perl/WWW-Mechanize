@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 use Test::More tests => 5;
-use URI::file;
+use URI::file ();
 
 BEGIN { delete @ENV{ qw( http_proxy HTTP_PROXY PATH IFS CDPATH ENV BASH_ENV) }; }
 use_ok( 'WWW::Mechanize' );

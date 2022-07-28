@@ -4,7 +4,7 @@ use warnings;
 use strict;
 use lib 't';
 use Test::More tests => 2;
-use Tools;
+use Tools qw( $canTMC );
 
 use_ok( 'WWW::Mechanize' );
 use_ok( 'WWW::Mechanize::Link' );

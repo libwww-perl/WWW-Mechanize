@@ -4,10 +4,10 @@ use warnings;
 use strict;
 
 use Test::More;
-use Test::Fatal;
+use Test::Fatal qw( exception );
 use Test::Warnings ':all';
-use Test::Deep;
-use URI::file;
+use Test::Deep qw( all cmp_deeply isa methods re superhashof );
+use URI::file ();
 
 BEGIN {
     delete @ENV{qw(PATH IFS CDPATH ENV BASH_ENV)};  # Placates taint-unsafe Cwd.pm in 5.6.1

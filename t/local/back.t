@@ -2,8 +2,7 @@ use warnings;
 use strict;
 use Test::More tests => 47;
 use lib qw( t t/local );
-use LocalServer;
-use HTTP::Response;
+use LocalServer ();
 
 
 =head1 NAME
@@ -16,7 +15,7 @@ and subsequently enriched to deal with RT ticket #8109.
 =cut
 
 BEGIN {
-    use Tools;
+    use Tools qw( $canTMC memory_cycle_ok );
 }
 
 BEGIN {

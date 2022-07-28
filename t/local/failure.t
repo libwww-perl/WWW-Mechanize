@@ -3,7 +3,7 @@ use strict;
 use Test::More;
 
 use lib 't/local';
-use LocalServer;
+use LocalServer ();
 
 
 BEGIN {

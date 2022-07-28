@@ -4,7 +4,7 @@ use warnings;
 use strict;
 
 use Test::More;
-use Test::Warn qw( warning_like);
+use Test::Warn qw( warning_like );
 use WWW::Mechanize ();
 
 my $m = WWW::Mechanize->new;

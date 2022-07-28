@@ -8,14 +8,14 @@ use Test::More tests => 9;
 use lib 't';
 
 BEGIN {
-    use Tools;
+    use Tools qw( $canTMC memory_cycle_ok );
 }
 
 BEGIN {
     use_ok( 'WWW::Mechanize' );
 }
 
-use URI::file;
+use URI::file ();
 
 my $mech = WWW::Mechanize->new( cookie_jar => undef );
 isa_ok( $mech, 'WWW::Mechanize' );

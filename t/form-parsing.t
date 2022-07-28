@@ -3,7 +3,7 @@
 use strict;
 use warnings;
 use Test::More tests=>1;
-use HTML::Form;
+use HTML::Form ();
 
 my $base = 'http://localhost/';
 my $content = do { local $/ = undef; <DATA> };

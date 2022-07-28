@@ -19,7 +19,7 @@ parameter.
 
 =cut
 
-use WWW::Mechanize;
+use WWW::Mechanize ();
 
 my $mech = WWW::Mechanize->new();
 

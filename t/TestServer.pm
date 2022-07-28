@@ -2,8 +2,8 @@ package TestServer;
 use strict;
 use warnings;
 
-use HTTP::Daemon;
-use File::Spec;
+use HTTP::Daemon ();
+use File::Spec ();
 
 sub new {
     my $class = shift;

@@ -1,7 +1,7 @@
 use warnings;
 use strict;
 use lib 't/local';
-use LocalServer;
+use LocalServer ();
 use Test::More tests => 10;
 
 BEGIN {

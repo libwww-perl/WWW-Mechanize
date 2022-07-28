@@ -2,7 +2,7 @@ use Test::More skip_all => "Mysteriously stopped passing, and I don't know why."
 use warnings;
 use strict;
 use lib 't/local';
-use LocalServer;
+use LocalServer ();
 use Test::More tests => 11;
 
 =head1 NAME

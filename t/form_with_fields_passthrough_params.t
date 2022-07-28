@@ -3,9 +3,9 @@
 use warnings;
 use strict;
 use Test::More 'no_plan';
-use Test::Fatal;
+use Test::Fatal qw( exception );
 use Test::Warnings ':all';
-use Test::Deep;
+use Test::Deep qw( cmp_deeply re );
 use URI::file ();
 
 BEGIN {

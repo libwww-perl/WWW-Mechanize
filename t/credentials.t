@@ -3,9 +3,9 @@
 use warnings;
 use strict;
 
-use WWW::Mechanize;
+use WWW::Mechanize ();
 use Test::More;
-use Test::Fatal;
+use Test::Fatal qw( exception );
 
 my $mech = WWW::Mechanize->new;
 isa_ok( $mech, 'WWW::Mechanize' );

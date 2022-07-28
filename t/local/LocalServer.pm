@@ -12,11 +12,11 @@ BEGIN {
   )};
 }
 
-use Carp qw(carp croak);
+use Carp qw( carp croak );
 use File::Temp ();
 use LWP::Simple qw( get );
 use Path::Tiny qw( path );
-use URI::URL qw();
+use URI::URL ();
 
 =head1 SYNOPSIS
 
