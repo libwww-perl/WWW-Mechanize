@@ -29,6 +29,19 @@ $mech->get($uri);
 
 {
     $mech->get($uri);
+    is(
+        exception {
+            $mech->submit_form(
+                form_id => '6th_form',
+            );
+        },
+        undef,
+        'submit_form with valid form_id',
+    );
+}
+
+{
+    $mech->get($uri);
     like(
         exception {
             $mech->submit_form(
@@ -88,6 +101,19 @@ $mech->get($uri);
         },
         qr/fields arg to submit_form must be a hashref/,
         'submit_form with invalid arg value for fields',
+    );
+}
+
+{
+    $mech->get($uri);
+    like(
+        exception {
+            $mech->submit_form(
+                with_fields => {}, # left empty on purpose
+            )
+        },
+        qr/no fields provided/,
+        'submit_form with no fields',
     );
 }
 
