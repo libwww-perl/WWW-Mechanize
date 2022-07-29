@@ -4,6 +4,8 @@ Revision history for WWW::Mechanize
     [ENHANCEMENTS]
     - Add autocheck() to enable or disable autochecking at run time in
       addition to setting it at object creation (GH#232) (Julien Fiegehenn)
+    - mech_dump now errors appropriately when it cannot open a URL or file
+      instead of claiming it has the wrong MIME type (GH#292) (Julien Fiegehenn)
 
 2.13      2022-07-29 09:44:46Z
     [ENHANCEMENTS]

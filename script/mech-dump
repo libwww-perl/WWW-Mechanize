@@ -113,13 +113,19 @@ foreach my $uri (@uris) {
   }
 
   my $response = $mech->get( $uri );
-  if (!$response->is_success and defined ($response->www_authenticate)) {
-      if (!defined $user or !defined $pass) {
-          die("Page requires username and password, but none specified.\n");
+  if ( !$response->is_success ) {
+    if ( defined( $response->www_authenticate ) ) {
+      if ( !defined $user or !defined $pass ) {
+        die("Page requires username and password, but none specified.\n");
       }
-      $mech->credentials($user,$pass);
-      $response = $mech->get( $uri );
-      $response->is_success or die "Can't fetch $uri with username and password\n", $response->status_line, "\n";
+      $mech->credentials( $user, $pass );
+      $response = $mech->get($uri);
+      $response->is_success
+          or die "Can't fetch $uri with username and password\n",
+          $response->status_line, "\n";
+    } else {
+        die "$uri returns status ", $response->code, "\n";
+    }
   }
 
   unless ($no_ct_check) {
