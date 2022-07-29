@@ -43,14 +43,9 @@ $mech->update_html($html);
 
 =cut
 
-SKIP: {
-    eval 'use HTML::TreeBuilder 5';
-    skip 'HTML::TreeBuilder version 5 not installed', 2 if $@;
-
-    my $text = $mech->content(format => 'text');
-    like( $text, qr/Fine/, 'Found Fine' );
-    unlike( $text, qr/html/i, 'Could not find "html"' );
-}
+my $text = $mech->content(format => 'text');
+like( $text, qr/Fine/, 'Found Fine' );
+unlike( $text, qr/html/i, 'Could not find "html"' );
 
 dies_ok { $mech->content(format => 'no_such_format' ) } 'Unkown format';
 
