@@ -1,6 +1,9 @@
 Revision history for WWW::Mechanize
 
 {{$NEXT}}
+    [ENHANCEMENTS]
+    - Add autocheck() to enable or disable autochecking at run time in
+      addition to setting it at object creation (GH#232) (Julien Fiegehenn)
 
 2.13      2022-07-29 09:44:46Z
     [ENHANCEMENTS]
