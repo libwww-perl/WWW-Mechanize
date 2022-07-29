@@ -1,6 +1,6 @@
 Revision history for WWW::Mechanize
 
-{{$NEXT}}
+2.13      2022-07-29 09:44:46Z
     [ENHANCEMENTS]
     - mech_dump now treats all local files like HTML regardless of what it
       thinks their content types are (GH#63) (Julien Fiegehenn)
