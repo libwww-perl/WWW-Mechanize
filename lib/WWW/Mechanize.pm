@@ -188,11 +188,12 @@ are errors, not warnings.
 The default value is ON, unless it's being subclassed, in which
 case it is OFF.  This means that standalone L<WWW::Mechanize> instances
 have autocheck turned on, which is protective for the vast majority
-of Mech users who don't bother checking the return value of get()
-and post() and can't figure why their code fails. However, if
-L<WWW::Mechanize> is subclassed, such as for L<Test::WWW::Mechanize>
-or L<Test::WWW::Mechanize::Catalyst>, this may not be an appropriate
-default, so it's off.
+of Mech users who don't bother checking the return value of
+C<L<< get()|/"$mech->get( $uri )" >>>
+and C<L<< post()|/"$mech->post( $uri, content => $content )" >>> and can't
+figure why their code fails. However, if L<WWW::Mechanize> is subclassed, such
+as for L<Test::WWW::Mechanize> or L<Test::WWW::Mechanize::Catalyst>, this may
+not be an appropriate default, so it's off.
 
 =item * C<< noproxy => [0|1] >>
 
@@ -2654,6 +2655,28 @@ sub quiet {
     $self->{quiet} = $_[0] if @_;
 
     return $self->{quiet};
+}
+
+=head2 $mech->autocheck(true/false)
+
+Allows you to enable and disable autochecking.
+
+Autocheck checks each request made to see if it was successful. This saves you
+the trouble of manually checking yourself. Any errors found are errors, not
+warnings. Please see C<L<< new|/"new()" >>> for more details.
+
+    $mech->autocheck(1); # turns on automatic request checking (the default)
+    $mech->autocheck(0); # turns off automatic request checking
+    $mech->autocheck();  # returns the current autocheck status
+
+=cut
+
+sub autocheck {
+    my $self = shift;
+
+    $self->{autocheck} = $_[0] if @_;
+
+    return $self->{autocheck};
 }
 
 =head2 $mech->stack_depth( $max_depth )
