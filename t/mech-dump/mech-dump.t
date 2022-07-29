@@ -4,33 +4,37 @@ use warnings;
 use strict;
 
 use Test::More;
-use File::Spec ();
-use LWP ();
+use Test::Output qw( output_like );
+use File::Spec   ();
+use LWP          ();
 
 BEGIN {
-    delete @ENV{ qw( IFS CDPATH ENV BASH_ENV PATH ) };
+  delete @ENV{qw( IFS CDPATH ENV BASH_ENV PATH )};
 }
 
-plan skip_all => 'Not installing mech-dump' if -e File::Spec->catfile( qw( t SKIP-MECH-DUMP ) );
-plan tests => 4;
+plan skip_all => 'Not installing mech-dump'
+    if -e File::Spec->catfile(qw( t SKIP-MECH-DUMP ));
 
-my $exe = File::Spec->catfile( qw( script mech-dump ) );
+my $exe = File::Spec->catfile(qw( script mech-dump ));
 if ( $^O eq 'VMS' ) {
-    $exe = qq[mcr $^X -Ilib $exe];
+  $exe = qq[mcr $^X -Ilib $exe];
 }
-
-# Simply use a file: uri instead of the filename to make this test
-# more independent of what URI::* thinks.
-my $source = 'file:t/google.html t/find_inputs.html t/html_file.txt';
 
 my $perl;
 $perl = $1 if $^X =~ /^(.+)$/;
-my $command = "$perl -Ilib $exe --forms --images --links $source";
 
-my $actual = `$command`;
+subtest 'Success' => sub {
 
-my $expected;
-if ( $LWP::VERSION < 5.800 ) {
+# Simply use a file: uri instead of the filename to make this test
+# more independent of what URI::* thinks.
+  my $source = 'file:t/google.html t/find_inputs.html t/html_file.txt';
+
+  my $command = "$perl -Ilib $exe --forms --images --links $source";
+
+  my $actual = `$command`;
+
+  my $expected;
+  if ( $LWP::VERSION < 5.800 ) {
     $expected = <<'EOF';
 GET file:/target-page [bob-the-form]
   hl=en                           (hidden)
@@ -78,7 +82,8 @@ POST http://localhost/ [3rd_form]
 GET http://localhost [text-form]
   one=                           (text)
 EOF
-} else {
+  }
+  else {
     $expected = <<'EOF';
 GET file:/target-page [bob-the-form]
   hl=en                          (hidden readonly)
@@ -126,18 +131,43 @@ POST http://localhost/ [3rd_form]
 GET http://localhost [text-form]
   one=                           (text)
 EOF
-}
+  }
 
-my @actual = split /\s*\n/, $actual;
-my @expected = split /\s*\n/, $expected;
+  my @actual   = split /\s*\n/, $actual;
+  my @expected = split /\s*\n/, $expected;
 
-# First line is platform-dependent, so handle it accordingly.
-shift @expected;
-my $first = shift @actual;
-like( $first, qr/^GET file:.*\/target-page \[bob-the-form\]/, 'First line matches' );
+  # First line is platform-dependent, so handle it accordingly.
+  shift @expected;
+  my $first = shift @actual;
+  like( $first,
+        qr/^GET file:.*\/target-page \[bob-the-form\]/,
+        'First line matches' );
 
-cmp_ok( @expected, '>', 0, 'Still some expected' );
-cmp_ok( @actual, '>', 0, 'Still some actual' );
+  cmp_ok( @expected, '>', 0, 'Still some expected' );
+  cmp_ok( @actual,   '>', 0, 'Still some actual' );
 
-is_deeply( \@actual, \@expected, 'Rest of the lines match' );
+  is_deeply( \@actual, \@expected, 'Rest of the lines match' );
+};
 
+subtest 'Local file not found' => sub {
+  SKIP: {
+    # See https://stackoverflow.com/a/32054866/1331451
+    skip 'capturing output from system() is broken in 5.14 and 5.16 on Windows', 1
+      if $^O eq 'MSWin32' && ( $] >= 5.014 && $] < 5.017 );
+
+  # The following file should not exist.
+  my $source = 'file:not_found.404';
+
+  my $command = "$perl -Ilib $exe $source";
+
+  output_like(
+    sub {
+      system $command;
+    },
+    undef,
+    qr/file:not_found.404 returns status 404/,
+    'Errors when a local file is not found' );
+  };
+};
+
+done_testing;
