@@ -168,4 +168,4 @@ jobs:
         with:
           cpanfile: "cpanfile"
           args: "--with-suggests --with-test --with-develop"
-      - run: cpanm --testonly -v .
+      - run: cpanm --test-only -v .
