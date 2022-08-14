@@ -1,6 +1,12 @@
 Revision history for WWW::Mechanize
 
 {{$NEXT}}
+    [FIXED]
+    - File upload fields now correctly handle overwriting the file name and
+      passing in content without a real file (GH#249) (Gil Magno and Julien
+      Fiegehenn)
+    - HTML::Form bumped to 6.08 (GH#347) (Julien Fiegehenn)
+
     [ENHANCEMENTS]
     - Add autocheck() to enable or disable autochecking at run time in
       addition to setting it at object creation (GH#232) (Julien Fiegehenn)

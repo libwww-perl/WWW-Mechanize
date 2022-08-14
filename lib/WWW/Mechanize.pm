@@ -1901,6 +1901,8 @@ These methods allow you to set the values of fields in a given form.
 
 =head2 $mech->field( $name, \@values, $number )
 
+=head2 $mech->field( $name, \@file_upload_values, $number )
+
 Given the name of a field, set its value to the value specified.
 This applies to the current form (as set by the
 C<L<< form_name()|/"$mech->form_name( $name [, \%args ] )" >>> or
@@ -1914,16 +1916,17 @@ If the field is of type "file", its value should be an arrayref. Example:
 Value examples for "file" inputs, followed by explanation of what each
 index mean:
 
+    # 0: filepath      1: filename    3: headers
     ['/tmp/file.txt']
     ['/tmp/file.txt', 'filename.txt']
     ['/tmp/file.txt', 'filename.txt', @headers]
     ['/tmp/file.txt', 'filename.txt', Content => 'some content']
     [undef,           'filename.txt', Content => 'content here']
 
-Index 0 is the filepath that will be read from disk. Index 1 is the
+Index 0 is the I<filepath> that will be read from disk. Index 1 is the
 filename which will be used in the HTTP request body; if not given,
-filepath (index 0) is used instead. If "Content => 'content here'" is
-informed as shown, then filepath will be ignored.
+filepath (index 0) is used instead. If C<<Content => 'content here'>> is
+used as shown, then I<filepath> will be ignored.
 
 The optional C<$number> parameter is used to distinguish between two fields
 with the same name.  The fields are numbered from 1.
@@ -2059,6 +2062,8 @@ sub select {
 
 =head2 $mech->set_fields( $name => \$value_instance_number )
 
+=head2 $mech->set_fields( $name => \@file_upload )
+
 This method sets multiple fields of the current form. It takes a list
 of field name and value pairs. If there is more than one field with
 the same name, the first one found is set. If you want to select which
@@ -2108,7 +2113,7 @@ sub set_fields {
         my $number = 1;
 
         if ( ref $value eq 'ARRAY' ) {
-            my $input = $form->find_input($field);
+            my $input = $form->find_input($field) or next FIELD;
 
             # Honor &submit_form's documentation, that says that a
             # "file" input's value can be in the form of
