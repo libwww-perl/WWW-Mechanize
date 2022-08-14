@@ -92,6 +92,14 @@ $as_string = $form->make_request->as_string;
 like( $as_string, qr! filename="$filename" !x,
       q/$mc->set_fields( 'document' => [[ undef, $filename, Content => 'content' ], 1] )/ );
 
+# &set_fields with multiple fields
+$mc->get( $uri );
+$mc->set_fields( 'another_field' => 'foo', 'document' => [ $file, $filename ] );
+($form) = $mc->forms;
+like( $form->make_request->as_string, qr! filename="$filename" !x,
+      q/$mc->set_fields( 'another_field' => 'foo', 'document' => [ $file, $filename ] )/ );
+
+
 # field does not exist
 $mc->get( $uri );
 lives_ok { $mc->set_fields( 'does_not_exist' => [ [$file], 1 ] ) }
