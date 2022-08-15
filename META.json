@@ -66,7 +66,7 @@
          "requires" : {
             "Carp" : "0",
             "Getopt::Long" : "0",
-            "HTML::Form" : "1.00",
+            "HTML::Form" : "6.08",
             "HTML::HeadParser" : "0",
             "HTML::TokeParser" : "0",
             "HTML::TreeBuilder" : "5",
@@ -119,15 +119,15 @@
    "provides" : {
       "WWW::Mechanize" : {
          "file" : "lib/WWW/Mechanize.pm",
-         "version" : "2.13"
+         "version" : "2.14"
       },
       "WWW::Mechanize::Image" : {
          "file" : "lib/WWW/Mechanize/Image.pm",
-         "version" : "2.13"
+         "version" : "2.14"
       },
       "WWW::Mechanize::Link" : {
          "file" : "lib/WWW/Mechanize/Link.pm",
-         "version" : "2.13"
+         "version" : "2.14"
       }
    },
    "release_status" : "stable",
@@ -142,10 +142,10 @@
          "web" : "https://github.com/libwww-perl/WWW-Mechanize"
       }
    },
-   "version" : "2.13",
+   "version" : "2.14",
    "x_Dist_Zilla" : {
       "perl" : {
-         "version" : "5.026001"
+         "version" : "5.028000"
       },
       "plugins" : [
          {
@@ -189,7 +189,7 @@
             "class" : "Dist::Zilla::Plugin::MakeMaker",
             "config" : {
                "Dist::Zilla::Role::TestRunner" : {
-                  "default_jobs" : 1
+                  "default_jobs" : "6"
                }
             },
             "name" : "@Author::OALDERS/MakeMaker",
@@ -245,7 +245,7 @@
             "config" : {
                "Dist::Zilla::Role::ModuleMetadata" : {
                   "Module::Metadata" : "1.000037",
-                  "version" : "0.005"
+                  "version" : "0.006"
                }
             },
             "name" : "@Author::OALDERS/InstallGuide",
@@ -332,7 +332,7 @@
             "class" : "Dist::Zilla::Plugin::RunExtraTests",
             "config" : {
                "Dist::Zilla::Role::TestRunner" : {
-                  "default_jobs" : 1
+                  "default_jobs" : "6"
                }
             },
             "name" : "@Author::OALDERS/RunExtraTests",
@@ -508,7 +508,7 @@
                   "changelog" : "Changes"
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.25.1",
+                  "git_version" : "2.34.1",
                   "repo_root" : "."
                }
             },
@@ -519,7 +519,7 @@
             "class" : "Dist::Zilla::Plugin::Git::Contributors",
             "config" : {
                "Dist::Zilla::Plugin::Git::Contributors" : {
-                  "git_version" : "2.25.1",
+                  "git_version" : "2.34.1",
                   "include_authors" : 0,
                   "include_releaser" : 1,
                   "order_by" : "name",
@@ -639,7 +639,7 @@
                   "changelog" : "Changes"
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.25.1",
+                  "git_version" : "2.34.1",
                   "repo_root" : "."
                },
                "Dist::Zilla::Role::Git::StringFormatter" : {
@@ -656,12 +656,12 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v2.13",
+                  "tag" : "v2.14",
                   "tag_format" : "v%V",
                   "tag_message" : "v%V"
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.25.1",
+                  "git_version" : "2.34.1",
                   "repo_root" : "."
                },
                "Dist::Zilla::Role::Git::StringFormatter" : {
@@ -712,7 +712,7 @@
                   "changelog" : "Changes"
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.25.1",
+                  "git_version" : "2.34.1",
                   "repo_root" : "."
                },
                "Dist::Zilla::Role::Git::StringFormatter" : {
@@ -732,7 +732,7 @@
                   "remotes_must_exist" : 1
                },
                "Dist::Zilla::Role::Git::Repo" : {
-                  "git_version" : "2.25.1",
+                  "git_version" : "2.34.1",
                   "repo_root" : "."
                }
             },
@@ -748,7 +748,7 @@
             "class" : "Dist::Zilla::Plugin::RunExtraTests",
             "config" : {
                "Dist::Zilla::Role::TestRunner" : {
-                  "default_jobs" : 1
+                  "default_jobs" : "6"
                }
             },
             "name" : "RunExtraTests",
@@ -828,7 +828,7 @@
                },
                "Dist::Zilla::Role::ModuleMetadata" : {
                   "Module::Metadata" : "1.000037",
-                  "version" : "0.005"
+                  "version" : "0.006"
                }
             },
             "name" : "MetaProvides::Package",
@@ -917,6 +917,7 @@
       "Florian Schlichting <fsfs@debian.org>",
       "Gabor Szabo <szabgab@gmail.com>",
       "Gareth Tunley <gjtunley@gmail.com>",
+      "Gil Magno <gilmagno@gilmagno.com>",
       "Graham Knop <haarg@haarg.org>",
       "gregor herrmann <gregoa@debian.org>",
       "Grigor Karavardanyan <k.grigor@yahoo.com>",
@@ -927,6 +928,7 @@
       "jmadler <jordan.m.adler@gmail.com>",
       "John Beppu <john.beppu@gmail.com>",
       "Jozef Kutej <jozef@kutej.net>",
+      "Julien Fiegehenn <simbabque@cpan.org>",
       "Karen Etheridge <ether@cpan.org>",
       "Kirrily 'Skud' Robert <skud@infotrope.net>",
       "Kivanc Yazan <kivancyazan@gmail.com>",
@@ -946,7 +948,6 @@
       "Schuyler Langdon <schuyler@velargo.com>",
       "Sergey Romanov <sromanov-dev@yandex.ru>",
       "Shoichi Kaji <skaji@cpan.org>",
-      "simbabque <simbabque@cpan.org>",
       "Stanislaw Pusep <creaktive@gmail.com>",
       "Steve Scaffidi <stephen@scaffidi.net>",
       "Stuart Johnston <saj_git@thecommune.net>",
@@ -956,8 +957,8 @@
       "Zefram <zefram@fysh.org>",
       "\u7a4d\u4e39\u5c3c Dan Jacobson <jidanni@jidanni.org>"
    ],
-   "x_generated_by_perl" : "v5.26.1",
-   "x_serialization_backend" : "Cpanel::JSON::XS version 4.02",
+   "x_generated_by_perl" : "v5.28.0",
+   "x_serialization_backend" : "Cpanel::JSON::XS version 4.04",
    "x_spdx_expression" : "Artistic-1.0-Perl OR GPL-1.0-or-later",
    "x_static_install" : 1
 }

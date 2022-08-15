@@ -1,6 +1,6 @@
 Revision history for WWW::Mechanize
 
-{{$NEXT}}
+2.14      2022-08-15 19:19:24Z
     [FIXED]
     - File upload fields now correctly handle overwriting the file name and
       passing in content without a real file (GH#249) (Gil Magno and Julien

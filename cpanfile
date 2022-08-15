@@ -3,7 +3,7 @@
 
 requires "Carp" => "0";
 requires "Getopt::Long" => "0";
-requires "HTML::Form" => "1.00";
+requires "HTML::Form" => "6.08";
 requires "HTML::HeadParser" => "0";
 requires "HTML::TokeParser" => "0";
 requires "HTML::TreeBuilder" => "5";
