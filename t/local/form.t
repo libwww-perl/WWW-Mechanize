@@ -106,6 +106,33 @@ is(
 );
 $mech->quiet(1);
 
+# the server's URL may be in a different form than what the Form actually contains
+my $cli_form_action
+    = ( grep { $_->action =~ m{/google-cli$} } $mech->forms )[0]->action;
+my $form_with_action = $mech->form_with( action => $cli_form_action );
+is(
+    $form_with_action->attr('id'), 'searchbox',
+    'form_with - with with action'
+);
+
+my $formsubmit_form_action
+    = ( grep { $_->action =~ m{/formsubmit$} } $mech->forms )[-1]->action;
+$form_with_action = $mech->form_with(
+    action => $formsubmit_form_action,
+    class  => 'test mf2'
+);
+is(
+    $form_with_action->attr('class'), 'test mf2',
+    'form_with - with action and class'
+);
+
+$form_with_action
+    = $mech->form_with( action => '/does_not_exist', class => 'test' );
+ok(
+    !$form_with_action,
+    'form_with - filters forms when action does not exist'
+);
+
 my $form_id_searchbox = $mech->form_action('google-cli');
 isa_ok( $form_id_searchbox, 'HTML::Form', 'form_action - can select the form' );
 ok( !$mech->form_action('bargle-snark'),

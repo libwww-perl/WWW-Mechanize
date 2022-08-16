@@ -5,7 +5,7 @@ use strict;
 use Test::More 'no_plan';
 use Test::Fatal qw( exception );
 use Test::Warnings ':all';
-use Test::Deep qw( cmp_deeply re );
+use Test::Deep qw( cmp_deeply re array_each code );
 use URI::file ();
 
 BEGIN {
@@ -81,11 +81,29 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
 
 {
     my @forms = $mech->all_forms_with( name => '3rd_form_ambiguous' );
-    is( scalar @forms, 2 );
+    is( scalar @forms, 2 , 'all_forms_with finds similar forms');
     isa_ok( $forms[0], 'HTML::Form' );
     isa_ok( $forms[1], 'HTML::Form' );
     is($forms[0]->attr('name'), '3rd_form_ambiguous', 'first result of 3rd_form_ambiguous');
     is($forms[1]->attr('name'), '3rd_form_ambiguous', 'second result of 3rd_form_ambiguous');
+}
+
+{
+    my @forms = $mech->all_forms_with( action => 'http://localhost/' );
+    is( scalar @forms, 7, 'all_forms_with action finds all 7 forms' );
+    cmp_deeply(
+        \@forms,
+        array_each(
+            code(
+                # one of the forms is missing the trailing slash, we
+                # should not have it
+                sub {
+                    $_[0]->action eq 'http://localhost/';
+                }
+            )
+        ),
+        '... and all of them have the correct action'
+    );
 }
 
 {
