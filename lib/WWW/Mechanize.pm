@@ -1784,8 +1784,6 @@ sub form_with_fields {
 
 Searches for forms with arbitrary attribute/value pairs within the E<lt>formE<gt>
 tag.
-(Currently does not work for attribute C<action> due to implementation details
-of L<HTML::Form>.)
 When given more than one pair, all criteria must match.
 Using C<undef> as value means that the attribute in question must not be present.
 
@@ -1796,7 +1794,8 @@ All matching forms (perhaps none) are returned as a list of L<HTML::Form> object
 sub all_forms_with {
     my ( $self, %spec ) = @_;
 
-    my @forms = $self->forms;
+    my $action = delete $spec{action};
+    my @forms = grep { !$action || $_->action eq $action } $self->forms;
     foreach my $attr ( keys %spec ) {
         @forms = grep _equal( $spec{$attr}, $_->attr($attr) ), @forms or return;
     }
@@ -1807,9 +1806,6 @@ sub all_forms_with {
 
 Searches for forms with arbitrary attribute/value pairs within the E<lt>formE<gt>
 tag.
-(Currently does not work for attribute C<action> due to implementation details
-of L<HTML::Form>. Use C<L<< form_action()|/"$mech->form_action( $action )" >>>
-instead.)
 When given more than one pair, all criteria must match.
 Using C<undef> as value means that the attribute in question must not be present.
 
