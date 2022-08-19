@@ -1,6 +1,9 @@
 Revision history for WWW::Mechanize
 
 {{$NEXT}}
+    [FIXED]
+    - There was a test suite failure on some Windows machines introduced in
+      2.14 that is now fixed. (GH#350) (Julien Fiegehenn)
     [ENHANCEMENTS]
     - form_with and all_forms_with() now support the "action" attribute to find
       forms (GH#349) (Julien Fiegehenn)

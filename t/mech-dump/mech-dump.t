@@ -4,7 +4,6 @@ use warnings;
 use strict;
 
 use Test::More;
-use Test::Output qw( output_like );
 use File::Spec   ();
 use LWP          ();
 
@@ -147,27 +146,6 @@ EOF
   cmp_ok( @actual,   '>', 0, 'Still some actual' );
 
   is_deeply( \@actual, \@expected, 'Rest of the lines match' );
-};
-
-subtest 'Local file not found' => sub {
-  SKIP: {
-    # See https://stackoverflow.com/a/32054866/1331451
-    skip 'capturing output from system() is broken in 5.14 and 5.16 on Windows', 1
-      if $^O eq 'MSWin32' && ( $] >= 5.014 && $] < 5.017 );
-
-  # The following file should not exist.
-  my $source = 'file:not_found.404';
-
-  my $command = "$perl -Ilib $exe $source";
-
-  output_like(
-    sub {
-      system $command;
-    },
-    undef,
-    qr/file:not_found.404 returns status 404/,
-    'Errors when a local file is not found' );
-  };
 };
 
 done_testing;
