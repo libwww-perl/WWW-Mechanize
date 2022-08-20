@@ -1,6 +1,10 @@
 Revision history for WWW::Mechanize
 
 {{$NEXT}}
+    [FIXED]
+    - Raise minimum Perl to 5.8 to match what we test, what dependencies
+      depend on, etc. (GH#352) (James Raspass)
+
     [ENHANCEMENTS]
     - form_with and all_forms_with() now support the "action" attribute to find
       forms (GH#349) (Julien Fiegehenn)

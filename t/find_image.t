@@ -10,7 +10,6 @@ use Test::Deep qw( all cmp_deeply isa methods re superhashof );
 use URI::file ();
 
 BEGIN {
-    delete @ENV{qw(PATH IFS CDPATH ENV BASH_ENV)};  # Placates taint-unsafe Cwd.pm in 5.6.1
     use_ok( 'WWW::Mechanize' );
 }
 
