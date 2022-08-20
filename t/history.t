@@ -14,8 +14,6 @@ use URI::file ();
 use WWW::Mechanize ();
 
 BEGIN {
-    delete @ENV{qw(PATH IFS CDPATH ENV BASH_ENV)}
-        ;    # Placates taint-unsafe Cwd.pm in 5.6.1
     use_ok('WWW::Mechanize');
 }
 

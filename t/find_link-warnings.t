@@ -6,8 +6,6 @@ use Test::Warn qw( warning_like );
 use URI::file      ();
 use WWW::Mechanize ();
 
-BEGIN { delete @ENV{ qw( http_proxy HTTP_PROXY PATH IFS CDPATH ENV BASH_ENV) }; }
-
 my $mech = WWW::Mechanize->new( cookie_jar => undef, max_redirect => 0 );
 isa_ok( $mech, 'WWW::Mechanize' );
 

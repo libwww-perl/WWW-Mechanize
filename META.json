@@ -80,7 +80,7 @@
             "URI::URL" : "0",
             "URI::file" : "0",
             "base" : "0",
-            "perl" : "5.006",
+            "perl" : "5.008",
             "strict" : "0",
             "warnings" : "0"
          }
@@ -962,4 +962,3 @@
    "x_spdx_expression" : "Artistic-1.0-Perl OR GPL-1.0-or-later",
    "x_static_install" : 1
 }
-
