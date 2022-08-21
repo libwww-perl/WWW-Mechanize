@@ -4,7 +4,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 # VERSION
 
-version 2.14
+version 2.15
 
 # SYNOPSIS
 
@@ -941,8 +941,6 @@ Note that this functionality requires libwww-perl 5.69 or higher.
 
 Searches for forms with arbitrary attribute/value pairs within the &lt;form>
 tag.
-(Currently does not work for attribute `action` due to implementation details
-of [HTML::Form](https://metacpan.org/pod/HTML%3A%3AForm).)
 When given more than one pair, all criteria must match.
 Using `undef` as value means that the attribute in question must not be present.
 
@@ -952,9 +950,6 @@ All matching forms (perhaps none) are returned as a list of [HTML::Form](https:/
 
 Searches for forms with arbitrary attribute/value pairs within the &lt;form>
 tag.
-(Currently does not work for attribute `action` due to implementation details
-of [HTML::Form](https://metacpan.org/pod/HTML%3A%3AForm). Use `[form_action()](#mech-form_action-action)`
-instead.)
 When given more than one pair, all criteria must match.
 Using `undef` as value means that the attribute in question must not be present.
 
