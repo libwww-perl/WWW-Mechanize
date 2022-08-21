@@ -64,7 +64,7 @@ my %WriteMakefileArgs = (
     "bytes" => 0,
     "lib" => 0
   },
-  "VERSION" => "2.15",
+  "VERSION" => "2.16",
   "test" => {
     "TESTS" => "t/*.t t/local/*.t t/mech-dump/*.t"
   }

@@ -1,5 +1,7 @@
 Revision history for WWW::Mechanize
 
+{{$NEXT}}
+
 2.15      2022-08-21 07:47:35Z
     [FIXED]
     - There was a test suite failure on some Windows machines introduced in
