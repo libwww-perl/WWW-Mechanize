@@ -54,5 +54,5 @@ sub slurp {
     my $name = shift;
 
     open( my $fh, '<', $name ) or die "Can't open $name: $!\n";
-    return join '', <$fh>;
+    return join q{}, <$fh>;
 }

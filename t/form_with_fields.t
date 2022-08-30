@@ -111,7 +111,7 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
     like(
         exception {
             $mech->submit_form(
-                with_fields => { 'xx' => '' },
+                with_fields => { 'xx' => q{} },
             );
         },
         qr/There is no form with the requested fields/,
@@ -124,7 +124,7 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
     like(
         exception {
             $mech->submit_form(
-                with_fields => { '1a' => '' },
+                with_fields => { '1a' => q{} },
                 form_number => 2,
             );
         },
@@ -165,7 +165,7 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
     is(
         exception {
             $mech->submit_form(
-                with_fields => { 'x' => '' },
+                with_fields => { 'x' => q{} },
                 form_name => '3rd_form_ambiguous',
             );
         },
@@ -179,7 +179,7 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
     is(
         exception {
             $mech->submit_form(
-                with_fields => { '1b' => '', 'opt[2]' => '' },
+                with_fields => { '1b' => q{}, 'opt[2]' => q{} },
             );
         },
         undef,

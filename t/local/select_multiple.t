@@ -49,7 +49,7 @@ eval {
         }
     );
 };
-is( $@, '', 'submit_form, second value' );
+is( $@, q{}, 'submit_form, second value' );
 like( $mech->uri, qr/chanId=119/, '... and the second value was set');
 
 eval {
@@ -58,7 +58,7 @@ eval {
             chanId => 119,
     );
 };
-is( $@, '', 'set_fields, second value' );
+is( $@, q{}, 'set_fields, second value' );
 like( $mech->uri, qr/chanId=119/, '... and the second value was set');
 
 
@@ -70,7 +70,7 @@ eval {
         }
     );
 };
-is( $@, '', 'submit_form, second value as array' );
+is( $@, q{}, 'submit_form, second value as array' );
 like( $mech->uri, qr/chanId=119/, '... and the second value was set');
 
 
@@ -81,7 +81,7 @@ eval {
     );
     $mech->submit;
 };
-is( $@, '', 'field, second value' );
+is( $@, q{}, 'field, second value' );
 like( $mech->uri, qr/chanId=119/, '... and the second value was set');
 
 
@@ -92,7 +92,7 @@ eval {
     );
     $mech->submit;
 };
-is( $@, '', 'field, second value as array' );
+is( $@, q{}, 'field, second value as array' );
 like( $mech->uri, qr/chanId=119/, '... and the second value was set');
 
 
@@ -104,7 +104,7 @@ eval {
         }
     );
 };
-is( $@, '', 'submit_form, first value' );
+is( $@, q{}, 'submit_form, first value' );
 like( $mech->uri, qr/chanId=130/, '... and the first value was set');
 
 

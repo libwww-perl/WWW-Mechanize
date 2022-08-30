@@ -83,7 +83,7 @@ $mech->get( $uri );
 ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
 
 eval { @images = $mech->find_all_images(); };
-is($@,'','survived eval');
+is($@,q{},'survived eval');
 is( scalar @images, 2, 'Exactly two images' );
 
 my $css_first = $images[0];

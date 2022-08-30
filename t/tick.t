@@ -22,7 +22,7 @@ $mech->tick('foo','hello');
 $mech->tick('foo','bye');
 $mech->untick('foo','hello');
 
-$mech->tick('no_value', '');
+$mech->tick('no_value', q{});
 
 my $form = $mech->form_number(1);
 isa_ok( $form, 'HTML::Form' );

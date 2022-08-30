@@ -25,7 +25,7 @@ is( $mech->uri, $server->url, 'Got the correct page' );
 ok( $response->is_success, 'Got local page' ) or die 'cannot even fetch local page';
 ok( $mech->is_html, 'is HTML' );
 
-is( $mech->value('upload'), '', 'Hopefully no upload happens');
+is( $mech->value('upload'), q{}, 'Hopefully no upload happens');
 
 $mech->field(query => 'foo'); # Filled the 'q' field
 
@@ -35,7 +35,7 @@ ok( $response->is_success, 'Can click "submit" ("submit" button)');
 
 like($mech->content, qr/\bfoo\b/i, 'Found "Foo"');
 
-is( $mech->value('upload'), '', 'No upload happens' );
+is( $mech->value('upload'), q{}, 'No upload happens' );
 
 SKIP: {
     skip 'Test::Memory::Cycle not installed', 1 unless $canTMC;

@@ -1862,7 +1862,7 @@ sub form_with {
                         unless ( defined $spec{$_} ) {    # case $attr => undef
                             qq{no $_};
                         }
-                        elsif ( $spec{$_} eq '' ) {       # case $attr=> ''
+                        elsif ( $spec{$_} eq q{} ) {       # case $attr=> ''
                             qq{empty $_};
                         }
                         else {                            # case $attr => $value
@@ -1871,7 +1871,7 @@ sub form_with {
                       }                # case $attr => undef
                       sort keys %spec  # sort keys to get deterministic messages
                   )
-                : ''
+                : q{}
               )
               . '.  The first one was used.'
         );
@@ -2244,7 +2244,7 @@ sub tick {
         # Sometimes the HTML is malformed and there is no value for the check
         # box, so we just return if the value passed is an empty string
         # (and the form input is found)
-        if ($value eq '') {
+        if ($value eq q{}) {
             $input->value($set ? $value : undef);
             return;
         }
@@ -2800,7 +2800,7 @@ sub save_content {
     }
 
     open( my $fh, '>', $filename ) or $self->die( "Unable to create $filename: $!" );
-    if ((my $binmode = delete($opts{binmode}) || '') || ($self->content_type() !~ m{^text/})) {
+    if ((my $binmode = delete($opts{binmode}) || q{}) || ($self->content_type() !~ m{^text/})) {
         if (length($binmode) && (substr($binmode, 0, 1) eq ':')) {
             binmode $fh, $binmode;
         }
@@ -2828,7 +2828,7 @@ will be used as a file name.
 
 sub _get_fh_default_stdout {
     my $self = shift;
-    my $p = shift || '';
+    my $p = shift || q{};
     if ( !$p ) {
         return \*STDOUT;
     } elsif ( !ref($p) ) {
@@ -2865,7 +2865,7 @@ sub dump_links {
 
     for my $link ( $self->links ) {
         my $url = $absolute ? $link->url_abs : $link->url;
-        $url = '' if not defined $url;
+        $url = q{} if not defined $url;
         print {$fh} $url, "\n";
     }
     return;
@@ -2890,7 +2890,7 @@ sub dump_images {
 
     for my $image ( $self->images ) {
         my $url = $absolute ? $image->url_abs : $image->url;
-        $url = '' if not defined $url;
+        $url = q{} if not defined $url;
         print {$fh} $url, "\n";
     }
     return;
@@ -3178,7 +3178,7 @@ sub _update_page {
 
     $self->{status}  = $res->code;
     $self->{base}    = $res->base;
-    $self->{ct}      = $res->content_type || '';
+    $self->{ct}      = $res->content_type || q{};
 
     if ( $res->is_success ) {
         $self->{uri} = $self->{redirected_uri};
@@ -3225,7 +3225,7 @@ sub _taintedness {
     return $_taintbrush if tainted( $_taintbrush );
 
     # Let's try again. Maybe somebody cleaned those.
-    $_taintbrush = substr(join('', grep { defined } @ARGV, %ENV), 0, 0);
+    $_taintbrush = substr(join(q{}, grep { defined } @ARGV, %ENV), 0, 0);
     return $_taintbrush if tainted( $_taintbrush );
 
     # If those don't work, go try to open some file from some unsafe
@@ -3485,7 +3485,7 @@ sub _link_from_token {
     my $name;
     if ( $tag eq 'a' ) {
         $text = $parser->get_trimmed_text("/$tag");
-        $text = '' unless defined $text;
+        $text = q{} unless defined $text;
 
         my $onClick = $attrs->{onclick};
         if ( $onClick && ($onClick =~ /^window\.open\(\s*'([^']+)'/) ) {
