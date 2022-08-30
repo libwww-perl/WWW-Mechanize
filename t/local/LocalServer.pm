@@ -99,7 +99,7 @@ sub spawn {
   close $fh;
   push @{$self->{delete}},$logfile;
   $self->{logfile} = $logfile;
-  my $web_page = delete $args{file} || "";
+  my $web_page = delete $args{file} || q{};
 
   my $server_file = path('t/local/log-server')->absolute;
   my @opts;

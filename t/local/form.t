@@ -89,12 +89,12 @@ is( $mech->current_form, $form_number_1,
 
 my $form_number_2 = $mech->form_number(2);
 $form_with =
-  $mech->form_with( class => 'test', foo => '', bar => undef, { n => 2 } );
+  $mech->form_with( class => 'test', foo => q{}, bar => undef, { n => 2 } );
 is( $form_with, $form_number_2, 'Can select nth form with ambiguous criteria' );
 
 is( scalar @warnings, 0, 'no warnings so far' );
 $mech->quiet(0);
-$form_with = $mech->form_with( class => 'test', foo => '', bar => undef );
+$form_with = $mech->form_with( class => 'test', foo => q{}, bar => undef );
 is( $form_with, $form_number_1,
     'form_with - can select form with ambiguous criteria' );
 is( scalar @warnings, 1, 'form_with - got one warning' );
