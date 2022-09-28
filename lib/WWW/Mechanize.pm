@@ -1921,7 +1921,7 @@ index mean:
 
 Index 0 is the I<filepath> that will be read from disk. Index 1 is the
 filename which will be used in the HTTP request body; if not given,
-filepath (index 0) is used instead. If C<<Content => 'content here'>> is
+filepath (index 0) is used instead. If C<< Content => 'content here' >> is
 used as shown, then I<filepath> will be ignored.
 
 The optional C<$number> parameter is used to distinguish between two fields
