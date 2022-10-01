@@ -4,6 +4,8 @@ Revision history for WWW::Mechanize
     [FIXED]
     - Raise minimum Perl to 5.8 to match what we test, what dependencies
       depend on, etc. (GH#352) (James Raspass)
+    [DOCUMENTATION]
+    - Various POD fixes (Julien Fiegehenn)
 
 2.15      2022-08-21 07:47:35Z
     [FIXED]
