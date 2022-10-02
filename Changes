@@ -8,6 +8,7 @@ Revision history for WWW::Mechanize
     - Raise minimum Perl to 5.8 to match what we test, what dependencies
       depend on, etc. (GH#352) (James Raspass)
     [DOCUMENTATION]
+    - Clarify documentation for select() (GH#77) (Julien Fiegehenn)
     - Various POD fixes (Julien Fiegehenn)
     [TESTS]
     - Test that follow_link(n=> 'all') warns (Kueppo Tcheukam)

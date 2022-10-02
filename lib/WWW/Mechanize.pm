@@ -1977,23 +1977,61 @@ sub field {
     }
 }
 
-=head2 $mech->select($name, $value)
+=head2 $mech->select($name, $new_or_additional_single_value)
 
-=head2 $mech->select($name, \@values)
+=head2 $mech->select($name, \%new_single_value_by_number)
+
+=head2 $mech->select($name, \@new_list_of_values)
+
+=head2 $mech->select($name, \%new_list_of_values_by_number)
 
 Given the name of a C<select> field, set its value to the value
-specified.  If the field is not C<< <select multiple> >> and the
-C<$value> is an array, only the B<first> value will be set.  [Note:
-the documentation previously claimed that only the last value would
-be set, but this was incorrect.]  Passing C<$value> as a hash with
-an C<n> key selects an item by number (e.g.
-C<< {n => 3} >> or C<< {n => [2,4]} >>).
+specified.
+
+    # select 'foo'
+    $mech->select($name, 'foo');
+
+If the field is not C<< <select multiple> >> and the
+C<$value> is an array reference, only the B<first> value will be set.  [Note:
+until version 1.05_03 the documentation claimed that only the last value would
+be set, but this was incorrect.]
+
+    # select 'bar'
+    $mech->select($name, ['bar', 'ignored', 'ignored']);
+
+Passing C<$value> as a hash reference with an C<n> key selects an item by number.
+
+    # select the third value
+    $mech->select($name, {n => 3});
+
 The numbering starts at 1.  This applies to the current form.
 
 If you have a field with C<< <select multiple> >> and you pass a single
 C<$value>, then C<$value> will be added to the list of fields selected,
-without clearing the others.  However, if you pass an array reference,
-then all previously selected values will be cleared.
+without clearing the others.
+
+    # add 'bar' to the list of selected values
+    $mech->select($name, 'bar');
+
+However, if you pass an array reference, then all previously selected values
+will be cleared and replaced with all values inside the array reference.
+
+    # replace the selection with 'foo' and 'bar'
+    $mech->select($name, ['foo', 'bar']);
+
+This also works when selecting by numbers, in which case the value of the C<n>
+key will be an array reference of value numbers you want to replace the
+selection with.
+
+    # replace the selection with the 2nd and 4th element
+    $mech->select($name, {n => [2, 4]});
+
+To add multiple additional values to the list of selected fields without
+clearing, call C<select> in the simple C<$value> form with each single value
+in a loop.
+
+    # add all values in the array to the selection
+    $mech->select($name, $_) for @additional_values;
 
 Returns true on successfully setting the value. On failure, returns
 false and calls C<< $self->warn() >> with an error message.

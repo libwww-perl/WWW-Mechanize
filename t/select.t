@@ -2,7 +2,8 @@
 
 use warnings;
 use strict;
-use Test::More tests => 14;
+use Test::More;
+use Test::Warn qw( warning_like );
 use URI::file ();
 
 BEGIN {
@@ -32,19 +33,23 @@ $form = $mech->current_form();
 # Multi-select
 
 # pass multiple values to a multi select
+$form->param('multilist', undef);
 $mech->select('multilist', \@sendmulti);
 @return = $form->param('multilist');
 is_deeply(\@return, \@sendmulti, 'multi->multi value is ' . join(' ', @return));
 
+$form->param('multilist', undef);
 $mech->select('multilist', \%sendmulti);
 @return = $form->param('multilist');
 is_deeply(\@return, \@sendmulti, 'multi->multi value is ' . join(' ', @return));
 
 # pass a single value to a multi select
+$form->param('multilist', undef);
 $mech->select('multilist', $sendsingle);
 $return = $form->param('multilist');
 is($return, $sendsingle, "single->multi value is '$return'");
 
+$form->param('multilist', undef);
 $mech->select('multilist', \%sendsingle);
 $return = $form->param('multilist');
 is($return, $sendsingle, "single->multi value is '$return'");
@@ -53,20 +58,24 @@ is($return, $sendsingle, "single->multi value is '$return'");
 # Single select
 
 # pass multiple values to a single select (only the _first_ should be set)
+$form->param('singlelist', undef);
 $mech->select('singlelist', \@sendmulti);
 @return = $form->param('singlelist');
 is_deeply(\@return, \@singlereturn, 'multi->single value is ' . join(' ', @return));
 
+$form->param('singlelist', undef);
 $mech->select('singlelist', \%sendmulti);
 @return = $form->param('singlelist');
 is_deeply(\@return, \@singlereturn, 'multi->single value is ' . join(' ', @return));
 
 
 # pass a single value to a single select
+$form->param('singlelist', undef);
 $rv = $mech->select('singlelist', $sendsingle);
 $return = $form->param('singlelist');
 is($return, $sendsingle, "single->single value is '$return'");
 
+$form->param('singlelist', undef);
 $rv = $mech->select('singlelist', \%sendsingle);
 $return = $form->param('singlelist');
 is($return, $sendsingle, "single->single value is '$return'");
@@ -74,8 +83,8 @@ is($return, $sendsingle, "single->single value is '$return'");
 # test return value from $mech->select
 is($rv, 1, 'return 1 after successful select');
 
-EAT_THE_WARNING: { # Mech complains about the non-existent field
-    local $SIG{__WARN__} = sub {};
-    $rv = $mech->select('missing_list', 1);
-}
-is($rv, undef, 'return undef after failed select');
+warning_like { $rv = $mech->select( 'missing_list', 1 ) } qr/not found/,
+    'warning when field is not found';
+is( $rv, undef, 'return undef after failed select' );
+
+done_testing;
