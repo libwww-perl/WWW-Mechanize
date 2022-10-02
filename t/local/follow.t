@@ -2,6 +2,7 @@ use warnings;
 use strict;
 use Test::More;
 use Test::Exception;
+use Test::Warnings qw(warning);
 use lib 't/local';
 use LocalServer ();
 
@@ -55,6 +56,10 @@ ok( !$response, q{Couldn't find it} );
 ok($agent->follow_link( url => '/foo' ), 'can follow url');
 isnt( $agent->uri, $server->url, 'Need to be on a separate page' );
 ok($agent->back(), 'Can still go back');
+
+$agent->quiet(0);
+like warning { $agent->follow_link( n => 'all' ) }, qr/^follow_link\(.*?\) is not valid/, "Can we follow all links?";
+ok( $agent->back(), 'Can still go back' );
 
 ok(!$agent->follow_link( url => '/notfoo' ), "can't follow wrong url");
 is( $agent->uri, $server->url, 'Needs to be on the same page' );

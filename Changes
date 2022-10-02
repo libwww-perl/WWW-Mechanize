@@ -6,6 +6,8 @@ Revision history for WWW::Mechanize
       depend on, etc. (GH#352) (James Raspass)
     [DOCUMENTATION]
     - Various POD fixes (Julien Fiegehenn)
+    [TESTS]
+    - Test that follow_link(n=> 'all') warns (Kueppo Tcheukam)
 
 2.15      2022-08-21 07:47:35Z
     [FIXED]
