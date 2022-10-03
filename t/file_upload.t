@@ -2,8 +2,8 @@ use strict;
 use warnings;
 use Test::More;
 use Test::Exception;
-use WWW::Mechanize;
-use URI::file;
+use WWW::Mechanize ();
+use URI::file ();
 
 my $file     = 't/file_upload.html';
 my $filename = 'the_file_upload.html';

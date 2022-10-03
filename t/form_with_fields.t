@@ -5,7 +5,7 @@ use strict;
 use Test::More 'no_plan';
 use Test::Fatal qw( exception );
 use Test::Warnings ':all';
-use Test::Deep qw( cmp_deeply re array_each code );
+use Test::Deep qw( array_each cmp_deeply code re );
 use URI::file ();
 
 BEGIN {

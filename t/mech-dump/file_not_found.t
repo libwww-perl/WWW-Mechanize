@@ -4,7 +4,7 @@ use warnings;
 use strict;
 
 use Test::More;
-use Test::Output qw(output_like);
+use Test::Output qw( output_like );
 use File::Spec   ();
 
 # See https://stackoverflow.com/a/32054866/1331451
