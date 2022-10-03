@@ -13,7 +13,7 @@ use WWW::Mechanize ();
 use lib 't';
 
 BEGIN {
-    use Tools;
+    use Tools qw( $canTMC memory_cycle_ok );
 }
 
 my $mech = WWW::Mechanize->new;
