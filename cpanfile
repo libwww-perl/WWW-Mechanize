@@ -40,7 +40,6 @@ on 'test' => sub {
   requires "Test::NoWarnings" => "1.04";
   requires "Test::Output" => "0";
   requires "Test::Taint" => "1.08";
-  requires "Test::Warn" => "0";
   requires "Test::Warnings" => "0";
   requires "URI" => "0";
   requires "URI::Escape" => "0";

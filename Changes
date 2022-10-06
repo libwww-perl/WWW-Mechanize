@@ -1,5 +1,8 @@
 Revision history for WWW::Mechanize
 
+    [TESTS]
+    - Drop Test::Warn prerequisite and only use Test::Warnings
+
 {{$NEXT}}
     [FIXED]
     - Raise minimum Perl to 5.8 to match what we test, what dependencies
