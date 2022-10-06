@@ -107,7 +107,6 @@
             "Test::NoWarnings" : "1.04",
             "Test::Output" : "0",
             "Test::Taint" : "1.08",
-            "Test::Warn" : "0",
             "Test::Warnings" : "0",
             "URI" : "0",
             "URI::Escape" : "0",

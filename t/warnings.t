@@ -4,16 +4,16 @@ use warnings;
 use strict;
 
 use Test::More;
-use Test::Warn qw( warning_is );
+use Test::Warnings qw( :all );
 use WWW::Mechanize ();
 
 UNKNOWN_ALIAS: {
     my $m = WWW::Mechanize->new;
     isa_ok( $m, 'WWW::Mechanize' );
 
-    warning_is {
+    like warning {
         $m->agent_alias( 'Blongo' );
-    } 'Unknown agent alias "Blongo"', 'Unknown aliases squawk appropriately';
+    }, qr/\AUnknown agent alias "Blongo"/, 'Unknown aliases squawk appropriately';
 }
 
 done_testing();
