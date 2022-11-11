@@ -508,8 +508,8 @@ PUTs C<$content> to C<$uri>.  Returns an L<HTTP::Response> object.
 C<$uri> can be a well-formed URI string, a L<URI> object, or a
 L<WWW::Mechanize::Link> object.
 
-    my $res = $mech->head( $uri );
-    my $res = $mech->head( $uri , $field_name => $value, ... );
+    my $res = $mech->put( $uri );
+    my $res = $mech->put( $uri , $field_name => $value, ... );
 
 =cut
 
