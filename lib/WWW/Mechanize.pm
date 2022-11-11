@@ -471,11 +471,7 @@ sub get {
     my $self = shift;
     my $uri = shift;
 
-    $uri = $uri->url if ref($uri) eq 'WWW::Mechanize::Link';
-
-    $uri = $self->base
-            ? URI->new_abs( $uri, $self->base )
-            : URI->new( $uri );
+    $uri = $self->_uri_with_base( $uri );
 
     # It appears we are returning a super-class method,
     # but it in turn calls the request() method here in Mechanize
@@ -494,11 +490,7 @@ sub post {
     my $self = shift;
     my $uri = shift;
 
-    $uri = $uri->url if ref($uri) eq 'WWW::Mechanize::Link';
-
-    $uri = $self->base
-            ? URI->new_abs( $uri, $self->base )
-            : URI->new( $uri );
+    $uri = $self->_uri_with_base( $uri );
 
     # It appears we are returning a super-class method,
     # but it in turn calls the request() method here in Mechanize
@@ -520,11 +512,7 @@ sub put {
     my $self = shift;
     my $uri = shift;
 
-    $uri = $uri->url if ref($uri) eq 'WWW::Mechanize::Link';
-
-    $uri = $self->base
-            ? URI->new_abs( $uri, $self->base )
-            : URI->new( $uri );
+    $uri = $self->_uri_with_base( $uri );
 
     # It appears we are returning a super-class method,
     # but it in turn calls the request() method here in Mechanize
@@ -552,15 +540,24 @@ sub head {
     my $self = shift;
     my $uri = shift;
 
+    $uri = $self->_uri_with_base( $uri );
+
+    # It appears we are returning a super-class method,
+    # but it in turn calls the request() method here in Mechanize
+    return $self->SUPER::head( $uri->as_string, @_ );
+}
+
+sub _uri_with_base {
+    my $self = shift;
+    my $uri = shift;
+
     $uri = $uri->url if ref($uri) eq 'WWW::Mechanize::Link';
 
     $uri = $self->base
             ? URI->new_abs( $uri, $self->base )
             : URI->new( $uri );
 
-    # It appears we are returning a super-class method,
-    # but it in turn calls the request() method here in Mechanize
-    return $self->SUPER::head( $uri->as_string, @_ );
+    return $uri;
 }
 
 =head2 $mech->reload()
