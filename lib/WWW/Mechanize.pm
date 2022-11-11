@@ -547,6 +547,25 @@ sub head {
     return $self->SUPER::head( $uri->as_string, @_ );
 }
 
+=head2 $mech->delete ($uri )
+
+Performs a DELETE request to C<$uri>. Returns an L<HTTP::Response> object.
+C<$uri> can be a well-formed URI string, a L<URI> object, or a
+L<WWW::Mechanize::Link> object.
+
+=cut
+
+sub delete {
+    my $self = shift;
+    my $uri = shift;
+
+    $uri = $self->_uri_with_base( $uri );
+
+    # It appears we are returning a super-class method,
+    # but it in turn calls the request() method here in Mechanize
+    return $self->SUPER::delete( $uri->as_string, @_ );
+}
+
 sub _uri_with_base {
     my $self = shift;
     my $uri = shift;
