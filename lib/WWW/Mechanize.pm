@@ -442,6 +442,11 @@ L<LWP::UserAgent>.  This lets you do things like
 and you can rest assured that the params will get filtered down
 appropriately. See L<LWP::UserAgent/get> for more details.
 
+B<NOTE:> The file in C<:content_file> will contain the raw content of
+the response. If the response content is encoded (e.g. gzip encoded),
+the file will be encoded as well. Use $mech->save_content if you need
+the decoded content.
+
 B<NOTE:> Because C<:content_file> causes the page contents to be
 stored in a file instead of the response object, some Mech functions
 that expect it to be there won't work as expected. Use with caution.
