@@ -1,7 +1,7 @@
 use warnings;
 use strict;
 use Test::More;
-use Test::Exception;
+use Test::Fatal qw(dies_ok);
 
 =head1 NAME
 

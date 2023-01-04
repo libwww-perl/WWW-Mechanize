@@ -33,7 +33,6 @@ on 'test' => sub {
   requires "LWP::Simple" => "0";
   requires "Path::Tiny" => "0";
   requires "Test::Deep" => "0";
-  requires "Test::Exception" => "0";
   requires "Test::Fatal" => "0";
   requires "Test::Memory::Cycle" => "1.06";
   requires "Test::More" => "0.96";

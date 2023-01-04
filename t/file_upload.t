@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 use Test::More;
-use Test::Exception;
+use Test::Fatal qw(lives_ok);
 use WWW::Mechanize ();
 use URI::file ();
 
