@@ -3,11 +3,7 @@ use warnings;
 use URI::file ();
 
 use Test::More;
-
-eval 'use Test::NoWarnings';
-if ( $@ ) {
-    plan( skip_all => 'Test::NoWarnings not installed' );
-}
+use Test::Warnings;
 
 plan( tests => 2 ); # the use_ok and then the warning check
 $ENV{test} = 14;
