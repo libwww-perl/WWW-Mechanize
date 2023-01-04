@@ -36,7 +36,6 @@ on 'test' => sub {
   requires "Test::Fatal" => "0";
   requires "Test::Memory::Cycle" => "1.06";
   requires "Test::More" => "0.96";
-  requires "Test::NoWarnings" => "1.04";
   requires "Test::Output" => "0";
   requires "Test::Taint" => "1.08";
   requires "Test::Warn" => "0";
