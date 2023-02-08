@@ -91,6 +91,9 @@ jobs:
           - "5.34"
           - "5.36"
     steps:
+      - name: pin Test::Deep to 1.130 on Perl < 5.12
+        if: ${{ matrix.perl-version == '5.8' || matrix.perl-version == '5.10' }}
+        run: cpanm --notest Test::Deep@1.130
       - uses: actions/checkout@v3
       - uses: actions/download-artifact@v3
         with:
@@ -125,6 +128,9 @@ jobs:
         uses: shogo82148/actions-setup-perl@v1
         with:
           perl-version: ${{ matrix.perl-version }}
+      - name: pin Test::Deep to 1.130 on Perl < 5.12
+        if: ${{ matrix.perl-version == '5.8' || matrix.perl-version == '5.10' }}
+        run: cpm install --global Test::Deep@1.130
       - uses: actions/download-artifact@v3
         with:
           name: build_dir
@@ -159,6 +165,9 @@ jobs:
         with:
           perl-version: ${{ matrix.perl-version }}
           distribution: strawberry # this option only used on Windows
+      - name: pin Test::Deep to 1.130 on Perl < 5.12
+        if: ${{ matrix.perl-version == '5.8' || matrix.perl-version == '5.10' }}
+        run: cpm install --global Test::Deep@1.130
       - uses: actions/download-artifact@v3
         with:
           name: build_dir
