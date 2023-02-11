@@ -4,7 +4,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 # VERSION
 
-version 2.15
+version 2.16
 
 # SYNOPSIS
 
@@ -296,6 +296,11 @@ internals is deprecated and subject to change in the future.
 and you can rest assured that the params will get filtered down
 appropriately. See ["get" in LWP::UserAgent](https://metacpan.org/pod/LWP%3A%3AUserAgent#get) for more details.
 
+**NOTE:** The file in `:content_file` will contain the raw content of
+the response. If the response content is encoded (e.g. gzip encoded),
+the file will be encoded as well. Use $mech->save\_content if you need
+the decoded content.
+
 **NOTE:** Because `:content_file` causes the page contents to be
 stored in a file instead of the response object, some Mech functions
 that expect it to be there won't work as expected. Use with caution.
@@ -331,12 +336,18 @@ PUTs `$content` to `$uri`.  Returns an [HTTP::Response](https://metacpan.org/pod
 `$uri` can be a well-formed URI string, a [URI](https://metacpan.org/pod/URI) object, or a
 [WWW::Mechanize::Link](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3ALink) object.
 
-    my $res = $mech->head( $uri );
-    my $res = $mech->head( $uri , $field_name => $value, ... );
+    my $res = $mech->put( $uri );
+    my $res = $mech->put( $uri , $field_name => $value, ... );
 
 ## $mech->head ($uri )
 
 Performs a HEAD request to `$uri`. Returns an [HTTP::Response](https://metacpan.org/pod/HTTP%3A%3AResponse) object.
+`$uri` can be a well-formed URI string, a [URI](https://metacpan.org/pod/URI) object, or a
+[WWW::Mechanize::Link](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3ALink) object.
+
+## $mech->delete ($uri )
+
+Performs a DELETE request to `$uri`. Returns an [HTTP::Response](https://metacpan.org/pod/HTTP%3A%3AResponse) object.
 `$uri` can be a well-formed URI string, a [URI](https://metacpan.org/pod/URI) object, or a
 [WWW::Mechanize::Link](https://metacpan.org/pod/WWW%3A%3AMechanize%3A%3ALink) object.
 
@@ -1005,29 +1016,67 @@ index mean:
 
 Index 0 is the _filepath_ that will be read from disk. Index 1 is the
 filename which will be used in the HTTP request body; if not given,
-filepath (index 0) is used instead. If `<Content =` 'content here'>> is
+filepath (index 0) is used instead. If `Content => 'content here'` is
 used as shown, then _filepath_ will be ignored.
 
 The optional `$number` parameter is used to distinguish between two fields
 with the same name.  The fields are numbered from 1.
 
-## $mech->select($name, $value)
+## $mech->select($name, $new\_or\_additional\_single\_value)
 
-## $mech->select($name, \\@values)
+## $mech->select($name, \\%new\_single\_value\_by\_number)
+
+## $mech->select($name, \\@new\_list\_of\_values)
+
+## $mech->select($name, \\%new\_list\_of\_values\_by\_number)
 
 Given the name of a `select` field, set its value to the value
-specified.  If the field is not `<select multiple>` and the
-`$value` is an array, only the **first** value will be set.  \[Note:
-the documentation previously claimed that only the last value would
-be set, but this was incorrect.\]  Passing `$value` as a hash with
-an `n` key selects an item by number (e.g.
-`{n => 3}` or `{n => [2,4]}`).
+specified.
+
+    # select 'foo'
+    $mech->select($name, 'foo');
+
+If the field is not `<select multiple>` and the
+`$value` is an array reference, only the **first** value will be set.  \[Note:
+until version 1.05\_03 the documentation claimed that only the last value would
+be set, but this was incorrect.\]
+
+    # select 'bar'
+    $mech->select($name, ['bar', 'ignored', 'ignored']);
+
+Passing `$value` as a hash reference with an `n` key selects an item by number.
+
+    # select the third value
+    $mech->select($name, {n => 3});
+
 The numbering starts at 1.  This applies to the current form.
 
 If you have a field with `<select multiple>` and you pass a single
 `$value`, then `$value` will be added to the list of fields selected,
-without clearing the others.  However, if you pass an array reference,
-then all previously selected values will be cleared.
+without clearing the others.
+
+    # add 'bar' to the list of selected values
+    $mech->select($name, 'bar');
+
+However, if you pass an array reference, then all previously selected values
+will be cleared and replaced with all values inside the array reference.
+
+    # replace the selection with 'foo' and 'bar'
+    $mech->select($name, ['foo', 'bar']);
+
+This also works when selecting by numbers, in which case the value of the `n`
+key will be an array reference of value numbers you want to replace the
+selection with.
+
+    # replace the selection with the 2nd and 4th element
+    $mech->select($name, {n => [2, 4]});
+
+To add multiple additional values to the list of selected fields without
+clearing, call `select` in the simple `$value` form with each single value
+in a loop.
+
+    # add all values in the array to the selection
+    $mech->select($name, $_) for @additional_values;
 
 Returns true on successfully setting the value. On failure, returns
 false and calls `$self->warn()` with an error message.
