@@ -3,7 +3,7 @@ use strict;
 use warnings;
 
 use HTTP::Daemon ();
-use File::Spec ();
+use File::Spec   ();
 
 sub new {
     my $class = shift;
@@ -37,9 +37,9 @@ sub run {
 
     my $d = $self->{daemon};
 
-    while (my $c = $d->accept) {
-        while (my $r = $c->get_request) {
-            $self->handle_request($c, $r);
+    while ( my $c = $d->accept ) {
+        while ( my $r = $c->get_request ) {
+            $self->handle_request( $c, $r );
         }
         $c->close;
         undef($c);
@@ -50,12 +50,12 @@ sub run {
 
 sub handle_request {
     my $self = shift;
-    my ($conn, $req) = @_;
+    my ( $conn, $req ) = @_;
 
-    my $path = $req->uri->path;
+    my $path           = $req->uri->path;
     my $dispatch_table = $self->{dispatch_table};
 
-    if (my $handler = $dispatch_table->{$path}) {
+    if ( my $handler = $dispatch_table->{$path} ) {
         my $res = $handler->($req);
         $conn->send_response($res);
     }
@@ -69,15 +69,16 @@ sub handle_request {
         my $filename = "t/html/$file";
         if ( open my $fh, '<', $filename ) {
             my $content = do { local $/; <$fh> };
-            print { $conn } "HTTP/1.0 200 OK\r\n";
-            print { $conn } "Content-Type: text/html\r\nContent-Length: ", length($content), "\r\n\r\n", $content;
+            print {$conn} "HTTP/1.0 200 OK\r\n";
+            print {$conn} "Content-Type: text/html\r\nContent-Length: ",
+                length($content), "\r\n\r\n", $content;
             return;
         }
         else {
-            print { $conn } "HTTP/1.0 404 Not found\r\n";
-            print { $conn } "Content-Type: text/plain\r\n";
-            print { $conn } "\r\n";
-            print { $conn } "Not found\r\n";
+            print {$conn} "HTTP/1.0 404 Not found\r\n";
+            print {$conn} "Content-Type: text/plain\r\n";
+            print {$conn} "\r\n";
+            print {$conn} "Not found\r\n";
             return;
         }
     }
@@ -94,15 +95,15 @@ sub background {
 
     my $pid = open my $fh, '-|';
 
-    if (!defined $pid) {
+    if ( !defined $pid ) {
         die "Can't start the test server";
     }
-    elsif (!$pid) {
+    elsif ( !$pid ) {
         my $daemon = $self->start;
         print "TestServer started: " . $daemon->url . "\n";
-        open STDIN, '<', File::Spec->devnull;
+        open STDIN,  '<', File::Spec->devnull;
         open STDOUT, '>', File::Spec->devnull;
-        $self->run; # should never return
+        $self->run;    # should never return
         exit 1;
     }
 
@@ -111,8 +112,8 @@ sub background {
     my $status_line = <$fh>;
     chomp $status_line;
 
-    if ($status_line =~ /\ATestServer started: (.*)\z/) {
-        $self->{root} = $1;
+    if ( $status_line =~ /\ATestServer started: (.*)\z/ ) {
+        $self->{root}     = $1;
         $self->{child_fh} = $fh;
     }
     else {
@@ -136,11 +137,11 @@ sub root {
 sub stop {
     my $self = shift;
 
-    if (my $pid = delete $self->{pid}) {
+    if ( my $pid = delete $self->{pid} ) {
         kill 9, $pid;
         waitpid $pid, 0;
     }
-    if (my $fh = delete $self->{child_fh}) {
+    if ( my $fh = delete $self->{child_fh} ) {
         close $fh;
     }
     return;

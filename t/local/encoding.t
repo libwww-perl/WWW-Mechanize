@@ -1,7 +1,7 @@
 use warnings;
 use strict;
 use Test::More tests => 6;
-use lib qw( t/local );
+use lib         qw( t/local );
 use LocalServer ();
 
 BEGIN {

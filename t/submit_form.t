@@ -109,7 +109,7 @@ $mech->get($uri);
     like(
         exception {
             $mech->submit_form(
-                with_fields => {}, # left empty on purpose
+                with_fields => {},    # left empty on purpose
             )
         },
         qr/no fields provided/,

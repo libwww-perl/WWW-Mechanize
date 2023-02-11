@@ -2,14 +2,14 @@ use warnings;
 use strict;
 use Test::More tests => 15;
 
-use lib qw( t/local );
+use lib         qw( t/local );
 use LocalServer ();
 
 use Test::Memory::Cycle;
 
 BEGIN {
-    delete @ENV{ qw( IFS CDPATH ENV BASH_ENV ) };
-    use_ok( 'WWW::Mechanize' );
+    delete @ENV{qw( IFS CDPATH ENV BASH_ENV )};
+    use_ok('WWW::Mechanize');
 }
 
 my $server = LocalServer->spawn;
@@ -24,9 +24,9 @@ NO_GET: {
 }
 
 FIRST_GET: {
-    my $r = $agent->get($server->url);
+    my $r = $agent->get( $server->url );
     isa_ok( $r, 'HTTP::Response' );
-    ok( $r->is_success, 'Get google webpage');
+    ok( $r->is_success,  'Get google webpage' );
     ok( $agent->is_html, 'Valid HTML' );
     is( $agent->title, 'WWW::Mechanize test page' );
 }
@@ -42,7 +42,7 @@ RELOAD: {
     my $r = $agent->reload;
     isa_ok( $r, 'HTTP::Response' );
     ok( $agent->is_html, 'Valid HTML' );
-    ok( $agent->title, 'WWW::Mechanize test page' );
+    ok( $agent->title,   'WWW::Mechanize test page' );
     my $cookie_before = $agent->history(0)->{req}->header('Cookie');
     $agent->reload;
     my $cookie_after = $agent->history(0)->{req}->header('Cookie');

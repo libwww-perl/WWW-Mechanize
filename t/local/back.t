@@ -1,9 +1,8 @@
 use warnings;
 use strict;
 use Test::More tests => 47;
-use lib qw( t/local );
+use lib         qw( t/local );
 use LocalServer ();
-
 
 =head1 NAME
 
@@ -17,13 +16,16 @@ and subsequently enriched to deal with RT ticket #8109.
 use Test::Memory::Cycle;
 
 BEGIN {
-    delete @ENV{ qw( IFS CDPATH ENV BASH_ENV ) };
-    use_ok( 'WWW::Mechanize' );
+    delete @ENV{qw( IFS CDPATH ENV BASH_ENV )};
+    use_ok('WWW::Mechanize');
 }
 
-my $mech = WWW::Mechanize->new(cookie_jar => {});
+my $mech = WWW::Mechanize->new( cookie_jar => {} );
 isa_ok( $mech, 'WWW::Mechanize' );
-isa_ok( $mech->cookie_jar(), 'HTTP::Cookies', 'this $mech starts with a cookie jar' );
+isa_ok(
+    $mech->cookie_jar(), 'HTTP::Cookies',
+    'this $mech starts with a cookie jar'
+);
 
 my $html = <<'HTML';
 <html>
@@ -46,43 +48,43 @@ isa_ok( $server, 'LocalServer' );
 
 ok( !$mech->back(), 'With no stack, no going back' );
 
-$mech->get($server->url);
+$mech->get( $server->url );
 ok( $mech->success, 'Fetched OK' );
 
 my $first_base = $mech->base;
-my $title = $mech->title;
+my $title      = $mech->title;
 
-$mech->follow_link( n=>2 );
+$mech->follow_link( n => 2 );
 ok( $mech->success, 'Followed OK' );
 
 ok( $mech->back(), 'Back should succeed' );
-is( $mech->base, $first_base, 'Did the base get set back?' );
-is( $mech->title, $title, 'Title set back?' );
+is( $mech->base,  $first_base, 'Did the base get set back?' );
+is( $mech->title, $title,      'Title set back?' );
 
 $mech->follow_link( text => 'Images' );
 ok( $mech->success, 'Followed OK' );
 
 ok( $mech->back(), 'Back should succeed' );
-is( $mech->base, $first_base, 'Did the base get set back?' );
-is( $mech->title, $title, 'Title set back?' );
+is( $mech->base,  $first_base, 'Did the base get set back?' );
+is( $mech->title, $title,      'Title set back?' );
 
-is( scalar @{$mech->{page_stack}}, 0, 'Pre-search check' );
+is( scalar @{ $mech->{page_stack} }, 0, 'Pre-search check' );
 $mech->submit_form(
     fields => { 'q' => 'perl' },
 );
 ok( $mech->success, 'Searched for Perl' );
 like( $mech->title, qr/search.cgi/, 'Right page title' );
-is( scalar @{$mech->{page_stack}}, 1, 'POST is in the stack' );
+is( scalar @{ $mech->{page_stack} }, 1, 'POST is in the stack' );
 
 $mech->head( $server->url );
 ok( $mech->success, 'HEAD succeeded' );
-is( scalar @{$mech->{page_stack}}, 1, 'HEAD is not in the stack' );
+is( scalar @{ $mech->{page_stack} }, 1, 'HEAD is not in the stack' );
 
-ok( $mech->back(), 'Back should succeed' );
+ok( $mech->back(),  'Back should succeed' );
 ok( $mech->success, 'Back' );
-is( $mech->base, $first_base, 'Did the base get set back?' );
-is( $mech->title, $title, 'Title set back?' );
-is( scalar @{$mech->{page_stack}}, 0, 'Post-search check' );
+is( $mech->base,  $first_base,          'Did the base get set back?' );
+is( $mech->title, $title,               'Title set back?' );
+is( scalar @{ $mech->{page_stack} }, 0, 'Post-search check' );
 
 =head2 Back and misc. internal fields
 
@@ -97,10 +99,12 @@ browser does not cause it to go away).
 $mech->follow_link( text => 'Images' );
 $mech->reload();
 ok( $mech->back(), 'Back should succeed' );
-is($mech->title, $title, 'reload() does not push page to stack' );
+is( $mech->title, $title, 'reload() does not push page to stack' );
 
-ok(defined($mech->cookie_jar()),
-   '$mech still has a cookie jar after a number of back()');
+ok(
+    defined( $mech->cookie_jar() ),
+    '$mech still has a cookie jar after a number of back()'
+);
 
 # Now some other weird stuff. Start with a fresh history by recreating
 # $mech.
@@ -117,23 +121,26 @@ my @links = qw(
     modules/
 );
 
-is( scalar @{$mech->{page_stack}}, 0, 'Pre-404 check' );
+is( scalar @{ $mech->{page_stack} }, 0, 'Pre-404 check' );
 
 my $server404url = $server->error_notfound('404check');
 
 $mech->get($server404url);
-is( $mech->status, 404 , '404 check') or
-    diag( qq{\$server404url=$server404url\n\$mech->content="}, $mech->content, qq{"\n} );
+is( $mech->status, 404, '404 check' )
+    or diag(
+    qq{\$server404url=$server404url\n\$mech->content="},
+    $mech->content, qq{"\n}
+    );
 
-is( scalar @{$mech->{page_stack}}, 1, 'Even 404s get on the stack' );
+is( scalar @{ $mech->{page_stack} }, 1, 'Even 404s get on the stack' );
 
 ok( $mech->back(), 'Back should succeed' );
-is( $mech->uri, $server->url, 'Back from the 404' );
-is( scalar @{$mech->{page_stack}}, 0, 'Post-404 check' );
+is( $mech->uri,                      $server->url, 'Back from the 404' );
+is( scalar @{ $mech->{page_stack} }, 0,            'Post-404 check' );
 
-for my $link ( @links ) {
-    $mech->get( $link );
-    warn $mech->status() if (! $mech->success());
+for my $link (@links) {
+    $mech->get($link);
+    warn $mech->status() if ( !$mech->success() );
     is( $mech->status, 200, "Get $link" );
 
     ok( $mech->back(), 'Back should succeed' );

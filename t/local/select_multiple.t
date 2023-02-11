@@ -7,16 +7,18 @@ use lib 't/local';
 use LocalServer ();
 
 BEGIN {
-    use_ok( 'WWW::Mechanize' );
-    delete @ENV{ qw( http_proxy HTTP_PROXY ) };
-    delete @ENV{ qw( IFS CDPATH ENV BASH_ENV ) };
+    use_ok('WWW::Mechanize');
+    delete @ENV{qw( http_proxy HTTP_PROXY )};
+    delete @ENV{qw( IFS CDPATH ENV BASH_ENV )};
 
 }
 
-my $mech = WWW::Mechanize->new(cookie_jar => {});
+my $mech = WWW::Mechanize->new( cookie_jar => {} );
 isa_ok( $mech, "WWW::Mechanize" );
-ok(defined($mech->cookie_jar()),
-   'this $mech starts with a cookie jar');
+ok(
+    defined( $mech->cookie_jar() ),
+    'this $mech starts with a cookie jar'
+);
 
 my $html = <<'HTML';
 <html>
@@ -38,75 +40,70 @@ isa_ok( $server, "LocalServer" );
 dies_ok { $mech->submit_form( form_number => 1, fields => { none => 0 } ) }
 'Dies without a form';
 
-$mech->get($server->url);
+$mech->get( $server->url );
 ok( $mech->success, 'Fetched OK' );
 
 eval {
     $mech->submit_form(
         form_number => 1,
-        fields => {
+        fields      => {
             chanId => 119,
         }
     );
 };
 is( $@, q{}, 'submit_form, second value' );
-like( $mech->uri, qr/chanId=119/, '... and the second value was set');
+like( $mech->uri, qr/chanId=119/, '... and the second value was set' );
 
 eval {
     $mech->form_number(1);
     $mech->set_fields(
-            chanId => 119,
+        chanId => 119,
     );
 };
 is( $@, q{}, 'set_fields, second value' );
-like( $mech->uri, qr/chanId=119/, '... and the second value was set');
-
+like( $mech->uri, qr/chanId=119/, '... and the second value was set' );
 
 eval {
     $mech->submit_form(
         form_number => 1,
-        fields => {
+        fields      => {
             chanId => [119],
         }
     );
 };
 is( $@, q{}, 'submit_form, second value as array' );
-like( $mech->uri, qr/chanId=119/, '... and the second value was set');
-
+like( $mech->uri, qr/chanId=119/, '... and the second value was set' );
 
 eval {
     $mech->form_number(1);
     $mech->field(
-            chanId => 119,
+        chanId => 119,
     );
     $mech->submit;
 };
 is( $@, q{}, 'field, second value' );
-like( $mech->uri, qr/chanId=119/, '... and the second value was set');
-
+like( $mech->uri, qr/chanId=119/, '... and the second value was set' );
 
 eval {
     $mech->form_number(1);
     $mech->field(
-            chanId => [119],
+        chanId => [119],
     );
     $mech->submit;
 };
 is( $@, q{}, 'field, second value as array' );
-like( $mech->uri, qr/chanId=119/, '... and the second value was set');
-
+like( $mech->uri, qr/chanId=119/, '... and the second value was set' );
 
 eval {
     $mech->submit_form(
         form_number => 1,
-        fields => {
+        fields      => {
             chanId => 130,
         }
     );
 };
 is( $@, q{}, 'submit_form, first value' );
-like( $mech->uri, qr/chanId=130/, '... and the first value was set');
-
+like( $mech->uri, qr/chanId=130/, '... and the first value was set' );
 
 SKIP: {
     eval "use Test::Memory::Cycle";

@@ -7,21 +7,21 @@ use Test::Fatal qw( exception );
 use Test::More;
 use URI::file ();
 
-use_ok( 'WWW::Mechanize' );
+use_ok('WWW::Mechanize');
 
 my $mech = WWW::Mechanize->new( cookie_jar => undef );
 isa_ok( $mech, 'WWW::Mechanize' );
 
-my $uri = URI::file->new_abs( 't/tick.html' )->as_string;
-$mech->get( $uri );
+my $uri = URI::file->new_abs('t/tick.html')->as_string;
+$mech->get($uri);
 ok( $mech->success, $uri );
 
-$mech->form_number( 1 );
-$mech->tick('foo','hello');
-$mech->tick('foo','bye');
-$mech->untick('foo','hello');
+$mech->form_number(1);
+$mech->tick( 'foo', 'hello' );
+$mech->tick( 'foo', 'bye' );
+$mech->untick( 'foo', 'hello' );
 
-$mech->tick('no_value', q{});
+$mech->tick( 'no_value', q{} );
 
 my $form = $mech->form_number(1);
 isa_ok( $form, 'HTML::Form' );

@@ -9,9 +9,9 @@ use WWW::Mechanize ();
 my $mech = WWW::Mechanize->new( cookie_jar => undef, max_redirect => 0 );
 isa_ok( $mech, 'WWW::Mechanize' );
 
-my $uri = URI::file->new_abs( 't/find_link.html' )->as_string;
+my $uri = URI::file->new_abs('t/find_link.html')->as_string;
 
-$mech->get( $uri );
+$mech->get($uri);
 ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
 
 REGEX_USAGE: {
@@ -25,7 +25,7 @@ REGEX_USAGE: {
 
 REGEX_STRING: {
     for my $tn (qw( text name url tag )) {
-        my $tname = $tn.'_regex';
+        my $tname = $tn . '_regex';
         like warning {
             $mech->find_link( $tname => 'expect error' );
         }, qr/passed as $tname is not a regex/,

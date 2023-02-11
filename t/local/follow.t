@@ -1,14 +1,14 @@
 use warnings;
 use strict;
 use Test::More;
-use Test::Fatal qw(dies_ok);
+use Test::Fatal    qw(dies_ok);
 use Test::Warnings qw(warning);
 use lib 't/local';
 use LocalServer ();
 
 BEGIN {
-    delete @ENV{ qw( IFS CDPATH ENV BASH_ENV ) };
-    use_ok( 'WWW::Mechanize' );
+    delete @ENV{qw( IFS CDPATH ENV BASH_ENV )};
+    use_ok('WWW::Mechanize');
 }
 
 my $server = LocalServer->spawn;
@@ -25,47 +25,64 @@ ok( $agent->success, 'Got some page' );
 is( $agent->uri, $server->url, 'Got local server page' );
 
 $response = $agent->follow_link( n => 99999 );
-ok( !$response, q{Can't follow too-high-numbered link});
+ok( !$response, q{Can't follow too-high-numbered link} );
 
 $response = $agent->follow_link( n => 1 );
 isa_ok( $response, 'HTTP::Response', 'Gives a response' );
 isnt( $agent->uri, $server->url, 'Need to be on a separate page' );
 
-ok($agent->back(), 'Can go back');
+ok( $agent->back(), 'Can go back' );
 is( $agent->uri, $server->url, 'Back at the first page' );
 
-ok(! $agent->follow_link( text_regex => qr/asdfghjksdfghj/ ), "Can't follow unlikely named link");
+ok(
+    !$agent->follow_link( text_regex => qr/asdfghjksdfghj/ ),
+    "Can't follow unlikely named link"
+);
 
-ok($agent->follow_link( text => 'Link /foo' ), 'Can follow obvious named link');
+ok(
+    $agent->follow_link( text => 'Link /foo' ),
+    'Can follow obvious named link'
+);
 isnt( $agent->uri, $server->url, 'Need to be on a separate page' );
 
-ok($agent->back(), 'Can still go back');
-ok($agent->follow_link( text_regex=>qr/L\x{f6}schen/ ), 'Can follow link with o-umlaut');
+ok( $agent->back(), 'Can still go back' );
+ok(
+    $agent->follow_link( text_regex => qr/L\x{f6}schen/ ),
+    'Can follow link with o-umlaut'
+);
 isnt( $agent->uri, $server->url, 'Need to be on a separate page' );
 
-ok($agent->back(), 'Can still go back');
-ok($agent->follow_link( text_regex=>qr/St\x{f6}sberg/ ), q{Can follow link with o-umlaut, when it's encoded in the HTML, but not in "follow"});
+ok( $agent->back(), 'Can still go back' );
+ok(
+    $agent->follow_link( text_regex => qr/St\x{f6}sberg/ ),
+    q{Can follow link with o-umlaut, when it's encoded in the HTML, but not in "follow"}
+);
 isnt( $agent->uri, $server->url, 'Need to be on a separate page' );
 
-ok($agent->back(), 'Can still go back');
+ok( $agent->back(), 'Can still go back' );
 is( $agent->uri, $server->url, 'Back at the start page again' );
 
 $response = $agent->follow_link( text_regex => qr/Snargle/ );
 ok( !$response, q{Couldn't find it} );
 
-ok($agent->follow_link( url => '/foo' ), 'can follow url');
+ok( $agent->follow_link( url => '/foo' ), 'can follow url' );
 isnt( $agent->uri, $server->url, 'Need to be on a separate page' );
-ok($agent->back(), 'Can still go back');
-
-$agent->quiet(0);
-like warning { $agent->follow_link( n => 'all' ) }, qr/^follow_link\(.*?\) is not valid/, "Can we follow all links?";
 ok( $agent->back(), 'Can still go back' );
 
-ok(!$agent->follow_link( url => '/notfoo' ), "can't follow wrong url");
-is( $agent->uri, $server->url, 'Needs to be on the same page' );
-eval {$agent->follow_link( '/foo' )};
-like($@, qr/Needs to get key-value pairs of parameters.*follow\.t/, "Invalid parameter passing gets better error message");
+$agent->quiet(0);
+like warning { $agent->follow_link( n => 'all' ) },
+    qr/^follow_link\(.*?\) is not valid/, "Can we follow all links?";
+ok( $agent->back(), 'Can still go back' );
 
-dies_ok { WWW::Mechanize->new->follow_link( url => '/404' ) } "dies when link does not exist with autocheck";
+ok( !$agent->follow_link( url => '/notfoo' ), "can't follow wrong url" );
+is( $agent->uri, $server->url, 'Needs to be on the same page' );
+eval { $agent->follow_link('/foo') };
+like(
+    $@, qr/Needs to get key-value pairs of parameters.*follow\.t/,
+    "Invalid parameter passing gets better error message"
+);
+
+dies_ok { WWW::Mechanize->new->follow_link( url => '/404' ) }
+"dies when link does not exist with autocheck";
 
 done_testing;

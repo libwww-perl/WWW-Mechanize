@@ -3,20 +3,23 @@ package LocalServer;
 # start a fake webserver, fork, and connect to ourselves
 use warnings;
 use strict;
+
 # this has to happen here because LWP::Simple creates a $ua
 # on load so any time after this is too late.
 BEGIN {
-  delete @ENV{qw(
-    HTTP_PROXY http_proxy CGI_HTTP_PROXY
-    HTTPS_PROXY https_proxy HTTP_PROXY_ALL http_proxy_all
-  )};
+    delete @ENV{
+        qw(
+            HTTP_PROXY http_proxy CGI_HTTP_PROXY
+            HTTPS_PROXY https_proxy HTTP_PROXY_ALL http_proxy_all
+        )
+    };
 }
 
-use Carp qw( carp croak );
-use File::Temp ();
+use Carp        qw( carp croak );
+use File::Temp  ();
 use LWP::Simple qw( get );
-use Path::Tiny qw( path );
-use URI::URL ();
+use Path::Tiny  qw( path );
+use URI::URL    ();
 
 =head1 SYNOPSIS
 
@@ -76,49 +79,51 @@ The following entries will be removed from C<%ENV>:
 =cut
 
 sub spawn {
-  my ($class,%args) = @_;
-  my $self = { %args };
-  bless $self,$class;
+    my ( $class, %args ) = @_;
+    my $self = {%args};
+    bless $self, $class;
 
-  local $ENV{TEST_HTTP_VERBOSE};
-  $ENV{TEST_HTTP_VERBOSE} = 1
-    if (delete $args{debug});
+    local $ENV{TEST_HTTP_VERBOSE};
+    $ENV{TEST_HTTP_VERBOSE} = 1
+        if ( delete $args{debug} );
 
-  $self->{delete} = [];
-  if (my $html = delete $args{html}) {
-    # write the html to a temp file
-    my ($fh,$tempfile) = File::Temp::tempfile();
-    binmode $fh;
-    print $fh $html
-      or die "Couldn't write tempfile $tempfile : $!";
+    $self->{delete} = [];
+    if ( my $html = delete $args{html} ) {
+
+        # write the html to a temp file
+        my ( $fh, $tempfile ) = File::Temp::tempfile();
+        binmode $fh;
+        print $fh $html
+            or die "Couldn't write tempfile $tempfile : $!";
+        close $fh;
+        push @{ $self->{delete} }, $tempfile;
+        $args{file} = $tempfile;
+    }
+    my ( $fh, $logfile ) = File::Temp::tempfile();
     close $fh;
-    push @{$self->{delete}},$tempfile;
-    $args{file} = $tempfile;
-  };
-  my ($fh,$logfile) = File::Temp::tempfile();
-  close $fh;
-  push @{$self->{delete}},$logfile;
-  $self->{logfile} = $logfile;
-  my $web_page = delete $args{file} || q{};
+    push @{ $self->{delete} }, $logfile;
+    $self->{logfile} = $logfile;
+    my $web_page = delete $args{file} || q{};
 
-  my $server_file = path('t/local/log-server')->absolute;
-  my @opts;
-  push @opts, "-e" => qq{"} . delete($args{ eval }) . qq{"}
-      if $args{ eval };
+    my $server_file = path('t/local/log-server')->absolute;
+    my @opts;
+    push @opts, "-e" => qq{"} . delete( $args{eval} ) . qq{"}
+        if $args{eval};
 
-  my $pid = open my $server, qq'$^X "$server_file" "$web_page" "$logfile" @opts|'
-    or croak "Couldn't spawn local server $server_file : $!";
-  my $url = <$server>;
-  chomp $url;
-  die "Couldn't read back local server url"
-      unless $url;
+    my $pid = open my $server,
+        qq'$^X "$server_file" "$web_page" "$logfile" @opts|'
+        or croak "Couldn't spawn local server $server_file : $!";
+    my $url = <$server>;
+    chomp $url;
+    die "Couldn't read back local server url"
+        unless $url;
 
-  $self->{_server_url} = URI::URL->new($url);
-  $self->{_fh} = $server;
-  $self->{_pid} = $pid;
+    $self->{_server_url} = URI::URL->new($url);
+    $self->{_fh}         = $server;
+    $self->{_pid}        = $pid;
 
-  $self;
-};
+    $self;
+}
 
 =head2 C<< $server->port >>
 
@@ -129,9 +134,10 @@ if you need to compare results from two runs.
 =cut
 
 sub port {
-  carp __PACKAGE__ . '::port called without a server' unless $_[0]->{_server_url};
-  $_[0]->{_server_url}->port
-};
+    carp __PACKAGE__ . '::port called without a server'
+        unless $_[0]->{_server_url};
+    $_[0]->{_server_url}->port;
+}
 
 =head2 C<< $server->url >>
 
@@ -142,8 +148,8 @@ C<< $server->stop >> or C<< $server->get_log >>.
 =cut
 
 sub url {
-  $_[0]->{_server_url}->abs->as_string
-};
+    $_[0]->{_server_url}->abs->as_string;
+}
 
 =head2 C<< $server->stop >>
 
@@ -160,7 +166,7 @@ sub stop {
         close $self->{_fh};
         delete $self->{_fh};
     }
-};
+}
 
 =head2 C<< $server->kill >>
 
@@ -170,10 +176,10 @@ cannot be retrieved then.
 =cut
 
 sub kill {
-  CORE::kill( 9 => $_[0]->{ _pid } );
-  undef $_[0]->{_server_url};
-  undef $_[0]->{_pid};
-};
+    CORE::kill( 9 => $_[0]->{_pid} );
+    undef $_[0]->{_server_url};
+    undef $_[0]->{_pid};
+}
 
 =head2 C<< $server->get_log >>
 
@@ -185,19 +191,19 @@ as a string.
 =cut
 
 sub get_log {
-  my ($self) = @_;
+    my ($self) = @_;
 
-  my $log = get( $self->get_server_log );
-  $self->stop;
-  return $log;
-};
+    my $log = get( $self->get_server_log );
+    $self->stop;
+    return $log;
+}
 
 sub DESTROY {
-  $_[0]->stop if $_[0]->{_server_url};
-  for my $file (@{$_[0]->{delete}}) {
-    unlink $file or warn "Couldn't remove tempfile $file : $!\n";
-  };
-};
+    $_[0]->stop if $_[0]->{_server_url};
+    for my $file ( @{ $_[0]->{delete} } ) {
+        unlink $file or warn "Couldn't remove tempfile $file : $!\n";
+    }
+}
 
 =head1 URLs implemented by the server
 
@@ -236,23 +242,23 @@ All other URLs will echo back the cookies and query parameters.
 =cut
 
 my %urls = (
-    'quit_server' => 'quit_server',
-    'get_server_log' => 'get_server_log',
-    'redirect' => 'redirect/%s',
-    'error_notfound' => 'error/notfound/%s',
-    'error_timeout' => 'error/timeout/%s',
-    'error_close' => 'error/close/%s',
+    'quit_server'         => 'quit_server',
+    'get_server_log'      => 'get_server_log',
+    'redirect'            => 'redirect/%s',
+    'error_notfound'      => 'error/notfound/%s',
+    'error_timeout'       => 'error/timeout/%s',
+    'error_close'         => 'error/close/%s',
     'error_after_headers' => 'error/after_headers',
-    'chunked' => 'chunks',
+    'chunked'             => 'chunks',
 );
-for (keys %urls) {
+for ( keys %urls ) {
     no strict 'refs';
     my $name = $_;
-    *{ $name } = sub {
+    *{$name} = sub {
         my $self = shift;
-        $self->url . sprintf $urls{ $name }, @_;
+        $self->url . sprintf $urls{$name}, @_;
     };
-};
+}
 
 =head1 EXPORT
 

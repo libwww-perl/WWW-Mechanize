@@ -31,19 +31,21 @@ Creates and returns a new C<WWW::Mechanize::Image> object.
 =cut
 
 sub new {
-    my $class = shift;
+    my $class  = shift;
     my $params = shift || {};
 
     my $self = bless {}, $class;
 
-    for my $param ( qw( url base tag height width alt name attrs ) ) {
+    for my $param (qw( url base tag height width alt name attrs )) {
+
         # Check for what we passed in, not whether it's defined
         $self->{$param} = $params->{$param} if exists $params->{$param};
     }
 
     # url and tag are always required
-    for ( qw( url tag ) ) {
-        exists $self->{$_} or die "WWW::Mechanize::Image->new must have a $_ argument";
+    for (qw( url tag )) {
+        exists $self->{$_}
+            or die "WWW::Mechanize::Image->new must have a $_ argument";
     }
 
     return $self;
@@ -87,14 +89,14 @@ Hash ref of all the attributes and attribute values in the tag.
 
 =cut
 
-sub url     { return ($_[0])->{url}; }
-sub base    { return ($_[0])->{base}; }
-sub name    { return ($_[0])->{name}; }
-sub tag     { return ($_[0])->{tag}; }
-sub height  { return ($_[0])->{height}; }
-sub width   { return ($_[0])->{width}; }
-sub alt     { return ($_[0])->{alt}; }
-sub attrs   { return ($_[0])->{attrs}; }
+sub url    { return ( $_[0] )->{url}; }
+sub base   { return ( $_[0] )->{base}; }
+sub name   { return ( $_[0] )->{name}; }
+sub tag    { return ( $_[0] )->{tag}; }
+sub height { return ( $_[0] )->{height}; }
+sub width  { return ( $_[0] )->{width}; }
+sub alt    { return ( $_[0] )->{alt}; }
+sub attrs  { return ( $_[0] )->{attrs}; }
 
 =head2 $image->URI()
 

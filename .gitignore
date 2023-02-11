@@ -1,6 +1,7 @@
 /.ackrc
 /blib/
 .build
+/cover_db
 cpanfile.snapshot
 /_eumm/
 !/.gitignore
@@ -16,7 +17,6 @@ cpanfile.snapshot
 *.sw*
 /.tidyall.d
 tidyall.ERR
+/.vscode
 /WWW-Mechanize-*/
 /WWW-Mechanize-*.tar.gz
-/.vscode
-/cover_db

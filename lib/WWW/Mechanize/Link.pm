@@ -41,10 +41,10 @@ sub new {
     # The order of the first four must stay as they are for
     # compatibility with older code.
     if ( ref $_[0] eq 'HASH' ) {
-        $self = [ @{$_[0]}{ qw( url text name tag base attrs ) } ];
+        $self = [ @{ $_[0] }{qw( url text name tag base attrs )} ];
     }
     else {
-        $self = [ @_ ];
+        $self = [@_];
     }
 
     return bless $self, $class;
@@ -78,12 +78,12 @@ Returns hash ref of all the attributes and attribute values in the tag.
 
 =cut
 
-sub url   { return ($_[0])->[0]; }
-sub text  { return ($_[0])->[1]; }
-sub name  { return ($_[0])->[2]; }
-sub tag   { return ($_[0])->[3]; }
-sub base  { return ($_[0])->[4]; }
-sub attrs { return ($_[0])->[5]; }
+sub url   { return ( $_[0] )->[0]; }
+sub text  { return ( $_[0] )->[1]; }
+sub name  { return ( $_[0] )->[2]; }
+sub tag   { return ( $_[0] )->[3]; }
+sub base  { return ( $_[0] )->[4]; }
+sub attrs { return ( $_[0] )->[5]; }
 
 =head2 $link->URI()
 
