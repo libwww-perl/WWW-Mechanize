@@ -1,6 +1,6 @@
 # XXX add cookie reading on the server side to the test
 
-BEGIN { delete @ENV{ qw( http_proxy HTTP_PROXY ) }; }
+BEGIN { delete @ENV{qw( http_proxy HTTP_PROXY )}; }
 
 use warnings;
 use strict;
@@ -14,7 +14,7 @@ else {
 }
 
 use WWW::Mechanize ();
-use URI::Escape qw( uri_escape uri_unescape );
+use URI::Escape    qw( uri_escape uri_unescape );
 
 use lib 't/';
 use TestServer ();
@@ -31,7 +31,8 @@ sub send_cookies {
         200, 'OK',
         [
             'Content-Type' => 'text/html',
-            'Set-Cookie' => "my_cookie=$cvalue; Path=/; Domain=127.0.0.1; Expires=+1h;",
+            'Set-Cookie'   =>
+                "my_cookie=$cvalue; Path=/; Domain=127.0.0.1; Expires=+1h;",
         ],
         <<"END_HTML",
 <html>
@@ -64,13 +65,15 @@ END_HTML
 }
 
 my $server = TestServer->new();
-$server->set_dispatch( {
-    '/feedme'   => \&send_cookies,
-    '/nocookie' => \&nosend_cookies,
-} );
+$server->set_dispatch(
+    {
+        '/feedme'   => \&send_cookies,
+        '/nocookie' => \&nosend_cookies,
+    }
+);
 my $pid = $server->background();
 
-my $root             = $server->root;
+my $root = $server->root;
 
 my $cookiepage_url   = $root . 'feedme';
 my $nocookiepage_url = $root . 'nocookie';
@@ -79,60 +82,62 @@ my $mech = WWW::Mechanize->new( autocheck => 0 );
 isa_ok( $mech, 'WWW::Mechanize' );
 
 FIRST_COOKIE: {
-    $mech->get( $cookiepage_url );
+    $mech->get($cookiepage_url);
     is( $mech->status, 200, 'First fetch works' );
 
-    my $cookieval = cookieval( $mech );
+    my $cookieval = cookieval($mech);
 
-    is( $cookieval, 'Cookie #1', 'First cookie matches' );
+    is( $cookieval,   'Cookie #1',         'First cookie matches' );
     is( $mech->title, 'Home of Cookie #1', 'Right title' );
 }
 
 SECOND_COOKIE: {
-    $mech->get( $cookiepage_url );
+    $mech->get($cookiepage_url);
     is( $mech->status, 200, 'Second fetch works' );
 
-    my $cookieval = cookieval( $mech );
+    my $cookieval = cookieval($mech);
 
-    is( $cookieval, 'Cookie #2', 'Second cookie matches' );
+    is( $cookieval,   'Cookie #2',         'Second cookie matches' );
     is( $mech->title, 'Home of Cookie #2', 'Right title' );
 }
 
 BACK_TO_FIRST_PAGE: {
     $mech->back();
 
-    my $cookieval = cookieval( $mech );
+    my $cookieval = cookieval($mech);
 
     is( $cookieval, 'Cookie #2', 'Cookie did not change...' );
-    is( $mech->title, 'Home of Cookie #1', '... but back to the first page title' );
+    is(
+        $mech->title, 'Home of Cookie #1',
+        '... but back to the first page title'
+    );
 }
 
 FORWARD_TO_NONCOOKIE_PAGE: {
-    $mech->get( $nocookiepage_url );
+    $mech->get($nocookiepage_url);
 
-    my $cookieval = cookieval( $mech );
+    my $cookieval = cookieval($mech);
 
-    is( $cookieval, 'Cookie #2', 'Cookie did not change...' );
+    is( $cookieval,   'Cookie #2',       'Cookie did not change...' );
     is( $mech->title, 'No cookies sent', 'On the proper 3rd page' );
 }
 
 GET_A_THIRD_COOKIE: {
-    $mech->get( $cookiepage_url );
+    $mech->get($cookiepage_url);
 
-    my $cookieval = cookieval( $mech );
+    my $cookieval = cookieval($mech);
 
-    is( $cookieval, 'Cookie #3', 'Got the third cookie' );
+    is( $cookieval,   'Cookie #3',         'Got the third cookie' );
     is( $mech->title, 'Home of Cookie #3', 'Title is correct' );
 }
 
-
-my $signal = ($^O eq 'MSWin32') ? 9 : 15;
+my $signal     = ( $^O eq 'MSWin32' ) ? 9 : 15;
 my $nprocesses = kill $signal, $pid;
 is( $nprocesses, 1, 'Signaled the child process' );
-
 
 sub cookieval {
     my $mech = shift;
 
-    return uri_unescape( $mech->cookie_jar->{COOKIES}{'127.0.0.1'}{'/'}{'my_cookie'}[1] );
+    return uri_unescape(
+        $mech->cookie_jar->{COOKIES}{'127.0.0.1'}{'/'}{'my_cookie'}[1] );
 }

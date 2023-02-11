@@ -1,6 +1,8 @@
 Revision history for WWW::Mechanize
 
 {{$NEXT}}
+    [ENHANCEMENTS]
+    - Perltidied the entire dist, and enabled tests for it (Julien Fiegehenn)
 
 2.16      2023-02-11 12:09:16Z
     [FIXED]

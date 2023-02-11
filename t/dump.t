@@ -7,28 +7,27 @@ use File::Spec ();
 use File::Temp qw( tempdir );
 use Test::More 0.96 tests => 7;
 use Test::Output qw( stdout_is stdout_like );
-use URI::file ();
+use URI::file    ();
 
 BEGIN {
-    use_ok( 'WWW::Mechanize' );
+    use_ok('WWW::Mechanize');
 }
 
 my $dir = tempdir( CLEANUP => 1 );
 
 subtest "dump_headers", sub {
-	plan tests => 5;
-	my $mech     = create_mech('t/find_inputs.html');
-	my $tmp_name = File::Spec->catfile($dir, 'headers.tmp');
+    plan tests => 5;
+    my $mech     = create_mech('t/find_inputs.html');
+    my $tmp_name = File::Spec->catfile( $dir, 'headers.tmp' );
 
-	$mech->dump_headers($tmp_name);
-	ok( -e $tmp_name, 'Dump file created');
+    $mech->dump_headers($tmp_name);
+    ok( -e $tmp_name, 'Dump file created' );
 
-	fh_test($mech, 'dump_headers', qr/Content-Length/);
+    fh_test( $mech, 'dump_headers', qr/Content-Length/ );
 };
 
-
 subtest "dump_links test", sub {
-    dump_tests('dump_links', 't/find_link.html', <<'EXPECTED');
+    dump_tests( 'dump_links', 't/find_link.html', <<'EXPECTED');
 http://www.drphil.com/
 HTTP://WWW.UPCASE.COM/
 styles.css
@@ -59,7 +58,7 @@ EXPECTED
 };
 
 subtest "dump_images test", sub {
-    dump_tests('dump_images', 't/image-parse.html', <<'EXPECTED');
+    dump_tests( 'dump_images', 't/image-parse.html', <<'EXPECTED');
 /Images/bg-gradient.png
 wango.jpg
 bongo.gif
@@ -76,7 +75,7 @@ EXPECTED
 };
 
 subtest "dump_forms test", sub {
-    dump_tests('dump_forms', 't/form_with_fields.html', <<'EXPECTED');
+    dump_tests( 'dump_forms', 't/form_with_fields.html', <<'EXPECTED');
 POST http://localhost/ (multipart/form-data) [1st_form]
   1a=                            (text)
   1b=                            (text)
@@ -126,7 +125,7 @@ EXPECTED
 };
 
 subtest "dump_forms multiselect", sub {
-    dump_tests('dump_forms', 't/form_133_regression.html', <<'EXPECTED');
+    dump_tests( 'dump_forms', 't/form_133_regression.html', <<'EXPECTED');
 GET http://localhost/
   select1=1                      (option)   [*1|2|3|4]
   select2=1                      (option)   [*1|2|3|4]
@@ -145,49 +144,49 @@ EXPECTED
 };
 
 subtest "dump_text test", sub {
-    dump_tests('dump_text', 't/image-parse.html', <<'EXPECTED');
+    dump_tests( 'dump_text', 't/image-parse.html', <<'EXPECTED');
 Testing image extractionblargle And now, the dreaded wango  CNN   BBC Blongo!Logo
 EXPECTED
 };
 
 sub dump_tests {
-	my ($method, $fp, $expected) = @_;
-	my $mech     = create_mech($fp);
+    my ( $method, $fp, $expected ) = @_;
+    my $mech = create_mech($fp);
 
-	fh_test($mech, $method, $expected);
-};
-
-sub create_mech {
-	my $filepath = shift;
-	my $mech     = WWW::Mechanize->new( cookie_jar => undef, max_redirect => 0 );
-	isa_ok( $mech, 'WWW::Mechanize' );
-	my $uri = URI::file->new($filepath)->abs(URI::file->cwd)->as_string;
-
-	$mech->get( $uri );
-	ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
-
-	return $mech;
+    fh_test( $mech, $method, $expected );
 }
 
+sub create_mech {
+    my $filepath = shift;
+    my $mech = WWW::Mechanize->new( cookie_jar => undef, max_redirect => 0 );
+    isa_ok( $mech, 'WWW::Mechanize' );
+    my $uri = URI::file->new($filepath)->abs( URI::file->cwd )->as_string;
+
+    $mech->get($uri);
+    ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
+
+    return $mech;
+}
 
 sub fh_test {
-	my ($mech, $method, $expected) = @_;
-    unless($method && $expected) {
+    my ( $mech, $method, $expected ) = @_;
+    unless ( $method && $expected ) {
         diag("No method/expected value found");
         return;
     }
-	my ($content);
-	open my $fh, '>', \$content or die ($!);
+    my ($content);
+    open my $fh, '>', \$content or die($!);
 
-	$mech->$method( $fh );
+    $mech->$method($fh);
 
-	close $fh;
+    close $fh;
 
-	if (ref $expected eq 'Regexp') {
-		like( $content, $expected, 'Dump has valid values');
-		stdout_like( sub {$mech->$method()}, $expected, 'Valid STDOUT');
-	} else {
-		is( $content, $expected, 'Dump has valid values');
-		stdout_is  ( sub {$mech->$method()}, $expected, 'Valid STDOUT');
-	}
+    if ( ref $expected eq 'Regexp' ) {
+        like( $content, $expected, 'Dump has valid values' );
+        stdout_like( sub { $mech->$method() }, $expected, 'Valid STDOUT' );
+    }
+    else {
+        is( $content, $expected, 'Dump has valid values' );
+        stdout_is( sub { $mech->$method() }, $expected, 'Valid STDOUT' );
+    }
 }

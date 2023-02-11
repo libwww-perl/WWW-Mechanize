@@ -15,11 +15,12 @@ my $d = HTTP::Daemon->new or die;
 
 print $d->url, "\n";
 
-my ($filename,$logfile) = @ARGV[0,1];
+my ( $filename, $logfile ) = @ARGV[ 0, 1 ];
 if ($filename) {
-  open DATA, "< $filename"
-    or die "Couldn't read page '$filename' : $!\n";
-};
+    open DATA, "< $filename"
+        or die "Couldn't read page '$filename' : $!\n";
+}
+
 #open LOG, ">", $logfile
 #  or die "Couldn't create logfile '$logfile' : $!\n";
 my $log;
@@ -29,122 +30,161 @@ utf8::encode($body);
 utf8::upgrade($body);
 
 sub debug($) {
-  my $message = $_[0];
-  $message =~ s!\n!\n#SERVER:!g;
-  warn "#SERVER: $message"
-    if $ENV{TEST_HTTP_VERBOSE};
-};
+    my $message = $_[0];
+    $message =~ s!\n!\n#SERVER:!g;
+    warn "#SERVER: $message"
+        if $ENV{TEST_HTTP_VERBOSE};
+}
 
 SERVERLOOP: {
-  my $quitserver;
-  while (my $c = $d->accept) {
-    debug "New connection";
-    while (my $r = $c->get_request) {
-      debug "Request:\n" . $r->as_string;
-      my $location = ($r->uri->path || "/");
-      my ($link1,$link2) = ('','');
-      if ($location =~ m!^/link/([^/]+)/(.*)$!) {
-        ($link1,$link2) = ($1,$2);
-      };
-      my $res;
-      if ($location eq '/get_server_log') {
-        $res = HTTP::Response->new(200, "OK", undef, $log);
-        $log = '';
-      } elsif ( $location eq '/quit_server') {
-        debug "Quitting";
-        $res = HTTP::Response->new(200, "OK", [Connection => 'close'], "quit");
-        $quitserver = 1;
-      } else {
-        eval $expression
-            if $expression;
-        warn "eval: $@" if $@;
-        $log .= "Request:\n" . $r->as_string . "\n";
-        if ($location =~ m!^/redirect/(.*)$!) {
-            $res = HTTP::Response->new(302);
-            $res->header('location', $d->url . $1);
-        } elsif ($location =~ m!^/error/notfound/(.*)$!) {
-            $res = HTTP::Response->new(404, "Not found", [Connection => 'close']);
-        } elsif ($location =~ m!^/error/timeout/(\d+)$!) {
-            sleep $1;
-            $res = HTTP::Response->new(599, "Timeout reached", [Connection => 'close']);
-        } elsif ($location =~ m!^/error/close/(\d+)$!) {
-            sleep $1;
-            $res = undef;
-        } elsif ( $location =~ m!^/chunks!) {
-            my $count = 5;
-            $res = HTTP::Response->new(200, "OK", undef, sub {
-               sleep 1;
-               my $buf = 'x' x 16;
-               return $buf if $count-- > 0;
-               return undef; # done
-            });
-        } elsif ($location =~ m!^/error/after_headers$!) {
-            my $count = 2;
-            $res = HTTP::Response->new(200, "OK", undef, sub {
-               sleep 1;
-               my $buf = 'x' x 16;
-               return $buf if $count-- > 0;
-               die "Planned error after headers";
-            });
-        } elsif ($location =~ m!^/encoding/(.*)!) {
-            my $encoding = $1;
-            $res = HTTP::Response->new(
-                200, "OK",
-                [ 'Content-Type' => "text/html; charset=$encoding" ],
-                "encoding $encoding"
-            );
-        } else {
-            my $uri = $r->uri;
+    my $quitserver;
+    while ( my $c = $d->accept ) {
+        debug "New connection";
+        while ( my $r = $c->get_request ) {
+            debug "Request:\n" . $r->as_string;
+            my $location = ( $r->uri->path || "/" );
+            my ( $link1, $link2 ) = ( '', '' );
+            if ( $location =~ m!^/link/([^/]+)/(.*)$! ) {
+                ( $link1, $link2 ) = ( $1, $2 );
+            }
+            my $res;
+            if ( $location eq '/get_server_log' ) {
+                $res = HTTP::Response->new( 200, "OK", undef, $log );
+                $log = '';
+            }
+            elsif ( $location eq '/quit_server' ) {
+                debug "Quitting";
+                $res = HTTP::Response->new(
+                    200,                       "OK",
+                    [ Connection => 'close' ], "quit"
+                );
+                $quitserver = 1;
+            }
+            else {
+                eval $expression
+                    if $expression;
+                warn "eval: $@" if $@;
+                $log .= "Request:\n" . $r->as_string . "\n";
+                if ( $location =~ m!^/redirect/(.*)$! ) {
+                    $res = HTTP::Response->new(302);
+                    $res->header( 'location', $d->url . $1 );
+                }
+                elsif ( $location =~ m!^/error/notfound/(.*)$! ) {
+                    $res = HTTP::Response->new(
+                        404, "Not found",
+                        [ Connection => 'close' ]
+                    );
+                }
+                elsif ( $location =~ m!^/error/timeout/(\d+)$! ) {
+                    sleep $1;
+                    $res = HTTP::Response->new(
+                        599, "Timeout reached",
+                        [ Connection => 'close' ]
+                    );
+                }
+                elsif ( $location =~ m!^/error/close/(\d+)$! ) {
+                    sleep $1;
+                    $res = undef;
+                }
+                elsif ( $location =~ m!^/chunks! ) {
+                    my $count = 5;
+                    $res = HTTP::Response->new(
+                        200, "OK", undef,
+                        sub {
+                            sleep 1;
+                            my $buf = 'x' x 16;
+                            return $buf if $count-- > 0;
+                            return undef;    # done
+                        }
+                    );
+                }
+                elsif ( $location =~ m!^/error/after_headers$! ) {
+                    my $count = 2;
+                    $res = HTTP::Response->new(
+                        200, "OK", undef,
+                        sub {
+                            sleep 1;
+                            my $buf = 'x' x 16;
+                            return $buf if $count-- > 0;
+                            die "Planned error after headers";
+                        }
+                    );
+                }
+                elsif ( $location =~ m!^/encoding/(.*)! ) {
+                    my $encoding = $1;
+                    $res = HTTP::Response->new(
+                        200, "OK",
+                        [ 'Content-Type' => "text/html; charset=$encoding" ],
+                        "encoding $encoding"
+                    );
+                }
+                else {
+                    my $uri = $r->uri;
 
-            # Make sticky form fields
-            my ($query,$session,%cat);
-            $query = defined $uri->query_param('query') ? $uri->query_param('query') : "(empty)";
-            $session = defined $uri->query_param('session') ? $uri->query_param('session') : 1;
-            %cat = map { $_ => 1 } (defined $uri->query_param('cat') ? $uri->query_param('cat') : qw( cat_foo cat_bar ));
-            my @categories = map { $cat{$_} ? "checked" : "" } qw( cat_foo cat_bar cat_baz );
-            (my $h = $r->headers->{host}) =~ s/:\d+//;
-            my $rbody = sprintf $body,$location,$session,$query,@categories;
-            $res = HTTP::Response->new(200, "OK", [
-                  "Set-Cookie" => 'log-server=shazam2; Path=/',
-                  'Cache-Control' => 'no-cache',
-                  'Pragma' => 'no-cache',
-                  'Max-Age' => 0,
-                  'Connection' => 'close',
-                  'Content-Length' => length($rbody),
-              ], $rbody);
+                    # Make sticky form fields
+                    my ( $query, $session, %cat );
+                    $query
+                        = defined $uri->query_param('query')
+                        ? $uri->query_param('query')
+                        : "(empty)";
+                    $session
+                        = defined $uri->query_param('session')
+                        ? $uri->query_param('session')
+                        : 1;
+                    %cat = map { $_ => 1 } (
+                        defined $uri->query_param('cat')
+                        ? $uri->query_param('cat')
+                        : qw( cat_foo cat_bar )
+                    );
+                    my @categories = map { $cat{$_} ? "checked" : "" }
+                        qw( cat_foo cat_bar cat_baz );
+                    ( my $h = $r->headers->{host} ) =~ s/:\d+//;
+                    my $rbody = sprintf $body, $location, $session, $query,
+                        @categories;
+                    $res = HTTP::Response->new(
+                        200, "OK",
+                        [
+                            "Set-Cookie"     => 'log-server=shazam2; Path=/',
+                            'Cache-Control'  => 'no-cache',
+                            'Pragma'         => 'no-cache',
+                            'Max-Age'        => 0,
+                            'Connection'     => 'close',
+                            'Content-Length' => length($rbody),
+                        ],
+                        $rbody
+                    );
 
-            $res->content_type(
-                $uri->query_param('xml') ? 'application/xhtml+xml' : 'text/html'
-            );
+                    $res->content_type(
+                        $uri->query_param('xml')
+                        ? 'application/xhtml+xml'
+                        : 'text/html'
+                    );
 
-            debug "Request " . ($r->uri->path || "/");
-        };
-      };
-      debug "Response:\n" . $res->as_string
-          if $res;
-      eval {
-        $c->send_response($res)
-            if $res;
-      };
-      if (my $err = $@) {
-          debug "Server raised error: $err";
-          if ($err !~ /^Planned error\b/) {
-              warn $err;
-          };
-          $c->close;
-      };
-      if (! $res) {
-          $c->close;
-      };
-      last if $quitserver;
+                    debug "Request " . ( $r->uri->path || "/" );
+                }
+            }
+            debug "Response:\n" . $res->as_string
+                if $res;
+            eval { $c->send_response($res) if $res; };
+            if ( my $err = $@ ) {
+                debug "Server raised error: $err";
+                if ( $err !~ /^Planned error\b/ ) {
+                    warn $err;
+                }
+                $c->close;
+            }
+            if ( !$res ) {
+                $c->close;
+            }
+            last if $quitserver;
+        }
+        sleep 1;
+        undef($c);
+        last SERVERLOOP
+            if $quitserver;
     }
-    sleep 1;
-    undef($c);
-    last SERVERLOOP
-      if $quitserver;
-  }
-};
-END { debug "Server stopped" };
+}
+END { debug "Server stopped" }
 
 __DATA__
 <html>

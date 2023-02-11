@@ -7,18 +7,18 @@ use Test::More;
 use Test::Fatal qw( exception );
 use Test::Warnings ':all';
 use Test::Deep qw( all cmp_deeply isa methods re superhashof );
-use URI::file ();
+use URI::file  ();
 
 BEGIN {
-    use_ok( 'WWW::Mechanize' );
+    use_ok('WWW::Mechanize');
 }
 
 my $mech = WWW::Mechanize->new( cookie_jar => undef );
 isa_ok( $mech, 'WWW::Mechanize' );
 
-my $uri = URI::file->new_abs( 't/image-parse.html' )->as_string;
+my $uri = URI::file->new_abs('t/image-parse.html')->as_string;
 
-$mech->get( $uri );
+$mech->get($uri);
 ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
 
 {
@@ -32,23 +32,24 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
     );
 
     cmp_deeply(
-        [map { $_->url } @images],
-        [   qw(
-              /Images/bg-gradient.png
-              wango.jpg
-              bongo.gif
-              linked.gif
-              hacktober.jpg
-              hacktober.jpg
-              hacktober.jpg
-              http://example.org/abs.tif
-              ),
+        [ map { $_->url } @images ],
+        [
+            qw(
+                /Images/bg-gradient.png
+                wango.jpg
+                bongo.gif
+                linked.gif
+                hacktober.jpg
+                hacktober.jpg
+                hacktober.jpg
+                http://example.org/abs.tif
+            ),
             undef,
             qw(
-              images/logo.png
-              inner.jpg
-              outer.jpg
-              ),
+                images/logo.png
+                inner.jpg
+                outer.jpg
+            ),
         ],
         '... and all ten are in the right order'
     );
@@ -109,18 +110,37 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
 # shortcuts for all six images in the website. They can be used instead
 # of each array reference.
 
-my $image0 = [ url => '/Images/bg-gradient.png', tag => 'css' ]; # this is the body background from the style tag
-my $image1 = [ url => 'wango.jpg', alt => re('world of') ];
-my $image2 = [ url => 'bongo.gif', tag => 'input', height => 142 ];
+my $image0 = [ url => '/Images/bg-gradient.png', tag => 'css' ]
+    ;    # this is the body background from the style tag
+my $image1 = [ url => 'wango.jpg',  alt => re('world of') ];
+my $image2 = [ url => 'bongo.gif',  tag => 'input', height => 142 ];
 my $image3 = [ url => 'linked.gif', tag => 'img' ];
-my $image4 = [ url => 'hacktober.jpg', attrs => superhashof( { id => 'first-hacktober-image' } ) ];
-my $image5 = [ url => 'hacktober.jpg', attrs => superhashof( { class => re('my-class-2') } ) ];
-my $image6 = [ url => 'hacktober.jpg', attrs => superhashof( { class => re('my-class-3') } ) ];
-my $image7 = [ url => 'http://example.org/abs.tif', attrs => superhashof( { id => 'absolute' } ) ];
-my $image8 = [ url => undef, tag => 'img', attrs => superhashof( { 'data-image' => "hacktober.jpg", id => "no-src-regression-269" } ) ];
-my $image9 = [ url => 'images/logo.png', tag => 'css' ];
-my $image10 = [ url => 'inner.jpg', tag => 'img' ];
-my $image11 = [ url => 'outer.jpg', tag => 'css' ];
+my $image4 = [
+    url   => 'hacktober.jpg',
+    attrs => superhashof( { id => 'first-hacktober-image' } )
+];
+my $image5 = [
+    url   => 'hacktober.jpg',
+    attrs => superhashof( { class => re('my-class-2') } )
+];
+my $image6 = [
+    url   => 'hacktober.jpg',
+    attrs => superhashof( { class => re('my-class-3') } )
+];
+my $image7 = [
+    url   => 'http://example.org/abs.tif',
+    attrs => superhashof( { id => 'absolute' } )
+];
+my $image8 = [
+    url   => undef,
+    tag   => 'img',
+    attrs => superhashof(
+        { 'data-image' => "hacktober.jpg", id => "no-src-regression-269" }
+    )
+];
+my $image9  = [ url => 'images/logo.png', tag => 'css' ];
+my $image10 = [ url => 'inner.jpg',       tag => 'img' ];
+my $image11 = [ url => 'outer.jpg',       tag => 'css' ];
 
 my $tests = [
     {
@@ -129,7 +149,7 @@ my $tests = [
             tag => 'css',
         ],
         expected_single => $image0,
-        expected_all => [
+        expected_all    => [
             $image0,
             $image9,
             $image11,
@@ -187,7 +207,8 @@ my $tests = [
         expected_all    => [
             $image7,
         ],
-    },    {
+    },
+    {
         name => 'url_abs_regex',
         args => [
             url_abs_regex => qr/hacktober/,
@@ -233,15 +254,15 @@ my $tests = [
         ],
         expected_single => $image1,
         expected_all    => [
-           $image1,
-           $image2,
-           $image3,
-           $image4,
-           $image5,
-           $image6,
-           $image7,
-           $image8,
-           $image10,
+            $image1,
+            $image2,
+            $image3,
+            $image4,
+            $image5,
+            $image6,
+            $image7,
+            $image8,
+            $image10,
         ],
     },
     {
@@ -290,7 +311,7 @@ my $tests = [
         name => 'class_regex and url',
         args => [
             class_regex => qr/foo/,
-            url => 'hacktober.jpg'
+            url         => 'hacktober.jpg'
         ],
         expected_single => $image5,
         expected_all    => [
@@ -302,20 +323,21 @@ my $tests = [
         name => '2nd instance of an image',
         args => [
             url => 'hacktober.jpg',
-            n => 2,
+            n   => 2,
         ],
         expected_single => $image5,
     },
     {
-      name => 'inline style background image',
-      args => [
-        url_regex => qr/logo/,
-      ],
-      expected_single => $image9,
+        name => 'inline style background image',
+        args => [
+            url_regex => qr/logo/,
+        ],
+        expected_single => $image9,
     },
 ];
 
-foreach my $test ( @{ $tests } ) {
+foreach my $test ( @{$tests} ) {
+
     # verify we find the correct first image with a given set of criteria
     cmp_deeply(
         $mech->find_image( @{ $test->{args} } ),
@@ -326,7 +348,8 @@ foreach my $test ( @{ $tests } ) {
         'find_image: ' . $test->{name}
     );
 
-    if (exists $test->{expected_all}) {
+    if ( exists $test->{expected_all} ) {
+
         # verify we find all the correct images with a given set of criteria
         cmp_deeply(
             [ $mech->find_all_images( @{ $test->{args} } ) ],
@@ -334,10 +357,9 @@ foreach my $test ( @{ $tests } ) {
                 map {
                     all(
                         isa('WWW::Mechanize::Image'),
-                        methods( @{ $_ } ),
+                        methods( @{$_} ),
                     )
-                }
-                @{ $test->{expected_all} }
+                } @{ $test->{expected_all} }
             ],
             'find_all_images: ' . $test->{name}
         );

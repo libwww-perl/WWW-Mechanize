@@ -21,20 +21,26 @@ my $agent_alias;
 my $cookie_filename;
 
 GetOptions(
-    'user=s'        => \$user,
-    'password=s'    => \$pass,
-    headers         => sub { push( @actions, \&dump_headers ) },
-    forms           => sub { push( @actions, \&dump_forms ) },
-    links           => sub { push( @actions, \&dump_links ) },
-    images          => sub { push( @actions, \&dump_images ) },
-    all             => sub { $all++; push( @actions, \&dump_headers, \&dump_forms, \&dump_links, \&dump_images ) },
+    'user=s'     => \$user,
+    'password=s' => \$pass,
+    headers      => sub { push( @actions, \&dump_headers ) },
+    forms        => sub { push( @actions, \&dump_forms ) },
+    links        => sub { push( @actions, \&dump_links ) },
+    images       => sub { push( @actions, \&dump_images ) },
+    all          => sub {
+        $all++;
+        push(
+            @actions, \&dump_headers, \&dump_forms, \&dump_links,
+            \&dump_images
+        );
+    },
     text            => sub { push( @actions, \&dump_text ) },
     absolute        => \$absolute,
     'agent=s'       => \$agent,
     'agent-alias=s' => \$agent_alias,
     'cookie-file=s' => \$cookie_filename,
     help            => sub { pod2usage(1); },
-    version         => sub { print STDERR $WWW::Mechanize::VERSION, "\n"; exit 0; },
+    version => sub { print STDERR $WWW::Mechanize::VERSION, "\n"; exit 0; },
 ) or pod2usage(2);
 
 =head1 SYNOPSIS
@@ -81,75 +87,83 @@ See L<LWP::UserAgent> for details.
 
 =cut
 
-my @uris = @ARGV or die "Must specify a URL or file to check.  See --help for details.\n";
+my @uris = @ARGV
+    or die "Must specify a URL or file to check.  See --help for details.\n";
 
-@actions = (\&dump_forms) unless @actions;
+@actions = ( \&dump_forms ) unless @actions;
 
-binmode(STDOUT, ':utf8');
+binmode( STDOUT, ':utf8' );
 
 my $mech = WWW::Mechanize->new( autocheck => 0 );
 if ( defined $agent ) {
-    $mech->agent( $agent );
+    $mech->agent($agent);
 }
 elsif ( defined $agent_alias ) {
-    $mech->agent_alias( $agent_alias );
+    $mech->agent_alias($agent_alias);
 }
 if ( defined $cookie_filename ) {
-    my $cookies = HTTP::Cookies->new( file => $cookie_filename, autosave => 1, ignore_discard => 1 );
-    $cookies->load() ;
+    my $cookies = HTTP::Cookies->new(
+        file           => $cookie_filename, autosave => 1,
+        ignore_discard => 1
+    );
+    $cookies->load();
     $mech->cookie_jar($cookies);
 }
 else {
-    $mech->cookie_jar(undef) ;
+    $mech->cookie_jar(undef);
 }
 
 $mech->env_proxy();
 foreach my $uri (@uris) {
-  my $no_ct_check;
-  if ( -e $uri ) {
-      require URI::file;
-      $uri = URI::file->new_abs( $uri )->as_string;
-      $no_ct_check = 1; # we don't have to check the content type
-  }
-
-  my $response = $mech->get( $uri );
-  if ( !$response->is_success ) {
-    if ( defined( $response->www_authenticate ) ) {
-      if ( !defined $user or !defined $pass ) {
-        die("Page requires username and password, but none specified.\n");
-      }
-      $mech->credentials( $user, $pass );
-      $response = $mech->get($uri);
-      $response->is_success
-          or die "Can't fetch $uri with username and password\n",
-          $response->status_line, "\n";
-    } else {
-        die "$uri returns status ", $response->code, "\n";
+    my $no_ct_check;
+    if ( -e $uri ) {
+        require URI::file;
+        $uri         = URI::file->new_abs($uri)->as_string;
+        $no_ct_check = 1;    # we don't have to check the content type
     }
-  }
 
-  unless ($no_ct_check) {
-      $mech->is_html or die qq{$uri returns type "}, $mech->ct, qq{", not "text/html"\n};
-  }
+    my $response = $mech->get($uri);
+    if ( !$response->is_success ) {
+        if ( defined( $response->www_authenticate ) ) {
+            if ( !defined $user or !defined $pass ) {
+                die(
+                    "Page requires username and password, but none specified.\n"
+                );
+            }
+            $mech->credentials( $user, $pass );
+            $response = $mech->get($uri);
+            $response->is_success
+                or die "Can't fetch $uri with username and password\n",
+                $response->status_line, "\n";
+        }
+        else {
+            die "$uri returns status ", $response->code, "\n";
+        }
+    }
 
-  foreach my $action (@actions ) {
-      $action->( $mech );
-      print "\n" if @actions;
-  }
+    unless ($no_ct_check) {
+        $mech->is_html
+            or die qq{$uri returns type "}, $mech->ct,
+            qq{", not "text/html"\n};
+    }
+
+    foreach my $action (@actions) {
+        $action->($mech);
+        print "\n" if @actions;
+    }
 }
-
 
 sub dump_headers {
     my $mech = shift;
     print "--> Headers:\n" if $all;
-    $mech->dump_headers( undef );
+    $mech->dump_headers(undef);
     return;
 }
 
 sub dump_forms {
     my $mech = shift;
     print "--> Forms:\n" if $all;
-    $mech->dump_forms( undef );
+    $mech->dump_forms(undef);
     return;
 }
 

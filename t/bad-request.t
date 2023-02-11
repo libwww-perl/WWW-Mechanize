@@ -23,12 +23,12 @@ use WWW::Mechanize ();
 
 my $mech = WWW::Mechanize->new();
 
-my $lives= eval {
+my $lives = eval {
 #line 1
     $mech->request();
-    1
+    1;
 };
-my $err= $@;
+my $err = $@;
 ok !$lives, "->request wants at least one parameter";
 like $err, qr/->request was called without a request parameter/,
     "We carp with a descriptive error message";

@@ -6,17 +6,20 @@ use Test::More 'no_plan';
 use Test::Fatal qw( exception );
 use Test::Warnings ':all';
 use Test::Deep qw( cmp_deeply re );
-use URI::file ();
+use URI::file  ();
 
 BEGIN {
-    use_ok( 'WWW::Mechanize' );
+    use_ok('WWW::Mechanize');
 }
 
-my $mech = WWW::Mechanize->new( cookie_jar => undef, autocheck => 0, strict_forms => 1, verbose_forms => 1 );
+my $mech = WWW::Mechanize->new(
+    cookie_jar   => undef, autocheck     => 0,
+    strict_forms => 1,     verbose_forms => 1
+);
 isa_ok( $mech, 'WWW::Mechanize' );
-my $uri = URI::file->new_abs( 't/form_with_fields.html' )->as_string;
+my $uri = URI::file->new_abs('t/form_with_fields.html')->as_string;
 
-$mech->get( $uri );
+$mech->get($uri);
 ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
 
 {
@@ -32,28 +35,36 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
     my $form;
     cmp_deeply(
         [ warnings { $form = $mech->form_with_fields(qw/1b/) } ],
-        [ re(qr/There are 2 forms with the named fields.  The first one was used./) ],
+        [
+            re(
+                qr/There are 2 forms with the named fields.  The first one was used./
+            )
+        ],
         'warning on ambiguous match (1)',
     );
     isa_ok( $form, 'HTML::Form' );
-    is($form->attr('name'), '1st_form', 'first form matches');
+    is( $form->attr('name'), '1st_form', 'first form matches' );
 }
 
 {
-    my $form = $mech->form_with_fields('1b', 'opt[2]');
+    my $form = $mech->form_with_fields( '1b', 'opt[2]' );
     isa_ok( $form, 'HTML::Form' );
-    is($form->attr('name'), '2nd_form', 'second form matches');
+    is( $form->attr('name'), '2nd_form', 'second form matches' );
 }
 
 {
     my $form;
     cmp_deeply(
-        [ warnings { $form = $mech->form_with_fields('4a', '4b') } ],
-        [ re(qr/There are 2 forms with the named fields.  The first one was used./) ],
+        [ warnings { $form = $mech->form_with_fields( '4a', '4b' ) } ],
+        [
+            re(
+                qr/There are 2 forms with the named fields.  The first one was used./
+            )
+        ],
         'warning on ambiguous match (2)',
     );
     isa_ok( $form, 'HTML::Form' );
-    is($form->attr('name'), '4th_form_1', 'fourth form matches');
+    is( $form->attr('name'), '4th_form_1', 'fourth form matches' );
 }
 
 {
@@ -61,8 +72,14 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
     is( scalar @forms, 2 );
     isa_ok( $forms[0], 'HTML::Form' );
     isa_ok( $forms[1], 'HTML::Form' );
-    is($forms[0]->attr('name'), '3rd_form_ambiguous', 'first result of 3rd_form_ambiguous');
-    is($forms[1]->attr('name'), '3rd_form_ambiguous', 'second result of 3rd_form_ambiguous');
+    is(
+        $forms[0]->attr('name'), '3rd_form_ambiguous',
+        'first result of 3rd_form_ambiguous'
+    );
+    is(
+        $forms[1]->attr('name'), '3rd_form_ambiguous',
+        'second result of 3rd_form_ambiguous'
+    );
 }
 
 {
@@ -98,7 +115,7 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
         exception {
             $mech->submit_form(
                 form_number => 2,
-                form_name => '3rd_form_ambiguous',
+                form_name   => '3rd_form_ambiguous',
             );
         },
         qr/There is no form that satisfies all the criteria/,
@@ -125,7 +142,7 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
         exception {
             $mech->submit_form(
                 with_fields => { 'x' => q{} },
-                form_name => '3rd_form_ambiguous',
+                form_name   => '3rd_form_ambiguous',
             );
         },
         undef,
@@ -146,14 +163,13 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
     );
 }
 
-
 {
     $mech->get($uri);
     like(
         exception {
             $mech->submit_form(
                 form_name => '1st_form',
-                fields => {
+                fields    => {
                     '1c' => 'madeup_field',
                 },
             );
@@ -169,7 +185,7 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
         exception {
             $mech->submit_form(
                 form_name => '1st_form',
-                fields => {
+                fields    => {
                     '1c' => 'madeup_field',
                 },
                 strict_forms => 1,
@@ -186,7 +202,7 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
         exception {
             $mech->submit_form(
                 form_name => '1st_form',
-                fields => {
+                fields    => {
                     '1c' => 'madeup_field',
                 },
                 strict_forms => 1,
@@ -203,7 +219,7 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
         exception {
             $mech->submit_form(
                 form_name => '1st_form',
-                fields => {
+                fields    => {
                     '1a' => 'value1',
                     '1b' => 'value2',
                 },
@@ -221,7 +237,7 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
         exception {
             $mech->submit_form(
                 form_name => '1st_form',
-                fields => {
+                fields    => {
                     '1c' => 'madeup_field',
                 },
                 strict_forms => 0,
@@ -233,7 +249,8 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
 }
 
 {
-    $mech->get(URI::file->new_abs( 't/form_with_fields_verbose.html' )->as_string);
+    $mech->get(
+        URI::file->new_abs('t/form_with_fields_verbose.html')->as_string );
     my $form;
     cmp_deeply(
         [ warnings { $form = $mech->form_with_fields(qw/1a/) } ],
@@ -241,5 +258,5 @@ ok( $mech->success, "Fetched $uri" ) or die q{Can't get test page};
         'verbose_fields catches wrong HTML',
     );
     isa_ok( $form, 'HTML::Form' );
-    is($form->attr('name'), '1st_form', '... and form matches');
+    is( $form->attr('name'), '1st_form', '... and form matches' );
 }

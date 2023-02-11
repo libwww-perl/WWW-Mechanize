@@ -6,11 +6,11 @@ use strict;
 use lib qw( t/local );
 
 use LocalServer ();
-use Path::Tiny qw( path );
-use Test::Deep qw( all cmp_deeply isa methods re );
+use Path::Tiny  qw( path );
+use Test::Deep  qw( all cmp_deeply isa methods re );
 use Test::Fatal qw( exception );
 use Test::More;
-use URI::file ();
+use URI::file      ();
 use WWW::Mechanize ();
 
 BEGIN {
@@ -122,9 +122,9 @@ BEGIN {
 }
 
 {
-    my $html = path('t/history_2.html')->slurp;
+    my $html   = path('t/history_2.html')->slurp;
     my $server = LocalServer->spawn( html => $html );
-    my $mech = WWW::Mechanize->new( cookie_jar => undef, autocheck => 0 );
+    my $mech   = WWW::Mechanize->new( cookie_jar => undef, autocheck => 0 );
     $mech->get( $server->url );
 
     ok(

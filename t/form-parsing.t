@@ -2,10 +2,10 @@
 
 use strict;
 use warnings;
-use Test::More tests=>1;
+use Test::More tests => 1;
 use HTML::Form ();
 
-my $base = 'http://localhost/';
+my $base    = 'http://localhost/';
 my $content = do { local $/ = undef; <DATA> };
 
 my $forms = [ HTML::Form->parse( $content, $base ) ];

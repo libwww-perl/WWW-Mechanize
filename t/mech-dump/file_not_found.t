@@ -17,7 +17,7 @@ plan skip_all => 'Not installing mech-dump'
 
 my $exe = File::Spec->catfile(qw( script mech-dump ));
 if ( $^O eq 'VMS' ) {
-  $exe = qq[mcr $^X -Ilib $exe];
+    $exe = qq[mcr $^X -Ilib $exe];
 }
 
 my $perl;
