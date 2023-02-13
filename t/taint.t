@@ -2,13 +2,8 @@
 
 use warnings;
 use strict;
-use Test::More;
-
-BEGIN {
-    eval 'use Test::Taint';
-    plan skip_all => 'Test::Taint required for checking taintedness' if $@;
-    plan tests=>6;
-}
+use Test::More tests => 6;
+use Test::Taint 1.08;
 
 BEGIN {
     use_ok( 'WWW::Mechanize' );
