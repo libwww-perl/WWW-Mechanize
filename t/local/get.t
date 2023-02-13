@@ -2,12 +2,10 @@ use warnings;
 use strict;
 use Test::More tests => 34;
 
-use lib qw( t t/local );
+use lib qw( t/local );
 use LocalServer ();
 
-BEGIN {
-    use Tools qw( $canTMC memory_cycle_ok );
-}
+use Test::Memory::Cycle;
 
 BEGIN {
     delete @ENV{ qw( IFS CDPATH ENV BASH_ENV ) };
@@ -64,11 +62,7 @@ ok( -e $tempfile, 'File exists' );
 is( -s $tempfile, $rslength, 'Did all the bytes get saved?' );
 unlink $tempfile;
 
-SKIP: {
-    skip 'Test::Memory::Cycle not installed', 1 unless $canTMC;
-
-    memory_cycle_ok( $agent, 'Mech: no cycles' );
-}
+memory_cycle_ok( $agent, 'Mech: no cycles' );
 
 $agent->get('/foo/');
 ok( ! $agent->redirects, 'redirects is false before we have a redirect');

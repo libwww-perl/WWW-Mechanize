@@ -5,11 +5,7 @@ use warnings;
 use strict;
 use Test::More tests => 9;
 
-use lib 't';
-
-BEGIN {
-    use Tools qw( $canTMC memory_cycle_ok );
-}
+use Test::Memory::Cycle;
 
 BEGIN {
     use_ok( 'WWW::Mechanize' );
@@ -62,16 +58,9 @@ AREA_CHECKS: {
     my $linkref = $mech->find_all_links();
     is_deeply( $linkref, \@wanted_links, 'Correct links came back' );
 
-    SKIP: {
-        skip 'Test::Memory::Cycle not installed', 2 unless $canTMC;
-        memory_cycle_ok( \@links, 'Link list: no cycles' );
-        memory_cycle_ok( $linkref, 'Single link: no cycles' );
-    }
+    memory_cycle_ok( \@links, 'Link list: no cycles' );
+    memory_cycle_ok( $linkref, 'Single link: no cycles' );
 }
 
-SKIP: {
-    skip 'Test::Memory::Cycle not installed', 2 unless $canTMC;
-
-    memory_cycle_ok( $uri, 'URI: no cycles' );
-    memory_cycle_ok( $mech, 'Mech: no cycles' );
-}
+memory_cycle_ok( $uri, 'URI: no cycles' );
+memory_cycle_ok( $mech, 'Mech: no cycles' );

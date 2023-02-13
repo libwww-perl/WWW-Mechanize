@@ -2,12 +2,10 @@ use warnings;
 use strict;
 use Test::More tests => 15;
 
-use lib qw( t t/local );
+use lib qw( t/local );
 use LocalServer ();
 
-BEGIN {
-    use Tools qw( $canTMC memory_cycle_ok );
-}
+use Test::Memory::Cycle;
 
 BEGIN {
     delete @ENV{ qw( IFS CDPATH ENV BASH_ENV ) };
@@ -51,8 +49,4 @@ RELOAD: {
     is( $cookie_after, $cookie_before, 'cookies are not multiplied' );
 }
 
-SKIP: {
-    skip 'Test::Memory::Cycle not installed', 1 unless $canTMC;
-
-    memory_cycle_ok( $agent, 'Mech: no cycles' );
-}
+memory_cycle_ok( $agent, 'Mech: no cycles' );

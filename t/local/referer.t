@@ -4,10 +4,7 @@ use FindBin ();
 
 use Test::More tests => 14;
 
-BEGIN {
-    use lib 't';
-    use Tools qw( $canTMC memory_cycle_ok );
-}
+use Test::Memory::Cycle;
 
 BEGIN {
     delete @ENV{ qw( IFS CDPATH ENV BASH_ENV ) };
@@ -60,11 +57,7 @@ SKIP: {
     ok( $agent->success, 'Quit OK' );
 };
 
-SKIP: {
-    skip 'Test::Memory::Cycle not installed', 1 unless $canTMC;
-
-    memory_cycle_ok( $agent, 'No memory cycles found' );
-}
+memory_cycle_ok( $agent, 'No memory cycles found' );
 
 END {
     close $server if $server;

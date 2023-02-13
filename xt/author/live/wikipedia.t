@@ -10,11 +10,7 @@ use Test::Needs 'LWP::Protocol::https';
 use Test::More;
 use WWW::Mechanize ();
 
-use lib 't';
-
-BEGIN {
-    use Tools qw( $canTMC memory_cycle_ok );
-}
+use Test::Memory::Cycle;
 
 my $mech = WWW::Mechanize->new;
 
@@ -30,10 +26,6 @@ for my $lang (LANGUAGES) {
     cmp_ok( scalar @links, '>', 50, "Over 50 links on $start" );
 }
 
-SKIP: {
-    skip 'Test::Memory::Cycle not installed', 1 unless $canTMC;
-
-    memory_cycle_ok( $mech, 'No memory cycles found' );
-}
+memory_cycle_ok( $mech, 'No memory cycles found' );
 
 done_testing();
