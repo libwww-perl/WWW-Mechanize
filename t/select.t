@@ -3,7 +3,7 @@
 use warnings;
 use strict;
 use Test::More;
-use Test::Warn qw( warning_like );
+use Test::Warnings qw(warning :no_end_test);
 use URI::file ();
 
 BEGIN {
@@ -83,7 +83,7 @@ is($return, $sendsingle, "single->single value is '$return'");
 # test return value from $mech->select
 is($rv, 1, 'return 1 after successful select');
 
-warning_like { $rv = $mech->select( 'missing_list', 1 ) } qr/not found/,
+like warning { $rv = $mech->select( 'missing_list', 1 ) }, qr/not found/,
     'warning when field is not found';
 is( $rv, undef, 'return undef after failed select' );
 
