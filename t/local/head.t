@@ -2,7 +2,7 @@ use warnings;
 use strict;
 use Test::More;
 
-use lib qw( t t/local );
+use lib qw( t/local );
 use LocalServer ();
 
 BEGIN {

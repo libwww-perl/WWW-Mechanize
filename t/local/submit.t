@@ -1,12 +1,10 @@
 use warnings;
 use strict;
-use lib qw( t t/local );
+use lib qw( t/local );
 use Test::More tests => 13;
 use LocalServer ();
 
-BEGIN {
-    use Tools qw( $canTMC memory_cycle_ok );
-}
+use Test::Memory::Cycle;
 
 BEGIN {
     delete @ENV{ qw( IFS CDPATH ENV BASH_ENV ) };
@@ -37,8 +35,4 @@ like($mech->content, qr/\bfoo\b/i, 'Found "Foo"');
 
 is( $mech->value('upload'), q{}, 'No upload happens' );
 
-SKIP: {
-    skip 'Test::Memory::Cycle not installed', 1 unless $canTMC;
-
-    memory_cycle_ok( $mech, 'Mech: no cycles' );
-}
+memory_cycle_ok( $mech, 'Mech: no cycles' );

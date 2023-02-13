@@ -1,7 +1,7 @@
 use warnings;
 use strict;
 use Test::More tests => 47;
-use lib qw( t t/local );
+use lib qw( t/local );
 use LocalServer ();
 
 
@@ -14,9 +14,7 @@ and subsequently enriched to deal with RT ticket #8109.
 
 =cut
 
-BEGIN {
-    use Tools qw( $canTMC memory_cycle_ok );
-}
+use Test::Memory::Cycle;
 
 BEGIN {
     delete @ENV{ qw( IFS CDPATH ENV BASH_ENV ) };
@@ -106,11 +104,7 @@ ok(defined($mech->cookie_jar()),
 
 # Now some other weird stuff. Start with a fresh history by recreating
 # $mech.
-SKIP: {
-    skip 'Test::Memory::Cycle not installed', 1 unless $canTMC;
-
-    memory_cycle_ok( $mech, 'No memory cycles found' );
-}
+memory_cycle_ok( $mech, 'No memory cycles found' );
 
 $mech = WWW::Mechanize->new( autocheck => 0 );
 isa_ok( $mech, 'WWW::Mechanize' );
@@ -146,10 +140,4 @@ for my $link ( @links ) {
     is( $mech->uri, $server->url, "Back from $link" );
 }
 
-SKIP: {
-    skip 'Test::Memory::Cycle not installed', 1 unless $canTMC;
-
-    memory_cycle_ok( $mech, 'No memory cycles found' );
-}
-
-
+memory_cycle_ok( $mech, 'No memory cycles found' );
