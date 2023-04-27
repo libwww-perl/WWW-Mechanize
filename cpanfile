@@ -23,7 +23,6 @@ requires "warnings" => "0";
 recommends "Compress::Zlib" => "0";
 
 on 'test' => sub {
-  requires "Exporter" => "0";
   requires "ExtUtils::MakeMaker" => "0";
   requires "File::Spec" => "0";
   requires "File::Temp" => "0";
@@ -34,11 +33,10 @@ on 'test' => sub {
   requires "Path::Tiny" => "0";
   requires "Test::Deep" => "0";
   requires "Test::Fatal" => "0";
-  requires "Test::Memory::Cycle" => "1.06";
+  requires "Test::Memory::Cycle" => "0";
   requires "Test::More" => "0.96";
   requires "Test::Output" => "0";
   requires "Test::Taint" => "1.08";
-  requires "Test::Warn" => "0";
   requires "Test::Warnings" => "0";
   requires "URI" => "0";
   requires "URI::Escape" => "0";
@@ -70,6 +68,7 @@ on 'develop' => sub {
   requires "Pod::Coverage::TrustPod" => "0";
   requires "Test::Code::TidyAll" => "0.50";
   requires "Test::EOL" => "0";
+  requires "Test::Memory::Cycle" => "0";
   requires "Test::Mojibake" => "0";
   requires "Test::More" => "0.88";
   requires "Test::Needs" => "0";
@@ -81,7 +80,6 @@ on 'develop' => sub {
   requires "Test::Vars" => "0.014";
   requires "Test::Version" => "1";
   requires "constant" => "0";
-  requires "lib" => "0";
 };
 
 on 'develop' => sub {

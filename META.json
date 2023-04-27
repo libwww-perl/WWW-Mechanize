@@ -45,6 +45,7 @@
             "Pod::Coverage::TrustPod" : "0",
             "Test::Code::TidyAll" : "0.50",
             "Test::EOL" : "0",
+            "Test::Memory::Cycle" : "0",
             "Test::Mojibake" : "0",
             "Test::More" : "0.88",
             "Test::Needs" : "0",
@@ -55,8 +56,7 @@
             "Test::RequiresInternet" : "0",
             "Test::Vars" : "0.014",
             "Test::Version" : "1",
-            "constant" : "0",
-            "lib" : "0"
+            "constant" : "0"
          }
       },
       "runtime" : {
@@ -90,7 +90,6 @@
             "CPAN::Meta" : "2.120900"
          },
          "requires" : {
-            "Exporter" : "0",
             "ExtUtils::MakeMaker" : "0",
             "File::Spec" : "0",
             "File::Temp" : "0",
@@ -101,11 +100,10 @@
             "Path::Tiny" : "0",
             "Test::Deep" : "0",
             "Test::Fatal" : "0",
-            "Test::Memory::Cycle" : "1.06",
+            "Test::Memory::Cycle" : "0",
             "Test::More" : "0.96",
             "Test::Output" : "0",
             "Test::Taint" : "1.08",
-            "Test::Warn" : "0",
             "Test::Warnings" : "0",
             "URI" : "0",
             "URI::Escape" : "0",
@@ -117,15 +115,15 @@
    "provides" : {
       "WWW::Mechanize" : {
          "file" : "lib/WWW/Mechanize.pm",
-         "version" : "2.16"
+         "version" : "2.17"
       },
       "WWW::Mechanize::Image" : {
          "file" : "lib/WWW/Mechanize/Image.pm",
-         "version" : "2.16"
+         "version" : "2.17"
       },
       "WWW::Mechanize::Link" : {
          "file" : "lib/WWW/Mechanize/Link.pm",
-         "version" : "2.16"
+         "version" : "2.17"
       }
    },
    "release_status" : "stable",
@@ -140,7 +138,7 @@
          "web" : "https://github.com/libwww-perl/WWW-Mechanize"
       }
    },
-   "version" : "2.16",
+   "version" : "2.17",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.028000"
@@ -654,7 +652,7 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v2.16",
+                  "tag" : "v2.17",
                   "tag_format" : "v%V",
                   "tag_message" : "v%V"
                },
