@@ -1,6 +1,11 @@
 --blank-lines-before-packages=0
 --iterations=2
 --no-outdent-long-comments
+
+# POD::Weaver doesn't cut the empty lines around POD that gets moved to the
+# bottom, so we need to allow two lines.
+--maximum-consecutive-blank-lines=2
+
 -b
 -bar
 -boc
