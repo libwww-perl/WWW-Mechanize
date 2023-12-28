@@ -2524,23 +2524,18 @@ sub click_button {
     my $self = shift;
     my %args = @_;
 
+    my $present_exc_options = 0;
     for ( keys %args ) {
         if ( !/^(number|name|value|id|input|x|y)$/ ) {
             $self->warn(qq{Unknown click_button parameter "$_"});
         }
+        else {
+            $present_exc_options++ if !/^(?:x|y)$/;
+        }
     }
 
-    my %exclusive_options = (
-        id     => 1,
-        input  => 1,
-        name   => 1,
-        number => 1,
-        value  => 1,
-    );
-
-    my @present_exclusive_options = @exclusive_options{ keys %args };
-
-    if ( scalar @present_exclusive_options > 1 ) {
+    # die if more than one exclusive option is provided
+    if ( $present_exc_options > 1 ) {
         $self->die(
             'click_button: More than one button selector has been used');
     }
