@@ -113,6 +113,11 @@ subtest 'multiple button selectors' => sub {
     'Dies when multiple button selectors are used';
 };
 
+subtest 'click with coordinates' => sub {
+    $mech->click_button( name => 'button_tag', x => 10, y => 5 );
+    test_click( $mech, 'button_tag', 'Walk' );
+};
+
 sub test_click {
     my $mech  = shift;
     my $name  = shift || 'submit';
