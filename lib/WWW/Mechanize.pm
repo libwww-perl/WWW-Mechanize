@@ -2538,7 +2538,8 @@ sub click_button {
         value  => 1,
     );
 
-    my @present_exclusive_options = @exclusive_options{ keys %args };
+    my @present_exclusive_options
+        = map { $_ || () } @exclusive_options{ keys %args };
 
     if ( scalar @present_exclusive_options > 1 ) {
         $self->die(
