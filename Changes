@@ -1,6 +1,8 @@
 Revision history for WWW::Mechanize
 
 {{$NEXT}}
+    [TESTS]
+    - Remove t/untaint.t (GH#377) (Olaf Alders)
 
 2.17      2023-04-27 15:45:01Z
     [ENHANCEMENTS]
