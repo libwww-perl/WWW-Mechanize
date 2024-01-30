@@ -4,7 +4,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 # VERSION
 
-version 2.17
+version 2.18
 
 # SYNOPSIS
 
