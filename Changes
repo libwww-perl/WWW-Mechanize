@@ -1,5 +1,7 @@
 Revision history for WWW::Mechanize
 
+{{$NEXT}}
+
 2.18      2024-01-30 14:29:44Z
     [FIXED]
     - Fix click_button non exclusive attributes (GH#371) (Andreas  Huber)
