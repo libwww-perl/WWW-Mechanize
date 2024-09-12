@@ -48,7 +48,7 @@ isa_ok( $server, 'LocalServer' );
 
 do {
     package MyMech;
-    use base 'WWW::Mechanize';
+    use parent 'WWW::Mechanize';
 
     sub update_html {
         my $self = shift;

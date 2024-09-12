@@ -142,7 +142,7 @@ use HTML::Form 1.00    ();
 use HTML::TokeParser   ();
 use Scalar::Util       qw( tainted );
 
-use base 'LWP::UserAgent';
+use parent 'LWP::UserAgent';
 
 our $HAS_ZLIB;
 
@@ -3202,7 +3202,7 @@ like to I<systematically> perform the above HTML substitution, you
 would overload C<update_html> in a subclass thusly:
 
    package MyMech;
-   use base 'WWW::Mechanize';
+   use parent 'WWW::Mechanize';
 
    sub update_html {
        my ($self, $html) = @_;
