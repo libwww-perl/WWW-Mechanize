@@ -1528,7 +1528,7 @@ like to _systematically_ perform the above HTML substitution, you
 would overload `update_html` in a subclass thusly:
 
     package MyMech;
-    use base 'WWW::Mechanize';
+    use parent 'WWW::Mechanize';
 
     sub update_html {
         my ($self, $html) = @_;

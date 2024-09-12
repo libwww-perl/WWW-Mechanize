@@ -4,7 +4,7 @@
       "Andy Lester <andy at petdance.com>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 6.031, CPAN::Meta::Converter version 2.150010",
+   "generated_by" : "Dist::Zilla version 6.032, CPAN::Meta::Converter version 2.150010",
    "license" : [
       "perl_5"
    ],
@@ -79,7 +79,7 @@
             "Tie::RefHash" : "0",
             "URI::URL" : "0",
             "URI::file" : "0",
-            "base" : "0",
+            "parent" : "0",
             "perl" : "5.008",
             "strict" : "0",
             "warnings" : "0"
