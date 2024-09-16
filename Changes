@@ -1,7 +1,9 @@
 Revision history for WWW::Mechanize
 
 {{$NEXT}}
+    [DOCUMENTATION]
     - Fix minor typo in SYNOPSIS example code comment (GH#379) (Paul Cochrane)
+    [ENHANCEMENTS]
     - Replace "base" with "parent" (GH#381) (James Raspass)
 
 2.18      2024-01-30 14:29:44Z
