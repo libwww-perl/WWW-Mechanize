@@ -134,7 +134,7 @@ Frequently asked questions.  Make sure you read here FIRST.
 use strict;
 use warnings;
 
-our $VERSION = '2.19';
+our $VERSION = '2.20';
 
 use Tie::RefHash       ();
 use HTTP::Request 1.30 ();
