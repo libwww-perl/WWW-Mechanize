@@ -1,6 +1,6 @@
 Revision history for WWW::Mechanize
 
-{{$NEXT}}
+2.19      2024-09-16 15:25:45Z
     [DOCUMENTATION]
     - Fix minor typo in SYNOPSIS example code comment (GH#379) (Paul Cochrane)
     [ENHANCEMENTS]

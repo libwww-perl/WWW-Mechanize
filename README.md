@@ -4,7 +4,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 # VERSION
 
-version 2.18
+version 2.19
 
 # SYNOPSIS
 
@@ -38,7 +38,7 @@ be queried and revisited.
         button    => 'Search Now'
     );
 
-    # Enable strict form processing to catch typos and non-existant form fields.
+    # Enable strict form processing to catch typos and non-existent form fields.
     my $strict_mech = WWW::Mechanize->new( strict_forms => 1);
 
     $strict_mech->get( $url );
