@@ -140,7 +140,6 @@ use Tie::RefHash       ();
 use HTTP::Request 1.30 ();
 use HTML::Form 1.00    ();
 use HTML::TokeParser   ();
-use Scalar::Util       qw( tainted );
 
 use parent 'LWP::UserAgent';
 
@@ -3364,8 +3363,6 @@ sub _update_page {
     my $content = $res->decoded_content();
     $content = $res->content if ( not defined $content );
 
-    $content .= _taintedness();
-
     if ( $self->is_html ) {
         $self->update_html($content);
     }
@@ -3375,43 +3372,6 @@ sub _update_page {
 
     return $res;
 }    # _update_page
-
-our $_taintbrush;
-
-# This is lifted wholesale from Test::Taint
-sub _taintedness {
-    return $_taintbrush if defined $_taintbrush;
-
-    # Somehow we need to get some taintedness into our $_taintbrush.
-    # Let's try the easy way first. Either of these should be
-    # tainted, unless somebody has untainted them, so this
-    # will almost always work on the first try.
-    # (Unless, of course, taint checking has been turned off!)
-    $_taintbrush = substr( "$0$^X", 0, 0 );
-    return $_taintbrush if tainted($_taintbrush);
-
-    # Let's try again. Maybe somebody cleaned those.
-    $_taintbrush = substr( join( q{}, grep { defined } @ARGV, %ENV ), 0, 0 );
-    return $_taintbrush if tainted($_taintbrush);
-
-    # If those don't work, go try to open some file from some unsafe
-    # source and get data from them.  That data is tainted.
-    # (Yes, even reading from /dev/null works!)
-    for my $filename ( qw(/dev/null / . ..), values %INC, $0, $^X ) {
-        if ( open my $fh, '<', $filename ) {
-            my $data;
-            if ( defined sysread $fh, $data, 1 ) {
-                $_taintbrush = substr( $data, 0, 0 );
-                last if tainted($_taintbrush);
-            }
-        }
-    }
-
-    # Sanity check
-    die("Our taintbrush should have zero length!") if length $_taintbrush;
-
-    return $_taintbrush;
-}
 
 =head2 $mech->_modify_request( $req )
 
