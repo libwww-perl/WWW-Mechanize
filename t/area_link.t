@@ -1,4 +1,4 @@
-#!perl -T
+#!perl
 # WWW::Mechanize tests for <area> tags
 
 use warnings;
