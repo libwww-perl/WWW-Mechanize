@@ -182,7 +182,7 @@ WWW::Mechanize.
 
 =back
 
-    #!/usr/bin/perl -w -T
+    #!/usr/bin/perl -w
 
     use strict;
     use WWW::Mechanize;
