@@ -3,7 +3,7 @@ Revision history for WWW::Mechanize
 {{$NEXT}}
     [ENHANCEMENTS]
     - WWW::Mechanize no longer taints the responses it receives.  This also
-    removes Test::Taint as a prerequisite.
+    removes Test::Taint as a prerequisite. (GH#383) (Andy Lester)
     - select() now accepts a number argument to specify which instance of an
       element with multiple occurrences to use (GH#189) (Julien Fiegehenn)
     [DOCUMENTATION]
