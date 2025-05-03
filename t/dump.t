@@ -27,7 +27,7 @@ subtest "dump_headers", sub {
 };
 
 subtest "dump_links test", sub {
-    dump_tests( 'dump_links', 't/find_link.html', <<'EXPECTED');
+    dump_tests( 'dump_links', 't/find_link.html', <<'EXPECTED' );
 http://www.drphil.com/
 HTTP://WWW.UPCASE.COM/
 styles.css
@@ -58,7 +58,7 @@ EXPECTED
 };
 
 subtest "dump_images test", sub {
-    dump_tests( 'dump_images', 't/image-parse.html', <<'EXPECTED');
+    dump_tests( 'dump_images', 't/image-parse.html', <<'EXPECTED' );
 /Images/bg-gradient.png
 wango.jpg
 bongo.gif
@@ -75,7 +75,7 @@ EXPECTED
 };
 
 subtest "dump_forms test", sub {
-    dump_tests( 'dump_forms', 't/form_with_fields.html', <<'EXPECTED');
+    dump_tests( 'dump_forms', 't/form_with_fields.html', <<'EXPECTED' );
 POST http://localhost/ (multipart/form-data) [1st_form]
   1a=                            (text)
   1b=                            (text)
@@ -125,7 +125,7 @@ EXPECTED
 };
 
 subtest "dump_forms multiselect", sub {
-    dump_tests( 'dump_forms', 't/form_133_regression.html', <<'EXPECTED');
+    dump_tests( 'dump_forms', 't/form_133_regression.html', <<'EXPECTED' );
 GET http://localhost/
   select1=1                      (option)   [*1|2|3|4]
   select2=1                      (option)   [*1|2|3|4]
@@ -144,7 +144,7 @@ EXPECTED
 };
 
 subtest "dump_text test", sub {
-    dump_tests( 'dump_text', 't/image-parse.html', <<'EXPECTED');
+    dump_tests( 'dump_text', 't/image-parse.html', <<'EXPECTED' );
 Testing image extractionblargle And now, the dreaded wango  CNN   BBC Blongo!Logo
 EXPECTED
 };
