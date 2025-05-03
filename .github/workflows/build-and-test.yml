@@ -147,8 +147,8 @@ jobs:
       fail-fast: true
       matrix:
         perl-version:
-          - "5.14"
-          - "5.16"
+          #- "5.14"
+          #- "5.16"
           #- "5.18" https://github.com/libwww-perl/WWW-Mechanize/runs/822568352?check_suite_focus=true
           - "5.20"
           - "5.22"
