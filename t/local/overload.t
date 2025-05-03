@@ -34,7 +34,7 @@ BEGIN {
     use_ok('WWW::Mechanize');
 }
 
-my $server = LocalServer->spawn( html => <<'BROKEN_HTML');
+my $server = LocalServer->spawn( html => <<'BROKEN_HTML' );
 <html>
 <head><title>Broken document</head>
 <form>
