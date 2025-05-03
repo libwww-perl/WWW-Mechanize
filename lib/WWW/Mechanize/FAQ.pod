@@ -446,4 +446,15 @@ keeps a clone of the full Mech object at every step along the way.
 You can limit this stack size with the C<stack_depth> param in the C<new()>
 constructor.  If you set stack_size to 0, Mech will not keep any history.
 
+=head2 How do I find all the links in a sub-section of a page?
+
+If you want to find all the links between two specific parts of content in
+page, you need to modify the content to remove everything else. This is a bit unorthodox,
+but it works.
+
+    my $html = $mech->content;
+    $html =~ s/.*(\n[^n]+foo.*bar[^\n]+).*/$1/ms;
+    $mech->update_html( $html );
+    $mech->dump_links;
+
 =cut

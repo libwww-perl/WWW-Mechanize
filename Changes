@@ -4,6 +4,8 @@ Revision history for WWW::Mechanize
     [ENHANCEMENTS]
     - WWW::Mechanize no longer taints the responses it receives.  This also
     removes Test::Taint as a prerequisite.
+    [DOCUMENTATION]
+    - Improve FAQ (GH#189) (Julien Fiegehenn)
 
 2.19      2024-09-16 15:25:45Z
     [DOCUMENTATION]
