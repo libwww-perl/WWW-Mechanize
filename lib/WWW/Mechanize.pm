@@ -2057,6 +2057,8 @@ sub field {
 
 =head2 $mech->select($name, $new_or_additional_single_value)
 
+=head2 $mech->select($name, $new_or_additional_single_value, $number)
+
 =head2 $mech->select($name, \%new_single_value_by_number)
 
 =head2 $mech->select($name, \@new_list_of_values)
@@ -2068,6 +2070,13 @@ specified.
 
     # select 'foo'
     $mech->select($name, 'foo');
+
+The optional C<$number> parameter is used to distinguish between two fields
+with the same name.  The fields are numbered from 1. Note that this only works
+for selecting simple values, not for selecting multiple values as once.
+
+    # select the second field with the name 'foo'
+    $mech->select($name, 'foo', 2);
 
 If the field is not C<< <select multiple> >> and the
 C<$value> is an array reference, only the B<first> value will be set.  [Note:
@@ -2117,11 +2126,12 @@ false and calls C<< $self->warn() >> with an error message.
 =cut
 
 sub select {
-    my ( $self, $name, $value ) = @_;
+    my ( $self, $name, $value, $number ) = @_;
+    $number ||= 1;
 
     my $form = $self->current_form();
 
-    my $input = $form->find_input($name);
+    my $input = $form->find_input( $name, undef, $number );
     if ( !$input ) {
         $self->warn(qq{Input "$name" not found});
         return;
@@ -2188,7 +2198,7 @@ sub select {
         return 1;
     }
 
-    $form->value( $name => $value );
+    $form->find_input( $name, undef, $number )->value($value);
     return 1;
 }
 
