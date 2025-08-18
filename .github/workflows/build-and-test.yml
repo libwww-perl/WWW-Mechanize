@@ -17,7 +17,7 @@ jobs:
     container:
       image: perldocker/perl-tester:5.36
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Run Tests
         env:
           AUTHOR_TESTING: 1
@@ -36,7 +36,7 @@ jobs:
     container:
       image: perldocker/perl-tester:5.36
     steps:
-      - uses: actions/checkout@v4 # codecov wants to be inside a Git repository
+      - uses: actions/checkout@v5 # codecov wants to be inside a Git repository
       - uses: actions/download-artifact@v4
         with:
           name: build_dir
@@ -93,7 +93,7 @@ jobs:
       - name: pin Test::Deep to 1.130 on Perl < 5.12
         if: ${{ matrix.perl-version == '5.8' || matrix.perl-version == '5.10' }}
         run: cpanm --notest Test::Deep@1.130
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/download-artifact@v4
         with:
           name: build_dir
