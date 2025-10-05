@@ -5,7 +5,7 @@ _comp_cmd_mech_dump()
     cur=${COMP_WORDS[COMP_CWORD]}
 
     # shellcheck disable=SC2207
-    COMPREPLY=( $( compgen -W "$(mech-dump --completions)" -- "$cur" ) )
+    COMPREPLY=( $( compgen -W '$(mech-dump --completions)' -- "$cur" ) )
 } &&
     complete -F _comp_cmd_mech_dump mech-dump
 
