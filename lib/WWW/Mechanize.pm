@@ -868,7 +868,8 @@ sub content {
 
     my $content = $self->{content};
     if ( delete $params{raw} ) {
-        $content = $self->response()->content();
+        my $res = $self->response();
+        $content = $res->content() if $res;
     }
     elsif ( delete $params{decoded_by_headers} ) {
         $content = $self->response()->decoded_content( charset => 'none' );
