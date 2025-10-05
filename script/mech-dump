@@ -20,7 +20,7 @@ my $agent;
 my $agent_alias;
 my $cookie_filename;
 
-GetOptions(
+my %command_line_options = (
     'user=s'     => \$user,
     'password=s' => \$pass,
     headers      => sub { push( @actions, \&dump_headers ) },
@@ -35,13 +35,36 @@ GetOptions(
         );
     },
     text            => sub { push( @actions, \&dump_text ) },
-    absolute        => \$absolute,
+    'absolute!'     => \$absolute,
     'agent=s'       => \$agent,
     'agent-alias=s' => \$agent_alias,
     'cookie-file=s' => \$cookie_filename,
     help            => sub { pod2usage(1); },
-    version => sub { print STDERR $WWW::Mechanize::VERSION, "\n"; exit 0; },
+    version         => sub { print STDERR $WWW::Mechanize::VERSION, "\n"; exit 0; },
+    'completions'   => sub { completions(@ARGV); },
+);
+GetOptions(
+    %command_line_options
 ) or pod2usage(2);
+
+sub completions {
+    my (@words) = @_;
+    my @opts;
+    foreach (sort keys %command_line_options) {
+        if(m/^ (?<opt> [^!]{1,}) ! $/msx) {
+            push @opts, $+{opt}, 'no-'.$+{opt};
+        }
+        elsif(m/^ (?<opt> [^=]{1,}) = [siof]{1} $/msx) {
+            push @opts, (split qr{\|}, $+{opt});
+        }
+        else {
+            push @opts, $_;
+        }
+    }
+    print join "\n", (map { q{--} . $_ } @opts);
+    print "\n";
+    exit 0;
+}
 
 =head1 SYNOPSIS
 
