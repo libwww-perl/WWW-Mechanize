@@ -1,34 +1,12 @@
-#!/usr/bin/env bash
-
-__mech_dump_init_completion() {
-    COMPREPLY=()
-    _get_comp_words_by_ref cur prev words cword
-}
-__mech_dump_command_line_options() {
-    opts=(
-            --headers --forms --links --images --all --test
-            --user= --password= --cookie-file= --agent
-            --agent-alias= --absolute --help --version
-            *
-        )
-    echo "${opts[*]}"
-}
-
-_mech_dump() {
+_comp_cmd_mech-dump()
+{
     local cur
-    if declare -F _init_completion >/dev/null 2>&1; then
-        _init_completion
-    else
-        __mech_dump_init_completion
-    fi
-
-    keys=( )
+    _init_completion
     cur=${COMP_WORDS[COMP_CWORD]}
 
-    keys+=( "$(__mech_dump_command_line_options)" )
     # shellcheck disable=SC2207
-    COMPREPLY=( $( compgen -W "${keys[*]}" -- "$cur" ) )
-    return 0
-}
+    COMPREPLY=( $( compgen -W "$(mech-dump --completions)" -- "$cur" ) )
+} &&
+    complete -F _comp_cmd_mech-dump mech-dump
 
-complete -F _mech_dump mech-dump
+# ex: filetype=sh
