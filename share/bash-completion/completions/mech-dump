@@ -1,7 +1,6 @@
 _comp_cmd_mech_dump()
 {
     local cur
-    _init_completion
     cur=${COMP_WORDS[COMP_CWORD]}
 
     # shellcheck disable=SC2207
