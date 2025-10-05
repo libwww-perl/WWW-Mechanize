@@ -29,10 +29,8 @@ my %command_line_options = (
     images       => sub { push( @actions, \&dump_images ) },
     all          => sub {
         $all++;
-        push(
-            @actions, \&dump_headers, \&dump_forms, \&dump_links,
-            \&dump_images
-        );
+        push( @actions,
+            \&dump_headers, \&dump_forms, \&dump_links, \&dump_images );
     },
     text            => sub { push( @actions, \&dump_text ) },
     'absolute!'     => \$absolute,
@@ -40,28 +38,26 @@ my %command_line_options = (
     'agent-alias=s' => \$agent_alias,
     'cookie-file=s' => \$cookie_filename,
     help            => sub { pod2usage(1); },
-    version         => sub { print STDERR $WWW::Mechanize::VERSION, "\n"; exit 0; },
-    'completions'   => sub { completions(@ARGV); },
+    version => sub { print STDERR $WWW::Mechanize::VERSION, "\n"; exit 0; },
+    'completions' => sub { completions(@ARGV); },
 );
-GetOptions(
-    %command_line_options
-) or pod2usage(2);
+GetOptions(%command_line_options) or pod2usage(2);
 
 sub completions {
     my (@words) = @_;
     my @opts;
-    foreach (sort keys %command_line_options) {
-        if(m/^ (?<opt> [^!]{1,}) ! $/msx) {
-            push @opts, $+{opt}, 'no-'.$+{opt};
+    foreach ( sort keys %command_line_options ) {
+        if (m/^ (?<opt> [^!]{1,}) ! $/msx) {
+            push @opts, $+{opt}, 'no-' . $+{opt};
         }
-        elsif(m/^ (?<opt> [^=]{1,}) = [siof]{1} $/msx) {
-            push @opts, (split qr{\|}, $+{opt});
+        elsif (m/^ (?<opt> [^=]{1,}) = [siof]{1} $/msx) {
+            push @opts, ( split qr{\|}, $+{opt} );
         }
         else {
             push @opts, $_;
         }
     }
-    print join "\n", (map { q{--} . $_ } @opts);
+    print join "\n", ( map { q{--} . $_ } @opts );
     print "\n";
     exit 0;
 }
@@ -111,7 +107,7 @@ See L<LWP::UserAgent> for details.
 =cut
 
 my @uris = @ARGV
-    or die "Must specify a URL or file to check.  See --help for details.\n";
+  or die "Must specify a URL or file to check.  See --help for details.\n";
 
 @actions = ( \&dump_forms ) unless @actions;
 
@@ -126,7 +122,8 @@ elsif ( defined $agent_alias ) {
 }
 if ( defined $cookie_filename ) {
     my $cookies = HTTP::Cookies->new(
-        file           => $cookie_filename, autosave => 1,
+        file           => $cookie_filename,
+        autosave       => 1,
         ignore_discard => 1
     );
     $cookies->load();
@@ -156,8 +153,8 @@ foreach my $uri (@uris) {
             $mech->credentials( $user, $pass );
             $response = $mech->get($uri);
             $response->is_success
-                or die "Can't fetch $uri with username and password\n",
-                $response->status_line, "\n";
+              or die "Can't fetch $uri with username and password\n",
+              $response->status_line, "\n";
         }
         else {
             die "$uri returns status ", $response->code, "\n";
@@ -166,8 +163,8 @@ foreach my $uri (@uris) {
 
     unless ($no_ct_check) {
         $mech->is_html
-            or die qq{$uri returns type "}, $mech->ct,
-            qq{", not "text/html"\n};
+          or die qq{$uri returns type "}, $mech->ct,
+          qq{", not "text/html"\n};
     }
 
     foreach my $action (@actions) {
