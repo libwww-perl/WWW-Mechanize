@@ -1,4 +1,4 @@
-_comp_cmd_mech-dump()
+_comp_cmd_mech_dump()
 {
     local cur
     _init_completion
@@ -7,6 +7,6 @@ _comp_cmd_mech-dump()
     # shellcheck disable=SC2207
     COMPREPLY=( $( compgen -W "$(mech-dump --completions)" -- "$cur" ) )
 } &&
-    complete -F _comp_cmd_mech-dump mech-dump
+    complete -F _comp_cmd_mech_dump mech-dump
 
 # ex: filetype=sh
