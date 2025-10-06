@@ -14,7 +14,10 @@ https://security.metacpan.org/docs/guides/security-policy-for-authors.html
 # How to Report a Security Vulnerability
 
 Security vulnerabilities can be reported to the current WWW::Mechanize
-maintainers by email to Andy Lester <andy at petdance.com>.
+maintainers by using GitHub's **Report a vulnerability** submission form.
+On the repository's main page, select **Security** tab and then
+click on the button *Report a vulnerabity*.
+Direct link: https://github.com/libwww-perl/WWW-Mechanize/security/advisories/new
 
 Please include as many details as possible, including code samples
 or test cases, so that we can reproduce the issue.  Check that your
