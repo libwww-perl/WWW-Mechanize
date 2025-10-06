@@ -29,8 +29,10 @@ my %command_line_options = (
     images       => sub { push( @actions, \&dump_images ) },
     all          => sub {
         $all++;
-        push( @actions,
-            \&dump_headers, \&dump_forms, \&dump_links, \&dump_images );
+        push(
+            @actions,
+            \&dump_headers, \&dump_forms, \&dump_links, \&dump_images
+        );
     },
     text            => sub { push( @actions, \&dump_text ) },
     'absolute!'     => \$absolute,
@@ -107,7 +109,7 @@ See L<LWP::UserAgent> for details.
 =cut
 
 my @uris = @ARGV
-  or die "Must specify a URL or file to check.  See --help for details.\n";
+    or die "Must specify a URL or file to check.  See --help for details.\n";
 
 @actions = ( \&dump_forms ) unless @actions;
 
@@ -153,8 +155,8 @@ foreach my $uri (@uris) {
             $mech->credentials( $user, $pass );
             $response = $mech->get($uri);
             $response->is_success
-              or die "Can't fetch $uri with username and password\n",
-              $response->status_line, "\n";
+                or die "Can't fetch $uri with username and password\n",
+                $response->status_line, "\n";
         }
         else {
             die "$uri returns status ", $response->code, "\n";
@@ -163,8 +165,8 @@ foreach my $uri (@uris) {
 
     unless ($no_ct_check) {
         $mech->is_html
-          or die qq{$uri returns type "}, $mech->ct,
-          qq{", not "text/html"\n};
+            or die qq{$uri returns type "}, $mech->ct,
+            qq{", not "text/html"\n};
     }
 
     foreach my $action (@actions) {
