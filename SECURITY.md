@@ -1,11 +1,9 @@
 # Security Policy for the WWW::Mechanize distribution.
 
-Report security issues by email to Andy Lester <andy at petdance.com>.
-
 This is the Security Policy for WWW::Mechanize.
 
 The latest version of the Security Policy can be found in the
-[git repository for WWW::Mechanize](https://github.com/libwww-perl/WWW-Mechanize/blob/main/SECURITY.md).
+[git repository for WWW::Mechanize](https://github.com/libwww-perl/WWW-Mechanize/blob/master/SECURITY.md).
 
 This text is based on the CPAN Security Group's Guidelines for Adding
 a Security Policy to Perl Distributions (version 1.3.0)
@@ -16,7 +14,7 @@ https://security.metacpan.org/docs/guides/security-policy-for-authors.html
 Security vulnerabilities can be reported to the current WWW::Mechanize
 maintainers by using GitHub's **Report a vulnerability** submission form.
 On the repository's main page, select **Security** tab and then
-click on the button *Report a vulnerabity*.
+click on the button *Report a vulnerability*.
 Direct link: https://github.com/libwww-perl/WWW-Mechanize/security/advisories/new
 
 Please include as many details as possible, including code samples
@@ -43,7 +41,7 @@ on the CPANSec website.
 ## Response to Reports
 
 The maintainers aim to acknowledge your security report as soon as
-possible.  However, this project is maintained by a people in
+possible.  However, this project is maintained by people in
 their spare time, and they cannot guarantee a rapid response.  If you
 have not received a response from them within 14 days, then
 please send a reminder to them and copy the report to CPANSec at
