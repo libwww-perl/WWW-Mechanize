@@ -37,7 +37,8 @@ my $mech = WWW::Mechanize->new();
 $mech->{base} = 'http://example.com/';
 
 is( $mech->content, undef, 'content starts out as undef' );
-is( $mech->content(raw=>1), undef, 'raw content is just as undef as normal' );
+is( $mech->content( raw => 1 ),
+    undef, 'raw content is just as undef as normal' );
 
 $mech->update_html($html);
 
@@ -66,10 +67,8 @@ my $content = $mech->content( base_href => 'foo' );
 like( $content, qr/base href="foo"/, 'Found the base href' );
 
 $content = $mech->content( base_href => undef );
-like(
-    $content, qr[base href="http://example.com/"],
-    'Found the new base href'
-);
+like( $content, qr[base href="http://example.com/"],
+    'Found the new base href' );
 
 $mech->{res} = Test::MockResponse->new(
     raw_content      => 'this is the raw content',
@@ -81,10 +80,7 @@ $content = $mech->content( raw => 1 );
 is( $content, 'this is the raw content', 'raw => 1' );
 
 $content = $mech->content( decoded_by_headers => 1 );
-is(
-    $content, 'this is a slightly decoded content',
-    'decoded_by_headers => 1'
-);
+is( $content, 'this is a slightly decoded content', 'decoded_by_headers => 1' );
 
 $content = $mech->content( charset => 'whatever' );
 is( $content, 'this is charset whatever', 'charset => ...' );
