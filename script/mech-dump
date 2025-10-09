@@ -49,10 +49,10 @@ sub completions {
     my (@words) = @_;
     my @opts;
     foreach ( sort keys %command_line_options ) {
-        if (m/^ (?<opt> [^!]{1,}) ! $/msx) {
+        if (m/^ (?<opt> [^!]+) ! $/msx) {
             push @opts, $+{opt}, 'no-' . $+{opt};
         }
-        elsif (m/^ (?<opt> [^=]{1,}) = [siof]{1} $/msx) {
+        elsif (m/^ (?<opt> [^=]+) = [siof]{1} $/msx) {
             push @opts, ( split qr{\|}, $+{opt} );
         }
         else {
