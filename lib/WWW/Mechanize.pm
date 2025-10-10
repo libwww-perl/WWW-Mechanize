@@ -1715,10 +1715,9 @@ sub form_action {
     my ( $self, $action ) = @_;
 
     my $temp;
-    my @matches = grep {
-        defined( $temp = $_->action )
-            and ( $temp =~ m/$action/msx )
-    } $self->forms;
+    my @matches
+        = grep { defined( $temp = $_->action ) and ( $temp =~ m/$action/msx ) }
+        $self->forms;
 
     my $nmatches = @matches;
     if ( $nmatches > 0 ) {
