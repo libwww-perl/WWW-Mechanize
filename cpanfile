@@ -64,6 +64,7 @@ on 'develop' => sub {
   requires "Perl::Critic" => "1.132";
   requires "Perl::Tidy" => "20180220";
   requires "Pod::Coverage::TrustPod" => "0";
+  requires "Pod::Tidy" => "0";
   requires "Test::Code::TidyAll" => "0.50";
   requires "Test::EOL" => "0";
   requires "Test::Memory::Cycle" => "0";
