@@ -55,6 +55,8 @@ on 'configure' => sub {
 };
 
 on 'develop' => sub {
+  requires "App::perlimports" => "0.000057";
+  requires "App::perlvars" => "0.000006";
   requires "Code::TidyAll" => "0.71";
   requires "Code::TidyAll::Plugin::SortLines::Naturally" => "0.000003";
   requires "Code::TidyAll::Plugin::Test::Vars" => "0.04";
