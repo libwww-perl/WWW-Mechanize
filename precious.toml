@@ -19,6 +19,12 @@ expect-stderr = true
 # ok-exit-codes = 0
 # lint-failure-exit-codes = 2
 
+[commands.perlvars]
+type = "lint"
+include = ["**/*.{pl,pm,psgi}"]
+cmd = ["perlvars"]
+ok-exit-codes = 0
+
 [commands.perltidy]
 type = "both"
 include = ["**/*.{pl,pm,t,psgi}"]
