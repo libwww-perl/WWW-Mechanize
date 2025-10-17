@@ -3598,7 +3598,7 @@ sub _images_from_css {
     my @images;
     while ( $css =~ m/$STYLE_URL_REGEXP/g ) {
         my $url = $3;
-        require WWW::Mechanize::Image;
+        require WWW::Mechanize::Image; ## no perlimports
         push(
             @images,
             WWW::Mechanize::Image->new(
@@ -3774,7 +3774,7 @@ sub _warn {
 
 # NOT an object method!
 sub _die {
-    require Carp;
+    require Carp; ## no perlimports
     return &Carp::croak;    ## no critic
 }
 
