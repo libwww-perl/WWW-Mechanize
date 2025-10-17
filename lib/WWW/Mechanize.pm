@@ -2981,9 +2981,8 @@ C<undef>, it dumps to STDOUT.
 =cut
 
 sub dump_text {
-    my $self     = shift;
-    my $fh       = shift || \*STDOUT;
-    my $absolute = shift;
+    my $self = shift;
+    my $fh   = shift || \*STDOUT;
 
     print {$fh} $self->text, "\n";
 
@@ -3378,7 +3377,7 @@ sub _extract_images {
                 next if $tag_name =~ m{^/};
 
                 if ( $image_tags{$tag_name} ) {
-                    my $image = $self->_image_from_token( $token, $parser );
+                    my $image = $self->_image_from_token($token);
                     push( @{ $self->{images} }, $image ) if $image;
                 }
                 elsif ( $tag_name eq 'style' ) {
@@ -3402,9 +3401,8 @@ sub _extract_images {
 }
 
 sub _image_from_token {
-    my $self   = shift;
-    my $token  = shift;
-    my $parser = shift;
+    my $self  = shift;
+    my $token = shift;
 
     my $tag   = $token->[0];
     my $attrs = $token->[1];
