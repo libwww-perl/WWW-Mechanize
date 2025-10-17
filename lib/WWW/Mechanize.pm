@@ -129,6 +129,20 @@ Frequently asked questions.  Make sure you read here FIRST.
 
 =back
 
+=head1 INSTALLATION
+
+=head2 Packaged for Different Operating Systems
+
+WWW-Mechanize is readily packaged for several Linux distributions.
+The operating system packages are maintained and updated when WWW-Mechanize is released.
+Please check for your own OS at the bottom of this page.
+
+=head2 Manual Installation
+
+    cpan install WWW::Mechanize
+    # or
+    cpanm WWW::Mechanize
+
 =cut
 
 use strict;
@@ -4061,5 +4075,9 @@ Peter Stevens,
 Pete Krawczyk,
 Tad McClellan,
 and the late great Iain Truskett.
+
+=head1 PACKAGING FOR OPERATING SYSTEMS
+
+[![Packaging status](https://repology.org/badge/vertical-allrepos/perl%3Awww-mechanize.svg)](https://repology.org/project/perl%3Awww-mechanize/versions)
 
 =cut
