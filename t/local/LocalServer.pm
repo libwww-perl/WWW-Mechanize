@@ -34,8 +34,7 @@ use URI::URL    ();
 
 =head2 C<Test::HTTP::LocalServer-E<gt>spawn %ARGS>
 
-This spawns a new HTTP server. The server will stay running until
-C<< $server->stop >> is called.
+This spawns a new HTTP server. The server will stay running until C<< $server->stop >> is called.
 
 Valid arguments are:
 
@@ -57,8 +56,8 @@ C<<  debug => 1 >> to make the spawned server output debug information
 
 C<<  eval => >> string that will get evaluated per request in the server
 
-Try to avoid characters that are special to the shell, especially quotes.
-A good idea for a slow server would be
+Try to avoid characters that are special to the shell, especially quotes. A good idea for a slow
+server would be
 
   eval => sleep+10
 
@@ -127,9 +126,8 @@ sub spawn {
 
 =head2 C<< $server->port >>
 
-This returns the port of the current server. As new instances
-will most likely run under a different port, this is convenient
-if you need to compare results from two runs.
+This returns the port of the current server. As new instances will most likely run under a
+different port, this is convenient if you need to compare results from two runs.
 
 =cut
 
@@ -141,9 +139,8 @@ sub port {
 
 =head2 C<< $server->url >>
 
-This returns the url where you can contact the server. This url
-is valid until the C<$server> goes out of scope or you call
-C<< $server->stop >> or C<< $server->get_log >>.
+This returns the url where you can contact the server. This url is valid until the C<$server> goes
+out of scope or you call C<< $server->stop >> or C<< $server->get_log >>.
 
 =cut
 
@@ -153,8 +150,7 @@ sub url {
 
 =head2 C<< $server->stop >>
 
-This stops the server process by requesting a special
-url.
+This stops the server process by requesting a special url.
 
 =cut
 
@@ -170,8 +166,7 @@ sub stop {
 
 =head2 C<< $server->kill >>
 
-This kills the server process via C<kill>. The log
-cannot be retrieved then.
+This kills the server process via C<kill>. The log cannot be retrieved then.
 
 =cut
 
@@ -183,10 +178,8 @@ sub kill {
 
 =head2 C<< $server->get_log >>
 
-This stops the server by calling C<stop> and then returns the
-output of the server process. This output will be a list of
-all requests made to the server concatenated together
-as a string.
+This stops the server by calling C<stop> and then returns the output of the server process. This
+output will be a list of all requests made to the server concatenated together as a string.
 
 =cut
 
@@ -209,9 +202,9 @@ sub DESTROY {
 
 =head2 302 redirect C<< $server->redirect($target) >>
 
-This URL will issue a redirect to C<$target>. No special care is taken
-towards URL-decoding C<$target> as not to complicate the server code.
-You need to be wary about issuing requests with escaped URL parameters.
+This URL will issue a redirect to C<$target>. No special care is taken towards URL-decoding
+C<$target> as not to complicate the server code. You need to be wary about issuing requests with
+escaped URL parameters.
 
 =head2 404 error C<< $server->error_notfound($target) >>
 
@@ -227,13 +220,12 @@ This URL will send nothing and close the connection after C<$seconds> seconds.
 
 =head2 Error in response content C<< $server->error_after_headers >>
 
-This URL will send headers for a successfull response but will close the
-socket with an error after 2 blocks of 16 spaces have been sent.
+This URL will send headers for a successfull response but will close the socket with an error after
+2 blocks of 16 spaces have been sent.
 
 =head2 Chunked response C<< $server->chunked >>
 
-This URL will return 5 blocks of 16 spaces at a rate of one block per second
-in a chunked response.
+This URL will return 5 blocks of 16 spaces at a rate of one block per second in a chunked response.
 
 =head2 Other URLs
 
@@ -266,7 +258,8 @@ None by default.
 
 =head1 COPYRIGHT AND LICENSE
 
-This library is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
+This library is free software; you can redistribute it and/or modify it under the same terms as
+Perl itself.
 
 Copyright (C) 2003-2011 Max Maischein
 
@@ -274,7 +267,8 @@ Copyright (C) 2003-2011 Max Maischein
 
 Max Maischein, E<lt>corion@cpan.orgE<gt>
 
-Please contact me if you find bugs or otherwise improve the module. More tests are also very welcome !
+Please contact me if you find bugs or otherwise improve the module. More tests are also very
+welcome !
 
 =head1 SEE ALSO
 
