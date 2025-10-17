@@ -5,7 +5,7 @@ use lib 't/local';
 
 use LocalServer ();
 use Test::More 0.96;
-use Test::Fatal qw(dies_ok);
+use Test::Fatal qw( dies_ok );
 
 BEGIN {
     delete @ENV{qw( IFS CDPATH ENV BASH_ENV )};
