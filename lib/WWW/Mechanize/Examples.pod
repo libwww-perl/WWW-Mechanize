@@ -5,38 +5,33 @@
 
 Plenty of people have learned WWW::Mechanize, and now, you can too!
 
-Following are user-supplied samples of WWW::Mechanize in action.
-If you have samples you'd like to contribute, please send 'em to
-C<< <andy@petdance.com> >>.
+Following are user-supplied samples of WWW::Mechanize in action. If you have samples you'd like to
+contribute, please send 'em to C<< <andy@petdance.com> >>.
 
 You can also look at the F<t/*.t> files in the distribution.
 
-Please note that these examples are not intended to do any specific task.
-For all I know, they're no longer functional because the sites they
-hit have changed.  They're here to give examples of how people have
-used WWW::Mechanize.
+Please note that these examples are not intended to do any specific task. For all I know, they're
+no longer functional because the sites they hit have changed.  They're here to give examples of how
+people have used WWW::Mechanize.
 
-Note that the examples are in reverse order of my having received them,
-so the freshest examples are always at the top.
+Note that the examples are in reverse order of my having received them, so the freshest examples
+are always at the top.
 
 =head2 Starbucks Density Calculator, by Nat Torkington
 
-Here's a pair of programs from Nat Torkington, editor for O'Reilly Media
-and co-author of the I<Perl Cookbook>.
+Here's a pair of programs from Nat Torkington, editor for O'Reilly Media and co-author of the
+I<Perl Cookbook>.
 
 =over 4
 
-Rael [Dornfest] discovered that you can easily find out how many Starbucks
-there are in an area by searching for "Starbucks".  So I wrote a silly
-scraper for some old census data and came up with some Starbucks density
-figures.  There's no meaning to these numbers thanks to errors from using
-old census data coupled with false positives in Yahoo search (e.g.,
-"Dodie Starbuck-Your Style Desgn" in Portland OR).  But it was fun to
-waste a night on.
+Rael [Dornfest] discovered that you can easily find out how many Starbucks there are in an area by
+searching for "Starbucks".  So I wrote a silly scraper for some old census data and came up with
+some Starbucks density figures.  There's no meaning to these numbers thanks to errors from using
+old census data coupled with false positives in Yahoo search (e.g., "Dodie Starbuck-Your Style
+Desgn" in Portland OR).  But it was fun to waste a night on.
 
-Here are the top twenty cities in descending order of population,
-with the amount of territory each Starbucks has.  E.g., A New York NY
-Starbucks covers 1.7 square miles of ground.
+Here are the top twenty cities in descending order of population, with the amount of territory each
+Starbucks has.  E.g., A New York NY Starbucks covers 1.7 square miles of ground.
 
     New York, NY        1.7
     Los Angeles, CA     1.2
@@ -169,16 +164,14 @@ C<plague_of_coffee>
 
 =head2 pb-upload, by John Beppu
 
-This program takes filenames of images from the command line and
-uploads them to a www.photobucket.com folder.  John Beppu, the author, says:
+This program takes filenames of images from the command line and uploads them to a
+www.photobucket.com folder.  John Beppu, the author, says:
 
 =over 4
 
-I had 92 pictures I wanted to upload, and doing it through a browser
-would've been torture.  But thanks to mech, all I had to do was
-`./pb.upload *.jpg` and watch it do its thing.  It felt good.
-If I had more time, I'd implement WWW::Photobucket on top of
-WWW::Mechanize.
+I had 92 pictures I wanted to upload, and doing it through a browser would've been torture.  But
+thanks to mech, all I had to do was `./pb.upload *.jpg` and watch it do its thing.  It felt good.
+If I had more time, I'd implement WWW::Photobucket on top of WWW::Mechanize.
 
 =back
 
@@ -212,9 +205,8 @@ WWW::Mechanize.
 
 =head2 listmod, by Ian Langworth
 
-Ian Langworth contributes this little gem that will bring joy to
-beleaguered mailing list admins.  It discards spam messages through
-mailman's web interface.
+Ian Langworth contributes this little gem that will bring joy to beleaguered mailing list admins.
+It discards spam messages through mailman's web interface.
 
 
     #!/arch/unix/bin/perl
@@ -279,10 +271,9 @@ mailman's web interface.
 
 =head2 ccdl, by Andy Lester
 
-Steve McConnell, author of the landmark I<Code Complete> has put
-up the chapters for the 2nd edition in PDF format on his website.
-I needed to download them to take to Kinko's to have printed.  This
-little program did it for me.
+Steve McConnell, author of the landmark I<Code Complete> has put up the chapters for the 2nd
+edition in PDF format on his website. I needed to download them to take to Kinko's to have printed.
+ This little program did it for me.
 
 
     #!/usr/bin/perl -w
@@ -310,13 +301,11 @@ little program did it for me.
 
 =head2 quotes.pl, by Andy Lester
 
-This was a program that was going to get a hack in I<Spidering Hacks>,
-but got cut at the last minute, probably because it's against IMDB's TOS
-to scrape from it.  I present it here as an example, not a suggestion
-that you break their TOS.
+This was a program that was going to get a hack in I<Spidering Hacks>, but got cut at the last
+minute, probably because it's against IMDB's TOS to scrape from it.  I present it here as an
+example, not a suggestion that you break their TOS.
 
-Last I checked, it didn't work because their HTML didn't match, but it's
-still good as sample code.
+Last I checked, it didn't work because their HTML didn't match, but it's still good as sample code.
 
     #!/usr/bin/perl -w
 
@@ -420,8 +409,7 @@ still good as sample code.
 
 =head2 cpansearch.pl, by Ed Silva
 
-A quick little utility to search the CPAN and fire up a browser
-with a results page.
+A quick little utility to search the CPAN and fire up a browser with a results page.
 
     #!/usr/bin/perl
 
@@ -532,8 +520,7 @@ with a results page.
 
 =head2 get-despair, by Randal Schwartz
 
-Randal submitted this bot that walks the despair.com site sucking down
-all the pictures.
+Randal submitted this bot that walks the despair.com site sucking down all the pictures.
 
     use strict;
     $|++;

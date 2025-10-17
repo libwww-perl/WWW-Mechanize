@@ -9,8 +9,7 @@ our $VERSION = '2.20';
 
 =head1 SYNOPSIS
 
-Link object to encapsulate all the stuff that Mech needs but nobody
-wants to deal with as an array.
+Link object to encapsulate all the stuff that Mech needs but nobody wants to deal with as an array.
 
 =head1 Constructor
 

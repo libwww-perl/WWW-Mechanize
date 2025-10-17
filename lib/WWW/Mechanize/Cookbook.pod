@@ -3,11 +3,9 @@
 
 =head1 INTRODUCTION
 
-First, please note that many of these are possible just using
-L<LWP::UserAgent>.  Since C<WWW::Mechanize> is a subclass of
-L<LWP::UserAgent>, whatever works on C<LWP::UserAgent> should work
-on C<WWW::Mechanize>.  See the L<lwpcook> man page included with
-L<LWP>.
+First, please note that many of these are possible just using L<LWP::UserAgent>.  Since
+C<WWW::Mechanize> is a subclass of L<LWP::UserAgent>, whatever works on C<LWP::UserAgent> should
+work on C<WWW::Mechanize>.  See the L<lwpcook> man page included with L<LWP>.
 
 =head1 BASICS
 
@@ -17,24 +15,21 @@ L<LWP>.
 
     my $mech = WWW::Mechanize->new( autocheck => 1 );
 
-The C<< autocheck => 1 >> tells Mechanize to die if any IO fails,
-so you don't have to manually check.  It's easier that way.  If you
-want to do your own error checking, leave it out.
+The C<< autocheck => 1 >> tells Mechanize to die if any IO fails, so you don't have to manually
+check.  It's easier that way.  If you want to do your own error checking, leave it out.
 
 =head2 Fetch a page
 
     $mech->get( "http://search.cpan.org" );
     print $mech->content;
 
-C<< $mech->content >> contains the raw HTML from the web page.  It
-is not parsed or handled in any way, at least through the C<content>
-method.
+C<< $mech->content >> contains the raw HTML from the web page.  It is not parsed or handled in any
+way, at least through the C<content> method.
 
 =head2 Fetch a page into a file
 
-Sometimes you want to dump your results directly into a file.  For
-example, there's no reason to read a JPEG into memory if you're
-only going to write it out immediately.  This can also help with
+Sometimes you want to dump your results directly into a file.  For example, there's no reason to
+read a JPEG into memory if you're only going to write it out immediately.  This can also help with
 memory issues on large files.
 
     $mech->get( "http://www.cpan.org/src/stable.tar.gz",
