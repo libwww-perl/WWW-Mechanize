@@ -46,6 +46,32 @@ jobs:
         run: cpan-install-dist-deps --with-develop && test-dist
         env:
           CODECOV_TOKEN: ${{secrets.CODECOV_TOKEN}}
+  linter-job:
+    name: lint
+    runs-on: ubuntu-latest
+    container:
+      image: perldocker/perl-tester:5.42
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Install deps and test
+        run: cpan-install-dist-deps --with-develop
+      - name: Install precious and omegasort
+        uses: oalders/install-ubi-action@v0.0.6
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          projects: |
+            houseabsolute/omegasort
+            houseabsolute/precious
+      - name: precious lint
+        run: |
+          if [ "${{ github.ref }}" = "refs/heads/master" ]; then
+            precious lint -q --all
+          else
+            git fetch origin master:refs/remotes/origin/master
+            precious lint -q --git-diff-from origin/${{ github.base_ref }}
+          fi
   http-one-one-regression-job:
     name: HTTP/1.1 Keepalive Regression Test - see GH \# 14
     needs: build-job
