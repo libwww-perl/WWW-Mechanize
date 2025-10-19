@@ -4078,6 +4078,10 @@ and the late great Iain Truskett.
 
 =head1 PACKAGING FOR OPERATING SYSTEMS
 
-[![Packaging status](https://repology.org/badge/vertical-allrepos/perl%3Awww-mechanize.svg)](https://repology.org/project/perl%3Awww-mechanize/versions)
+=begin html
+
+<a href="https://repology.org/project/perl%3Awww-mechanize/versions"><img src="https://repology.org/badge/vertical-allrepos/perl%3Awww-mechanize.svg" alt="Packaging status by Repology"></a>
+
+=end html
 
 =cut
