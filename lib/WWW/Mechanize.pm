@@ -143,7 +143,7 @@ Please check for your own OS at the bottom of this page.
 use strict;
 use warnings;
 
-our $VERSION = '2.20';
+our $VERSION = '2.21';
 
 use Tie::RefHash       ();
 use HTTP::Request 1.30 ();

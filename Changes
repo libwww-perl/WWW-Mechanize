@@ -1,5 +1,7 @@
 Revision history for WWW::Mechanize
 
+{{$NEXT}}
+
 2.20      2025-10-22 19:04:44Z
     [ENHANCEMENTS]
     - WWW::Mechanize no longer taints the responses it receives.  This also

@@ -3,7 +3,7 @@ package WWW::Mechanize::Image;
 use strict;
 use warnings;
 
-our $VERSION = '2.20';
+our $VERSION = '2.21';
 
 #ABSTRACT: Image object for WWW::Mechanize
 
