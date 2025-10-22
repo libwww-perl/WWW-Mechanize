@@ -6,8 +6,16 @@ Revision history for WWW::Mechanize
     removes Test::Taint as a prerequisite. (GH#383) (Andy Lester)
     - select() now accepts a number argument to specify which instance of an
       element with multiple occurrences to use (GH#189) (Julien Fiegehenn)
+    - Add Bash completion (GH#396) (Mikko Koivunalho)
     [DOCUMENTATION]
     - Improve FAQ (GH#76) (Julien Fiegehenn)
+    - Add installation instructions and badge for Repology (GH#399) (Mikko
+      Koivunalho)
+    - Add License, CPAN and kwalitee badges to README (GH#400) (Mikko
+      Koivunalho)
+    [FIXED]
+    - Fix test failure after release of HTTP::Message 7.01 (GH#403) (Olaf
+      Alders)
 
 2.19      2024-09-16 15:25:45Z
     [DOCUMENTATION]
