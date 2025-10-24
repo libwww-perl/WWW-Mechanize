@@ -25,9 +25,20 @@ SKIP: {
         $command = qq'mcr $^X t/referer-server';
     }
 
+    # Set a timeout to ensure we don't hang forever
+    local $SIG{ALRM}
+        = sub { die "Timeout waiting for test server to start\n" };
+    alarm 10;    # 10 second timeout
+
     open $server, "$command |" or die "Couldn't spawn fake server: $!";
-    sleep 1;    # give the child some time
+
+    # Wait for server startup with proper error handling
     my $url = <$server>;
+    alarm 0;     # Cancel the alarm
+
+    if ( !defined $url || $url eq '' ) {
+        die "Failed to get a response from test server\n";
+    }
     chomp $url;
 
     $agent->get($url);
@@ -65,6 +76,10 @@ SKIP: {
     is( $agent->status, 200, 'Got fourth page' ) or diag $agent->res->message;
     is( $agent->content, "Referer: '$ref'", 'Custom referer can be set' );
 
+    # Add a timeout for the server shutdown
+    local $SIG{ALRM} = sub { die "Timeout waiting for server to quit\n" };
+    alarm 5;    # 5 second timeout
+
     $agent->get( $url . 'quit_server' );
     ok( $agent->success, 'Quit OK' );
 }
@@ -72,5 +87,13 @@ SKIP: {
 memory_cycle_ok( $agent, 'No memory cycles found' );
 
 END {
-    close $server if $server;
+    if ($server) {
+
+        # Make sure we don't hang in END block
+        local $SIG{ALRM}
+            = sub { warn "Timeout closing server handle\n"; exit 1 };
+        alarm 3;
+        close $server;
+        alarm 0;
+    }
 }
