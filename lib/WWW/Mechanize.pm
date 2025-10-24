@@ -3560,6 +3560,14 @@ sub _extract_forms {
         strict  => $self->{strict_forms},
         verbose => $self->{verbose_forms},
     );
+    
+    # Handle orphaned inputs (inputs outside form tags) that may result from
+    # malformed HTML where forms are prematurely closed (e.g., nested forms).
+    # This fixes the issue where find_all_inputs() doesn't find all inputs.
+    if (@forms) {
+        $self->_attach_orphaned_inputs(\@forms);
+    }
+    
     $self->{forms} = \@forms;
     for my $form (@forms) {
         for my $input ( $form->inputs ) {
@@ -3569,6 +3577,74 @@ sub _extract_forms {
         }
     }
 
+    return;
+}
+
+sub _attach_orphaned_inputs {
+    my ($self, $forms) = @_;
+    
+    return unless @$forms;  # No forms to attach to
+    
+    # Use HTML::TokeParser to find inputs that appear after form closing tags
+    # These are "orphaned" inputs that HTML::Form misses due to premature </form> tags
+    require HTML::TokeParser;
+    my $content = $self->content;
+    my $p = HTML::TokeParser->new(\$content);
+    
+    my $html_form_idx = -1;  # Index of forms that HTML::Form will create
+    my $inside_form = 0;
+    my @orphaned_inputs;
+    
+    while (my $t = $p->get_tag) {
+        my ($tag, $attr) = @$t;
+        
+        if ($tag eq 'form') {
+            if (!$inside_form) {
+                # Starting a new top-level form
+                $html_form_idx++;
+            }
+            # else: nested form, HTML::Form will ignore it
+            $inside_form = 1;
+        }
+        elsif ($tag eq '/form' && $inside_form) {
+            # We've exited a form. From now until the next <form> tag,
+            # any inputs are orphaned
+            $inside_form = 0;
+        }
+        elsif (!$inside_form && $html_form_idx >= 0 && 
+               ($tag eq 'input' || $tag eq 'button')) {
+            # Found an input outside any form, but after at least one form has been closed
+            # Assign it to the last form that HTML::Form successfully parsed
+            # In most cases with nested or malformed HTML, this will be form 0
+            my $target_form_idx = $html_form_idx < @$forms ? $html_form_idx : @$forms - 1;
+            
+            push @orphaned_inputs, {
+                tag => $tag,
+                attr => $attr,
+                form_idx => $target_form_idx,
+            };
+        }
+    }
+    
+    # Attach orphaned inputs to their respective forms
+    for my $orphan (@orphaned_inputs) {
+        my $form_idx = $orphan->{form_idx};
+        next if $form_idx < 0 || $form_idx >= @$forms;  # Safety check
+        
+        my $form = $forms->[$form_idx];
+        my $tag = $orphan->{tag};
+        my %attr = %{$orphan->{attr}};
+        
+        if ($tag eq 'input') {
+            my $type = delete $attr{type} || 'text';
+            $form->push_input($type, \%attr);
+        }
+        elsif ($tag eq 'button') {
+            my $type = delete $attr{type} || 'submit';
+            $form->push_input($type, \%attr);
+        }
+    }
+    
     return;
 }
 
