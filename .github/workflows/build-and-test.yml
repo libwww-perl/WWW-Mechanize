@@ -38,7 +38,7 @@ jobs:
       image: perldocker/perl-tester:5.36
     steps:
       - uses: actions/checkout@v5 # codecov wants to be inside a Git repository
-      - uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@v6
         with:
           name: build_dir
           path: .
@@ -79,7 +79,7 @@ jobs:
     container:
       image: perldocker/perl-tester:5.34
     steps:
-      - uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@v6
         with:
           name: build_dir
           path: .
@@ -121,7 +121,7 @@ jobs:
         if: ${{ matrix.perl-version == '5.8' || matrix.perl-version == '5.10' }}
         run: cpanm --notest Test::Deep@1.130
       - uses: actions/checkout@v5
-      - uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@v6
         with:
           name: build_dir
           path: .
@@ -156,7 +156,7 @@ jobs:
       - name: pin Test::Deep to 1.130 on Perl < 5.12
         if: ${{ matrix.perl-version == '5.8' || matrix.perl-version == '5.10' }}
         run: cpm install --global Test::Deep@1.130
-      - uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@v6
         with:
           name: build_dir
           path: .
@@ -193,7 +193,7 @@ jobs:
       - name: pin Test::Deep to 1.130 on Perl < 5.12
         if: ${{ matrix.perl-version == '5.8' || matrix.perl-version == '5.10' }}
         run: cpm install --global Test::Deep@1.130
-      - uses: actions/download-artifact@v5
+      - uses: actions/download-artifact@v6
         with:
           name: build_dir
           path: .
