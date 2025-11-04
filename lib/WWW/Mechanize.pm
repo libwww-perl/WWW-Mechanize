@@ -3500,7 +3500,11 @@ sub _link_from_token {
     my $text;
     my $name;
     if ( $tag eq 'a' ) {
-        $text = $parser->get_trimmed_text("/$tag");
+        # Only get text content if this is not a self-closing tag
+        # Self-closing tags (e.g., <a name="anchor"/>) have a '/' key in attrs
+        if ( !$attrs->{'/'} ) {
+            $text = $parser->get_trimmed_text("/$tag");
+        }
         $text = q{} unless defined $text;
 
         my $onClick = $attrs->{onclick};
