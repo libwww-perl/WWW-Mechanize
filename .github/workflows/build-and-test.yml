@@ -98,6 +98,7 @@ jobs:
     container:
       image: "perldocker/perl-tester:${{ matrix.perl-version }}"
     strategy:
+      fail-fast: false
       matrix:
         perl-version:
           # - "5.8"
@@ -132,7 +133,7 @@ jobs:
     needs: test-linux
     runs-on: macos-latest
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         perl-version:
           - "5.14"
@@ -171,7 +172,7 @@ jobs:
     needs: test-linux
     runs-on: windows-latest
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         perl-version:
           #- "5.14"
