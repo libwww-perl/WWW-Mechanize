@@ -174,10 +174,12 @@ jobs:
           name: build_dir
           path: .
       - name: install deps using cpm
-        uses: perl-actions/install-with-cpm@v1.9
+        uses: perl-actions/install-with-cpm@v2
         with:
           cpanfile: "cpanfile"
           args: "--with-suggests --with-test"
+          # App::cpm v0.999.0+ requires Perl 5.24+; pin older Perls to the last compatible release.
+          version: ${{ matrix.perl-version <= '5.22' && '0.998003' || 'main' }}
       - run: prove -lr t
   test-windows:
     name: ${{ matrix.perl-version }} on windows-latest
@@ -211,8 +213,10 @@ jobs:
           name: build_dir
           path: .
       - name: install deps using cpm
-        uses: perl-actions/install-with-cpm@v1.9
+        uses: perl-actions/install-with-cpm@v2
         with:
           cpanfile: "cpanfile"
           args: "--with-suggests --with-test --with-develop"
+          # App::cpm v0.999.0+ requires Perl 5.24+; pin older Perls to the last compatible release.
+          version: ${{ matrix.perl-version <= '5.22' && '0.998003' || 'main' }}
       - run: cpanm --test-only -v .
