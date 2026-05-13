@@ -16,7 +16,7 @@ jobs:
     name: Build distribution
     runs-on: ubuntu-latest
     container:
-      image: perldocker/perl-tester:5.36
+      image: perldocker/perl-tester:5.42
     steps:
       - uses: actions/checkout@v5
       - name: Run Tests
@@ -35,7 +35,7 @@ jobs:
     needs: build-job
     runs-on: ubuntu-latest
     container:
-      image: perldocker/perl-tester:5.36
+      image: perldocker/perl-tester:5.42
     steps:
       - uses: actions/checkout@v5 # codecov wants to be inside a Git repository
       - uses: actions/download-artifact@v6
@@ -77,12 +77,16 @@ jobs:
     needs: build-job
     runs-on: ubuntu-latest
     container:
-      image: perldocker/perl-tester:5.34
+      image: perldocker/perl-tester:5.42
     steps:
       - uses: actions/download-artifact@v6
         with:
           name: build_dir
           path: .
+      - name: Install libcurl headers
+        # perl-tester:5.42 (bookworm) ships libcurl runtime but not the dev
+        # package; LWP::Protocol::Net::Curl is XS and needs curl-config.
+        run: apt-get update && apt-get install -y --no-install-recommends libcurl4-openssl-dev
       - name: Install deps including curl and test
         run: >
           cpan-install-dist-deps --with-develop
