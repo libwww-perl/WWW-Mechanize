@@ -5,3 +5,17 @@ updates:
   schedule:
     # Check for updates to GitHub Actions every week
     interval: "weekly"
+  groups:
+    major-updates:
+      patterns:
+        - "*"
+      update-types:
+        - "major"
+    minor-and-patch:
+      patterns:
+        - "*"
+      update-types:
+        - "minor"
+        - "patch"
+  cooldown:
+    default-days: 7
