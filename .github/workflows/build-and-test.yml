@@ -194,8 +194,6 @@ jobs:
           #- "5.18" https://github.com/libwww-perl/WWW-Mechanize/runs/822568352?check_suite_focus=true
           - "5.20"
           - "5.22"
-          - "5.24"
-          - "5.26"
           - "5.28"
           - "5.30"
           - "5.32"
