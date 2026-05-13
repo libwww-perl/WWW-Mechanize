@@ -163,7 +163,7 @@ jobs:
           - "5.42"
     steps:
       - name: Set Up Perl
-        uses: shogo82148/actions-setup-perl@v1
+        uses: shogo82148/actions-setup-perl@v1.41.0
         with:
           perl-version: ${{ matrix.perl-version }}
       - name: pin Test::Deep to 1.130 on Perl < 5.12
@@ -199,7 +199,7 @@ jobs:
           - "5.32"
     steps:
       - name: Set Up Perl
-        uses: shogo82148/actions-setup-perl@v1
+        uses: shogo82148/actions-setup-perl@v1.41.0
         with:
           perl-version: ${{ matrix.perl-version }}
           distribution: strawberry # this option only used on Windows
