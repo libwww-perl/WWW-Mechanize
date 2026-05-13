@@ -187,7 +187,7 @@ If I had more time, I'd implement WWW::Photobucket on top of WWW::Mechanize.
     my $url = "http://img78.photobucket.com/albums/v281/$login/$folder/";
 
     # login to your photobucket.com account
-    my $mech = WWW::Mechanize->new();
+    my $mech = WWW::Mechanize->new( autocheck => 0 );
     $mech->get($url);
     $mech->submit_form(
         form_number => 1,
@@ -343,7 +343,7 @@ Last I checked, it didn't work because their HTML didn't match, but it's still g
     sub get_quotes_page {
         my $movie = shift;
 
-        my $mech = WWW::Mechanize->new;
+        my $mech = WWW::Mechanize->new( autocheck => 0 );
         $mech->get( "http://www.imdb.com/search" );
         $mech->success or die "Can't get the search page";
 
