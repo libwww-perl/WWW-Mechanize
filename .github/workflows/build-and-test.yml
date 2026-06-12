@@ -136,8 +136,16 @@ jobs:
         with:
           name: build_dir
           path: .
-      - name: Install deps and test
-        run: cpan-install-dist-deps && test-dist
+      # The perl-tester images for Perls < 5.24 can lose their bundled cpm
+      # when App::cpm's dependencies drop old-Perl support; setup-cpm installs
+      # the self-contained (fatpacked) cpm, which is immune to that.
+      - uses: perl-actions/setup-cpm@v1
+        with:
+          version: compat
+      - name: install deps using cpm
+        run: cpm install -g --cpanfile cpanfile --with-recommends --with-suggests --show-build-log-on-failure
+      - name: test
+        run: test-dist
   test-macos:
     name: ${{ matrix.perl-version }} on macos-latest
     needs: test-linux
