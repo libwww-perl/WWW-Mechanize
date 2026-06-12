@@ -43,6 +43,9 @@ Generally, just call C<credentials> before fetching the page.
     $mech->get( 'http://10.11.12.13/password.html' );
     print $mech->content();
 
+If this object may contact more than one host, scope the credentials to a single host with the
+four-argument form; see L<WWW::Mechanize/"$mech-E<gt>credentials( $username, $password )">.
+
 =head1 LINKS
 
 =head2 Find all image links

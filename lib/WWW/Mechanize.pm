@@ -3019,6 +3019,11 @@ sub clone {
     $clone->cookie_jar( $self->cookie_jar );
     $clone->{headers} = { %{ $self->{headers} } };
 
+    # SUPER::clone() copies the whole object hash, including the one-shot
+    # warning flag. A clone is a distinct object with its own credentials,
+    # so let it warn once on its own two-argument credentials() call.
+    delete $clone->{__credentials_unscoped_warned};
+
     return $clone;
 }
 
@@ -3127,6 +3132,13 @@ notice.
 
 The four argument form described in L<LWP::UserAgent> is still supported.
 
+B<Security note:> The two-argument form is not scoped to a host. The credentials are stored on the
+object and sent to every host this object contacts, including the targets of cross-domain
+redirects. When the same object may contact more than one host, prefer the host-scoped
+four-argument form C<< $mech->credentials($host_port, $realm, $username, $password) >> described in
+L<LWP::UserAgent>, which limits the credentials to a single host. The two-argument form emits a
+warning on first use.
+
 =cut
 
 sub credentials {
@@ -3140,6 +3152,18 @@ sub credentials {
 
     @_ == 2
         or $self->die('Invalid # of args for overridden credentials()');
+
+    # The two-argument form is unscoped: credentials are stored on the
+    # object and get_basic_credentials() returns them for any host and
+    # realm, so they are sent to every host this object contacts,
+    # including cross-domain redirect targets. Warn once per instance so
+    # callers can move to the host-scoped four-argument form.
+    unless ( $self->{__credentials_unscoped_warned} ) {
+        $self->warn(
+            'WWW::Mechanize: the two-argument credentials() form stores credentials on the object and sends them to every host this object contacts, including cross-domain redirect targets. Use the host-scoped four-argument form credentials($host_port, $realm, $user, $pass) to limit credentials to a specific host.'
+        );
+        $self->{__credentials_unscoped_warned} = 1;
+    }
 
     return @$self{qw( __username __password )} = @_;
 }

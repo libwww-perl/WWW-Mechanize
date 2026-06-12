@@ -5,10 +5,10 @@ use strict;
 
 use WWW::Mechanize ();
 use Test::More;
-use Test::Fatal qw( exception );
+use Test::Fatal    qw( exception );
+use Test::Warnings qw( :no_end_test warning );
 
 my $mech = WWW::Mechanize->new;
-isa_ok( $mech, 'WWW::Mechanize' );
 
 my ( $user, $pass );
 
@@ -20,13 +20,17 @@ is $pass, undef, 'default password is undefined at first';
 
 like(
     exception {
-        $mech->credentials( "one", "two", "three" );
+        $mech->credentials( 'one', 'two', 'three' );
     },
     qr/Invalid # of args for overridden credentials/,
     'credentials dies with wrong number of args'
 );
 
-$mech->credentials( "username", "password" );
+like(
+    warning { $mech->credentials( 'username', 'password' ) },
+    qr/four-argument form/,
+    'two-argument credentials() warns about host scoping'
+);
 
 ( $user, $pass ) = $mech->get_basic_credentials( 'myrealm', $uri, 0 );
 is $user, 'username',
@@ -43,7 +47,6 @@ is $pass, 'password',
     'cloned object has password for get_basic_credentials';
 
 my $mech3 = WWW::Mechanize->new;
-isa_ok( $mech3, 'WWW::Mechanize' );
 
 ( $user, $pass ) = $mech3->get_basic_credentials( 'myrealm', $uri, 0 );
 is $user, undef, 'new object has no username for get_basic_credentials';
