@@ -3500,7 +3500,13 @@ sub _link_from_token {
     my $text;
     my $name;
     if ( $tag eq 'a' ) {
-        $text = $parser->get_trimmed_text("/$tag");
+
+        # Stop collecting text at the next <a> start tag as well as at
+        # the closing </a>, so that an unclosed <a> does not swallow
+        # subsequent links (GH#212). get_trimmed_text() (via get_text())
+        # ungets the stop tag, so the outer get_tag() loop will still
+        # see the next <a>.
+        $text = $parser->get_trimmed_text( $tag, "/$tag" );
         $text = q{} unless defined $text;
 
         my $onClick = $attrs->{onclick};
