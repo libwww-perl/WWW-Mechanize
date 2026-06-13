@@ -40,8 +40,17 @@ my $start = time;
 $server->stop;
 my $elapsed = time - $start;
 
-kill( 'KILL', $watchdog );    # shutdown returned in time; retire the watchdog
-waitpid( $watchdog, 0 );
+# Reaping a process we just SIGKILLed leaves $? set to 9. Older
+# Test::Builder reads $? in its END handler and exits with it -- which
+# fails this test with no plan -- so localize $? to keep the watchdog's
+# death out of our own exit code.
+{
+    local $?;
+
+    # shutdown returned in time; retire the watchdog
+    kill( 'KILL', $watchdog );
+    waitpid( $watchdog, 0 );
+}
 
 pass('stop() returned instead of hanging');
 cmp_ok( $elapsed, '<', 25, "stop() finished promptly (${elapsed}s)" );
