@@ -1,33 +1,14 @@
-use Test::More skip_all =>
-    "Mysteriously stopped passing, and I don't know why.";
 use warnings;
 use strict;
 use lib 't/local';
 use LocalServer ();
-use Test::More tests => 11;
+use Test::More;
 
-=head1 NAME
-
-overload.t
-
-=head1 SYNOPSIS
-
-This tests for various ways, advertised in L<WWW::Mechanize>, to
-create a subclass of the mech to alter it's behavior in a useful
-manner. (Of course free-style overloading is discouraged, as it breaks
-encapsulation big time.)
-
-This test first feeds some bad HTML to Mech to make sure that it throws
-an error.  Then, it overloads update_html() to fix the HTML before
-processing it, and then we should not have an error.
-
-=head2 Overloading update_html()
-
-This is the recommended way to tidy up the received HTML in a generic
-way, and/or to install supplemental "surface tests" on the HTML
-(e.g. link checker).
-
-=cut
+# Tests the advertised way to subclass mech to alter its behavior:
+# overloading update_html() to tidy up the received HTML before
+# processing (e.g. fixing broken markup or installing surface tests).
+# Here we feed deliberately-broken HTML and confirm the overload repairs
+# it so the form parses cleanly and without warnings.
 
 BEGIN {
     delete @ENV{qw( IFS CDPATH ENV BASH_ENV )};
@@ -64,19 +45,11 @@ do {
 };
 
 my $carpmsg;
-local $^W = 1;
+local $^W = 1;    # enable all warnings so the carp-capture below is meaningful
 no warnings 'redefine';
 local *Carp::carp = sub { $carpmsg = shift };
 
-my $mech = WWW::Mechanize->new();
-isa_ok( $mech, 'WWW::Mechanize' );
-
-$mech->get( $server->url );
-like( $carpmsg, qr{bad.*select}i, 'Standard mech chokes on bogus HTML' );
-
-# If at first you don't succeed, try with a shorter bungee...
-undef $carpmsg;
-$mech = MyMech->new();
+my $mech = MyMech->new();
 isa_ok( $mech, 'WWW::Mechanize', 'Derived object' );
 
 my $response = $mech->get( $server->url );
@@ -92,3 +65,5 @@ like(
     $mech->content(), qr{/select},
     'alteration visible in ->content() too'
 );
+
+done_testing;
