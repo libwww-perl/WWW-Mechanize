@@ -5,7 +5,7 @@ exclude = [
 
 [commands.perlimports]
 type = "both"
-include = ["**/*.{pl,pm,t,psgi}"]
+include = ["**/*.{pl,pm,t,psgi}", "t/local/log-server"]
 cmd = ["perlimports"]
 lint-flags = ["--lint"]
 tidy-flags = ["-i"]
@@ -27,7 +27,7 @@ ok-exit-codes = 0
 
 [commands.perltidy]
 type = "both"
-include = ["**/*.{pl,pm,t,psgi}"]
+include = ["**/*.{pl,pm,t,psgi}", "t/local/log-server"]
 cmd = ["perltidy", "--profile=$PRECIOUS_ROOT/perltidyrc"]
 lint-flags = ["--assert-tidy", "--no-standard-output", "--outfile=/dev/null"]
 tidy-flags = ["--backup-and-modify-in-place", "--backup-file-extension=/"]
