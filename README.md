@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 # VERSION
 
-version 2.20
+version 2.21
 
 # SYNOPSIS
 
