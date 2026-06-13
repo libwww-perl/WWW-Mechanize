@@ -45,7 +45,7 @@ do {
 };
 
 my $carpmsg;
-local $^W = 1;    # enable all warnings so the carp-capture below is meaningful
+local $^W = 1;   # enable all warnings so the carp-capture below is meaningful
 no warnings 'redefine';
 local *Carp::carp = sub { $carpmsg = shift };
 
