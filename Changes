@@ -1,6 +1,11 @@
 Revision history for WWW::Mechanize
 
 {{$NEXT}}
+    [FIXED]
+    - Non-navigational requests (HEAD, PUT, DELETE) no longer set the Referer
+      header sent on subsequent requests. Previously a head() call would leak
+      its URL as the Referer of the next get(), even after back() (GH#150)
+      (Olaf Alders)
 
 2.21      2026-06-13 07:53:14Z
     [FIXED]
