@@ -19,6 +19,7 @@ use Carp        qw( carp croak );
 use File::Temp  ();
 use LWP::Simple qw( get );
 use Path::Tiny  qw( path );
+use POSIX       qw( WNOHANG );
 use URI::URL    ();
 
 =head1 SYNOPSIS
@@ -224,6 +225,21 @@ sub _bounded {
     return $ok;
 }
 
+# Reap $pid without ever blocking on it, waiting up to $seconds for it to
+# exit on its own. Returns true once it's gone, false if it's still running.
+# A WNOHANG poll keeps its bound everywhere; a blocking waitpid would not,
+# since a signal can't be relied on to interrupt it on older perls.
+sub _reap {
+    my ( $pid, $seconds ) = @_;
+
+    for ( 1 .. $seconds * 10 ) {
+        my $got = waitpid $pid, WNOHANG;
+        return 1 if $got == $pid || $got == -1;
+        select undef, undef, undef, 0.1;
+    }
+    return 0;
+}
+
 sub stop {
     my ($self) = @_;
 
@@ -231,26 +247,26 @@ sub stop {
 
     # Ask the server to shut itself down, but never let the test suite block
     # on it. If the request can't get through (broken loopback, a proxy in
-    # the way, ...) the child is still sitting in accept(), and the close()
-    # below would then wait on it for ever.
+    # the way, ...) the child is still sitting in accept().
     _bounded( 5, sub { get( $self->quit_server ) } );
 
     undef $self->{_server_url};
 
     if ( my $fh = delete $self->{_fh} ) {
 
-        # close() reaps the child via waitpid and sets $?; bound it so a
-        # child still stuck in accept() can't hang us, and localize $? so we
-        # don't leak the child's exit status into the test's.
+        # Reap the child, but never block waiting on it. We can't lean on a
+        # bounded close() here: close() reaps with a blocking waitpid, and on
+        # older perls a pending SIGALRM does not interrupt that wait -- so the
+        # timeout never fires and a wedged child hangs the suite anyway. Poll
+        # for a graceful exit instead, then escalate to SIGKILL, which even a
+        # child stuck in accept() cannot ignore. Localize $? so the child's
+        # exit status doesn't leak into the test's.
         local $?;
-        my $closed = _bounded( 5, sub { close $fh } );
-
-        if ( !$closed && $pid ) {
-
-            # the child wouldn't exit on request, so make it, then reap it
+        if ( $pid && !_reap( $pid, 5 ) ) {
             CORE::kill( 'KILL', $pid );
-            _bounded( 5, sub { waitpid $pid, 0 } );
+            waitpid $pid, 0;    # returns at once: SIGKILL can't be blocked
         }
+        close $fh;              # child already reaped; this won't block
     }
 
     undef $self->{_pid};
