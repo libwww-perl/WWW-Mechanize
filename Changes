@@ -1,6 +1,17 @@
 Revision history for WWW::Mechanize
 
 {{$NEXT}}
+    [TESTS]
+    - The t/local tests can no longer hang waiting for their HTTP test server.
+      The shared t/local/LocalServer.pm now bounds server startup and shutdown
+      with timeouts, spawns the server without going through the shell so it
+      can be signalled directly, and kills the server if it will not exit
+      instead of blocking forever in close(). t/local/referer.t was converted
+      to use this shared harness (its bespoke referer-server has been removed,
+      and t/local/log-server gained a /referer endpoint) and now skips cleanly
+      when the server cannot be reached. This addresses the long-standing
+      family of hanging-test reports (GH#167, GH#171, GH#211, GH#253, GH#278,
+      GH#281, GH#392) (Olaf Alders)
 
 2.21      2026-06-13 07:53:14Z
     [FIXED]
