@@ -70,11 +70,11 @@ jobs:
             houseabsolute/precious
       - name: precious lint
         run: |
-          if [ "${{ github.ref }}" = "refs/heads/master" ]; then
-            precious lint -q --all
-          else
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
             git fetch origin master:refs/remotes/origin/master
             precious lint -q --git-diff-from origin/${{ github.base_ref }}
+          else
+            precious lint -q --all
           fi
   http-one-one-regression-job:
     name: HTTP/1.1 Keepalive Regression Test - see GH \# 14
