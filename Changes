@@ -1,5 +1,7 @@
 Revision history for WWW::Mechanize
 
+{{$NEXT}}
+
 2.22      2026-06-18 20:59:34Z
     [ENHANCEMENTS]
     - credentials() now warns when called with the two-argument form, which
