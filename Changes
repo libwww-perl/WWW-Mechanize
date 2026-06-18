@@ -1,9 +1,10 @@
 Revision history for WWW::Mechanize
 
-{{$NEXT}}
+2.22      2026-06-18 20:59:34Z
     [ENHANCEMENTS]
     - credentials() now warns when called with the two-argument form, which
       stores credentials globally; prefer the host-scoped four-argument form.
+      (GH#420) (Olaf Alders)
 
 2.21      2026-06-13 07:53:14Z
     [FIXED]

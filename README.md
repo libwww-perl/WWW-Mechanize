@@ -8,7 +8,7 @@ WWW::Mechanize - Handy web browsing in a Perl object
 
 # VERSION
 
-version 2.21
+version 2.22
 
 # SYNOPSIS
 
@@ -119,9 +119,9 @@ check ["JavaScript" in WWW::Mechanize::FAQ](https://metacpan.org/pod/WWW%3A%3AMe
 
 ## Packaged for Different Operating Systems
 
-WWW-Mechanize is readily packaged for several Linux distributions.
-The operating system packages are maintained and updated when WWW-Mechanize is released.
-Please check for your own OS at the bottom of this page.
+WWW-Mechanize is readily packaged for several Linux distributions. The operating system packages
+are maintained and updated when WWW-Mechanize is released. Please check for your own OS at the
+bottom of this page.
 
 ## Manual Installation
 
@@ -1417,6 +1417,13 @@ notice.
 
 The four argument form described in [LWP::UserAgent](https://metacpan.org/pod/LWP%3A%3AUserAgent) is still supported.
 
+**Security note:** The two-argument form is not scoped to a host. The credentials are stored on the
+object and sent to every host this object contacts, including the targets of cross-domain
+redirects. When the same object may contact more than one host, prefer the host-scoped
+four-argument form `$mech->credentials($host_port, $realm, $username, $password)` described in
+[LWP::UserAgent](https://metacpan.org/pod/LWP%3A%3AUserAgent), which limits the credentials to a single host. The two-argument form emits a
+warning on first use.
+
 ## $mech->get\_basic\_credentials( $realm, $uri, $isproxy )
 
 Returns the credentials for the realm and URI.
@@ -1693,7 +1700,9 @@ Stevens, Pete Krawczyk, Tad McClellan, and the late great Iain Truskett.
 # PACKAGING FOR OPERATING SYSTEMS
 
 <div>
-    <a href="https://repology.org/project/perl%3Awww-mechanize/versions"><img src="https://repology.org/badge/vertical-allrepos/perl%3Awww-mechanize.svg" alt="Packaging status by Repology"></a>
+    <a href="https://repology.org/project/perl%3Awww-mechanize/versions"><img
+    src="https://repology.org/badge/vertical-allrepos/perl%3Awww-mechanize.svg" alt="Packaging status
+    by Repology"></a>
 </div>
 
 # AUTHOR

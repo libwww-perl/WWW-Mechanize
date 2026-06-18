@@ -42,6 +42,7 @@
             "Perl::Critic" : "1.132",
             "Perl::Tidy" : "20180220",
             "Pod::Coverage::TrustPod" : "0",
+            "Pod::Tidy" : "0",
             "Test::Code::TidyAll" : "0.50",
             "Test::EOL" : "0",
             "Test::Memory::Cycle" : "0",
@@ -112,15 +113,15 @@
    "provides" : {
       "WWW::Mechanize" : {
          "file" : "lib/WWW/Mechanize.pm",
-         "version" : "2.21"
+         "version" : "2.22"
       },
       "WWW::Mechanize::Image" : {
          "file" : "lib/WWW/Mechanize/Image.pm",
-         "version" : "2.21"
+         "version" : "2.22"
       },
       "WWW::Mechanize::Link" : {
          "file" : "lib/WWW/Mechanize/Link.pm",
-         "version" : "2.21"
+         "version" : "2.22"
       }
    },
    "release_status" : "stable",
@@ -135,7 +136,7 @@
          "web" : "https://github.com/libwww-perl/WWW-Mechanize"
       }
    },
-   "version" : "2.21",
+   "version" : "2.22",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.042002"
@@ -659,7 +660,7 @@
                   "branch" : null,
                   "changelog" : "Changes",
                   "signed" : 0,
-                  "tag" : "v2.21",
+                  "tag" : "v2.22",
                   "tag_format" : "v%V",
                   "tag_message" : "v%V"
                },
