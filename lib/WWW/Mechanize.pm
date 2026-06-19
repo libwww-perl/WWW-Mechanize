@@ -3249,8 +3249,16 @@ sub _update_page {
     $self->{ct}     = $res->content_type || q{};
 
     if ( $res->is_success ) {
-        $self->{uri}      = $self->{redirected_uri};
-        $self->{last_uri} = $self->{uri};
+        $self->{uri} = $self->{redirected_uri};
+
+        # Only navigational requests (GET/POST) update the URI that gets
+        # sent as the Referer on subsequent requests. A HEAD (or PUT/DELETE)
+        # does not change the page you are "on", so it must not clobber the
+        # Referer. This mirrors the condition that gates the page stack in
+        # request(). See GH #150.
+        if ( $request->method eq 'GET' || $request->method eq 'POST' ) {
+            $self->{last_uri} = $self->{uri};
+        }
     }
 
     if ( $res->is_error ) {
