@@ -12,13 +12,6 @@ tidy-flags = ["-i"]
 ok-exit-codes = 0
 expect-stderr = true
 
-# [commands.perlcritic]
-# type = "lint"
-# include = ["**/*.{pl,pm,t,psgi}"]
-# cmd = ["perlcritic", "--profile=$PRECIOUS_ROOT/perlcriticrc"]
-# ok-exit-codes = 0
-# lint-failure-exit-codes = 2
-
 [commands.perlvars]
 type = "lint"
 include = ["**/*.{pl,pm,psgi}"]
