@@ -1,5 +1,4 @@
 /.ackrc
-/.tidyall.d
 /.vscode
 /MANIFEST.SKIP.bak
 /MANIFEST.bak
@@ -18,5 +17,4 @@
 *.sw*
 .build
 cpanfile.snapshot
-tidyall.ERR
 !/.gitignore
