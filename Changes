@@ -1,6 +1,17 @@
 Revision history for WWW::Mechanize
 
 {{$NEXT}}
+    [THINGS THAT MAY BREAK YOUR CODE]
+    - credentials() now dies when called with the two-argument form. That form
+      stored credentials on the object and sent them to every host the object
+      contacted, including cross-domain redirect targets. Use the host-scoped
+      four-argument form credentials($host_port, $realm, $user, $pass) instead.
+      (Previously, since 2.22, the two-argument form only warned.)
+      (GH#431) (Olaf Alders)
+    - clear_credentials() now clears the host-scoped credentials set with the
+      four-argument form. Previously it only cleared the credentials set with
+      the (now removed) two-argument form, so it was a no-op for four-argument
+      callers.
 
 2.22      2026-06-18 20:59:34Z
     [ENHANCEMENTS]
