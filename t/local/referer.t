@@ -1,13 +1,14 @@
 use warnings;
 use strict;
 
+use Test::Memory::Cycle;
 use Test::More;
 
 use lib         qw( t/local );
 use LocalServer ();
 
-use Test::Memory::Cycle;
-
+# WWW::Mechanize is loaded only after the env scrub below, so it never sees
+# the taint-sensitive variables we delete; keep this use after the BEGIN.
 BEGIN {
     delete @ENV{qw( IFS CDPATH ENV BASH_ENV )};
 }

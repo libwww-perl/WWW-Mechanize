@@ -1,9 +1,9 @@
 use warnings;
 use strict;
 
+use POSIX ();
 use Test::More;
 
-use POSIX       ();
 use lib         qw( t/local );
 use LocalServer ();
 

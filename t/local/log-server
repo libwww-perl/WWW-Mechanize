@@ -1,9 +1,10 @@
 # Thanks to merlyn for nudging me and giving me this snippet!
 use strict;
+
+use Getopt::Long qw( GetOptions );
 use HTTP::Daemon ();
 use URI          ();
 use URI::QueryParam;
-use Getopt::Long qw( GetOptions );
 
 $|++;
 
