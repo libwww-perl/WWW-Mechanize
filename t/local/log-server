@@ -1,9 +1,10 @@
 # Thanks to merlyn for nudging me and giving me this snippet!
 use strict;
+
+use Getopt::Long qw( GetOptions );
 use HTTP::Daemon ();
-use URI;
+use URI          ();
 use URI::QueryParam;
-use Getopt::Long;
 
 $|++;
 
@@ -116,6 +117,16 @@ SERVERLOOP: {
                         200, "OK",
                         [ 'Content-Type' => "text/html; charset=$encoding" ],
                         "encoding $encoding"
+                    );
+                }
+                elsif ( $location =~ m!^/referer! ) {
+
+                    # echo back the Referer header so the referer tests can
+                    # check what the agent sent
+                    my $ref = $r->headers->referer || q{};
+                    $res = HTTP::Response->new(
+                        200, "OK", undef,
+                        "Referer: '$ref'"
                     );
                 }
                 else {
