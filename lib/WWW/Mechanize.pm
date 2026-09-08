@@ -149,6 +149,7 @@ use Tie::RefHash       ();
 use HTTP::Request 1.30 ();
 use HTML::Form 1.00    ();
 use HTML::TokeParser   ();
+use Scalar::Util       qw( blessed );
 
 use parent 'LWP::UserAgent';
 
@@ -291,6 +292,12 @@ sub new {
         strict_forms    => 0,          # pass-through to HTML::Form
         verbose_forms   => 0,          # pass-through to HTML::Form
         marked_sections => 1,
+
+        # Owned by Mech so the cross-origin credential strip honours it on
+        # every LWP version. We store it in the same hash slot LWP::UserAgent
+        # uses, so LWP's own strip (6.83+) reads it too, and we keep it out of
+        # the parent constructor, which would carp on it under older LWP.
+        allow_credentialed_redirects => 0,
     );
 
     my %passed_params = @_;
@@ -3068,7 +3075,11 @@ sub request {
     $self->die('->request was called without a request parameter')
         unless $request;
 
-    $request = $self->_modify_request($request);
+    # On a redirect or auth retry, LWP::UserAgent re-enters request() and
+    # threads the triggering response through as the fourth positional
+    # argument ( $request, $arg, $size, $response ). _modify_request() uses
+    # it to detect a cross-origin hop. @_ now holds ( $arg, $size, $response ).
+    $request = $self->_modify_request( $request, $_[2] );
 
     if ( $request->method eq 'GET' || $request->method eq 'POST' ) {
         $self->_push_page_stack();
@@ -3288,9 +3299,13 @@ L<Compress::Zlib> is installed.
 
 =cut
 
+my %CREDENTIAL_HEADER
+    = map { $_ => 1 } qw( authorization proxy-authorization cookie );
+
 sub _modify_request {
-    my $self = shift;
-    my $req  = shift;
+    my $self     = shift;
+    my $req      = shift;
+    my $previous = shift;
 
     # add correct Accept-Encoding header to restore compliance with
     # http://www.freesoft.org/CIE/RFC/2068/158.htm
@@ -3306,6 +3321,18 @@ sub _modify_request {
         $last = $last->as_string if ref($last);
         $req->header( Referer => $last );
     }
+
+    # Detect a cross-origin redirect hop. LWP::UserAgent threads the triggering
+    # response in as $previous when it re-enters request() to follow a redirect;
+    # $previous->request->uri is the origin we are coming from.
+    my $strip_credentials
+        = $previous
+        && blessed($previous)
+        && $previous->can('request')
+        && $previous->request
+        && !$self->{allow_credentialed_redirects}
+        && $self->_is_cross_origin( $previous->request->uri, $req->uri );
+
     while ( my ( $key, $value ) = each %{ $self->{headers} } ) {
         if ( defined $value ) {
             $req->header( $key => $value );
@@ -3315,7 +3342,34 @@ sub _modify_request {
         }
     }
 
+    # On a cross-origin redirect, credential headers must not be disclosed to
+    # the new origin (the CVE-2018-1000007 class of leak). Remove them here so
+    # neither our own persistent add_header() values (re-applied just above)
+    # nor headers carried forward by LWP survive the hop. Recent LWP strips
+    # these from the redirected request itself, but older releases clone them
+    # forward, so we cannot rely on that. allow_credentialed_redirects opts out.
+    if ($strip_credentials) {
+        $req->remove_header( keys %CREDENTIAL_HEADER );
+    }
+
     return $req;
+}
+
+# Mirror the scheme/host/port comparison LWP::UserAgent uses when deciding
+# whether a redirect crosses origins (see LWP::UserAgent::request).
+sub _is_cross_origin {
+    my ( $self, $from, $to ) = @_;
+
+    # Both URIs are absolute request URIs (LWP rejects relative URLs before
+    # they get here), so scheme is always defined. canonical() lower-cases the
+    # scheme and host, so a case-only difference does not count as cross-origin,
+    # and host_port supplies the scheme's default port when none is given, so
+    # http://h/ and http://h:80/ compare equal.
+    $from = $from->canonical;
+    $to   = $to->canonical;
+
+    return $from->scheme ne $to->scheme
+        || $from->host_port ne $to->host_port;
 }
 
 =head2 $mech->_make_request()

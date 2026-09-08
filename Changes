@@ -1,6 +1,13 @@
 Revision history for WWW::Mechanize
 
 {{$NEXT}}
+    [FIXED]
+    - Credential headers set via add_header() (Authorization,
+      Proxy-Authorization and Cookie) are no longer re-applied to cross-origin
+      redirect targets, so they are not disclosed to a different origin. This
+      matches LWP::UserAgent's own redirect handling; set
+      allow_credentialed_redirects to a true value to opt out. (GH#433) (Olaf
+      Alders)
 
 2.22      2026-06-18 20:59:34Z
     [ENHANCEMENTS]
