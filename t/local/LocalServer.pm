@@ -19,6 +19,7 @@ use Carp        qw( carp croak );
 use File::Temp  ();
 use LWP::Simple qw( get );
 use Path::Tiny  qw( path );
+use POSIX       qw( WNOHANG );
 use URI::URL    ();
 
 =head1 SYNOPSIS
@@ -105,17 +106,65 @@ sub spawn {
     my $web_page = delete $args{file} || q{};
 
     my $server_file = path('t/local/log-server')->absolute;
-    my @opts;
-    push @opts, "-e" => qq{"} . delete( $args{eval} ) . qq{"}
-        if $args{eval};
+    my $eval        = delete $args{eval};
 
-    my $pid = open my $server,
-        qq'$^X "$server_file" "$web_page" "$logfile" @opts|'
-        or croak "Couldn't spawn local server $server_file : $!";
-    my $url = <$server>;
-    chomp $url;
-    die "Couldn't read back local server url"
-        unless $url;
+    # Start the server under a timeout so that a server which never manages
+    # to bind a socket, or never prints back its URL, cannot hang the whole
+    # test suite on the read below.
+    my ( $server, $pid );
+
+    # Pause any alarm the caller already had running so this one doesn't
+    # silently cancel it, and restore it below. alarm() is a no-op on
+    # MSWin32, so this timeout really only guards POSIX.
+    my $caller_alarm = alarm 0;
+    my $url          = eval {
+        local $SIG{ALRM} = sub { die "Timed out starting local server\n" };
+        alarm 15;
+
+        if ( $^O eq 'MSWin32' || $^O eq 'VMS' ) {
+
+            # list-form pipe open is not available here (and not before
+            # 5.22 on Windows), so go through the shell. These platforms
+            # are not where the loopback shutdown hangs were reported.
+            my @opts;
+            push @opts, '-e', qq{"$eval"} if defined $eval;
+            $pid = open $server,
+                join(
+                q{ }, qq{$^X "$server_file" "$web_page" "$logfile"},
+                @opts
+                ) . ' |';
+        }
+        else {
+            # list-form open avoids the shell, so $pid is the server process
+            # itself, which lets stop()/kill() below signal it directly.
+            my @cmd = ( $^X, "$server_file", $web_page, $logfile );
+            push @cmd, '-e', $eval if defined $eval;
+            $pid = open $server, '-|', @cmd;
+        }
+        $pid or die "Couldn't spawn local server $server_file : $!\n";
+
+        my $line = <$server>;
+        alarm 0;
+        defined $line or die "Couldn't read back local server url\n";
+        chomp $line;
+        length $line or die "Local server sent an empty url\n";
+        $line;
+    };
+    my $err = $@;
+    alarm 0;
+    alarm $caller_alarm if $caller_alarm;
+
+    if ( !defined $url ) {
+
+        # Don't leave an orphaned server (or shell) running behind us; an
+        # orphan stuck in accept() would keep the harness alive on the
+        # inherited pipe.
+        if ($pid) {
+            CORE::kill( 'KILL', $pid );
+            close $server if $server;
+        }
+        croak "Couldn't start local server $server_file : $err";
+    }
 
     $self->{_server_url} = URI::URL->new($url);
     $self->{_fh}         = $server;
@@ -154,14 +203,73 @@ This stops the server process by requesting a special url.
 
 =cut
 
+# Run $code under a $seconds alarm without disturbing any alarm the caller
+# already had running (Perl has a single timer, so a naive alarm here would
+# silently cancel the caller's). Returns true if $code finished, false if it
+# timed out or died. alarm() is a no-op on MSWin32, so the bound only really
+# applies on POSIX -- which is where the loopback hangs were reported.
+sub _bounded {
+    my ( $seconds, $code ) = @_;
+
+    my $caller_alarm = alarm 0;    # pause the caller's timer, if any
+    my $ok           = eval {
+        local $SIG{ALRM} = sub { die "timeout\n" };
+        alarm $seconds;
+        $code->();
+        alarm 0;
+        1;
+    };
+    alarm 0;
+    alarm $caller_alarm if $caller_alarm;    # and restore it
+
+    return $ok;
+}
+
+# Reap $pid without ever blocking on it, waiting up to $seconds for it to
+# exit on its own. Returns true once it's gone, false if it's still running.
+# A WNOHANG poll keeps its bound everywhere; a blocking waitpid would not,
+# since a signal can't be relied on to interrupt it on older perls.
+sub _reap {
+    my ( $pid, $seconds ) = @_;
+
+    for ( 1 .. $seconds * 10 ) {
+        my $got = waitpid $pid, WNOHANG;
+        return 1 if $got == $pid || $got == -1;
+        select undef, undef, undef, 0.1;
+    }
+    return 0;
+}
+
 sub stop {
     my ($self) = @_;
-    get( $self->quit_server );
+
+    my $pid = $self->{_pid};
+
+    # Ask the server to shut itself down, but never let the test suite block
+    # on it. If the request can't get through (broken loopback, a proxy in
+    # the way, ...) the child is still sitting in accept().
+    _bounded( 5, sub { get( $self->quit_server ) } );
+
     undef $self->{_server_url};
-    if ( $self->{_fh} ) {
-        close $self->{_fh};
-        delete $self->{_fh};
+
+    if ( my $fh = delete $self->{_fh} ) {
+
+        # Reap the child, but never block waiting on it. We can't lean on a
+        # bounded close() here: close() reaps with a blocking waitpid, and on
+        # older perls a pending SIGALRM does not interrupt that wait -- so the
+        # timeout never fires and a wedged child hangs the suite anyway. Poll
+        # for a graceful exit instead, then escalate to SIGKILL, which even a
+        # child stuck in accept() cannot ignore. Localize $? so the child's
+        # exit status doesn't leak into the test's.
+        local $?;
+        if ( $pid && !_reap( $pid, 5 ) ) {
+            CORE::kill( 'KILL', $pid );
+            waitpid $pid, 0;    # returns at once: SIGKILL can't be blocked
+        }
+        close $fh;              # child already reaped; this won't block
     }
+
+    undef $self->{_pid};
 }
 
 =head2 C<< $server->kill >>
@@ -171,9 +279,16 @@ This kills the server process via C<kill>. The log cannot be retrieved then.
 =cut
 
 sub kill {
-    CORE::kill( 9 => $_[0]->{_pid} );
-    undef $_[0]->{_server_url};
-    undef $_[0]->{_pid};
+    my ($self) = @_;
+
+    CORE::kill( 9 => $self->{_pid} ) if $self->{_pid};
+
+    # close() reaps the child we just killed; without it the pipe handle
+    # leaks, since DESTROY only runs stop() while _server_url is set.
+    close delete $self->{_fh} if $self->{_fh};
+
+    undef $self->{_server_url};
+    undef $self->{_pid};
 }
 
 =head2 C<< $server->get_log >>
