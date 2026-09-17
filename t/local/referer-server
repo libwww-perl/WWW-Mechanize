@@ -7,7 +7,10 @@ $|++;
 my $d = HTTP::Daemon->new or die;
 print $d->url, "\n";
 
-$counter = 6;
+# Upper bound on the number of client connections to accept before the
+# server exits. Must be at least as large as the number of HTTP requests
+# referer.t makes (back() makes none); over-provisioning is harmless.
+$counter = 10;
 while ( $counter-- and my $c = $d->accept ) {
     while ( my $r = $c->get_request ) {
         my $location = ( $r->uri->path || "/" );

@@ -2,7 +2,7 @@ use warnings;
 use strict;
 use FindBin ();
 
-use Test::More tests => 14;
+use Test::More;
 
 use Test::Memory::Cycle;
 
@@ -51,6 +51,25 @@ SKIP: {
         'Referer got sent for relative url'
     );
 
+    # GH #150: a HEAD (or other non-navigational) request must not become
+    # the Referer for the next request. Issue the HEAD against a distinct
+    # path so a regression would show that path as the Referer.
+    $agent->head( $url . 'headcheck' );
+    $agent->get($url);
+    is(
+        $agent->content, "Referer: '$url'",
+        'HEAD does not clobber the Referer for the next request'
+    );
+
+    # ...and it stays correct across a back().
+    $agent->head( $url . 'headcheck' );
+    $agent->back();
+    $agent->get($url);
+    is(
+        $agent->content, "Referer: '$url'",
+        'HEAD does not clobber the Referer even after back()'
+    );
+
     $agent->add_header( Referer => 'x' );
     $agent->get($url);
     is( $agent->status, 200, 'Got fourth page' ) or diag $agent->res->message;
@@ -70,6 +89,8 @@ SKIP: {
 }
 
 memory_cycle_ok( $agent, 'No memory cycles found' );
+
+done_testing;
 
 END {
     close $server if $server;
