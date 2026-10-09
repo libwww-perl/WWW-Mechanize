@@ -37,14 +37,15 @@ memory issues on large files.
 
 =head2 Fetch a password-protected page
 
-Generally, just call C<credentials> before fetching the page.
+Generally, just call C<credentials> before fetching the page. Scope the credentials to the host
+with the four-argument form so they are not sent to any other host the object contacts:
 
-    $mech->credentials( 'admin' => 'password' );
+    $mech->credentials( '10.11.12.13:80', 'realm', 'admin', 'password' );
     $mech->get( 'http://10.11.12.13/password.html' );
     print $mech->content();
 
-If this object may contact more than one host, scope the credentials to a single host with the
-four-argument form; see L<WWW::Mechanize/"$mech-E<gt>credentials( $username, $password )">.
+See L<WWW::Mechanize/"$mech-E<gt>credentials( $username, $password )"> for why the unscoped
+two-argument form is no longer accepted.
 
 =head1 LINKS
 

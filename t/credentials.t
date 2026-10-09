@@ -6,7 +6,7 @@ use strict;
 use WWW::Mechanize ();
 use Test::More;
 use Test::Fatal    qw( exception );
-use Test::Warnings qw( :no_end_test warning );
+use Test::Warnings qw( :no_end_test had_no_warnings );
 
 my $mech = WWW::Mechanize->new;
 
@@ -27,16 +27,20 @@ like(
 );
 
 like(
-    warning { $mech->credentials( 'username', 'password' ) },
+    exception { $mech->credentials( 'username', 'password' ) },
     qr/four-argument form/,
-    'two-argument credentials() warns about host scoping'
+    'two-argument credentials() dies and points at the four-argument form'
 );
+
+# The host-scoped four-argument form is still supported and is stored
+# per-instance.
+$mech->credentials( 'localhost:80', 'myrealm', 'username', 'password' );
 
 ( $user, $pass ) = $mech->get_basic_credentials( 'myrealm', $uri, 0 );
 is $user, 'username',
-    'calling credentials sets username for get_basic_credentials';
+    'four-argument credentials sets username for get_basic_credentials';
 is $pass, 'password',
-    'calling credentials sets password for get_basic_credentials';
+    'four-argument credentials sets password for get_basic_credentials';
 
 my $mech2 = $mech->clone;
 
@@ -60,8 +64,9 @@ is $pass, undef, 'password is undefined after clear_credentials';
 
 ( $user, $pass ) = $mech2->get_basic_credentials( 'myrealm', $uri, 0 );
 is $user, 'username',
-    'cloned object still has username for get_basic_credentials';
+    'cloned object still has username after the original is cleared';
 is $pass, 'password',
-    'cloned object still has password for get_basic_credentials';
+    'cloned object still has password after the original is cleared';
 
+had_no_warnings;
 done_testing;

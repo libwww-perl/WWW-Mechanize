@@ -3019,11 +3019,6 @@ sub clone {
     $clone->cookie_jar( $self->cookie_jar );
     $clone->{headers} = { %{ $self->{headers} } };
 
-    # SUPER::clone() copies the whole object hash, including the one-shot
-    # warning flag. A clone is a distinct object with its own credentials,
-    # so let it warn once on its own two-argument credentials() call.
-    delete $clone->{__credentials_unscoped_warned};
-
     return $clone;
 }
 
@@ -3127,17 +3122,16 @@ sub update_html {
 
 =head2 $mech->credentials( $username, $password )
 
-Provide credentials to be used for HTTP Basic authentication for all sites and realms until further
-notice.
+Provide credentials to be used for HTTP Basic authentication.
 
 The four argument form described in L<LWP::UserAgent> is still supported.
 
-B<Security note:> The two-argument form is not scoped to a host. The credentials are stored on the
-object and sent to every host this object contacts, including the targets of cross-domain
-redirects. When the same object may contact more than one host, prefer the host-scoped
-four-argument form C<< $mech->credentials($host_port, $realm, $username, $password) >> described in
-L<LWP::UserAgent>, which limits the credentials to a single host. The two-argument form emits a
-warning on first use.
+B<Security note:> The two-argument form C<< $mech->credentials($username, $password) >> is not
+scoped to a host: it stored the credentials on the object so they were sent to every host the
+object contacted, including the targets of cross-domain redirects. Because that leaks credentials
+across hosts, the two-argument form now dies. Use the host-scoped four-argument form
+C<< $mech->credentials($host_port, $realm, $username, $password) >> described in
+L<LWP::UserAgent>, which limits the credentials to a single host.
 
 =cut
 
@@ -3153,33 +3147,19 @@ sub credentials {
     @_ == 2
         or $self->die('Invalid # of args for overridden credentials()');
 
-    # The two-argument form is unscoped: credentials are stored on the
-    # object and get_basic_credentials() returns them for any host and
-    # realm, so they are sent to every host this object contacts,
-    # including cross-domain redirect targets. Warn once per instance so
-    # callers can move to the host-scoped four-argument form.
-    unless ( $self->{__credentials_unscoped_warned} ) {
-        $self->warn(
-            'WWW::Mechanize: the two-argument credentials() form stores credentials on the object and sends them to every host this object contacts, including cross-domain redirect targets. Use the host-scoped four-argument form credentials($host_port, $realm, $user, $pass) to limit credentials to a specific host.'
-        );
-        $self->{__credentials_unscoped_warned} = 1;
-    }
-
-    return @$self{qw( __username __password )} = @_;
+    # The two-argument form is unscoped: it would apply the credentials to
+    # every host this object contacts, including cross-domain redirect
+    # targets. Refuse it and point callers at the host-scoped
+    # four-argument form.
+    return $self->die(
+        'WWW::Mechanize: the two-argument credentials() form is insecure: it stores credentials on the object and sends them to every host this object contacts, including cross-domain redirect targets. Use the host-scoped four-argument form credentials($host_port, $realm, $user, $pass) to limit credentials to a specific host.'
+    );
 }
 
 =head2 $mech->get_basic_credentials( $realm, $uri, $isproxy )
 
-Returns the credentials for the realm and URI.
-
-=cut
-
-sub get_basic_credentials {
-    my $self = shift;
-    my @cred = grep { defined } @$self{qw( __username __password )};
-    return @cred if @cred == 2;
-    return $self->SUPER::get_basic_credentials(@_);
-}
+Returns the credentials for the realm and URI. Inherited unchanged from
+L<LWP::UserAgent>.
 
 =head2 $mech->clear_credentials()
 
@@ -3189,7 +3169,7 @@ Remove any credentials set up with C<credentials()>.
 
 sub clear_credentials {
     my $self = shift;
-    delete @$self{qw( __username __password )};
+    delete $self->{basic_authentication};
 }
 
 =head1 INHERITED UNCHANGED LWP::UserAgent METHODS

@@ -2,14 +2,16 @@ use strict;
 use warnings;
 
 use Test::More;
-use Test::Warnings qw( :no_end_test warnings );
+use Test::Fatal    qw( exception );
+use Test::Warnings qw( :no_end_test had_no_warnings );
 use LWP::UserAgent ();
 use WWW::Mechanize ();
 use URI            ();
 
-# The monkeypatch introduced since at least WWW::Mechanize 1.34 only
-# ever allows one instance of every LWP::UserAgent descendant to have
-# credentials.  This test checks that this buggy behaviour is gone.
+# Each WWW::Mechanize instance keeps its own host-scoped credentials; one
+# instance's credentials never leak into another.  (Historically a
+# monkeypatch let only one LWP::UserAgent descendant hold credentials; this
+# test checks that buggy behaviour is gone.)
 
 my $uri   = URI->new('http://localhost');
 my $realm = 'myrealm';
@@ -21,15 +23,8 @@ my $mech1 = WWW::Mechanize->new();
 my $mech2 = WWW::Mechanize->new();
 my $mech3 = WWW::Mechanize->new();
 
-my @warnings = warnings {
-    $mech1->credentials( 'mech1', 'mech1' );
-    $mech1->credentials( 'mech1', 'mech1' );
-    $mech2->credentials( 'mech2', 'mech2' );
-    $mech2->credentials( 'mech2', 'mech2' );
-};
-
-is scalar @warnings, 2,
-    'two-argument credentials() warns once per instance';
+$mech1->credentials( 'localhost:80', $realm, 'mech1', 'mech1' );
+$mech2->credentials( 'localhost:80', $realm, 'mech2', 'mech2' );
 
 is_deeply(
     [ $ua->credentials( $uri, $realm ) ], [ 'user', 'pass' ],
@@ -46,7 +41,15 @@ is_deeply(
 );
 is_deeply(
     [ $mech3->get_basic_credentials( $realm, $uri ) ], [],
-    'Untouched instance retains its credentials'
+    'Untouched instance has no credentials'
 );
 
+# The insecure, unscoped two-argument form is rejected outright.
+like(
+    exception { $mech1->credentials( 'user', 'pass' ) },
+    qr/four-argument form/,
+    'two-argument credentials() dies'
+);
+
+had_no_warnings;
 done_testing;
